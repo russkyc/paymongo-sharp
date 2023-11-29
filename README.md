@@ -13,22 +13,81 @@ This client wrapper is designed to make it easy for .NET developers to interact 
 > Paymongo API. We recommend waiting for a stable release package before using this in your
 > application. This is made available early only for testing purposes.
 
+#### Client usage
+
+```csharp
+var client = new PaymongoClient(publicKey: "<public_key>", secretKey: "<secret_key>");
+
+// the client is now usable here
+```
+
 ## :sparkles: What is currently Supported
 
 This client is in active development, features are slowly being implemented but not all of them are supported as of now.
 You can track the support for all of Paymongo's official API actions below:
 
+---
+
 ### Checkout
 
-- [ ] Create Checkout Session
-- [ ] Retrieve a Checkout Session
-- [ ] Expire a Checkout Session
+- [x] Create Checkout Session
+- [x] Retrieve a Checkout Session
+- [x] Expire a Checkout Session
+
+**Create a Checkout Session**
+
+```csharp
+// We creat a new Checkout object
+// This one includes the minimal required values
+Checkout checkout = new Checkout() {
+  Description = "Test Checkout",
+    LineItems = new [] {
+      new LineItem {
+        Name = "item_name",
+          Quantity = 1,
+          Currency = Currency.Php,
+          Amount = 3500
+      }
+    },
+    PaymentMethodTypes = new [] {
+      PaymentMethod.GCash,
+        PaymentMethod.Card,
+        PaymentMethod.Paymaya
+    }
+};
+
+// We use the PaymongoClient from earlier
+// This returns the Checkout object with the new server info for checkout url, id, and others
+Checkout checkoutResult = await _client.Checkouts.CreateCheckoutAsync(checkout);
+```
+
+**Retrieve a Checkout Session**
+
+```csharp
+// We use the PaymongoClient from earlier
+// Lets assume that the checkout id is "12345678"
+// This returns a Checkout object from the server
+Checkout checkoutResult = await _client.Checkouts.RetrieveCheckoutAsync("12345678");
+```
+
+**Expire a Checkout Session**
+
+```csharp
+// We use the PaymongoClient from earlier
+// Lets assume that the checkout id is "12345678"
+// This expires the checkout on the server and returns the expired Checkout object
+Checkout checkoutResult = await _client.Checkouts.ExpireCheckoutAsync("12345678");
+```
+
+---
 
 ### Payment Intent
 
 - [ ] Create Payment Intent
 - [ ] Retrieve a Payment Intent
 - [ ] Attach to a Payment Intent
+
+---
 
 ### Payment Method
 
@@ -37,11 +96,15 @@ You can track the support for all of Paymongo's official API actions below:
 - [ ] Retrieve a payment method
 - [ ] Update a payment method
 
+---
+
 ### Payments
 
 - [ ] Create a Payment
 - [ ] List all Payments
 - [ ] Retrieve a Payment
+
+---
 
 ### Links API
 
@@ -50,6 +113,8 @@ You can track the support for all of Paymongo's official API actions below:
 - [ ] Get Link by Reference Number
 - [ ] Archive a Link
 - [ ] Unarchive a Link
+
+---
 
 ### Webhooks
 
@@ -60,11 +125,15 @@ You can track the support for all of Paymongo's official API actions below:
 - [ ] Enable a Webhook
 - [ ] Update a Webhook
 
+---
+
 ### Refunds
 
 - [ ] Create a Refund
 - [ ] Retrieve a Refund
 - [ ] List all Refunds
+
+---
 
 ### Customers
 
@@ -74,6 +143,8 @@ You can track the support for all of Paymongo's official API actions below:
 - [ ] Delete a Customer
 - [ ] Retrieve the Payment Methods of a Customer
 - [ ] Delete a Payment Method of a Customer
+
+---
 
 ## :heart: Donate
 

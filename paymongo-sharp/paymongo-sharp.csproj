@@ -1,0 +1,38 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <RootNamespace>paymongo_sharp</RootNamespace>
+        <LangVersion>latest</LangVersion>
+        <Nullable>enable</Nullable>
+        <PackageId>Paymongo.Sharp</PackageId>
+        <Title>Paymongo.Sharp</Title>
+        <Authors>russkyc</Authors>
+        <PackageProjectUrl>https://github.com/russkyc/paymongo-sharp</PackageProjectUrl>
+        <PackageIcon>icon.png</PackageIcon>
+        <RepositoryUrl>https://github.com/russkyc/paymongo-sharp</RepositoryUrl>
+        <PackageTags>paymongo paymongo-sharp pay payments</PackageTags>
+        <Version>0.1.0-pre</Version>
+        <Description>An unofficial client wrapper for paymongo</Description>
+        <Copyright>russkyc 2023</Copyright>
+        <PackageReleaseNotes>- initial prerelease
+- add checkout client support</PackageReleaseNotes>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+      <PackageReference Include="RestSharp" Version="110.2.1-alpha.0.16" />
+    </ItemGroup>
+
+    <PropertyGroup>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <None Remove="icon.png" />
+      <None Include="icon.png" Pack="true" PackagePath="" />
+      <Resource Include="icon.png" />
+    </ItemGroup>
+
+</Project>
