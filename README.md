@@ -2,6 +2,15 @@
 
 <h2 align="center">Paymongo.Sharp - Unofficial .NET Client Wrapper for the Paymongo API</h2>
 
+<p align="center">
+    <a href="https://www.nuget.org/packages/Paymongo.Sharp">
+        <img src="https://img.shields.io/nuget/v/Paymongo.Sharp?color=1f72de" alt="Nuget">
+    </a>
+    <a href="https://www.nuget.org/packages/Paymongo.Sharp">
+        <img src="https://img.shields.io/badge/-.NET%20Standard%202.0-blueviolet?color=1f72de&label=NET" alt="">
+    </a>
+</p>
+
 <p style="text-align: justify">
 Paymongo is a powerful payment platform that provides a wide range of payment solutions for businesses of all sizes. With the Paymongo API, you can integrate payment processing into your .NET applications, allowing you to securely accept payments, manage transactions, and more.
 
@@ -12,6 +21,10 @@ This client wrapper is designed to make it easy for .NET developers to interact 
 > This is in it's early development stages and does not offer support for the whole
 > Paymongo API. We recommend waiting for a stable release package before using this in your
 > application. This is made available early only for testing purposes.
+
+#### Installation
+
+Install pre-release package from: [Nuget](https://www.nuget.org/packages/Paymongo.Sharp/) using nuget cli or the nuget package manager.
 
 #### Client usage
 
