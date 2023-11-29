@@ -97,4 +97,26 @@ public class CheckoutClient
         
         return checkoutResult;
     }
+    
+    public async Task<Checkout> ExpireCheckoutAsync(string id)
+    {
+        var request = RequestHelpers.Create($"/checkout_sessions/{id}/expire",_secretKey,_secretKey);
+
+        var restResult = await _client.PostAsync(request);
+
+        if (string.IsNullOrWhiteSpace(restResult.Content))
+        {
+            return new Checkout
+            {
+                Status = CheckoutStatus.Expired
+            };
+        }
+
+        var requestData = JsonConvert.DeserializeObject<CheckoutRequestData>(restResult.Content!)!;
+
+        var checkoutResult = requestData.Data.Attributes;
+        checkoutResult.Id = requestData.Data.Id;
+        
+        return checkoutResult;
+    }
 }
