@@ -13,7 +13,7 @@ This client wrapper is designed to make it easy for .NET developers to interact 
 > Paymongo API. We recommend waiting for a stable release package before using this in your
 > application. This is made available early only for testing purposes.
 
-## What is currently Supported
+## :sparkles: What is currently Supported
 
 This client is in active development, features are slowly being implemented but not all of them are supported as of now.
 You can track the support for all of Paymongo's official API actions below:
@@ -74,3 +74,14 @@ You can track the support for all of Paymongo's official API actions below:
 - [ ] Delete a Customer
 - [ ] Retrieve the Payment Methods of a Customer
 - [ ] Delete a Payment Method of a Customer
+
+## :heart: Donate
+
+## :tada: Special Thanks
+
+This project is made easier to develop by Jetbrains! They have provided
+Licenses to their IDE's to support development of this open-source project.
+
+<a href="https://www.jetbrains.com/community/opensource/#support">
+<img width="200px" src="https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.png" alt="JetBrains Logo (Main) logo.">
+</a>
