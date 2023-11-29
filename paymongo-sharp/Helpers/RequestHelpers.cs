@@ -24,16 +24,21 @@ using RestSharp;
 
 namespace paymongo_sharp.Helpers;
 
-public static class RequestHelper
+public static class RequestHelpers
 {
-    public static RestRequest Create(string resource, string username, string password, string body)
+    public static RestRequest Create(string resource, string username, string password, string? body = null)
     {
         var authToken = Base64Helpers.Encode(username, password);
         var request = new RestRequest(resource);
             
         request.AddHeader("accept", "application/json");
         request.AddHeader("authorization", $"Basic {authToken}");
-        request.AddJsonBody(body);
+
+        if (body is not null)
+        {
+            request.AddJsonBody(body);
+        }
+        
         return request;
     }
 }

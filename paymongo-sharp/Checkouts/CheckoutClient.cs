@@ -56,7 +56,7 @@ public class CheckoutClient
 
         var body = JsonConvert.SerializeObject(data);
         
-        var request = RequestHelper.Create("/checkout_sessions",_secretKey,_secretKey, body);
+        var request = RequestHelpers.Create("/checkout_sessions",_secretKey,_secretKey, body);
 
         var restResult = await _client.PostAsync(request);
 
@@ -69,6 +69,32 @@ public class CheckoutClient
         }
 
         var requestData = JsonConvert.DeserializeObject<CheckoutRequestData>(restResult.Content!)!;
-        return requestData.Data.Attributes;
+
+        var checkoutResult = requestData.Data.Attributes;
+        checkoutResult.Id = requestData.Data.Id;
+        
+        return checkoutResult;
+    }
+
+    public async Task<Checkout> RetrieveCheckoutAsync(string id)
+    {
+        var request = RequestHelpers.Create($"/checkout_sessions/{id}",_secretKey,_secretKey);
+
+        var restResult = await _client.GetAsync(request);
+
+        if (string.IsNullOrWhiteSpace(restResult.Content))
+        {
+            return new Checkout
+            {
+                Status = CheckoutStatus.Expired
+            };
+        }
+
+        var requestData = JsonConvert.DeserializeObject<CheckoutRequestData>(restResult.Content!)!;
+
+        var checkoutResult = requestData.Data.Attributes;
+        checkoutResult.Id = requestData.Data.Id;
+        
+        return checkoutResult;
     }
 }

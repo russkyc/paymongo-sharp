@@ -26,6 +26,9 @@ namespace paymongo_sharp.Checkouts.Entities
 {
     public class CheckoutRequestAttributes
     {
+        [JsonProperty("id")]
+        public string? Id { get; set; }
+        
         [JsonProperty("attributes")]
         public Checkout Attributes { get; set; }
     }
