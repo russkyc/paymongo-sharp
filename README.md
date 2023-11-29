@@ -77,6 +77,10 @@ You can track the support for all of Paymongo's official API actions below:
 
 ## :heart: Donate
 
+This is free and available for everyone to use, but still requires time for development
+and maintenance. By choosing to donate, you are not only helping develop this project,
+but you are also helping me dedicate more time for creating more tools that help the community :heart:
+
 ## :tada: Special Thanks
 
 This project is made easier to develop by Jetbrains! They have provided
