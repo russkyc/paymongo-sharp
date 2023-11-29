@@ -22,7 +22,7 @@ You can track the support for all of Paymongo's official API actions below:
 
 - [x] Create Checkout Session
 - [x] Retrieve a Checkout Session
-- [ ] Expire a Checkout Session
+- [x] Expire a Checkout Session
 
 ### Payment Intent
 
