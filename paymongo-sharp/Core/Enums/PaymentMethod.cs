@@ -29,11 +29,19 @@ namespace paymongo_sharp.Core.Enums
     [JsonConverter(typeof(StringEnumConverter))]
     public enum PaymentMethod
     {
-        [EnumMember(Value = "gcash")] 
-        GCash,
+        [EnumMember(Value = "billease")]
+        BillEase,
         [EnumMember(Value = "card")]
         Card,
-        [EnumMember(Value = "atome")]
-        Atome
+        [EnumMember(Value = "dob")]
+        Dob,
+        [EnumMember(Value = "dob_ubp")]
+        DobUbp,
+        [EnumMember(Value = "gcash")] 
+        GCash,
+        [EnumMember(Value = "grab_pay")]
+        GrabPay,
+        [EnumMember(Value = "paymaya")]
+        Paymaya,
     }
 }
