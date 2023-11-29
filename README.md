@@ -28,10 +28,15 @@ Install pre-release package from: [Nuget](https://www.nuget.org/packages/Paymong
 
 #### Client usage
 
+Add Imports
+
+```csharp
+using paymongo_sharp;
+```
+
+Initialize Client
 ```csharp
 var client = new PaymongoClient(publicKey: "<public_key>", secretKey: "<secret_key>");
-
-// the client is now usable here
 ```
 
 ## :sparkles: What is currently Supported
