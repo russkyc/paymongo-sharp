@@ -27,12 +27,12 @@ namespace paymongo_sharp.Checkouts.Entities
     public class CheckoutMetadata
     {
         [JsonProperty("notes")]
-        public string Notes { get; set; }
+        public string? Notes { get; set; }
         
         [JsonProperty("customer_number")]
-        public string CustomerNumber { get; set; }
+        public string? CustomerNumber { get; set; }
         
         [JsonProperty("remarks")]
-        public string Remarks { get; set; }
+        public string? Remarks { get; set; }
     }
 }

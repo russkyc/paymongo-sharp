@@ -27,15 +27,15 @@ namespace paymongo_sharp.Core.Entities
     public class Billing
     {
         [JsonProperty("name")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
         
         [JsonProperty("email")]
-        public string Email { get; set; }
+        public string? Email { get; set; }
         
         [JsonProperty("phone")]
-        public string Phone { get; set; }
+        public string? Phone { get; set; }
         
         [JsonProperty("address")]
-        public Address Address { get; set; }
+        public Address? Address { get; set; }
     }
 }

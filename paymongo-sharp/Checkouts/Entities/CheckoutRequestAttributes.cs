@@ -30,6 +30,6 @@ namespace paymongo_sharp.Checkouts.Entities
         public string? Id { get; set; }
         
         [JsonProperty("attributes")]
-        public Checkout Attributes { get; set; }
+        public Checkout? Attributes { get; set; }
     }
 }

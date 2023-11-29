@@ -27,21 +27,21 @@ namespace paymongo_sharp.Core.Entities
     public class Address
     {
         [JsonProperty("line1")]
-        public string Line1 { get; set; }
+        public string? Line1 { get; set; }
         
         [JsonProperty("line2")]
-        public string Line2 { get; set; }
+        public string? Line2 { get; set; }
         
         [JsonProperty("postal_code")]
-        public string PostalCode { get; set; }
+        public string? PostalCode { get; set; }
         
         [JsonProperty("state")]
-        public string State { get; set; }
+        public string? State { get; set; }
         
         [JsonProperty("city")]
-        public string City { get; set; }
+        public string? City { get; set; }
         
         [JsonProperty("country")]
-        public string Country { get; set; }
+        public string? Country { get; set; }
     }
 }

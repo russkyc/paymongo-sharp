@@ -70,7 +70,16 @@ public class CheckoutClient
 
         var requestData = JsonConvert.DeserializeObject<CheckoutRequestData>(restResult.Content!)!;
 
-        var checkoutResult = requestData.Data.Attributes;
+        var checkoutResult = requestData.Data!.Attributes;
+
+        if (checkoutResult is null)
+        {
+            return new Checkout
+            {
+                Status = CheckoutStatus.Expired
+            };
+        }
+        
         checkoutResult.Id = requestData.Data.Id;
         
         return checkoutResult;
@@ -92,7 +101,16 @@ public class CheckoutClient
 
         var requestData = JsonConvert.DeserializeObject<CheckoutRequestData>(restResult.Content!)!;
 
-        var checkoutResult = requestData.Data.Attributes;
+        var checkoutResult = requestData.Data!.Attributes;
+        
+        if (checkoutResult is null)
+        {
+            return new Checkout
+            {
+                Status = CheckoutStatus.Expired
+            };
+        }
+
         checkoutResult.Id = requestData.Data.Id;
         
         return checkoutResult;
@@ -114,7 +132,16 @@ public class CheckoutClient
 
         var requestData = JsonConvert.DeserializeObject<CheckoutRequestData>(restResult.Content!)!;
 
-        var checkoutResult = requestData.Data.Attributes;
+        var checkoutResult = requestData.Data!.Attributes;
+        
+        if (checkoutResult is null)
+        {
+            return new Checkout
+            {
+                Status = CheckoutStatus.Expired
+            };
+        }
+
         checkoutResult.Id = requestData.Data.Id;
         
         return checkoutResult;

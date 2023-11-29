@@ -28,7 +28,7 @@ namespace paymongo_sharp.Checkouts.Entities
     public class LineItem
     {
         [JsonProperty("name")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
         
         [JsonProperty("quantity")]
         public int Quantity { get; set; }
