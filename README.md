@@ -59,7 +59,7 @@ You can track the support for all of Paymongo's official API actions below:
   <tr>
     <td>Payment Intent</td>
     <td>Not yet implemented</td>
-    <td>Not yet implemented</td>
+    <td>Not yet available</td>
   </tr>
   <tr>
     <td>Payment Method</td>
@@ -73,8 +73,8 @@ You can track the support for all of Paymongo's official API actions below:
   </tr>
   <tr>
     <td>Links</td>
-    <td>Not yet implemented</td>
-    <td>Not yet available</td>
+    <td>v1</td>
+    <td>Full</td>
   </tr>
   <tr>
     <td>Webhooks</td>
@@ -201,11 +201,63 @@ For full Payments API reference, please see: [Payment Resource](https://develope
 
 ### Links API
 
-- [ ] Create a Link
-- [ ] Retrieve a Link
-- [ ] Get Link by Reference Number
-- [ ] Archive a Link
-- [ ] Unarchive a Link
+- [x] Create a Link
+- [x] Retrieve a Link
+- [x] Get Link by Reference Number
+- [x] Archive a Link
+- [x] Unarchive a Link
+
+**Create a Link**
+
+```csharp
+// We create a new Link object
+// This one includes the minimal required values
+Link link = new Link {
+  Description = "New Link",
+  Amount = 100000,
+  Currency = Currency.Php
+};
+
+// We use the PaymongoClient from earlier
+// This returns the Link object with the new server info for checkout url, id, and others
+var linkResult = await client.Links.CreateLinkAsync(link);
+```
+
+**Retrieve a Link**
+
+```csharp
+// We use the PaymongoClient from earlier
+// Lets assume that the link id is "12345678"
+// This returns a Link object from the server
+Link linkResult = await client.Links.RetrieveLinkAsync("12345678");
+```
+
+**Get Link by Reference Number**
+
+```csharp
+// We use the PaymongoClient from earlier
+// Lets assume that the link id is "ABCD1234"
+// This returns a Link object from the server
+Link linkResult = await client.Links.GetLinkByReferenceNumberAsync("ABCD1234");
+```
+
+**Archive a Link**
+
+```csharp
+// We use the PaymongoClient from earlier
+// Lets assume that the Link id is "12345678"
+// This returns the updated archived Link object
+Link linkResult = await client.Links.ArchiveLinkAsync("12345678");
+```
+
+**Unarchive a Link**
+
+```csharp
+// We use the PaymongoClient from earlier
+// Lets assume that the payment id is "12345678"
+// This returns the updated un-archived Link object
+Link linkResult = await client.Links.UnarchiveLinkAsync("12345678");
+```
 
 For full Links API reference, please see: [Links Resource](https://developers.paymongo.com/reference/links-resource)
 

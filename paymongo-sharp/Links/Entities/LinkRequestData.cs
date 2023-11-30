@@ -20,27 +20,15 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Paymongo.Sharp.Checkouts;
-using Paymongo.Sharp.Interfaces;
-using Paymongo.Sharp.Links;
-using Paymongo.Sharp.Payments;
+using Newtonsoft.Json;
+using Paymongo.Sharp.Payments.Entities;
 
-namespace Paymongo.Sharp
+namespace Paymongo.Sharp.Links.Entities
 {
-    public class PaymongoClient : IPaymongoClient
+    public class LinkRequestData
     {
-        private const string ApiEndpoint = "https://api.paymongo.com/v1";
-        
-        public PaymongoClient(string secretKey)
-        {
-            // Init internal clients
-            Checkouts = new CheckoutClient(ApiEndpoint, secretKey);
-            Payments = new PaymentClient(ApiEndpoint, secretKey);
-            Links = new LinksClient(ApiEndpoint, secretKey);
-        }
-
-        public CheckoutClient Checkouts { get; }
-        public PaymentClient Payments { get; }
-        public LinksClient Links { get; }
+        [JsonProperty("data",
+            NullValueHandling = NullValueHandling.Ignore)]
+        public LinkRequestAttributes? Data { get; set; }
     }
 }

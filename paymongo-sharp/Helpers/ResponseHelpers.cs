@@ -25,6 +25,7 @@ using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Paymongo.Sharp.Checkouts.Entities;
+using Paymongo.Sharp.Links.Entities;
 using Paymongo.Sharp.Payments.Entities;
 using RestSharp;
 
@@ -109,6 +110,29 @@ namespace Paymongo.Sharp.Helpers
                     
                     return payment;
                 });
+        }
+        
+        public static Link ToLink(this string? response, bool isReferenceResource = false)
+        {
+            dynamic linkRequestData = JObject.Parse(response);
+
+            // we need to check if it is from a reference number resource
+            // because if it is then the data is actually an array
+            Link link = JsonConvert.DeserializeObject<Link>(
+                isReferenceResource ? linkRequestData.data[0].attributes.ToString()
+                    : linkRequestData.data.attributes.ToString());
+            
+            // Link doesn't have an id field so we get it from the parent
+            // and we need to check if it is from a reference number resource
+            // because if it is then the data is actually an array
+            link.Id = isReferenceResource ? linkRequestData.data[0].id.ToString()
+                : linkRequestData.data.id.ToString();
+                    
+            // Unix timestamp doesn't account for daylight savings, so we adjust it here
+            link.CreatedAt = link.CreatedAt.ToLocalDateTime();
+            link.UpdatedAt = link.UpdatedAt.ToLocalDateTime();
+            
+            return link;
         }
     }
 }
