@@ -37,4 +37,8 @@
       <Resource Include="icon.png" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Payments\Entities\" />
+    </ItemGroup>
+
 </Project>
