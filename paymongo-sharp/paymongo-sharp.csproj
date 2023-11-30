@@ -12,13 +12,14 @@
         <PackageIcon>icon.png</PackageIcon>
         <RepositoryUrl>https://github.com/russkyc/paymongo-sharp</RepositoryUrl>
         <PackageTags>paymongo paymongo-sharp pay payments</PackageTags>
-        <Version>0.1.2-pre</Version>
+        <Version>0.2.0</Version>
         <Description>An unofficial client wrapper for paymongo</Description>
         <Copyright>russkyc 2023</Copyright>
-        <PackageReleaseNotes>- Add Description field to line item object
-- Add Images field to line item object
-- Add Merchant field to checkout object
-- Add LiveMode field to checkout object</PackageReleaseNotes>
+        <PackageReleaseNotes>- First stable release!
+- Add payments field to checkout object
+- Add payment object and properties
+- Add list all payments client action (Payments)
+- Add retrieve payment client action (Payments)</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     </PropertyGroup>
 
