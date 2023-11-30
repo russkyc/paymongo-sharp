@@ -137,7 +137,7 @@ Checkout checkoutResult = await _client.Checkouts.RetrieveCheckoutAsync("1234567
 Checkout checkoutResult = await _client.Checkouts.ExpireCheckoutAsync("12345678");
 ```
 
-For full checkout API reference, please see
+For full Checkout API reference, please see: [Checkout Session Resource](https://developers.paymongo.com/reference/checkout-session-resource)
 
 ---
 
@@ -146,6 +146,14 @@ For full checkout API reference, please see
 - [ ] Create Payment Intent
 - [ ] Retrieve a Payment Intent
 - [ ] Attach to a Payment Intent
+- [ ] Attach to a Payment Intent
+
+Pre Authorization and Capture
+
+- [ ] Capture a Payment Intent
+- [ ] Cancel a Payment Intent
+
+For full Payment API reference, please see: [The Payment Intent Object](https://developers.paymongo.com/reference/the-payment-intent-object), [(Pre-Authorization) Capture](https://developers.paymongo.com/reference/capture-a-payment), [(Pre-Authorization) Cancel](https://developers.paymongo.com/reference/cancel-a-payment)
 
 ---
 
@@ -156,6 +164,8 @@ For full checkout API reference, please see
 - [ ] Retrieve a payment method
 - [ ] Update a payment method
 
+For full Payment Method API reference, please see: [The Payment Method Object](https://developers.paymongo.com/reference/the-payment-method-object)
+
 ---
 
 ### Payments
@@ -163,6 +173,8 @@ For full checkout API reference, please see
 - [ ] Create a Payment
 - [ ] List all Payments
 - [ ] Retrieve a Payment
+
+For full Payments API reference, please see: [Payment Resource](https://developers.paymongo.com/reference/payment-source)
 
 ---
 
@@ -173,6 +185,8 @@ For full checkout API reference, please see
 - [ ] Get Link by Reference Number
 - [ ] Archive a Link
 - [ ] Unarchive a Link
+
+For full Links API reference, please see: [Links Resource](https://developers.paymongo.com/reference/links-resource)
 
 ---
 
@@ -185,6 +199,8 @@ For full checkout API reference, please see
 - [ ] Enable a Webhook
 - [ ] Update a Webhook
 
+For full Webhook API reference, please see: [Webhook Resource](https://developers.paymongo.com/reference/webhook-resource)
+
 ---
 
 ### Refunds
@@ -192,6 +208,8 @@ For full checkout API reference, please see
 - [ ] Create a Refund
 - [ ] Retrieve a Refund
 - [ ] List all Refunds
+
+For full Refunds API reference, please see: [Refund Resource](https://developers.paymongo.com/reference/refund-resource)
 
 ---
 
@@ -203,6 +221,8 @@ For full checkout API reference, please see
 - [ ] Delete a Customer
 - [ ] Retrieve the Payment Methods of a Customer
 - [ ] Delete a Payment Method of a Customer
+
+For full Customers API reference, please see: [Customer Resource](https://developers.paymongo.com/reference/customer-resource)
 
 ---
 
