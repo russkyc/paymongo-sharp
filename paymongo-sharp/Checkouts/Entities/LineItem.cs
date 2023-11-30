@@ -20,6 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using System.Collections.Generic;
 using Newtonsoft.Json;
 using Paymongo.Sharp.Core.Enums;
 
@@ -27,8 +28,17 @@ namespace Paymongo.Sharp.Checkouts.Entities
 {
     public class LineItem
     {
-        [JsonProperty("name")]
-        public string? Name { get; set; }
+        [JsonProperty("name",
+            NullValueHandling = NullValueHandling.Ignore)]
+        public string Name { get; set; }
+        
+        [JsonProperty("description",
+            NullValueHandling = NullValueHandling.Ignore)]
+        public string Description { get; set; }
+        
+        [JsonProperty("images",
+            NullValueHandling=NullValueHandling.Ignore)]
+        public IEnumerable<string>? Images { get; set; }
         
         [JsonProperty("quantity")]
         public int Quantity { get; set; }
