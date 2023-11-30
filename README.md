@@ -20,7 +20,7 @@ This client wrapper is designed to make it easy for .NET developers to interact 
 > [!WARNING]  
 > This is in it's early development stages and does not offer support for the whole
 > Paymongo API. We recommend waiting for a stable release package before using this in your
-> application. This is made available early only for testing purposes.
+> application as pre-release versions might undergo breaking changes that require refactoring. This is made available early only for testing purposes.
 
 #### Installation
 
@@ -55,7 +55,7 @@ You can track the support for all of Paymongo's official API actions below:
 **Create a Checkout Session**
 
 ```csharp
-// We creat a new Checkout object
+// We create a new Checkout object
 // This one includes the minimal required values
 Checkout checkout = new Checkout() {
   Description = "Test Checkout",

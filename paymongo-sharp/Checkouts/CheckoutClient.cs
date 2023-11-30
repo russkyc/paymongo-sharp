@@ -31,6 +31,7 @@ namespace paymongo_sharp.Checkouts;
 
 public class CheckoutClient
 {
+    private const string Resource = "/checkout_sessions";
     private readonly RestClient _client;
     
     private readonly string _publicKey;
@@ -56,11 +57,10 @@ public class CheckoutClient
 
         var body = JsonConvert.SerializeObject(data);
         
-        var request = RequestHelpers.Create("/checkout_sessions",_secretKey,_secretKey, body);
+        var request = RequestHelpers.Create(Resource,_secretKey,_secretKey, body);
+        var response = await _client.PostAsync(request);
 
-        var restResult = await _client.PostAsync(request);
-
-        if (string.IsNullOrWhiteSpace(restResult.Content))
+        if (string.IsNullOrWhiteSpace(response.Content))
         {
             return new Checkout
             {
@@ -68,8 +68,7 @@ public class CheckoutClient
             };
         }
 
-        var requestData = JsonConvert.DeserializeObject<CheckoutRequestData>(restResult.Content!)!;
-
+        var requestData = JsonConvert.DeserializeObject<CheckoutRequestData>(response.Content!)!;
         var checkoutResult = requestData.Data!.Attributes;
 
         if (checkoutResult is null)
@@ -80,6 +79,7 @@ public class CheckoutClient
             };
         }
         
+        // Checkout doesn't have an id field, so we take that from the parent
         checkoutResult.Id = requestData.Data.Id;
         
         return checkoutResult;
@@ -87,11 +87,10 @@ public class CheckoutClient
 
     public async Task<Checkout> RetrieveCheckoutAsync(string id)
     {
-        var request = RequestHelpers.Create($"/checkout_sessions/{id}",_secretKey,_secretKey);
+        var request = RequestHelpers.Create($"{Resource}/{id}",_secretKey,_secretKey);
+        var response = await _client.GetAsync(request);
 
-        var restResult = await _client.GetAsync(request);
-
-        if (string.IsNullOrWhiteSpace(restResult.Content))
+        if (string.IsNullOrWhiteSpace(response.Content))
         {
             return new Checkout
             {
@@ -99,8 +98,7 @@ public class CheckoutClient
             };
         }
 
-        var requestData = JsonConvert.DeserializeObject<CheckoutRequestData>(restResult.Content!)!;
-
+        var requestData = JsonConvert.DeserializeObject<CheckoutRequestData>(response.Content!)!;
         var checkoutResult = requestData.Data!.Attributes;
         
         if (checkoutResult is null)
@@ -111,6 +109,7 @@ public class CheckoutClient
             };
         }
 
+        // Checkout doesn't have an id field, so we take that from the parent
         checkoutResult.Id = requestData.Data.Id;
         
         return checkoutResult;
@@ -118,11 +117,10 @@ public class CheckoutClient
     
     public async Task<Checkout> ExpireCheckoutAsync(string id)
     {
-        var request = RequestHelpers.Create($"/checkout_sessions/{id}/expire",_secretKey,_secretKey);
+        var request = RequestHelpers.Create($"{Resource}/{id}/expire",_secretKey,_secretKey);
+        var response = await _client.PostAsync(request);
 
-        var restResult = await _client.PostAsync(request);
-
-        if (string.IsNullOrWhiteSpace(restResult.Content))
+        if (string.IsNullOrWhiteSpace(response.Content))
         {
             return new Checkout
             {
@@ -130,8 +128,7 @@ public class CheckoutClient
             };
         }
 
-        var requestData = JsonConvert.DeserializeObject<CheckoutRequestData>(restResult.Content!)!;
-
+        var requestData = JsonConvert.DeserializeObject<CheckoutRequestData>(response.Content!)!;
         var checkoutResult = requestData.Data!.Attributes;
         
         if (checkoutResult is null)
@@ -142,6 +139,7 @@ public class CheckoutClient
             };
         }
 
+        // Checkout doesn't have an id field, so we take that from the parent
         checkoutResult.Id = requestData.Data.Id;
         
         return checkoutResult;
