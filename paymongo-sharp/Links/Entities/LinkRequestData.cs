@@ -29,6 +29,6 @@ namespace Paymongo.Sharp.Links.Entities
     {
         [JsonProperty("data",
             NullValueHandling = NullValueHandling.Ignore)]
-        public PaymentRequestAttributes? Data { get; set; }
+        public LinkRequestAttributes? Data { get; set; }
     }
 }

@@ -21,6 +21,7 @@
 // SOFTWARE.
 
 using Paymongo.Sharp.Checkouts;
+using Paymongo.Sharp.Links;
 using Paymongo.Sharp.Payments;
 
 namespace Paymongo.Sharp.Interfaces
@@ -29,5 +30,6 @@ namespace Paymongo.Sharp.Interfaces
     {
         CheckoutClient Checkouts { get; }
         PaymentClient Payments { get; }
+        LinksClient Links { get; }
     }
 }

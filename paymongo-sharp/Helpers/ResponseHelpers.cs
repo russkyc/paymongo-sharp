@@ -25,6 +25,7 @@ using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Paymongo.Sharp.Checkouts.Entities;
+using Paymongo.Sharp.Links.Entities;
 using Paymongo.Sharp.Payments.Entities;
 using RestSharp;
 
@@ -109,6 +110,22 @@ namespace Paymongo.Sharp.Helpers
                     
                     return payment;
                 });
+        }
+        
+        public static Link ToLink(this string? response)
+        {
+            dynamic paymentRequestData = JObject.Parse(response);
+
+            Link link = JsonConvert.DeserializeObject<Link>(paymentRequestData.data.attributes.ToString());
+            
+            // Link doesn't have an id field so we get it from the parent
+            link.Id = paymentRequestData.data.id.ToString();
+                    
+            // Unix timestamp doesn't account for daylight savings, so we adjust it here
+            link.CreatedAt = link.CreatedAt.ToLocalDateTime();
+            link.UpdatedAt = link.UpdatedAt.ToLocalDateTime();
+            
+            return link;
         }
     }
 }

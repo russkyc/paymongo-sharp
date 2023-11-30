@@ -20,10 +20,44 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using System.Threading.Tasks;
+using Newtonsoft.Json;
+using Paymongo.Sharp.Helpers;
+using Paymongo.Sharp.Links.Entities;
+using RestSharp;
+
 namespace Paymongo.Sharp.Links
 {
     public class LinksClient
     {
+        private const string Resource = "/links";
+        private readonly RestClient _client;
+    
+        private readonly string _secretKey;
+
+        public LinksClient(string baseUrl, string secretKey)
+        {
+            _client = new RestClient(new RestClientOptions(baseUrl));
+            _secretKey = secretKey;
+        }
         
+        public async Task<Link> CreateLinkAsync(Link link)
+        {
+        
+            var data = new LinkRequestData
+            {
+                Data = new LinkRequestAttributes
+                {
+                    Attributes = link
+                }
+            };
+
+            var body = JsonConvert.SerializeObject(data);
+        
+            var request = RequestHelpers.Create(Resource,_secretKey,_secretKey, body);
+            var response = await _client.PostAsync(request);
+
+            return response.Content.ToLink();
+        }
     }
 }

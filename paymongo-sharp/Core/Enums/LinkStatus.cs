@@ -20,27 +20,24 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Paymongo.Sharp.Checkouts;
-using Paymongo.Sharp.Interfaces;
-using Paymongo.Sharp.Links;
-using Paymongo.Sharp.Payments;
+using System.Runtime.Serialization;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
-namespace Paymongo.Sharp
+namespace Paymongo.Sharp.Core.Enums
 {
-    public class PaymongoClient : IPaymongoClient
+    [JsonConverter(typeof(StringEnumConverter))]
+    public enum LinkStatus
     {
-        private const string ApiEndpoint = "https://api.paymongo.com/v1";
-        
-        public PaymongoClient(string secretKey)
-        {
-            // Init internal clients
-            Checkouts = new CheckoutClient(ApiEndpoint, secretKey);
-            Payments = new PaymentClient(ApiEndpoint, secretKey);
-            Links = new LinksClient(ApiEndpoint, secretKey);
-        }
-
-        public CheckoutClient Checkouts { get; }
-        public PaymentClient Payments { get; }
-        public LinksClient Links { get; }
+        [EnumMember(Value = "unpaid")]
+        Unpaid,
+        [EnumMember(Value = "paid")]
+        Paid,
+        [EnumMember(Value = "refunded")]
+        Refunded,
+        [EnumMember(Value = "partially_refunded")]
+        PartiallyRefunded,
+        [EnumMember(Value = "disputed")]
+        Disputed
     }
 }

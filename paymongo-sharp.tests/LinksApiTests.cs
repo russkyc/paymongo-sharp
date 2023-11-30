@@ -20,27 +20,42 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Paymongo.Sharp.Checkouts;
+using Paymongo.Sharp;
+using Paymongo.Sharp.Core.Enums;
 using Paymongo.Sharp.Interfaces;
-using Paymongo.Sharp.Links;
-using Paymongo.Sharp.Payments;
+using Paymongo.Sharp.Links.Entities;
 
-namespace Paymongo.Sharp
+namespace paymongo_sharp.tests;
+
+public class LinksApiTests
 {
-    public class PaymongoClient : IPaymongoClient
-    {
-        private const string ApiEndpoint = "https://api.paymongo.com/v1";
-        
-        public PaymongoClient(string secretKey)
-        {
-            // Init internal clients
-            Checkouts = new CheckoutClient(ApiEndpoint, secretKey);
-            Payments = new PaymentClient(ApiEndpoint, secretKey);
-            Links = new LinksClient(ApiEndpoint, secretKey);
-        }
+    private readonly IPaymongoClient _client;
 
-        public CheckoutClient Checkouts { get; }
-        public PaymentClient Payments { get; }
-        public LinksClient Links { get; }
+    public LinksApiTests()
+    {
+        Env.TraversePath().Load();
+        
+        var secretKey = Env.GetString("SECRET_KEY");
+        
+        _client = new PaymongoClient(secretKey);
     }
+    
+    [Fact]
+    async Task CreateLink()
+    {
+        // Arrange
+        Link link = new Link
+        {
+            Description = "New Link",
+            Amount = 100000,
+            Currency = Currency.Php
+        };
+
+        // Act
+        var linkResult = await _client.Links.CreateLinkAsync(link);
+
+        // Assert
+        Assert.NotNull(linkResult);
+    }
+
 }
