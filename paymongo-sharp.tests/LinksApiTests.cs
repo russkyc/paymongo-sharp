@@ -102,5 +102,36 @@ public class LinksApiTests
         
         Assert.NotNull(getLinkResult);
     }
+    
+    [Fact]
+    async Task CreateAndArchiveThenUnarchiveLink()
+    {
+        // Arrange
+        Link link = new Link
+        {
+            Description = "New Link",
+            ReferenceNumber = "61223292",
+            Amount = 100000,
+            Currency = Currency.Php
+        };
+
+        // Act
+        var linkResult = await _client.Links.CreateLinkAsync(link);
+
+        // Assert
+        Assert.NotNull(linkResult);
+
+        var getArchiveLinkResult = await _client.Links.ArchiveLinkAsync(linkResult.Id);
+        
+        // Assert
+        Assert.NotNull(getArchiveLinkResult);
+        Assert.True(getArchiveLinkResult.Archived);
+        
+        var getUnarchiveLinkResult = await _client.Links.UnArchiveLinkAsync(linkResult.Id);
+        
+        // Assert
+        Assert.NotNull(getUnarchiveLinkResult);
+        Assert.False(getUnarchiveLinkResult.Archived);
+    }
 
 }

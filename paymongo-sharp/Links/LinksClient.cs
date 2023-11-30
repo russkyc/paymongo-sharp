@@ -73,5 +73,19 @@ namespace Paymongo.Sharp.Links
             var response = await _client.GetAsync(request);
             return response.Content.ToLink(true);
         }
+        
+        public async Task<Link> ArchiveLinkAsync(string id)
+        {
+            var request = RequestHelpers.Create($"{Resource}/{id}/archive",_secretKey,_secretKey);
+            var response = await _client.PostAsync(request);
+            return response.Content.ToLink();
+        }
+        
+        public async Task<Link> UnArchiveLinkAsync(string id)
+        {
+            var request = RequestHelpers.Create($"{Resource}/{id}/unarchive",_secretKey,_secretKey);
+            var response = await _client.PostAsync(request);
+            return response.Content.ToLink();
+        }
     }
 }
