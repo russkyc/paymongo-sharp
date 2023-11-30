@@ -33,11 +33,10 @@ namespace Paymongo.Sharp.Links.Entities
 {
     public class Link
     {
-        [JsonProperty("id",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonIgnore]
         public string Id { get; set; }
         
-        [JsonProperty("reference_numner",
+        [JsonProperty("reference_number",
             NullValueHandling = NullValueHandling.Ignore)]
         public string ReferenceNumber { get; set; }
         

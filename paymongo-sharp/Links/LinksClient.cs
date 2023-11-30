@@ -66,5 +66,12 @@ namespace Paymongo.Sharp.Links
             var response = await _client.GetAsync(request);
             return response.Content.ToLink();
         }
+        
+        public async Task<Link> GetLinkByReferenceNumberAsync(string referenceNumber)
+        {
+            var request = RequestHelpers.Create($"{Resource}?reference_number={referenceNumber}",_secretKey,_secretKey);
+            var response = await _client.GetAsync(request);
+            return response.Content.ToLink(true);
+        }
     }
 }

@@ -112,14 +112,21 @@ namespace Paymongo.Sharp.Helpers
                 });
         }
         
-        public static Link ToLink(this string? response)
+        public static Link ToLink(this string? response, bool isReferenceResource = false)
         {
-            dynamic paymentRequestData = JObject.Parse(response);
+            dynamic linkRequestData = JObject.Parse(response);
 
-            Link link = JsonConvert.DeserializeObject<Link>(paymentRequestData.data.attributes.ToString());
+            // we need to check if it is from a reference number resource
+            // because if it is then the data is actually an array
+            Link link = JsonConvert.DeserializeObject<Link>(
+                isReferenceResource ? linkRequestData.data[0].attributes.ToString()
+                    : linkRequestData.data.attributes.ToString());
             
             // Link doesn't have an id field so we get it from the parent
-            link.Id = paymentRequestData.data.id.ToString();
+            // and we need to check if it is from a reference number resource
+            // because if it is then the data is actually an array
+            link.Id = isReferenceResource ? linkRequestData.data[0].id.ToString()
+                : linkRequestData.data.id.ToString();
                     
             // Unix timestamp doesn't account for daylight savings, so we adjust it here
             link.CreatedAt = link.CreatedAt.ToLocalDateTime();

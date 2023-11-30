@@ -79,5 +79,28 @@ public class LinksApiTests
         
         Assert.NotNull(getLinkResult);
     }
+    
+    [Fact]
+    async Task CreateAndRetrieveLinkByReferenceNumber()
+    {
+        // Arrange
+        Link link = new Link
+        {
+            Description = "New Link",
+            ReferenceNumber = "61223292",
+            Amount = 100000,
+            Currency = Currency.Php
+        };
+
+        // Act
+        var linkResult = await _client.Links.CreateLinkAsync(link);
+
+        // Assert
+        Assert.NotNull(linkResult);
+
+        var getLinkResult = await _client.Links.GetLinkByReferenceNumberAsync(linkResult.ReferenceNumber);
+        
+        Assert.NotNull(getLinkResult);
+    }
 
 }
