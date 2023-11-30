@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-namespace paymongo_sharp.Helpers
+namespace Paymongo.Sharp.Helpers
 {
     public static class Base64Helpers
     {

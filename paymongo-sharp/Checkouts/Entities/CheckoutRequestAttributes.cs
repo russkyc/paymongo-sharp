@@ -22,7 +22,7 @@
 
 using Newtonsoft.Json;
 
-namespace paymongo_sharp.Checkouts.Entities
+namespace Paymongo.Sharp.Checkouts.Entities
 {
     public class CheckoutRequestAttributes
     {

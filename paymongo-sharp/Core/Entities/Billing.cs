@@ -22,7 +22,7 @@
 
 using Newtonsoft.Json;
 
-namespace paymongo_sharp.Core.Entities
+namespace Paymongo.Sharp.Core.Entities
 {
     public class Billing
     {

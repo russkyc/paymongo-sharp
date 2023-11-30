@@ -24,10 +24,10 @@ using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using paymongo_sharp.Core.Entities;
-using paymongo_sharp.Core.Enums;
+using Paymongo.Sharp.Core.Entities;
+using Paymongo.Sharp.Core.Enums;
 
-namespace paymongo_sharp.Checkouts.Entities
+namespace Paymongo.Sharp.Checkouts.Entities
 {
     public class Checkout
     {

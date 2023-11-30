@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
-        <RootNamespace>paymongo_sharp</RootNamespace>
+        <RootNamespace>Paymongo.Sharp</RootNamespace>
         <LangVersion>latest</LangVersion>
         <Nullable>enable</Nullable>
         <PackageId>Paymongo.Sharp</PackageId>

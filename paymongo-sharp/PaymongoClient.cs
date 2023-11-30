@@ -20,10 +20,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using paymongo_sharp.Checkouts;
-using paymongo_sharp.Interfaces;
+using Paymongo.Sharp.Checkouts;
+using Paymongo.Sharp.Interfaces;
 
-namespace paymongo_sharp
+namespace Paymongo.Sharp
 {
     public class PaymongoClient : IPaymongoClient
     {

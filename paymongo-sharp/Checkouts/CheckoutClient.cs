@@ -22,12 +22,12 @@
 
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using paymongo_sharp.Checkouts.Entities;
-using paymongo_sharp.Core.Enums;
-using paymongo_sharp.Helpers;
+using Paymongo.Sharp.Checkouts.Entities;
+using Paymongo.Sharp.Core.Enums;
+using Paymongo.Sharp.Helpers;
 using RestSharp;
 
-namespace paymongo_sharp.Checkouts;
+namespace Paymongo.Sharp.Checkouts;
 
 public class CheckoutClient
 {

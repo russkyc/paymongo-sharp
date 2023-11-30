@@ -21,9 +21,9 @@
 // SOFTWARE.
 
 using Newtonsoft.Json;
-using paymongo_sharp.Core.Enums;
+using Paymongo.Sharp.Core.Enums;
 
-namespace paymongo_sharp.Checkouts.Entities
+namespace Paymongo.Sharp.Checkouts.Entities
 {
     public class LineItem
     {

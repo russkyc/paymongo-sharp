@@ -22,7 +22,7 @@
 
 using RestSharp;
 
-namespace paymongo_sharp.Helpers;
+namespace Paymongo.Sharp.Helpers;
 
 public static class RequestHelpers
 {
