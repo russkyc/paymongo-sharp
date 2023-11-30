@@ -44,6 +44,46 @@ var client = new PaymongoClient(publicKey: "<public_key>", secretKey: "<secret_k
 This client is in active development, features are slowly being implemented but not all of them are supported as of now.
 You can track the support for all of Paymongo's official API actions below:
 
+### API Support
+
+<table>
+  <tr>
+    <th>Resource</th>
+    <th>API Version</th>
+    <th>Support</th>
+  </tr>
+  <tr>
+    <td>Checkout</td>
+    <td>v1</td>
+    <td>Partial</td>
+  </tr>
+  <tr>
+    <td>Payment Intent</td>
+    <td>Not yet implemented</td>
+    <td>Not yet available</td>
+  </tr>
+  <tr>
+    <td>Payment Method</td>
+    <td>Not yet implemented</td>
+    <td>Not yet available</td>
+  </tr>
+  <tr>
+    <td>Payments</td>
+    <td>Not yet implemented</td>
+    <td>Not yet available</td>
+  </tr>
+  <tr>
+    <td>Links</td>
+    <td>Not yet implemented</td>
+    <td>Not yet available</td>
+  </tr>
+  <tr>
+    <td>Webhooks</td>
+    <td>Not yet implemented</td>
+    <td>Not yet available</td>
+  </tr>
+</table>
+
 ---
 
 ### Checkout
@@ -96,6 +136,8 @@ Checkout checkoutResult = await _client.Checkouts.RetrieveCheckoutAsync("1234567
 // This expires the checkout on the server and returns the expired Checkout object
 Checkout checkoutResult = await _client.Checkouts.ExpireCheckoutAsync("12345678");
 ```
+
+For full checkout API reference, please see
 
 ---
 
