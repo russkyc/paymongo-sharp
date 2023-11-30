@@ -35,7 +35,7 @@ using Paymongo.Sharp;
 
 Initialize Client
 ```csharp
-var client = new PaymongoClient(publicKey: "<public_key>", secretKey: "<secret_key>");
+var client = new PaymongoClient(secretKey: "<secret_key>");
 ```
 
 ## :sparkles: What is currently Supported
