@@ -21,7 +21,7 @@ This client wrapper is designed to make it easy for .NET developers to interact 
 > This is in it's early development stages and does not offer support for the whole
 > Paymongo API.
 
-#### Installation
+## :arrow_down: Installation
 
 Install package from: [Nuget](https://www.nuget.org/packages/Paymongo.Sharp/) using nuget cli or the nuget package manager.
 
