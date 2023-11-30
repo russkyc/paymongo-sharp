@@ -183,7 +183,7 @@ For full Payment Method API reference, please see: [The Payment Method Object](h
 ```csharp
 // We use the PaymongoClient from earlier
 // This returns a list of Payment objects
-IEnumerable<Payments> paymentsResult = await client.Payments.ListAllPaymentsAsync();
+IEnumerable<Payment> paymentsResult = await client.Payments.ListAllPaymentsAsync();
 ```
 
 **Retrieve a Payment**
