@@ -81,7 +81,7 @@ namespace Paymongo.Sharp.Links
             return response.Content.ToLink();
         }
         
-        public async Task<Link> UnArchiveLinkAsync(string id)
+        public async Task<Link> UnarchiveLinkAsync(string id)
         {
             var request = RequestHelpers.Create($"{Resource}/{id}/unarchive",_secretKey,_secretKey);
             var response = await _client.PostAsync(request);

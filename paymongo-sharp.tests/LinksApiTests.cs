@@ -127,7 +127,7 @@ public class LinksApiTests
         Assert.NotNull(getArchiveLinkResult);
         Assert.True(getArchiveLinkResult.Archived);
         
-        var getUnarchiveLinkResult = await _client.Links.UnArchiveLinkAsync(linkResult.Id);
+        var getUnarchiveLinkResult = await _client.Links.UnarchiveLinkAsync(linkResult.Id);
         
         // Assert
         Assert.NotNull(getUnarchiveLinkResult);
