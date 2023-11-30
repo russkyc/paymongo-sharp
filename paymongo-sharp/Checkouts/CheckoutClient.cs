@@ -23,7 +23,6 @@
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Paymongo.Sharp.Checkouts.Entities;
-using Paymongo.Sharp.Core.Enums;
 using Paymongo.Sharp.Helpers;
 using RestSharp;
 
@@ -58,31 +57,15 @@ namespace Paymongo.Sharp.Checkouts
             var request = RequestHelpers.Create(Resource,_secretKey,_secretKey, body);
             var response = await _client.PostAsync(request);
 
-            if (string.IsNullOrWhiteSpace(response.Content))
-            {
-                return new Checkout
-                {
-                    Status = CheckoutStatus.Expired
-                };
-            }
-
-            return response.ToCheckout();
+            return response.Content.ToCheckout();
         }
 
         public async Task<Checkout> RetrieveCheckoutAsync(string id)
         {
             var request = RequestHelpers.Create($"{Resource}/{id}",_secretKey,_secretKey);
             var response = await _client.GetAsync(request);
-
-            if (string.IsNullOrWhiteSpace(response.Content))
-            {
-                return new Checkout
-                {
-                    Status = CheckoutStatus.Expired
-                };
-            }
-
-            return response.ToCheckout();
+            
+            return response.Content.ToCheckout();
         }
     
         public async Task<Checkout> ExpireCheckoutAsync(string id)
@@ -90,26 +73,7 @@ namespace Paymongo.Sharp.Checkouts
             var request = RequestHelpers.Create($"{Resource}/{id}/expire",_secretKey,_secretKey);
             var response = await _client.PostAsync(request);
 
-            if (string.IsNullOrWhiteSpace(response.Content))
-            {
-                return new Checkout
-                {
-                    Status = CheckoutStatus.Expired
-                };
-            }
-
-            var requestData = JsonConvert.DeserializeObject<CheckoutRequestData>(response.Content!)!;
-            var checkoutResult = requestData.Data!.Attributes;
-        
-            if (checkoutResult is null)
-            {
-                return new Checkout
-                {
-                    Status = CheckoutStatus.Expired
-                };
-            }
-
-            return response.ToCheckout();
+            return response.Content.ToCheckout();
         }
     }
 }

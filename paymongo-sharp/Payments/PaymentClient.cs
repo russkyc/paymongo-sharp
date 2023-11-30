@@ -20,7 +20,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using Paymongo.Sharp.Helpers;
 using Paymongo.Sharp.Payments.Entities;
 using RestSharp;
 
@@ -41,7 +46,52 @@ namespace Paymongo.Sharp.Payments
 
         public async Task<Payment> CreatePaymentAsync(Payment payment)
         {
-            return null;
+            var data = new PaymentRequestData()
+            {
+                Data = new PaymentRequestAttributes
+                {
+                    Attributes = payment
+                }
+            };
+
+            var body = JsonConvert.SerializeObject(data);
+        
+            var request = RequestHelpers.Create(Resource,_secretKey,_secretKey, body);
+            var response = await _client.PostAsync(request);
+
+            return response.Content.ToPayment();
+        }
+
+        public async Task<Payment> RetrievePaymentAsync(string id)
+        {
+            var request = RequestHelpers.Create($"{Resource}/{id}",_secretKey,_secretKey);
+            var response = await _client.GetAsync(request);
+            return response.Content.ToPayment();
+        }
+
+        public async Task<IEnumerable<Payment>> ListAllPaymentsAsync(int limit = Int32.MaxValue, string? before = null, string? after = null)
+        {
+            List<string> parameters = new List<string>();
+
+            if (limit != Int32.MaxValue)
+            {
+                parameters.Add($"limit={limit}");
+            }
+            if (before != null)
+            {
+                parameters.Add($"before={before}");
+            }
+            if (after != null)
+            {
+                parameters.Add($"after={after}");
+            }
+
+            var paramsCollection = $"?{string.Join("&", parameters)}";
+            
+            var request = RequestHelpers.Create($"{Resource}/{(parameters.Any() ? paramsCollection : string.Empty)}",_secretKey,_secretKey);
+            var response = await _client.GetAsync(request);
+
+            return response.ToPayments();
         }
     }
 }

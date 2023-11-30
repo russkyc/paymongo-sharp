@@ -62,4 +62,18 @@ public class PaymentApiTests
         Assert.NotNull(paymentResult);
     }
 
+    [Fact]
+    async Task RetrievePayment()
+    {
+        var paymentResult = await _client.Payments.RetrievePaymentAsync("pay_Lj5aRPSU9p6ozZdQxLuwjpiT");
+        Assert.NotNull(paymentResult);
+    }
+
+    [Fact]
+    async Task ListAllPayments()
+    {
+        var paymentsResult = await _client.Payments.ListAllPaymentsAsync();
+        Assert.NotEmpty(paymentsResult);
+    }
+
 }

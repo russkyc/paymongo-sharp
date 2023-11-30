@@ -31,7 +31,7 @@ namespace Paymongo.Sharp.Payments.Entities
 {
     public class Payment
     {
-        [JsonIgnore]
+        [JsonProperty("id")]
         public string Id { get; set; }
         
         [JsonProperty("payment_intent_id")]
