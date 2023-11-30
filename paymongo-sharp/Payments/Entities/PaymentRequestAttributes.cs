@@ -27,13 +27,16 @@ namespace Paymongo.Sharp.Payments.Entities
 {
     public class PaymentRequestAttributes
     {
-        [JsonProperty("id")]
+        [JsonProperty("id",
+            NullValueHandling = NullValueHandling.Ignore)]
         public string? Id { get; set; }
         
-        [JsonProperty("type")]
+        [JsonProperty("type",
+            NullValueHandling = NullValueHandling.Ignore)]
         public string? Type { get; set; }
         
-        [JsonProperty("attributes")]
+        [JsonProperty("attributes",
+            NullValueHandling = NullValueHandling.Ignore)]
         public Payment? Attributes { get; set; }
     }
 }

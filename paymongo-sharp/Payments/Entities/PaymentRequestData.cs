@@ -26,7 +26,8 @@ namespace Paymongo.Sharp.Payments.Entities
 {
     public class PaymentRequestData
     {
-        [JsonProperty("data")]
+        [JsonProperty("data",
+            NullValueHandling = NullValueHandling.Ignore)]
         public PaymentRequestAttributes? Data { get; set; }
     }
 }

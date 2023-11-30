@@ -42,13 +42,16 @@ namespace Paymongo.Sharp.Checkouts.Entities
             NullValueHandling=NullValueHandling.Ignore)]
         public IEnumerable<string>? Images { get; set; }
         
-        [JsonProperty("quantity")]
+        [JsonProperty("quantity",
+            NullValueHandling = NullValueHandling.Ignore)]
         public int Quantity { get; set; }
         
-        [JsonProperty("currency")]
+        [JsonProperty("currency",
+            NullValueHandling = NullValueHandling.Ignore)]
         public Currency Currency { get; set; }
         
-        [JsonProperty("amount")]
+        [JsonProperty("amount",
+            NullValueHandling = NullValueHandling.Ignore)]
         public int Amount { get; set; }
     }
 }

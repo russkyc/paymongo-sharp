@@ -65,18 +65,22 @@ namespace Paymongo.Sharp.Checkouts.Entities
             NullValueHandling = NullValueHandling.Ignore)]
         public string CheckoutUrl { get; set; }
         
-        [JsonProperty("created_at")]
+        [JsonProperty("created_at",
+            NullValueHandling = NullValueHandling.Ignore)]
         [JsonConverter(typeof(UnixDateTimeConverter))]
         public DateTime? CreatedAt { get; set; }
         
-        [JsonProperty("updated_at")]
+        [JsonProperty("updated_at",
+            NullValueHandling = NullValueHandling.Ignore)]
         [JsonConverter(typeof(UnixDateTimeConverter))]
         public DateTime? UpdatedAt { get; set; }
         
-        [JsonProperty("billing")]
+        [JsonProperty("billing",
+            NullValueHandling = NullValueHandling.Ignore)]
         public Billing? Billing { get; set; }
         
-        [JsonProperty("payment_method_types")]
+        [JsonProperty("payment_method_types",
+            NullValueHandling = NullValueHandling.Ignore)]
         public IEnumerable<PaymentMethod>? PaymentMethodTypes { get; set; }
         
         [JsonProperty("payments",
@@ -87,19 +91,24 @@ namespace Paymongo.Sharp.Checkouts.Entities
          NullValueHandling = NullValueHandling.Ignore)]
         public Dictionary<string,string>? Metadata { get; set; }
         
-        [JsonProperty("livemode")]
+        [JsonProperty("livemode",
+            NullValueHandling = NullValueHandling.Ignore)]
         public bool? LiveMode { get; set; }
 
-        [JsonProperty("send_email_receipt")]
+        [JsonProperty("send_email_receipt",
+            NullValueHandling = NullValueHandling.Ignore)]
         public bool? SendEmailReceipt { get; set; }
         
-        [JsonProperty("show_description")]
+        [JsonProperty("show_description",
+            NullValueHandling = NullValueHandling.Ignore)]
         public bool? ShowDescription { get; set; }
         
-        [JsonProperty("show_line_items")]
+        [JsonProperty("show_line_items",
+            NullValueHandling = NullValueHandling.Ignore)]
         public bool? ShowLineItems { get; set; }
 
-        [JsonProperty("status")]
+        [JsonProperty("status",
+            NullValueHandling = NullValueHandling.Ignore)]
         public CheckoutStatus? Status { get; set; }
 
         [JsonProperty("line_items",

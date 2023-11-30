@@ -33,7 +33,8 @@ namespace Paymongo.Sharp.Payments.Entities
 {
     public class Payment
     {
-        [JsonProperty("id")]
+        [JsonProperty("id",
+            NullValueHandling = NullValueHandling.Ignore)]
         public string Id { get; set; }
         
         [JsonProperty("payment_intent_id",
@@ -76,21 +77,26 @@ namespace Paymongo.Sharp.Payments.Entities
             NullValueHandling = NullValueHandling.Ignore)]
         public Dictionary<string,string>? Source { get; set; }
 
-        [JsonProperty("livemode")]
+        [JsonProperty("livemode",
+            NullValueHandling = NullValueHandling.Ignore)]
         public bool LiveMode { get; set; }
         
-        [JsonProperty("status")]
+        [JsonProperty("status",
+            NullValueHandling = NullValueHandling.Ignore)]
         public PaymentStatus Status { get; set; }
         
-        [JsonProperty("created_at")]
+        [JsonProperty("created_at",
+            NullValueHandling = NullValueHandling.Ignore)]
         [JsonConverter(typeof(UnixDateTimeConverter))]
         public DateTime? CreatedAt { get; set; }
         
-        [JsonProperty("paid_at")]
+        [JsonProperty("paid_at",
+            NullValueHandling = NullValueHandling.Ignore)]
         [JsonConverter(typeof(UnixDateTimeConverter))]
         public DateTime? PaidAt { get; set; }
 
-        [JsonProperty("updated_at")]
+        [JsonProperty("updated_at",
+            NullValueHandling = NullValueHandling.Ignore)]
         [JsonConverter(typeof(UnixDateTimeConverter))]
         public DateTime? UpdatedAt { get; set; }
     }
