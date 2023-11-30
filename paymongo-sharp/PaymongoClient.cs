@@ -22,6 +22,7 @@
 
 using Paymongo.Sharp.Checkouts;
 using Paymongo.Sharp.Interfaces;
+using Paymongo.Sharp.Payments;
 
 namespace Paymongo.Sharp
 {
@@ -33,8 +34,10 @@ namespace Paymongo.Sharp
         {
             // Init internal clients
             Checkouts = new CheckoutClient(ApiEndpoint, secretKey);
+            Payments = new PaymentClient(ApiEndpoint, secretKey);
         }
 
         public CheckoutClient Checkouts { get; }
+        public PaymentClient Payments { get; }
     }
 }

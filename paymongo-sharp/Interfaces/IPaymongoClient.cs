@@ -21,11 +21,13 @@
 // SOFTWARE.
 
 using Paymongo.Sharp.Checkouts;
+using Paymongo.Sharp.Payments;
 
 namespace Paymongo.Sharp.Interfaces
 {
     public interface IPaymongoClient
     {
-        public CheckoutClient Checkouts { get; }
+        CheckoutClient Checkouts { get; }
+        PaymentClient Payments { get; }
     }
 }

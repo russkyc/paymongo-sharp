@@ -20,16 +20,13 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using System;
+using Newtonsoft.Json;
 
-namespace Paymongo.Sharp.Helpers
+namespace Paymongo.Sharp.Payments.Entities
 {
-    public static class DateTimeHelpers
+    public class PaymentRequestData
     {
-        public static DateTime ToLocalDateTime(this DateTime? dateTime)
-        {
-            // System doesn't know it is utc, we specify that here before converting to local time
-            return DateTime.SpecifyKind(dateTime!.Value, DateTimeKind.Utc).ToLocalTime();
-        }
+        [JsonProperty("data")]
+        public PaymentRequestAttributes? Data { get; set; }
     }
 }

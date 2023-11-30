@@ -20,35 +20,37 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using Paymongo.Sharp.Checkouts.Entities;
 using Paymongo.Sharp.Helpers;
+using Paymongo.Sharp.Payments.Entities;
 using RestSharp;
 
-namespace Paymongo.Sharp.Checkouts
+namespace Paymongo.Sharp.Payments
 {
-    public class CheckoutClient
+    public class PaymentClient
     {
-        private const string Resource = "/checkout_sessions";
+        private const string Resource = "/payments";
         private readonly RestClient _client;
     
         private readonly string _secretKey;
 
-        public CheckoutClient(string baseUrl, string secretKey)
+        public PaymentClient(string baseUrl, string secretKey)
         {
             _client = new RestClient(new RestClientOptions(baseUrl));
             _secretKey = secretKey;
         }
 
-        public async Task<Checkout> CreateCheckoutAsync(Checkout checkout)
+        public async Task<Payment> CreatePaymentAsync(Payment payment)
         {
-        
-            var data = new CheckoutRequestData
+            var data = new PaymentRequestData()
             {
-                Data = new CheckoutRequestAttributes
+                Data = new PaymentRequestAttributes
                 {
-                    Attributes = checkout
+                    Attributes = payment
                 }
             };
 
@@ -57,23 +59,39 @@ namespace Paymongo.Sharp.Checkouts
             var request = RequestHelpers.Create(Resource,_secretKey,_secretKey, body);
             var response = await _client.PostAsync(request);
 
-            return response.Content.ToCheckout();
+            return response.Content.ToPayment();
         }
 
-        public async Task<Checkout> RetrieveCheckoutAsync(string id)
+        public async Task<Payment> RetrievePaymentAsync(string id)
         {
             var request = RequestHelpers.Create($"{Resource}/{id}",_secretKey,_secretKey);
             var response = await _client.GetAsync(request);
-            
-            return response.Content.ToCheckout();
+            return response.Content.ToPayment();
         }
-    
-        public async Task<Checkout> ExpireCheckoutAsync(string id)
-        {
-            var request = RequestHelpers.Create($"{Resource}/{id}/expire",_secretKey,_secretKey);
-            var response = await _client.PostAsync(request);
 
-            return response.Content.ToCheckout();
+        public async Task<IEnumerable<Payment>> ListAllPaymentsAsync(int limit = Int32.MaxValue, string? before = null, string? after = null)
+        {
+            List<string> parameters = new List<string>();
+
+            if (limit != Int32.MaxValue)
+            {
+                parameters.Add($"limit={limit}");
+            }
+            if (before != null)
+            {
+                parameters.Add($"before={before}");
+            }
+            if (after != null)
+            {
+                parameters.Add($"after={after}");
+            }
+
+            var paramsCollection = $"?{string.Join("&", parameters)}";
+            
+            var request = RequestHelpers.Create($"{Resource}/{(parameters.Any() ? paramsCollection : string.Empty)}",_secretKey,_secretKey);
+            var response = await _client.GetAsync(request);
+
+            return response.ToPayments();
         }
     }
 }

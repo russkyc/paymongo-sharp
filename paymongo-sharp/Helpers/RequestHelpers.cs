@@ -22,23 +22,24 @@
 
 using RestSharp;
 
-namespace Paymongo.Sharp.Helpers;
-
-public static class RequestHelpers
+namespace Paymongo.Sharp.Helpers
 {
-    public static RestRequest Create(string resource, string username, string password, string? body = null)
+    public static class RequestHelpers
     {
-        var authToken = Base64Helpers.Encode(username, password);
-        var request = new RestRequest(resource);
-            
-        request.AddHeader("accept", "application/json");
-        request.AddHeader("authorization", $"Basic {authToken}");
-
-        if (body is not null)
+        public static RestRequest Create(string resource, string username, string password, string? body = null)
         {
-            request.AddJsonBody(body);
-        }
+            var authToken = Base64Helpers.Encode(username, password);
+            var request = new RestRequest(resource);
+            
+            request.AddHeader("accept", "application/json");
+            request.AddHeader("authorization", $"Basic {authToken}");
+
+            if (body != null)
+            {
+                request.AddJsonBody(body);
+            }
         
-        return request;
+            return request;
+        }
     }
 }

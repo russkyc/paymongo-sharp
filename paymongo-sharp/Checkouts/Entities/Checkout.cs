@@ -26,6 +26,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Paymongo.Sharp.Core.Entities;
 using Paymongo.Sharp.Core.Enums;
+using Paymongo.Sharp.Payments.Entities;
 
 #pragma warning disable CS8618
 
@@ -77,6 +78,10 @@ namespace Paymongo.Sharp.Checkouts.Entities
         
         [JsonProperty("payment_method_types")]
         public IEnumerable<PaymentMethod>? PaymentMethodTypes { get; set; }
+        
+        [JsonProperty("payments",
+            NullValueHandling = NullValueHandling.Ignore)]
+        public IEnumerable<Payment>? Payments { get; set; }
         
         [JsonProperty("metadata",
          NullValueHandling = NullValueHandling.Ignore)]
