@@ -3,7 +3,7 @@
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
         <RootNamespace>Paymongo.Sharp</RootNamespace>
-        <LangVersion>latest</LangVersion>
+        <LangVersion>8</LangVersion>
         <Nullable>enable</Nullable>
         <PackageId>Paymongo.Sharp</PackageId>
         <Title>Paymongo.Sharp</Title>
@@ -23,8 +23,10 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
       <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
       <PackageReference Include="RestSharp" Version="110.2.1-alpha.0.16" />
+      <PackageReference Include="System.Dynamic.Runtime" Version="4.3.0" />
     </ItemGroup>
 
     <PropertyGroup>
@@ -35,10 +37,6 @@
       <None Remove="icon.png" />
       <None Include="icon.png" Pack="true" PackagePath="" />
       <Resource Include="icon.png" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Payments\Entities\" />
     </ItemGroup>
 
 </Project>

@@ -8,6 +8,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "paymongo-sharp.tests", "pay
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "paymongo-sharp", "paymongo-sharp\paymongo-sharp.csproj", "{FE168FAD-2DBB-46D8-BEEB-FD9D8AE2E6DF}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{E09D3C4F-CEDE-4D97-B396-D4C0C39C9D98}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleSamples", "ConsoleSamples\ConsoleSamples.csproj", "{5D2AFE55-9EA1-44DE-890B-3AF8FD132643}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -16,6 +20,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{08180986-AB30-4B6F-9904-C67215D237DE} = {EEB8BC90-9351-4C81-B93D-C13275D8E518}
 		{FE168FAD-2DBB-46D8-BEEB-FD9D8AE2E6DF} = {EE3947E4-E399-475E-8603-B2697DD7D6B5}
+		{5D2AFE55-9EA1-44DE-890B-3AF8FD132643} = {E09D3C4F-CEDE-4D97-B396-D4C0C39C9D98}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{08180986-AB30-4B6F-9904-C67215D237DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -26,5 +31,9 @@ Global
 		{FE168FAD-2DBB-46D8-BEEB-FD9D8AE2E6DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FE168FAD-2DBB-46D8-BEEB-FD9D8AE2E6DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FE168FAD-2DBB-46D8-BEEB-FD9D8AE2E6DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D2AFE55-9EA1-44DE-890B-3AF8FD132643}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D2AFE55-9EA1-44DE-890B-3AF8FD132643}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D2AFE55-9EA1-44DE-890B-3AF8FD132643}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D2AFE55-9EA1-44DE-890B-3AF8FD132643}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

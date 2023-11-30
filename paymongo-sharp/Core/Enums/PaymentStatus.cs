@@ -24,15 +24,16 @@ using System.Runtime.Serialization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-namespace Paymongo.Sharp.Core.Enums;
-
-[JsonConverter(typeof(StringEnumConverter))]
-public enum PaymentStatus
+namespace Paymongo.Sharp.Core.Enums
 {
-    [EnumMember(Value = "pending")]
-    Pending,
-    [EnumMember(Value = "failed")]
-    Failed,
-    [EnumMember(Value = "paid")]
-    Paid
+    [JsonConverter(typeof(StringEnumConverter))]
+    public enum PaymentStatus
+    {
+        [EnumMember(Value = "pending")]
+        Pending,
+        [EnumMember(Value = "failed")]
+        Failed,
+        [EnumMember(Value = "paid")]
+        Paid
+    }
 }

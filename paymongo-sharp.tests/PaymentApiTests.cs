@@ -24,6 +24,7 @@ using Paymongo.Sharp;
 using Paymongo.Sharp.Core.Entities;
 using Paymongo.Sharp.Core.Enums;
 using Paymongo.Sharp.Interfaces;
+using Paymongo.Sharp.Payments.Entities;
 
 namespace paymongo_sharp.tests;
 
@@ -40,6 +41,7 @@ public class PaymentApiTests
         _client = new PaymongoClient(secretKey);
     }
 
+    [Fact]
     async Task CreatePayment()
     {
         // Arrange
@@ -50,8 +52,7 @@ public class PaymentApiTests
             Fee = 20000,
             NetAmount = 80000,
             Currency = Currency.Php,
-            Billing = new Billing(),
-            Currency = Currency.Php,
+            Billing = new Billing()
         };
 
         // Act

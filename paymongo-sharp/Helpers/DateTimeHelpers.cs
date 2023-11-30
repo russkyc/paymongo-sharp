@@ -22,13 +22,14 @@
 
 using System;
 
-namespace Paymongo.Sharp.Helpers;
-
-public static class DateTimeHelpers
+namespace Paymongo.Sharp.Helpers
 {
-    public static DateTime ToLocalDateTime(this DateTime? dateTime)
+    public static class DateTimeHelpers
     {
-        // System doesn't know it is utc, we specify that here before converting to local time
-        return DateTime.SpecifyKind(dateTime!.Value, DateTimeKind.Utc).ToLocalTime();
+        public static DateTime ToLocalDateTime(this DateTime? dateTime)
+        {
+            // System doesn't know it is utc, we specify that here before converting to local time
+            return DateTime.SpecifyKind(dateTime!.Value, DateTimeKind.Utc).ToLocalTime();
+        }
     }
 }
