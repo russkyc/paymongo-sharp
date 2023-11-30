@@ -82,6 +82,10 @@ public class CheckoutClient
         // Checkout doesn't have an id field, so we take that from the parent
         checkoutResult.Id = requestData.Data.Id;
         
+        // Unix timestamp doesn't account for daylight savings, so we adjust it here
+        checkoutResult.CreatedAt = checkoutResult.CreatedAt.ToLocalDateTime();
+        checkoutResult.UpdatedAt = checkoutResult.UpdatedAt.ToLocalDateTime();
+
         return checkoutResult;
     }
 
@@ -111,6 +115,10 @@ public class CheckoutClient
 
         // Checkout doesn't have an id field, so we take that from the parent
         checkoutResult.Id = requestData.Data.Id;
+        
+        // Unix timestamp doesn't account for daylight savings, so we adjust it here
+        checkoutResult.CreatedAt = checkoutResult.CreatedAt.ToLocalDateTime();
+        checkoutResult.UpdatedAt = checkoutResult.UpdatedAt.ToLocalDateTime();
         
         return checkoutResult;
     }
@@ -142,6 +150,10 @@ public class CheckoutClient
         // Checkout doesn't have an id field, so we take that from the parent
         checkoutResult.Id = requestData.Data.Id;
         
+        // Unix timestamp doesn't account for daylight savings, so we adjust it here
+        checkoutResult.CreatedAt = checkoutResult.CreatedAt.ToLocalDateTime();
+        checkoutResult.UpdatedAt = checkoutResult.UpdatedAt.ToLocalDateTime();
+
         return checkoutResult;
     }
 }

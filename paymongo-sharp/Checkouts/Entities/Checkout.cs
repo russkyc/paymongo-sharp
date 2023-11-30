@@ -20,8 +20,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using paymongo_sharp.Core.Entities;
 using paymongo_sharp.Core.Enums;
 
@@ -43,6 +45,14 @@ namespace paymongo_sharp.Checkouts.Entities
         
         [JsonProperty("checkout_url")]
         public string? CheckoutUrl { get; set; }
+        
+        [JsonProperty("created_at")]
+        [JsonConverter(typeof(UnixDateTimeConverter))]
+        public DateTime? CreatedAt { get; set; }
+        
+        [JsonProperty("updated_at")]
+        [JsonConverter(typeof(UnixDateTimeConverter))]
+        public DateTime? UpdatedAt { get; set; }
         
         [JsonProperty("billing")]
         public Billing? Billing { get; set; }
