@@ -22,18 +22,23 @@
 
 using Newtonsoft.Json;
 
+#pragma warning disable CS8618
+
 namespace Paymongo.Sharp.Core.Entities
 {
     public class Billing
     {
-        [JsonProperty("name")]
-        public string? Name { get; set; }
+        [JsonProperty("name",
+            NullValueHandling = NullValueHandling.Ignore)]
+        public string Name { get; set; }
         
-        [JsonProperty("email")]
-        public string? Email { get; set; }
+        [JsonProperty("email",
+            NullValueHandling = NullValueHandling.Ignore)]
+        public string Email { get; set; }
         
-        [JsonProperty("phone")]
-        public string? Phone { get; set; }
+        [JsonProperty("phone",
+            NullValueHandling = NullValueHandling.Ignore)]
+        public string Phone { get; set; }
         
         [JsonProperty("address")]
         public Address? Address { get; set; }

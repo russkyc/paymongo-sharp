@@ -22,26 +22,34 @@
 
 using Newtonsoft.Json;
 
+#pragma warning disable CS8618
+
 namespace Paymongo.Sharp.Core.Entities
 {
     public class Address
     {
-        [JsonProperty("line1")]
-        public string? Line1 { get; set; }
+        [JsonProperty("line1",
+            NullValueHandling = NullValueHandling.Ignore)]
+        public string Line1 { get; set; }
         
-        [JsonProperty("line2")]
-        public string? Line2 { get; set; }
+        [JsonProperty("line2",
+            NullValueHandling = NullValueHandling.Ignore)]
+        public string Line2 { get; set; }
         
-        [JsonProperty("postal_code")]
-        public string? PostalCode { get; set; }
+        [JsonProperty("postal_code",
+            NullValueHandling = NullValueHandling.Ignore)]
+        public string PostalCode { get; set; }
         
-        [JsonProperty("state")]
-        public string? State { get; set; }
+        [JsonProperty("state",
+            NullValueHandling = NullValueHandling.Ignore)]
+        public string State { get; set; }
         
-        [JsonProperty("city")]
-        public string? City { get; set; }
+        [JsonProperty("city",
+            NullValueHandling = NullValueHandling.Ignore)]
+        public string City { get; set; }
         
-        [JsonProperty("country")]
-        public string? Country { get; set; }
+        [JsonProperty("country",
+            NullValueHandling = NullValueHandling.Ignore)]
+        public string Country { get; set; }
     }
 }

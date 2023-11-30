@@ -24,6 +24,8 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using Paymongo.Sharp.Core.Enums;
 
+#pragma warning disable CS8618
+
 namespace Paymongo.Sharp.Checkouts.Entities
 {
     public class LineItem

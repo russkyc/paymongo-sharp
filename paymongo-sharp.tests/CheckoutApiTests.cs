@@ -28,6 +28,8 @@ using Paymongo.Sharp.Interfaces;
 
 namespace paymongo_sharp.tests;
 
+#pragma warning disable CS8604
+
 public class CheckoutApiTests
 {
     private readonly IPaymongoClient _client;
