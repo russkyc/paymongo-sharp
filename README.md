@@ -48,43 +48,51 @@ You can track the support for all of Paymongo's official API actions below:
 <table>
   <tr>
     <th>Resource</th>
-    <th>API Version</th>
+    <th>Paymongo API Version</th>
+    <th>Status</th>
     <th>Support</th>
   </tr>
   <tr>
     <td>Checkout</td>
     <td>v1</td>
     <td>Full</td>
+    <td>v0.1.2-pre+</td>
   </tr>
   <tr>
     <td>Payment Intent</td>
-    <td>Not yet implemented</td>
+    <td>v1</td>
     <td>Not yet available</td>
+    <td>Not yet Added</td>
   </tr>
   <tr>
     <td>Payment Method</td>
-    <td>Not yet implemented</td>
+    <td>v1</td>
     <td>Not yet available</td>
+    <td>Not yet Added</td>
   </tr>
   <tr>
     <td>Payments</td>
     <td>v1</td>
     <td>Partial</td>
+    <td>v0.2.0+</td>
   </tr>
   <tr>
     <td>Links</td>
     <td>v1</td>
     <td>Full</td>
+    <td>v0.3.0+</td>
   </tr>
   <tr>
     <td>Webhooks</td>
-    <td>Not yet implemented</td>
+    <td>v1</td>
     <td>Not yet available</td>
+    <td>Not yet Added</td>
   </tr>
   <tr>
     <td>Customers</td>
-    <td>Not yet implemented</td>
+    <td>v1</td>
     <td>Not yet available</td>
+    <td>Not yet Added</td>
   </tr>
 </table>
 
