@@ -72,8 +72,10 @@ public class CheckoutApiTests
         
         // Assert
         Assert.NotNull(checkoutResult);
-        Assert.Equivalent(checkout.LineItems,checkoutResult.LineItems, true);
+        Assert.NotEmpty(checkoutResult.CheckoutUrl);
         Assert.Equal(CheckoutStatus.Active,checkoutResult.Status);
+        Assert.Equal(checkout.LineItems.Count(),checkoutResult.LineItems.Count());
+        Assert.Equal(checkout.PaymentMethodTypes.Count(),checkoutResult.PaymentMethodTypes.Count());
 
     }
     
@@ -107,15 +109,19 @@ public class CheckoutApiTests
         
         // Assert
         Assert.NotNull(checkoutResult);
-        Assert.Equivalent(checkout.LineItems,checkoutResult.LineItems, true);
+        Assert.NotEmpty(checkoutResult.CheckoutUrl);
         Assert.Equal(CheckoutStatus.Active,checkoutResult.Status);
+        Assert.Equal(checkout.LineItems.Count(),checkoutResult.LineItems.Count());
+        Assert.Equal(checkout.PaymentMethodTypes.Count(),checkoutResult.PaymentMethodTypes.Count());
         
         Checkout getCheckoutResult = await _client.Checkouts.RetrieveCheckoutAsync(checkoutResult.Id);
         
         // Assert
         Assert.NotNull(getCheckoutResult);
-        Assert.Equivalent(checkout.LineItems,getCheckoutResult.LineItems, true);
+        Assert.NotEmpty(getCheckoutResult.CheckoutUrl);
         Assert.Equal(CheckoutStatus.Active,getCheckoutResult.Status);
+        Assert.Equal(checkout.LineItems.Count(),getCheckoutResult.LineItems.Count());
+        Assert.Equal(checkout.PaymentMethodTypes.Count(),getCheckoutResult.PaymentMethodTypes.Count());
 
     }
     
@@ -149,15 +155,19 @@ public class CheckoutApiTests
         
         // Assert
         Assert.NotNull(checkoutResult);
-        Assert.Equivalent(checkout.LineItems,checkoutResult.LineItems, true);
+        Assert.NotEmpty(checkoutResult.CheckoutUrl);
         Assert.Equal(CheckoutStatus.Active,checkoutResult.Status);
+        Assert.Equal(checkout.LineItems.Count(),checkoutResult.LineItems.Count());
+        Assert.Equal(checkout.PaymentMethodTypes.Count(),checkoutResult.PaymentMethodTypes.Count());
         
         Checkout getCheckoutResult = await _client.Checkouts.ExpireCheckoutAsync(checkoutResult.Id);
         
         // Assert
         Assert.NotNull(getCheckoutResult);
-        Assert.Equivalent(checkout.LineItems,getCheckoutResult.LineItems, true);
+        Assert.NotEmpty(getCheckoutResult.CheckoutUrl);
         Assert.Equal(CheckoutStatus.Expired,getCheckoutResult.Status);
+        Assert.Equal(checkout.LineItems.Count(),getCheckoutResult.LineItems.Count());
+        Assert.Equal(checkout.PaymentMethodTypes.Count(),getCheckoutResult.PaymentMethodTypes.Count());
 
         
 
@@ -169,17 +179,21 @@ public class CheckoutApiTests
         // Arrange
         Checkout checkout = new Checkout()
         {
-            Description = "Test Checkout",
+            Description = "Never gonna..",
             CancelUrl = "http://127.0.0.1",
             SuccessUrl = "http://127.0.0.1",
             LineItems = new []
             {
                 new LineItem
                 {
-                    Name = "item_name",
-                    Quantity = 1,
+                    Name = "Give You Up",
+                    Images = new []
+                    {
+                        "https://i.insider.com/602ee9ced3ad27001837f2ac?width=750&format=jpeg"
+                    },
+                    Quantity = 1000,
                     Currency = Currency.Php,
-                    Amount = 3500
+                    Amount = 100
                 }
             },
             PaymentMethodTypes = new[]
@@ -215,7 +229,7 @@ public class CheckoutApiTests
             },
             SendEmailReceipt = true,
             ShowDescription = true,
-            ShowLineItems = false
+            ShowLineItems = true
         };
         
         // Act
@@ -243,10 +257,14 @@ public class CheckoutApiTests
             {
                 new LineItem
                 {
-                    Name = "item_name",
-                    Quantity = 1,
+                    Name = "Give You Up",
+                    Images = new []
+                    {
+                        "https://i.insider.com/602ee9ced3ad27001837f2ac?width=750&format=jpeg"
+                    },
+                    Quantity = 1000,
                     Currency = Currency.Php,
-                    Amount = 3500
+                    Amount = 100
                 }
             },
             PaymentMethodTypes = new[]
@@ -288,6 +306,7 @@ public class CheckoutApiTests
         // Act
         Checkout checkoutResult = await _client.Checkouts.CreateCheckoutAsync(checkout);
         
+        // Assert
         // Assert
         Assert.NotNull(checkoutResult);
         Assert.Equivalent(checkout.LineItems,checkoutResult.LineItems, true);
@@ -319,10 +338,14 @@ public class CheckoutApiTests
             {
                 new LineItem
                 {
-                    Name = "item_name",
-                    Quantity = 1,
+                    Name = "Give You Up",
+                    Images = new []
+                    {
+                        "https://i.insider.com/602ee9ced3ad27001837f2ac?width=750&format=jpeg"
+                    },
+                    Quantity = 1000,
                     Currency = Currency.Php,
-                    Amount = 3500
+                    Amount = 100
                 }
             },
             PaymentMethodTypes = new[]

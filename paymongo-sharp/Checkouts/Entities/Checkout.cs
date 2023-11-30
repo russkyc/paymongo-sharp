@@ -34,17 +34,33 @@ namespace Paymongo.Sharp.Checkouts.Entities
         [JsonIgnore]
         public string? Id { get; set; }
         
-        [JsonProperty("description")]
-        public string? Description { get; set; }
+        [JsonProperty("client_key",
+            NullValueHandling = NullValueHandling.Ignore)]
+        public string ClientKey { get; set; }
         
-        [JsonProperty("cancel_url")]
-        public string? CancelUrl { get; set; }
+        [JsonProperty("reference_number",
+            NullValueHandling = NullValueHandling.Ignore)]
+        public string ReferenceNumber { get; set; }
         
-        [JsonProperty("success_url")]
-        public string? SuccessUrl { get; set; }
+        [JsonProperty("merchant",
+            NullValueHandling = NullValueHandling.Ignore)]
+        public string Merchant { get; set; }
         
-        [JsonProperty("checkout_url")]
-        public string? CheckoutUrl { get; set; }
+        [JsonProperty("description",
+            NullValueHandling = NullValueHandling.Ignore)]
+        public string Description { get; set; }
+        
+        [JsonProperty("cancel_url",
+            NullValueHandling = NullValueHandling.Ignore)]
+        public string CancelUrl { get; set; }
+        
+        [JsonProperty("success_url",
+            NullValueHandling = NullValueHandling.Ignore)]
+        public string SuccessUrl { get; set; }
+        
+        [JsonProperty("checkout_url",
+            NullValueHandling = NullValueHandling.Ignore)]
+        public string CheckoutUrl { get; set; }
         
         [JsonProperty("created_at")]
         [JsonConverter(typeof(UnixDateTimeConverter))]
@@ -62,6 +78,9 @@ namespace Paymongo.Sharp.Checkouts.Entities
         
         [JsonProperty("metadata")]
         public CheckoutMetadata? Metadata { get; set; }
+        
+        [JsonProperty("livemode")]
+        public bool? LiveMode { get; set; }
 
         [JsonProperty("send_email_receipt")]
         public bool? SendEmailReceipt { get; set; }
@@ -75,7 +94,8 @@ namespace Paymongo.Sharp.Checkouts.Entities
         [JsonProperty("status")]
         public CheckoutStatus? Status { get; set; }
 
-        [JsonProperty("line_items")]
+        [JsonProperty("line_items",
+            NullValueHandling = NullValueHandling.Ignore)]
         public IEnumerable<LineItem>? LineItems { get; set; }
     }
 }
