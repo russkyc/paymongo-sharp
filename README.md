@@ -17,14 +17,13 @@ Paymongo is a powerful payment platform that provides a wide range of payment so
 This client wrapper is designed to make it easy for .NET developers to interact with the Paymongo API. It provides a simple, intuitive interface that abstracts the API, allowing you to access a typed client and focus on building your Paymongo-integrated application faster.
 </p>
 
-> [!WARNING]  
+> [!NOTE]  
 > This is in it's early development stages and does not offer support for the whole
-> Paymongo API. We recommend waiting for a stable release package before using this in your
-> application as pre-release versions might undergo breaking changes that require refactoring. This is made available early only for testing purposes.
+> Paymongo API.
 
 #### Installation
 
-Install pre-release package from: [Nuget](https://www.nuget.org/packages/Paymongo.Sharp/) using nuget cli or the nuget package manager.
+Install package from: [Nuget](https://www.nuget.org/packages/Paymongo.Sharp/) using nuget cli or the nuget package manager.
 
 #### Client usage
 
@@ -55,12 +54,12 @@ You can track the support for all of Paymongo's official API actions below:
   <tr>
     <td>Checkout</td>
     <td>v1</td>
-    <td>Partial</td>
+    <td>Full</td>
   </tr>
   <tr>
     <td>Payment Intent</td>
     <td>Not yet implemented</td>
-    <td>Not yet available</td>
+    <td>Not yet implemented</td>
   </tr>
   <tr>
     <td>Payment Method</td>
@@ -69,8 +68,8 @@ You can track the support for all of Paymongo's official API actions below:
   </tr>
   <tr>
     <td>Payments</td>
-    <td>Not yet implemented</td>
-    <td>Not yet available</td>
+    <td>v1</td>
+    <td>Partial</td>
   </tr>
   <tr>
     <td>Links</td>
@@ -79,6 +78,11 @@ You can track the support for all of Paymongo's official API actions below:
   </tr>
   <tr>
     <td>Webhooks</td>
+    <td>Not yet implemented</td>
+    <td>Not yet available</td>
+  </tr>
+  <tr>
+    <td>Customers</td>
     <td>Not yet implemented</td>
     <td>Not yet available</td>
   </tr>
@@ -116,7 +120,7 @@ Checkout checkout = new Checkout() {
 
 // We use the PaymongoClient from earlier
 // This returns the Checkout object with the new server info for checkout url, id, and others
-Checkout checkoutResult = await _client.Checkouts.CreateCheckoutAsync(checkout);
+Checkout checkoutResult = await client.Checkouts.CreateCheckoutAsync(checkout);
 ```
 
 **Retrieve a Checkout Session**
@@ -125,7 +129,7 @@ Checkout checkoutResult = await _client.Checkouts.CreateCheckoutAsync(checkout);
 // We use the PaymongoClient from earlier
 // Lets assume that the checkout id is "12345678"
 // This returns a Checkout object from the server
-Checkout checkoutResult = await _client.Checkouts.RetrieveCheckoutAsync("12345678");
+Checkout checkoutResult = await client.Checkouts.RetrieveCheckoutAsync("12345678");
 ```
 
 **Expire a Checkout Session**
@@ -134,7 +138,7 @@ Checkout checkoutResult = await _client.Checkouts.RetrieveCheckoutAsync("1234567
 // We use the PaymongoClient from earlier
 // Lets assume that the checkout id is "12345678"
 // This expires the checkout on the server and returns the expired Checkout object
-Checkout checkoutResult = await _client.Checkouts.ExpireCheckoutAsync("12345678");
+Checkout checkoutResult = await client.Checkouts.ExpireCheckoutAsync("12345678");
 ```
 
 For full Checkout API reference, please see: [Checkout Session Resource](https://developers.paymongo.com/reference/checkout-session-resource)
@@ -171,8 +175,25 @@ For full Payment Method API reference, please see: [The Payment Method Object](h
 ### Payments
 
 - [ ] Create a Payment
-- [ ] List all Payments
-- [ ] Retrieve a Payment
+- [x] List all Payments
+- [x] Retrieve a Payment
+
+**List All Payments**
+
+```csharp
+// We use the PaymongoClient from earlier
+// This returns a list of Payment objects
+IEnumerable<Payments> paymentsResult = await client.Payments.ListAllPaymentsAsync();
+```
+
+**Retrieve a Payment**
+
+```csharp
+// We use the PaymongoClient from earlier
+// Lets assume that the payment id is "12345678"
+// This returns a Payment object from the server
+Checkout checkoutResult = await client.Payments.RetrievePaymentAsync("12345678");
+```
 
 For full Payments API reference, please see: [Payment Resource](https://developers.paymongo.com/reference/payment-source)
 
