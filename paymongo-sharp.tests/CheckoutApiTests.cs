@@ -39,9 +39,8 @@ public class CheckoutApiTests
         Env.TraversePath().Load();
         
         var secretKey = Env.GetString("SECRET_KEY");
-        var publicKey = Env.GetString("PUBLIC_KEY");
         
-        _client = new PaymongoClient(publicKey: publicKey, secretKey: secretKey);
+        _client = new PaymongoClient(secretKey);
     }
     
     [Fact]

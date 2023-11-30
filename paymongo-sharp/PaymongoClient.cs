@@ -29,10 +29,10 @@ namespace Paymongo.Sharp
     {
         private const string ApiEndpoint = "https://api.paymongo.com/v1";
         
-        public PaymongoClient(string publicKey, string secretKey)
+        public PaymongoClient(string secretKey)
         {
             // Init internal clients
-            Checkouts = new CheckoutClient(ApiEndpoint, publicKey, secretKey);
+            Checkouts = new CheckoutClient(ApiEndpoint, secretKey);
         }
 
         public CheckoutClient Checkouts { get; }

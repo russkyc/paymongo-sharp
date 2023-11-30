@@ -34,13 +34,11 @@ public class CheckoutClient
     private const string Resource = "/checkout_sessions";
     private readonly RestClient _client;
     
-    private readonly string _publicKey;
     private readonly string _secretKey;
 
-    public CheckoutClient(string baseUrl, string publicKey, string secretKey)
+    public CheckoutClient(string baseUrl, string secretKey)
     {
         _client = new RestClient(new RestClientOptions(baseUrl));
-        _publicKey = publicKey;
         _secretKey = secretKey;
     }
 
