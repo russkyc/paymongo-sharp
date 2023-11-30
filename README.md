@@ -31,7 +31,7 @@ Install pre-release package from: [Nuget](https://www.nuget.org/packages/Paymong
 Add Imports
 
 ```csharp
-using paymongo_sharp;
+using Paymongo.Sharp;
 ```
 
 Initialize Client

@@ -12,11 +12,12 @@
         <PackageIcon>icon.png</PackageIcon>
         <RepositoryUrl>https://github.com/russkyc/paymongo-sharp</RepositoryUrl>
         <PackageTags>paymongo paymongo-sharp pay payments</PackageTags>
-        <Version>0.1.0-pre</Version>
+        <Version>0.1.1-pre</Version>
         <Description>An unofficial client wrapper for paymongo</Description>
         <Copyright>russkyc 2023</Copyright>
-        <PackageReleaseNotes>- initial prerelease
-- add checkout client support</PackageReleaseNotes>
+        <PackageReleaseNotes>BREAKING CHANGE:
+- root namespace is now Paymongo.Sharp instead of paymongo_sharp
+- Add CreatedAt and UpdatedAt props to Checkout</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     </PropertyGroup>
 
