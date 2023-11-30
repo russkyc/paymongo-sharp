@@ -1,20 +1,14 @@
-<img src=".github/resources/images/banner.svg" style="width: 100%;" />
+<a href="https://www.nuget.org/packages/Paymongo.Sharp">
+    <img src=".github/resources/images/banner.svg" style="width: 100%;" />
+</a>
 
 <h2 align="center">Paymongo.Sharp - Unofficial .NET Client Wrapper for the Paymongo API</h2>
 
 <p align="center">
-    <a href="https://www.nuget.org/packages/Paymongo.Sharp">
-        <img src="https://img.shields.io/nuget/v/Paymongo.Sharp?color=1f72de" alt="Nuget">
-    </a>
-    <a href="https://www.nuget.org/packages/Paymongo.Sharp">
-        <img src="https://img.shields.io/badge/-.NET%20Standard%202.0-blueviolet?color=1f72de&label=NET" alt="">
-    </a>
-    <a href="#">
-        <img src="https://img.shields.io/github/license/russkyc/paymongo-sharp" alt="">
-    </a>
-    <a href="#">
-        <img src="https://img.shields.io/github/issues/russkyc/paymongo-sharp" alt="">
-    </a>
+    <img src="https://img.shields.io/nuget/v/Paymongo.Sharp?color=1f72de" alt="Nuget">
+    <img src="https://img.shields.io/badge/-.NET%20Standard%202.0-blueviolet?color=1f72de&label=NET" alt="">
+    <img src="https://img.shields.io/github/license/russkyc/paymongo-sharp">
+    <img src="https://img.shields.io/github/issues/russkyc/paymongo-sharp">
 </p>
 
 <p style="text-align: justify">
