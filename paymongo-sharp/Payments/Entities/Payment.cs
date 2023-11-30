@@ -27,6 +27,8 @@ using Newtonsoft.Json.Converters;
 using Paymongo.Sharp.Core.Entities;
 using Paymongo.Sharp.Core.Enums;
 
+#pragma warning disable CS8618
+
 namespace Paymongo.Sharp.Payments.Entities
 {
     public class Payment
@@ -34,25 +36,32 @@ namespace Paymongo.Sharp.Payments.Entities
         [JsonProperty("id")]
         public string Id { get; set; }
         
-        [JsonProperty("payment_intent_id")]
+        [JsonProperty("payment_intent_id",
+            NullValueHandling = NullValueHandling.Ignore)]
         public string PaymentIntentId { get; set; }
         
-        [JsonProperty("balance_transaction_id")]
+        [JsonProperty("balance_transaction_id",
+            NullValueHandling = NullValueHandling.Ignore)]
         public string BalanceTransactionId { get; set; }
         
-        [JsonProperty("description")]
+        [JsonProperty("description",
+            NullValueHandling = NullValueHandling.Ignore)]
         public string Description { get; set; }
         
-        [JsonProperty("amount")]
+        [JsonProperty("amount",
+            NullValueHandling = NullValueHandling.Ignore)]
         public int Amount { get; set; }
         
-        [JsonProperty("fee")]
+        [JsonProperty("fee",
+            NullValueHandling = NullValueHandling.Ignore)]
         public int Fee { get; set; }
         
-        [JsonProperty("net_amount")]
+        [JsonProperty("net_amount",
+            NullValueHandling = NullValueHandling.Ignore)]
         public int NetAmount { get; set; }
         
-        [JsonProperty("currency")]
+        [JsonProperty("currency",
+            NullValueHandling = NullValueHandling.Ignore)]
         public Currency Currency { get; set; }
         
         [JsonProperty("billing",
