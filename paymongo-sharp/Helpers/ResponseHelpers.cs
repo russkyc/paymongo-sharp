@@ -63,12 +63,10 @@ namespace Paymongo.Sharp.Helpers
                 .Select(paymentAttribute =>
                 {
                     var payment = paymentAttribute.Attributes!;
+                    
+                    // Payment doesn't have an id field so we get it from the parent
                     payment.Id = paymentAttribute.Id!;
                     
-                    return payment;
-                })
-                .Select(payment =>
-                {
                     // Unix timestamp doesn't account for daylight savings, so we adjust it here
                     payment.CreatedAt = payment.CreatedAt.ToLocalDateTime();
                     payment.UpdatedAt = payment.UpdatedAt.ToLocalDateTime();
