@@ -192,7 +192,7 @@ IEnumerable<Payments> paymentsResult = await client.Payments.ListAllPaymentsAsyn
 // We use the PaymongoClient from earlier
 // Lets assume that the payment id is "12345678"
 // This returns a Payment object from the server
-Checkout checkoutResult = await client.Payments.RetrievePaymentAsync("12345678");
+Payment paymentResult = await client.Payments.RetrievePaymentAsync("12345678");
 ```
 
 For full Payments API reference, please see: [Payment Resource](https://developers.paymongo.com/reference/payment-source)
