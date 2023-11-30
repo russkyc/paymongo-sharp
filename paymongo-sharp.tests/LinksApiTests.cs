@@ -57,5 +57,27 @@ public class LinksApiTests
         // Assert
         Assert.NotNull(linkResult);
     }
+    
+    [Fact]
+    async Task CreateAndRetrieveLink()
+    {
+        // Arrange
+        Link link = new Link
+        {
+            Description = "New Link",
+            Amount = 100000,
+            Currency = Currency.Php
+        };
+
+        // Act
+        var linkResult = await _client.Links.CreateLinkAsync(link);
+
+        // Assert
+        Assert.NotNull(linkResult);
+
+        var getLinkResult = await _client.Links.RetrieveLinkAsync(linkResult.Id);
+        
+        Assert.NotNull(getLinkResult);
+    }
 
 }
