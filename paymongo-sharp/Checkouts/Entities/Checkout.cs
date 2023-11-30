@@ -78,8 +78,9 @@ namespace Paymongo.Sharp.Checkouts.Entities
         [JsonProperty("payment_method_types")]
         public IEnumerable<PaymentMethod>? PaymentMethodTypes { get; set; }
         
-        [JsonProperty("metadata")]
-        public CheckoutMetadata? Metadata { get; set; }
+        [JsonProperty("metadata",
+         NullValueHandling = NullValueHandling.Ignore)]
+        public Dictionary<string,string>? Metadata { get; set; }
         
         [JsonProperty("livemode")]
         public bool? LiveMode { get; set; }

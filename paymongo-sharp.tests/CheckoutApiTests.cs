@@ -223,11 +223,9 @@ public class CheckoutApiTests
                     Country = "PH"
                 }
             },
-            Metadata = new CheckoutMetadata
+            Metadata = new Dictionary<string, string>()
             {
-                Notes = "TestNotes",
-                CustomerNumber = "9063364572",
-                Remarks = "TestRemarks"
+                {"testKey","Test Value"}
             },
             SendEmailReceipt = true,
             ShowDescription = true,
@@ -294,11 +292,9 @@ public class CheckoutApiTests
                     Country = "PH"
                 }
             },
-            Metadata = new CheckoutMetadata
+            Metadata = new Dictionary<string, string>()
             {
-                Notes = "TestNotes",
-                CustomerNumber = "9063364572",
-                Remarks = "TestRemarks"
+                {"testKey","Test Value"}
             },
             SendEmailReceipt = true,
             ShowDescription = true,
@@ -375,11 +371,9 @@ public class CheckoutApiTests
                     Country = "PH"
                 }
             },
-            Metadata = new CheckoutMetadata
+            Metadata = new Dictionary<string, string>()
             {
-                Notes = "TestNotes",
-                CustomerNumber = "9063364572",
-                Remarks = "TestRemarks"
+                {"testKey","Test Value"}
             },
             SendEmailReceipt = true,
             ShowDescription = true,
