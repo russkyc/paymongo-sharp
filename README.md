@@ -9,6 +9,12 @@
     <a href="https://www.nuget.org/packages/Paymongo.Sharp">
         <img src="https://img.shields.io/badge/-.NET%20Standard%202.0-blueviolet?color=1f72de&label=NET" alt="">
     </a>
+    <a href="#">
+        <img src="https://img.shields.io/github/license/russkyc/paymongo-sharp" alt="">
+    </a>
+    <a href="#">
+        <img src="https://img.shields.io/github/issues/russkyc/paymongo-sharp" alt="">
+    </a>
 </p>
 
 <p style="text-align: justify">
