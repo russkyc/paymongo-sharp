@@ -12,15 +12,10 @@
         <PackageIcon>icon.png</PackageIcon>
         <RepositoryUrl>https://github.com/russkyc/paymongo-sharp</RepositoryUrl>
         <PackageTags>paymongo paymongo-sharp pay payments</PackageTags>
-        <Version>0.3.0</Version>
+        <Version>0.3.1</Version>
         <Description>Unofficial C# Client for Paymongo</Description>
         <Copyright>russkyc 2023</Copyright>
-        <PackageReleaseNotes>- Add links api support
-- Add Create Link (Links API)
-- Add Retrieve Link (Links API)
-- Add Get Link By Reference Number (Links API)
-- Add Archive Link (Links API)
-- Add Unarchive Link (Links API)</PackageReleaseNotes>
+        <PackageReleaseNotes>- Fix bug on link object not including payments</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     </PropertyGroup>
 
