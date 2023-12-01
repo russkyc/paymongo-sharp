@@ -98,7 +98,18 @@ namespace Paymongo.Sharp.Helpers
             
             var paymentRequestDataCollection = (IEnumerable<PaymentRequestData>)JsonConvert.DeserializeObject<IEnumerable<PaymentRequestData>>(paymentsData.ToString());
 
-            return paymentRequestDataCollection.Select(paymentAttribute => paymentAttribute.Data.Attributes);
+            return paymentRequestDataCollection.Select(paymentAttribute =>
+            {
+                var payment = paymentAttribute.Data.Attributes;
+                // Payment doesn't have an id field so we get it from the parent
+                payment.Id = paymentAttribute.Data.Id;
+                    
+                // Unix timestamp doesn't account for daylight savings, so we adjust it here
+                payment.CreatedAt = payment.CreatedAt.ToLocalDateTime();
+                payment.UpdatedAt = payment.UpdatedAt.ToLocalDateTime();
+                payment.PaidAt = payment.PaidAt.ToLocalDateTime();
+                return payment;
+            });
         }
         
         public static IEnumerable<Payment> ToPayments(this string? response)
