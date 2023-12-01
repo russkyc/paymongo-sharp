@@ -16,33 +16,30 @@ public class Program
         var secretKey = Env.GetString("SECRET_KEY");
 
         // Initializing client
-        var client = new PaymongoClient(secretKey); // replace with your secret key
+        var client = new PaymongoClient(secretKey);
 
         // Create a link object for request
         var link = new Link
         {
-            Description = "Test payment link", // Just the description
+            ReferenceNumber = "ABCD",
+            Description = "Test payment link",
             Amount = 10000, // is an int variant, eg; if the amount is 100.00 then the value should be set as 10000
-            Currency = Currency.Php // The only currency Paymongo supports
+            Currency = Currency.Php
         };
 
         // We create a link request
         var requestResult = await client.Links.CreateLinkAsync(link);
 
-        // The link object contains the checkout link that we can use
         Console.WriteLine($"Pay here: {requestResult.CheckoutUrl}");
         Console.WriteLine("Waiting for payment..");
 
         // We wait for the payment to succeed
         while (true)
         {
-            // We retrieve the payment from the server using the id
-            var getLink = await client.Links.RetrieveLinkAsync(requestResult.Id);
+            var getLink = await client.Links.GetLinkByReferenceNumberAsync(requestResult.ReferenceNumber);
 
-            // We check to see if there are any payments made
             if (getLink.Payments.Any())
             {
-                // We get the payment info if payment has been made
                 var payment = getLink.Payments.First();
 
                 var platform = payment.Source["type"];
@@ -53,6 +50,8 @@ public class Program
                 Console.WriteLine($"Successfully paid on {paymentDate} using {platform} with fee: {fee}");
                 break;
             }
+
+            await Task.Delay(TimeSpan.FromSeconds(1));
         }
     }
 }
