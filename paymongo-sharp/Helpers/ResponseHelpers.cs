@@ -74,21 +74,25 @@ namespace Paymongo.Sharp.Helpers
         {
             dynamic paymentsResponse = JObject.Parse(response);
 
-            var paymentsData = paymentsResponse.data.attributes.payments;
-            var paymentAttributesCollection = (IEnumerable<PaymentRequestAttributes>) JsonConvert.DeserializeObject<IEnumerable<PaymentRequestAttributes>>(paymentsData.ToString());
+            var paymentsData = paymentsResponse.data.attributes.payments.ToString();
+            
+            var paymentRequestDataCollection = (IEnumerable<PaymentRequestAttributes>)JsonConvert.DeserializeObject<IEnumerable<PaymentRequestAttributes>>(paymentsData.ToString());
 
-            return paymentAttributesCollection
-                .Select(paymentAttribute =>
-                {
-                    var payment = paymentAttribute.Attributes!
-                        .ToString()
-                        .ToPayment();
+            return paymentRequestDataCollection.Select(paymentAttribute =>
+            {
+                var payment = paymentAttribute.Attributes;
+                // Payment doesn't have an id field so we get it from the parent
+                payment.Id = paymentAttribute.Id;
                     
-                    return payment;
-                });
+                // Unix timestamp doesn't account for daylight savings, so we adjust it here
+                payment.CreatedAt = payment.CreatedAt.ToLocalDateTime();
+                payment.UpdatedAt = payment.UpdatedAt.ToLocalDateTime();
+                payment.PaidAt = payment.PaidAt.ToLocalDateTime();
+                return payment;
+            });
         }
         
-        public static IEnumerable<Payment> ToLinkPayments(this string? response, bool isReferenceResource)
+        public static IEnumerable<Payment> ToLinkPayments(this string? response, bool isReferenceResource = false)
         {
             dynamic paymentsResponse = JObject.Parse(response);
 

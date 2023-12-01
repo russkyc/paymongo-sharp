@@ -3,8 +3,9 @@
 using System.Globalization;
 using DotNetEnv;
 using Paymongo.Sharp;
+using Paymongo.Sharp.Checkouts.Entities;
+using Paymongo.Sharp.Core.Entities;
 using Paymongo.Sharp.Core.Enums;
-using Paymongo.Sharp.Links.Entities;
 
 namespace cli_sample;
 
@@ -19,16 +20,44 @@ public class Program
         var client = new PaymongoClient(secretKey);
 
         // Create a link object for request
-        var link = new Link
+        var checkout = new Checkout()
         {
             ReferenceNumber = "ABCD",
-            Description = "Test payment link",
-            Amount = 10000, // is an int variant, eg; if the amount is 100.00 then the value should be set as 10000
-            Currency = Currency.Php
+            Description = "Test payment checkout",
+            Billing = new Billing
+            {
+                Name = "John Russell Camo",
+                Email = "testmail@mail.com",
+                Phone = "9282320392",
+                Address = new Address
+                {
+                    Line1 = "Sa may bahay",
+                    City = "Legazpi",
+                    State = "Albay",
+                    Country = "PH",
+                    PostalCode = "4524"
+                }
+            },
+            LineItems = new []
+            {
+                new LineItem
+                {
+                    Name = "TEst Item",
+                    Amount = 50000,
+                    Currency = Currency.Php,
+                    Quantity = 1
+                }
+            },
+            PaymentMethodTypes = new[]
+            {
+                PaymentMethod.GCash,
+                PaymentMethod.Card,
+                PaymentMethod.Paymaya
+            }
         };
 
         // We create a link request
-        var requestResult = await client.Links.CreateLinkAsync(link);
+        var requestResult = await client.Checkouts.CreateCheckoutAsync(checkout);
 
         Console.WriteLine($"Pay here: {requestResult.CheckoutUrl}");
         Console.WriteLine("Waiting for payment..");
@@ -36,7 +65,7 @@ public class Program
         // We wait for the payment to succeed
         while (true)
         {
-            var getLink = await client.Links.GetLinkByReferenceNumberAsync(requestResult.ReferenceNumber);
+            var getLink = await client.Checkouts.RetrieveCheckoutAsync(requestResult.Id);
 
             if (getLink.Payments.Any())
             {
