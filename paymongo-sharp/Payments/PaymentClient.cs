@@ -91,7 +91,7 @@ namespace Paymongo.Sharp.Payments
             var request = RequestHelpers.Create($"{Resource}/{(parameters.Any() ? paramsCollection : string.Empty)}",_secretKey,_secretKey);
             var response = await _client.GetAsync(request);
 
-            return response.ToPayments();
+            return response.Content.ToPayments();
         }
     }
 }

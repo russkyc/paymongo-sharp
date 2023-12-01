@@ -27,7 +27,7 @@ using Newtonsoft.Json.Linq;
 using Paymongo.Sharp.Checkouts.Entities;
 using Paymongo.Sharp.Links.Entities;
 using Paymongo.Sharp.Payments.Entities;
-using RestSharp;
+
 
 #pragma warning disable CS8604
 
@@ -88,9 +88,22 @@ namespace Paymongo.Sharp.Helpers
                 });
         }
         
-        public static IEnumerable<Payment> ToPayments(this RestResponse response)
+        public static IEnumerable<Payment> ToLinkPayments(this string? response, bool isReferenceResource)
         {
-            dynamic paymentsResponse = JObject.Parse(response.Content);
+            dynamic paymentsResponse = JObject.Parse(response);
+
+            var paymentsData = isReferenceResource
+                ? paymentsResponse.data[0].attributes.payments.ToString()
+                : paymentsResponse.data.attributes.payments.ToString();
+            
+            var paymentRequestDataCollection = (IEnumerable<PaymentRequestData>)JsonConvert.DeserializeObject<IEnumerable<PaymentRequestData>>(paymentsData.ToString());
+
+            return paymentRequestDataCollection.Select(paymentAttribute => paymentAttribute.Data.Attributes);
+        }
+        
+        public static IEnumerable<Payment> ToPayments(this string? response)
+        {
+            dynamic paymentsResponse = JObject.Parse(response);
 
             var paymentsData = paymentsResponse.data;
             var paymentAttributesCollection = (IEnumerable<PaymentRequestAttributes>) JsonConvert.DeserializeObject<IEnumerable<PaymentRequestAttributes>>(paymentsData.ToString());
@@ -127,6 +140,8 @@ namespace Paymongo.Sharp.Helpers
             // because if it is then the data is actually an array
             link.Id = isReferenceResource ? linkRequestData.data[0].id.ToString()
                 : linkRequestData.data.id.ToString();
+
+            link.Payments = response.ToLinkPayments(isReferenceResource);
                     
             // Unix timestamp doesn't account for daylight savings, so we adjust it here
             link.CreatedAt = link.CreatedAt.ToLocalDateTime();
