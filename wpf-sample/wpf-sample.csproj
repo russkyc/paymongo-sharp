@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>net7.0-windows</TargetFramework>
+        <RootNamespace>WpfSample</RootNamespace>
+        <Nullable>enable</Nullable>
+        <UseWPF>true</UseWPF>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="DotNetEnv" Version="2.5.0" />
+      <PackageReference Include="microsoft.web.webview2" Version="1.0.2151.40" />
+      <PackageReference Include="Russkyc.ModernControls.WPF" Version="2.2.3" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\paymongo-sharp\paymongo-sharp.csproj" />
+    </ItemGroup>
+
+</Project>
