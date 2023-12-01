@@ -12,10 +12,11 @@
         <PackageIcon>icon.png</PackageIcon>
         <RepositoryUrl>https://github.com/russkyc/paymongo-sharp</RepositoryUrl>
         <PackageTags>paymongo paymongo-sharp pay payments</PackageTags>
-        <Version>0.3.2</Version>
+        <Version>0.3.3</Version>
         <Description>Unofficial C# Client for Paymongo</Description>
         <Copyright>russkyc 2023</Copyright>
-        <PackageReleaseNotes>- Fix bug on link object not including payments</PackageReleaseNotes>
+        <PackageReleaseNotes>- Fix bug on link object not including payments
+- Fix bug on chekout object not including payments</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     </PropertyGroup>
 
