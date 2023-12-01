@@ -19,35 +19,83 @@ public class Program
         // Initializing client
         var client = new PaymongoClient(secretKey);
 
+        var products = new[]
+        {
+            new LineItem
+            {
+                Name = "Boxes",
+                Amount = 5000,
+                Currency = Currency.Php,
+                Quantity = 25
+            },
+            new LineItem
+            {
+                Name = "Cups",
+                Amount = 2000,
+                Currency = Currency.Php,
+                Quantity = 30
+            },
+            new LineItem
+            {
+                Name = "Party Hats",
+                Amount = 200,
+                Currency = Currency.Php,
+                Quantity = 20
+            }
+        };
+
+        Console.WriteLine("Your cart:");
+        foreach (var lineItem in products)
+        {
+            Console.WriteLine($"({lineItem.Quantity}){lineItem.Name} - {lineItem.Amount/100:C}");
+        }
+
+        Console.WriteLine("\n\nEnter your details for Checkout");
+        
+        Console.Write("Name: ");
+        var name = Console.ReadLine();
+
+        Console.Write("Email: ");
+        var email = Console.ReadLine();
+
+        Console.Write("Phone: ");
+        var phone = Console.ReadLine();
+        
+        Console.Write("Street: ");
+        var street = Console.ReadLine();
+        
+        Console.Write("City: ");
+        var city = Console.ReadLine();
+        
+        Console.Write("State: ");
+        var state = Console.ReadLine();
+        
+        Console.Write("Postal Code: ");
+        var postalode = Console.ReadLine();
+        
+        Console.Write("Country: ");
+        var country = Console.ReadLine();
+        
         // Create a link object for request
         var checkout = new Checkout()
         {
-            ReferenceNumber = "ABCD",
-            Description = "Test payment checkout",
+            ReferenceNumber = "00928237",
+            Description = "Party Set Products",
             Billing = new Billing
             {
-                Name = "John Russell Camo",
-                Email = "testmail@mail.com",
-                Phone = "9282320392",
+                Name = name,
+                Email = email,
+                Phone = phone,
                 Address = new Address
                 {
-                    Line1 = "Sa may bahay",
-                    City = "Legazpi",
-                    State = "Albay",
-                    Country = "PH",
-                    PostalCode = "4524"
+                    Line1 = street,
+                    City = city,
+                    State = state,
+                    PostalCode = postalode,
+                    Country = country
                 }
             },
-            LineItems = new []
-            {
-                new LineItem
-                {
-                    Name = "TEst Item",
-                    Amount = 50000,
-                    Currency = Currency.Php,
-                    Quantity = 1
-                }
-            },
+            LineItems = products,
             PaymentMethodTypes = new[]
             {
                 PaymentMethod.GCash,
@@ -59,7 +107,7 @@ public class Program
         // We create a link request
         var requestResult = await client.Checkouts.CreateCheckoutAsync(checkout);
 
-        Console.WriteLine($"Pay here: {requestResult.CheckoutUrl}");
+        Console.WriteLine($"\n\nPay here: {requestResult.CheckoutUrl}");
         Console.WriteLine("Waiting for payment..");
 
         // We wait for the payment to succeed
@@ -76,7 +124,7 @@ public class Program
                 var fee = (payment.Fee / 100).ToString("C", CultureInfo.InstalledUICulture);
 
                 // We print successful payment
-                Console.WriteLine($"Successfully paid on {paymentDate} using {platform} with fee: {fee}");
+                Console.WriteLine($"\n\nSuccessfully paid on {paymentDate} using {platform} with fee: {fee}");
                 break;
             }
 
