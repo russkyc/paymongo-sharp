@@ -19,7 +19,7 @@ This client wrapper is designed to make it easy for .NET developers to interact 
 
 > [!NOTE]  
 > This is in it's early development stages and does not offer support for the whole
-> Paymongo API. But if you only need checkouts and links you can already use this as
+> Paymongo API. But full support for checkouts, links, sources, and payments already exist. you can already use this as
 > both are already fully implemented.
 
 ## :sparkles: What is currently Supported
