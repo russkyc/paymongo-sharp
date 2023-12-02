@@ -19,7 +19,74 @@ This client wrapper is designed to make it easy for .NET developers to interact 
 
 > [!NOTE]  
 > This is in it's early development stages and does not offer support for the whole
-> Paymongo API.
+> Paymongo API. But if you only need checkouts and links you can already use this as
+> both are already fully implemented.
+
+## :sparkles: What is currently Supported
+
+This client is in active development and features are slowly being implemented but not all of them are supported as of now.
+You can track the support for all of Paymongo's official API actions below:
+
+### API Support (Paymongo API v1)
+<table>
+  <tr>
+    <th>API Resource</th>
+    <th>Status</th>
+    <th>Added on</th>
+  </tr>
+  <tr>
+    <td>Checkout</td>
+    <td>Full</td>
+    <td>v0.1.2-pre+</td>
+  </tr>
+  <tr>
+    <td>Payment Intent</td>
+    <td>Not yet available</td>
+    <td>Not yet Added</td>
+  </tr>
+  <tr>
+    <td>Payment Method</td>
+    <td>Not yet available</td>
+    <td>Not yet Added</td>
+  </tr>
+  <tr>
+    <td>Payments</td>
+    <td>Partial</td>
+    <td>v0.2.0+</td>
+  </tr>
+  <tr>
+    <td>Links</td>
+    <td>Full</td>
+    <td>v0.3.0+</td>
+  </tr>
+  <tr>
+    <td>Webhooks</td>
+    <td>Not yet available</td>
+    <td>Not yet Added</td>
+  </tr>
+  <tr>
+    <td>Customers</td>
+    <td>Not yet available</td>
+    <td>Not yet Added</td>
+  </tr>
+  <tr>
+    <td>Treasury</td>
+    <td>Not yet available</td>
+    <td>Not yet Added</td>
+  </tr>
+  <tr>
+    <td>Installments</td>
+    <td>Not yet available</td>
+    <td>Not yet Added</td>
+  </tr>
+  <tr>
+    <td>Sources</td>
+    <td>Not yet available</td>
+    <td>Not yet Added</td>
+  </tr>
+</table>
+
+---
 
 ## :arrow_down: Installation
 
@@ -38,65 +105,12 @@ Initialize Client
 var client = new PaymongoClient(secretKey: "<secret_key>");
 ```
 
-## :sparkles: What is currently Supported
-
-This client is in active development, features are slowly being implemented but not all of them are supported as of now.
-You can track the support for all of Paymongo's official API actions below:
-
-### API Support
-
-<table>
-  <tr>
-    <th>Resource</th>
-    <th>Paymongo API Version</th>
-    <th>Status</th>
-    <th>Support</th>
-  </tr>
-  <tr>
-    <td>Checkout</td>
-    <td>v1</td>
-    <td>Full</td>
-    <td>v0.1.2-pre+</td>
-  </tr>
-  <tr>
-    <td>Payment Intent</td>
-    <td>v1</td>
-    <td>Not yet available</td>
-    <td>Not yet Added</td>
-  </tr>
-  <tr>
-    <td>Payment Method</td>
-    <td>v1</td>
-    <td>Not yet available</td>
-    <td>Not yet Added</td>
-  </tr>
-  <tr>
-    <td>Payments</td>
-    <td>v1</td>
-    <td>Partial</td>
-    <td>v0.2.0+</td>
-  </tr>
-  <tr>
-    <td>Links</td>
-    <td>v1</td>
-    <td>Full</td>
-    <td>v0.3.0+</td>
-  </tr>
-  <tr>
-    <td>Webhooks</td>
-    <td>v1</td>
-    <td>Not yet available</td>
-    <td>Not yet Added</td>
-  </tr>
-  <tr>
-    <td>Customers</td>
-    <td>v1</td>
-    <td>Not yet available</td>
-    <td>Not yet Added</td>
-  </tr>
-</table>
-
 ---
+
+## Basic Client API Reference
+
+If you want to get started with this Paymongo client, you can
+check the refernces for basic usage below.
 
 ### Checkout
 
@@ -304,6 +318,118 @@ For full Refunds API reference, please see: [Refund Resource](https://developers
 - [ ] Delete a Payment Method of a Customer
 
 For full Customers API reference, please see: [Customer Resource](https://developers.paymongo.com/reference/customer-resource)
+
+---
+
+### Sources (Gcash and GrabPay Checkout)
+
+- [ ] Create a Source
+- [ ] Retrieve a Source
+
+For full Sources API reference, please see: [The Sources Object](https://developers.paymongo.com/reference/the-sources-object)
+
+---
+
+### Treasury
+
+Treasury has a couple of sub sections
+
+##### Wallet
+
+- [ ] Retrieve Wallet by ID
+- [ ] Retrieve Wallet Accounts
+
+For full Transaction History API reference, please see: [Wallet Account Resource](https://developers.paymongo.com/reference/account-resource)
+
+##### Send Money
+
+- [ ] Create a Wallet Transaction
+- [ ] Retrieve List of all Receiving Institutions
+
+For full Send Money API reference, please see: [Wallet Transaction Resource](https://developers.paymongo.com/reference/wallet-transaction-resource)
+
+##### Disbursemenet
+
+- [ ] Create a Batch Transaction
+
+For full Transaction History API reference, please see: [Batch Transaction Resource](https://developers.paymongo.com/reference/batch-transaction-resource)
+
+##### Transaction History
+
+- [ ] Retrieve a Wallet Transaction By ID
+- [ ] Retrieve List of Wallet Transactions
+- [ ] Retrieve List of Batches
+- [ ] Retrieve Batch Object
+
+For full Transaction History API reference, please see: [Retrieve a Wallet Transaction By ID](https://developers.paymongo.com/reference/retrieve-a-wallet-transaction)
+
+---
+
+### Installments
+
+- [ ] List Installment Plans
+
+For full Installments API reference, please see: [List Installment Plans](https://developers.paymongo.com/reference/list-installment-plans)
+
+---
+
+## Future Plans
+
+### Fluent Builder
+Something that I have in mind that might be easier to work with,
+for context let's compare the current api usage and the future
+fluent builder implementation for the Checkouts client.
+
+##### 1. Current
+
+```csharp
+var client = new PaymongoClient(secretKey: "<secret_key>");
+
+Checkout checkout = new Checkout() {
+  Description = "Test Checkout",
+    LineItems = new [] {
+      new LineItem {
+        Name = "Item Name",
+          Quantity = 1,
+          Currency = Currency.Php,
+          Amount = 3500
+      }
+    },
+    PaymentMethodTypes = new [] {
+      PaymentMethod.GCash,
+        PaymentMethod.Card,
+        PaymentMethod.Paymaya
+    }
+};
+
+Checkout checkoutResult = await client.Checkouts.CreateCheckoutAsync(checkout);
+```
+
+##### 2. Future Fluent Builder
+
+```csharp
+var client = new PaymongoClient(secretKey: "<secret_key>");
+
+Checkout checkoutResult = await CheckoutBuilder
+                                    .WithDescription("Test Checkout")
+                                    .WithLineItem(
+                                        LineItemBuilder.WithName("Item Name")
+                                            .WithQuantity(1)
+                                            .WithAmount(3500)
+                                            .WithCurrency(Currency.Php)
+                                    )
+                                    .WithPaymentMethod(PaymentMethod.Gcash)
+                                    .WithPaymentMethod(PaymentMethod.Card)
+                                    .WithPaymentMethod(PaymentMethod.Paymaya)
+                                    .CreateCheckoutAsync();
+```
+
+### Other Plans
+
+What do you think should be implemented in future versions of the client? Let your ideas be known
+and open an [issue](https://github.com/russkyc/paymongo-sharp/issues) with a [feature-request] tag and it might make it into future updates.
+Or, if you tried something that works and is awesome try opening a [pull request](https://github.com/russkyc/paymongo-sharp/pulls) and if all
+is good, your contribution can be implemented into the project!
 
 ---
 
