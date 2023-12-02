@@ -20,13 +20,15 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using DotNetEnv;
 using Paymongo.Sharp;
 using Paymongo.Sharp.Core.Entities;
 using Paymongo.Sharp.Core.Enums;
 using Paymongo.Sharp.Interfaces;
 using Paymongo.Sharp.Payments.Entities;
+using Xunit;
 
-namespace paymongo_sharp.tests;
+namespace paymongo_sharp.tests.IntegrationTests;
 
 public class PaymentApiTests
 {

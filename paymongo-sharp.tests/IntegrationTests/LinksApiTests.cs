@@ -20,12 +20,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using DotNetEnv;
 using Paymongo.Sharp;
 using Paymongo.Sharp.Core.Enums;
 using Paymongo.Sharp.Interfaces;
 using Paymongo.Sharp.Links.Entities;
+using Xunit;
 
-namespace paymongo_sharp.tests;
+namespace paymongo_sharp.tests.IntegrationTests;
 
 public class LinksApiTests
 {
