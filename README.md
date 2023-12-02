@@ -2,7 +2,7 @@
     <img src=".github/resources/images/banner.svg" style="width: 100%;" />
 </a>
 
-<h2 align="center">Paymongo.Sharp - Unofficial .NET Client Wrapper for the Paymongo API</h2>
+<h2 align="center">Paymongo.Sharp - The Unofficial Paymongo API Client for .NET</h2>
 
 <p align="center">
     <img src="https://img.shields.io/nuget/v/Paymongo.Sharp?color=1f72de" alt="Nuget">
