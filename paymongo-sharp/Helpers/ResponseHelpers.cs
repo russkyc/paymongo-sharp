@@ -50,8 +50,10 @@ namespace Paymongo.Sharp.Helpers
             checkout.CreatedAt = checkout.CreatedAt.ToLocalDateTime();
             checkout.UpdatedAt = checkout.UpdatedAt.ToLocalDateTime();
             
-            // Get payments entity
-            checkout.Payments = response.ToCheckoutPayments();
+            // Get payments
+            dynamic paymentsCollection = JObject.Parse(response);
+            string paymentsData = paymentsCollection.data.attributes.payments.ToString();
+            checkout.Payments = paymentsData.ToPayments();
             
             return checkout;
         }
@@ -89,15 +91,54 @@ namespace Paymongo.Sharp.Helpers
             return source;
         }
         
-        public static IEnumerable<Payment> ToCheckoutPayments(this string? response)
+        public static Link ToLink(this string? response, bool isReferenceResource = false)
         {
-            dynamic paymentsResponse = JObject.Parse(response);
+            dynamic linkRequestData = JObject.Parse(response);
 
-            var paymentsData = paymentsResponse.data.attributes.payments.ToString();
+            // we need to check if it is from a reference number resource
+            // because if it is then the data is actually an array
+            Link link = JsonConvert.DeserializeObject<Link>(isReferenceResource
+                ? linkRequestData.data[0].attributes.ToString()
+                : linkRequestData.data.attributes.ToString());
             
-            var paymentRequestDataCollection = (IEnumerable<PaymentRequestAttributes>)JsonConvert.DeserializeObject<IEnumerable<PaymentRequestAttributes>>(paymentsData.ToString());
+            // Link doesn't have an id field so we get it from the parent
+            // and we need to check if it is from a reference number resource
+            // because if it is then the data is actually an array
+            link.Id = isReferenceResource ? linkRequestData.data[0].id.ToString()
+                : linkRequestData.data.id.ToString();
 
-            return paymentRequestDataCollection.Select(paymentAttribute =>
+            // Get payments
+            dynamic paymentsCollection = JObject.Parse(response);
+            string paymentsData = isReferenceResource
+                ? paymentsCollection.data[0].attributes.payments.ToString()
+                : paymentsCollection.data.attributes.payments.ToString();
+
+            link.Payments = paymentsData.ToDataPayments();
+                    
+            // Unix timestamp doesn't account for daylight savings, so we adjust it here
+            link.CreatedAt = link.CreatedAt.ToLocalDateTime();
+            link.UpdatedAt = link.UpdatedAt.ToLocalDateTime();
+            
+            return link;
+        }
+        
+        public static IEnumerable<Payment> ToPayments(this string data)
+        {
+            var paymentRequestDataCollection = JsonConvert.DeserializeObject<IEnumerable<PaymentRequestAttributes>>(data);
+
+            if (paymentRequestDataCollection is null)
+            {
+                return Enumerable.Empty<Payment>();
+            }
+            
+            var paymentRequestArray = paymentRequestDataCollection.ToArray();
+
+            if (!paymentRequestArray.Any())
+            {
+                return Enumerable.Empty<Payment>();
+            }
+            
+            return paymentRequestArray.Select(paymentAttribute =>
             {
                 var payment = paymentAttribute.Attributes;
                 // Payment doesn't have an id field so we get it from the parent
@@ -111,17 +152,16 @@ namespace Paymongo.Sharp.Helpers
             });
         }
         
-        public static IEnumerable<Payment> ToLinkPayments(this string? response, bool isReferenceResource = false)
+        public static IEnumerable<Payment> ToDataPayments(this string response)
         {
-            dynamic paymentsResponse = JObject.Parse(response);
+            var paymentRequestDataCollection = JsonConvert.DeserializeObject<IEnumerable<PaymentRequestData>>(response);
 
-            var paymentsData = isReferenceResource
-                ? paymentsResponse.data[0].attributes.payments.ToString()
-                : paymentsResponse.data.attributes.payments.ToString();
+            if (paymentRequestDataCollection is null)
+            {
+                return Enumerable.Empty<Payment>();
+            }
             
-            var paymentRequestDataCollection = (IEnumerable<PaymentRequestData>)JsonConvert.DeserializeObject<IEnumerable<PaymentRequestData>>(paymentsData.ToString());
-
-            return paymentRequestDataCollection.Select(paymentAttribute =>
+            return paymentRequestDataCollection.ToArray().Select(paymentAttribute =>
             {
                 var payment = paymentAttribute.Data.Attributes;
                 // Payment doesn't have an id field so we get it from the parent
@@ -135,53 +175,5 @@ namespace Paymongo.Sharp.Helpers
             });
         }
         
-        public static IEnumerable<Payment> ToPayments(this string? response)
-        {
-            dynamic paymentsResponse = JObject.Parse(response);
-
-            var paymentsData = paymentsResponse.data;
-            var paymentAttributesCollection = (IEnumerable<PaymentRequestAttributes>) JsonConvert.DeserializeObject<IEnumerable<PaymentRequestAttributes>>(paymentsData.ToString());
-
-            return paymentAttributesCollection
-                .Select(paymentAttribute =>
-                {
-                    var payment = paymentAttribute.Attributes!;
-                    
-                    // Payment doesn't have an id field so we get it from the parent
-                    payment.Id = paymentAttribute.Id!;
-                    
-                    // Unix timestamp doesn't account for daylight savings, so we adjust it here
-                    payment.CreatedAt = payment.CreatedAt.ToLocalDateTime();
-                    payment.UpdatedAt = payment.UpdatedAt.ToLocalDateTime();
-                    payment.PaidAt = payment.PaidAt.ToLocalDateTime();
-                    
-                    return payment;
-                });
-        }
-        
-        public static Link ToLink(this string? response, bool isReferenceResource = false)
-        {
-            dynamic linkRequestData = JObject.Parse(response);
-
-            // we need to check if it is from a reference number resource
-            // because if it is then the data is actually an array
-            Link link = JsonConvert.DeserializeObject<Link>(
-                isReferenceResource ? linkRequestData.data[0].attributes.ToString()
-                    : linkRequestData.data.attributes.ToString());
-            
-            // Link doesn't have an id field so we get it from the parent
-            // and we need to check if it is from a reference number resource
-            // because if it is then the data is actually an array
-            link.Id = isReferenceResource ? linkRequestData.data[0].id.ToString()
-                : linkRequestData.data.id.ToString();
-
-            link.Payments = response.ToLinkPayments(isReferenceResource);
-                    
-            // Unix timestamp doesn't account for daylight savings, so we adjust it here
-            link.CreatedAt = link.CreatedAt.ToLocalDateTime();
-            link.UpdatedAt = link.UpdatedAt.ToLocalDateTime();
-            
-            return link;
-        }
     }
 }

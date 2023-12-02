@@ -25,6 +25,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Paymongo.Sharp.Helpers;
 using Paymongo.Sharp.Payments.Entities;
 using RestSharp;
@@ -91,7 +92,9 @@ namespace Paymongo.Sharp.Payments
             var request = RequestHelpers.Create($"{Resource}/{(parameters.Any() ? paramsCollection : string.Empty)}",_secretKey,_secretKey);
             var response = await _client.GetAsync(request);
 
-            return response.Content.ToPayments();
+            dynamic paymentsResponse = JObject.Parse(response.Content!);
+            string paymentsData = paymentsResponse.data.ToString();
+            return paymentsData.ToPayments();
         }
     }
 }
