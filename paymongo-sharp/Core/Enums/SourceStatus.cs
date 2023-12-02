@@ -31,6 +31,8 @@ namespace Paymongo.Sharp.Core.Enums
     {
         [EnumMember(Value = "pending")]
         Pending,
+        [EnumMember(Value = "processing")]
+        Processing,
         [EnumMember(Value = "chargeable")]
         Chargeable,
         [EnumMember(Value = "cancelled")]
