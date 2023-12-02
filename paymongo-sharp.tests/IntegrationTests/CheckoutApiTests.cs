@@ -20,6 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using FluentAssertions;
 using Paymongo.Sharp.Checkouts.Entities;
 
 namespace paymongo_sharp.tests.IntegrationTests;
@@ -40,207 +41,7 @@ public class CheckoutApiTests
     }
     
     [Fact]
-    async Task CreateCheckoutSessionWithMinimalDetails()
-    {
-        // Arrange
-        Checkout checkout = new Checkout()
-        {
-            Description = "Test Checkout",
-            LineItems = new []
-            {
-                new LineItem
-                {
-                    Name = "item_name",
-                    Quantity = 1,
-                    Currency = Currency.Php,
-                    Amount = 3500
-                }
-            },
-            PaymentMethodTypes = new[]
-            {
-                PaymentMethod.GCash,
-                PaymentMethod.Card,
-                PaymentMethod.Paymaya
-            }
-        };
-        
-        // Act
-        Checkout checkoutResult = await _client.Checkouts.CreateCheckoutAsync(checkout);
-        
-        // Assert
-        Assert.NotNull(checkoutResult);
-        Assert.NotEmpty(checkoutResult.CheckoutUrl);
-        Assert.Equal(CheckoutStatus.Active,checkoutResult.Status);
-        Assert.Equal(checkout.LineItems.Count(),checkoutResult.LineItems.Count());
-        Assert.Equal(checkout.PaymentMethodTypes.Count(),checkoutResult.PaymentMethodTypes.Count());
-
-    }
-    
-    [Fact]
-    async Task CreateAndRetrieveCheckoutSessionWithMinimalDetails()
-    {
-        // Arrange
-        Checkout checkout = new Checkout()
-        {
-            Description = "Test Checkout",
-            LineItems = new []
-            {
-                new LineItem
-                {
-                    Name = "item_name",
-                    Quantity = 1,
-                    Currency = Currency.Php,
-                    Amount = 3500
-                }
-            },
-            PaymentMethodTypes = new[]
-            {
-                PaymentMethod.GCash,
-                PaymentMethod.Card,
-                PaymentMethod.Paymaya
-            }
-        };
-        
-        // Act
-        Checkout checkoutResult = await _client.Checkouts.CreateCheckoutAsync(checkout);
-        
-        // Assert
-        Assert.NotNull(checkoutResult);
-        Assert.NotEmpty(checkoutResult.CheckoutUrl);
-        Assert.Equal(CheckoutStatus.Active,checkoutResult.Status);
-        Assert.Equal(checkout.LineItems.Count(),checkoutResult.LineItems.Count());
-        Assert.Equal(checkout.PaymentMethodTypes.Count(),checkoutResult.PaymentMethodTypes.Count());
-        
-        Checkout getCheckoutResult = await _client.Checkouts.RetrieveCheckoutAsync(checkoutResult.Id);
-        
-        // Assert
-        Assert.NotNull(getCheckoutResult);
-        Assert.NotEmpty(getCheckoutResult.CheckoutUrl);
-        Assert.Equal(CheckoutStatus.Active,getCheckoutResult.Status);
-        Assert.Equal(checkout.LineItems.Count(),getCheckoutResult.LineItems.Count());
-        Assert.Equal(checkout.PaymentMethodTypes.Count(),getCheckoutResult.PaymentMethodTypes.Count());
-
-    }
-    
-    [Fact]
-    async Task CreateAndExpireCheckoutSessionWithMinimalDetails()
-    {
-        // Arrange
-        Checkout checkout = new Checkout()
-        {
-            Description = "Test Checkout",
-            LineItems = new []
-            {
-                new LineItem
-                {
-                    Name = "item_name",
-                    Quantity = 1,
-                    Currency = Currency.Php,
-                    Amount = 3500
-                }
-            },
-            PaymentMethodTypes = new[]
-            {
-                PaymentMethod.GCash,
-                PaymentMethod.Card,
-                PaymentMethod.Paymaya
-            }
-        };
-        
-        // Act
-        Checkout checkoutResult = await _client.Checkouts.CreateCheckoutAsync(checkout);
-        
-        // Assert
-        Assert.NotNull(checkoutResult);
-        Assert.NotEmpty(checkoutResult.CheckoutUrl);
-        Assert.Equal(CheckoutStatus.Active,checkoutResult.Status);
-        Assert.Equal(checkout.LineItems.Count(),checkoutResult.LineItems.Count());
-        Assert.Equal(checkout.PaymentMethodTypes.Count(),checkoutResult.PaymentMethodTypes.Count());
-        
-        Checkout getCheckoutResult = await _client.Checkouts.ExpireCheckoutAsync(checkoutResult.Id);
-        
-        // Assert
-        Assert.NotNull(getCheckoutResult);
-        Assert.NotEmpty(getCheckoutResult.CheckoutUrl);
-        Assert.Equal(CheckoutStatus.Expired,getCheckoutResult.Status);
-        Assert.Equal(checkout.LineItems.Count(),getCheckoutResult.LineItems.Count());
-        Assert.Equal(checkout.PaymentMethodTypes.Count(),getCheckoutResult.PaymentMethodTypes.Count());
-
-        
-
-    }
-    
-    [Fact]
-    async Task CreateCheckoutSessionWithFullDetails()
-    {
-        // Arrange
-        Checkout checkout = new Checkout()
-        {
-            Description = "Never gonna..",
-            CancelUrl = "http://127.0.0.1",
-            SuccessUrl = "http://127.0.0.1",
-            LineItems = new []
-            {
-                new LineItem
-                {
-                    Name = "Give You Up",
-                    Images = new []
-                    {
-                        "https://i.insider.com/602ee9ced3ad27001837f2ac?width=750&format=jpeg"
-                    },
-                    Quantity = 1000,
-                    Currency = Currency.Php,
-                    Amount = 100
-                }
-            },
-            PaymentMethodTypes = new[]
-            {
-                PaymentMethod.GCash,
-                PaymentMethod.Card,
-                PaymentMethod.Paymaya,
-                PaymentMethod.BillEase,
-                PaymentMethod.Dob,
-                PaymentMethod.GrabPay,
-                PaymentMethod.DobUbp
-            },
-            Billing = new Billing
-            {
-                Name = "TestName",
-                Email = "test@paymongo.com",
-                Phone = "9063364572",
-                Address = new Address
-                {
-                    Line1 = "TestAddress1",
-                    Line2 = "TestAddress2",
-                    PostalCode = "4506",
-                    State = "TestState",
-                    City = "TestCity",
-                    Country = "PH"
-                }
-            },
-            Metadata = new Dictionary<string, string>()
-            {
-                {"testKey","Test Value"}
-            },
-            SendEmailReceipt = true,
-            ShowDescription = true,
-            ShowLineItems = true
-        };
-        
-        // Act
-        Checkout checkoutResult = await _client.Checkouts.CreateCheckoutAsync(checkout);
-        
-        // Assert
-        Assert.NotNull(checkoutResult);
-        Assert.Equivalent(checkout.LineItems,checkoutResult.LineItems, true);
-        Assert.Equivalent(checkout.Billing,checkoutResult.Billing, true);
-        Assert.Equivalent(checkout.Metadata,checkoutResult.Metadata, true);
-        Assert.Equal(CheckoutStatus.Active,checkoutResult.Status);
-
-    }
-    
-    [Fact]
-    async Task CreateAndRetrieveCheckoutSessionWithFullDetails()
+    async Task CreateCheckoutSession()
     {
         // Arrange
         Checkout checkout = new Checkout()
@@ -248,6 +49,7 @@ public class CheckoutApiTests
             Description = "Test Checkout",
             CancelUrl = "http://127.0.0.1",
             SuccessUrl = "http://127.0.0.1",
+            ReferenceNumber = "9282321A",
             LineItems = new []
             {
                 new LineItem
@@ -300,26 +102,20 @@ public class CheckoutApiTests
         Checkout checkoutResult = await _client.Checkouts.CreateCheckoutAsync(checkout);
         
         // Assert
-        // Assert
-        Assert.NotNull(checkoutResult);
-        Assert.Equivalent(checkout.LineItems,checkoutResult.LineItems, true);
-        Assert.Equivalent(checkout.Billing,checkoutResult.Billing, true);
-        Assert.Equivalent(checkout.Metadata,checkoutResult.Metadata, true);
-        Assert.Equal(CheckoutStatus.Active,checkoutResult.Status);
-        
-        Checkout getCheckoutResult = await _client.Checkouts.RetrieveCheckoutAsync(checkoutResult.Id);
-        
-        // Assert
-        Assert.NotNull(getCheckoutResult);
-        Assert.Equivalent(checkout.LineItems,getCheckoutResult.LineItems, true);
-        Assert.Equivalent(checkout.Billing,getCheckoutResult.Billing, true);
-        Assert.Equivalent(checkout.Metadata,getCheckoutResult.Metadata, true);
-        Assert.Equal(CheckoutStatus.Active,getCheckoutResult.Status);
+        checkoutResult.Should().NotBeNull();
+        checkoutResult.Id.Should().NotBeNullOrEmpty();
+        checkoutResult.CheckoutUrl.Should().NotBeNullOrEmpty();
+        checkoutResult.Status.Should().Be(CheckoutStatus.Active);
+        checkoutResult.Billing.Should().BeEquivalentTo(checkout.Billing);
+        checkoutResult.Metadata.Should().BeEquivalentTo(checkout.Metadata);
+        checkoutResult.LineItems.Should().BeEquivalentTo(checkout.LineItems);
+        checkoutResult.Description.Should().BeEquivalentTo(checkout.Description);
+        checkoutResult.PaymentMethodTypes.Should().BeEquivalentTo(checkout.PaymentMethodTypes);
 
     }
     
     [Fact]
-    async Task CreateAndExpireCheckoutSessionWithFullDetails()
+    async Task CreateAndRetrieveCheckoutSession()
     {
         // Arrange
         Checkout checkout = new Checkout()
@@ -327,6 +123,7 @@ public class CheckoutApiTests
             Description = "Test Checkout",
             CancelUrl = "http://127.0.0.1",
             SuccessUrl = "http://127.0.0.1",
+            ReferenceNumber = "9282321A",
             LineItems = new []
             {
                 new LineItem
@@ -377,22 +174,83 @@ public class CheckoutApiTests
         
         // Act
         Checkout checkoutResult = await _client.Checkouts.CreateCheckoutAsync(checkout);
+        Checkout getCheckoutResult = await _client.Checkouts.RetrieveCheckoutAsync(checkoutResult.Id);
         
         // Assert
-        Assert.NotNull(checkoutResult);
-        Assert.Equivalent(checkout.LineItems,checkoutResult.LineItems, true);
-        Assert.Equivalent(checkout.Billing,checkoutResult.Billing, true);
-        Assert.Equivalent(checkout.Metadata,checkoutResult.Metadata, true);
-        Assert.Equal(CheckoutStatus.Active,checkoutResult.Status);
-        
-        Checkout getCheckoutResult = await _client.Checkouts.ExpireCheckoutAsync(checkoutResult.Id);
-        
-        // Assert
-        Assert.NotNull(getCheckoutResult);
-        Assert.Equivalent(checkout.LineItems,getCheckoutResult.LineItems, true);
-        Assert.Equivalent(checkout.Billing,getCheckoutResult.Billing, true);
-        Assert.Equivalent(checkout.Metadata,getCheckoutResult.Metadata, true);
-        Assert.Equal(CheckoutStatus.Expired,getCheckoutResult.Status);
+        getCheckoutResult.Should().NotBeNull();
+        getCheckoutResult.Should().BeEquivalentTo(checkoutResult);
 
     }
+    
+    [Fact]
+    async Task CreateAndExpireCheckoutSession()
+    {
+        // Arrange
+        Checkout checkout = new Checkout()
+        {
+            Description = "Test Checkout",
+            CancelUrl = "http://127.0.0.1",
+            SuccessUrl = "http://127.0.0.1",
+            ReferenceNumber = "9282321A",
+            LineItems = new []
+            {
+                new LineItem
+                {
+                    Name = "Give You Up",
+                    Images = new []
+                    {
+                        "https://i.insider.com/602ee9ced3ad27001837f2ac?width=750&format=jpeg"
+                    },
+                    Quantity = 1000,
+                    Currency = Currency.Php,
+                    Amount = 100
+                }
+            },
+            PaymentMethodTypes = new[]
+            {
+                PaymentMethod.GCash,
+                PaymentMethod.Card,
+                PaymentMethod.Paymaya,
+                PaymentMethod.BillEase,
+                PaymentMethod.Dob,
+                PaymentMethod.GrabPay,
+                PaymentMethod.DobUbp
+            },
+            Billing = new Billing
+            {
+                Name = "TestName",
+                Email = "test@paymongo.com",
+                Phone = "9063364572",
+                Address = new Address
+                {
+                    Line1 = "TestAddress1",
+                    Line2 = "TestAddress2",
+                    PostalCode = "4506",
+                    State = "TestState",
+                    City = "TestCity",
+                    Country = "PH"
+                }
+            },
+            Metadata = new Dictionary<string, string>()
+            {
+                {"testKey","Test Value"}
+            },
+            SendEmailReceipt = true,
+            ShowDescription = true,
+            ShowLineItems = false
+        };
+        
+        // Act
+        Checkout checkoutResult = await _client.Checkouts.CreateCheckoutAsync(checkout);
+        Checkout getExpiredCheckoutResult = await _client.Checkouts.ExpireCheckoutAsync(checkoutResult.Id);
+        
+        // Assert
+        checkoutResult.Should().NotBeNull();
+        checkoutResult.Status.Should().Be(CheckoutStatus.Active);
+        
+        getExpiredCheckoutResult.Should().NotBeNull();
+        getExpiredCheckoutResult.Status.Should().Be(CheckoutStatus.Expired);
+        
+    }
+    
 }
