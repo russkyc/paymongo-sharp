@@ -26,6 +26,19 @@ This client wrapper is designed to make it easy for .NET developers to interact 
 
 Install package from: [Nuget](https://www.nuget.org/packages/Paymongo.Sharp/) using nuget cli or the nuget package manager.
 
+#### Client usage
+
+Add Imports
+
+```csharp
+using Paymongo.Sharp;
+```
+
+Initialize Client
+```csharp
+var client = new PaymongoClient(secretKey: "<secret_key>");
+```
+
 ## :sparkles: What is currently Supported
 
 This client is in active development and features are slowly being implemented but not all of them are supported as of now.
@@ -89,21 +102,6 @@ You can track the support for all of Paymongo's official API actions below:
     <td>v0.4.0+</td>
   </tr>
 </table>
-
----
-
-#### Client usage
-
-Add Imports
-
-```csharp
-using Paymongo.Sharp;
-```
-
-Initialize Client
-```csharp
-var client = new PaymongoClient(secretKey: "<secret_key>");
-```
 
 ---
 
