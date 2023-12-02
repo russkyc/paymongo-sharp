@@ -28,6 +28,10 @@ namespace Paymongo.Sharp.Helpers
     {
         public static DateTime ToLocalDateTime(this DateTime? dateTime)
         {
+            if (dateTime is null)
+            {
+                return new DateTime();
+            }
             // System doesn't know it is utc, we specify that here before converting to local time
             return DateTime.SpecifyKind(dateTime!.Value, DateTimeKind.Utc).ToLocalTime();
         }
