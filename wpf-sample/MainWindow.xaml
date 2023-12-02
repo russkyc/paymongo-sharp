@@ -16,17 +16,36 @@
             Name="AmountTextBox"
             Width="220"
             Placeholder="Amount (up to 2 decimal places)" />
-        <moderncontrols:ModernButton
-            Width="100"
-            Margin="0,12,0,0"
-            Padding="12,7"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            Click="OnPay"
-            Content="Pay" />
+        <StackPanel Width="220">
+            <moderncontrols:ModernButton
+                Margin="0,12,0,0"
+                Padding="12,7"
+                VerticalAlignment="Center"
+                Click="OnPayLink"
+                Content="Pay (Links)" />
+            <moderncontrols:ModernButton
+                Margin="0,12,0,0"
+                Padding="12,7"
+                VerticalAlignment="Center"
+                Click="OnPayCheckout"
+                Content="Pay (Checkout)" />
+            <moderncontrols:ModernButton
+                Margin="0,12,0,0"
+                Padding="12,7"
+                VerticalAlignment="Center"
+                Click="OnPayGcash"
+                Content="Pay (GCash)" />
+            <moderncontrols:ModernButton
+                Margin="0,12,0,0"
+                Padding="12,7"
+                VerticalAlignment="Center"
+                Click="OnPayGrabPay"
+                Content="Pay (GrabPay)" />
+        </StackPanel>
         <TextBlock
             Name="StatusBlock"
-            Margin="0,16,0,0"
-            TextAlignment="Center" />
+            Margin="16"
+            TextAlignment="Center"
+            TextWrapping="Wrap" />
     </StackPanel>
 </moderncontrols:ModernWindow>
