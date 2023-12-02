@@ -22,6 +22,10 @@ This client wrapper is designed to make it easy for .NET developers to interact 
 > Paymongo API. But full support for checkouts, links, sources, and payments already exist. you can already use this as
 > both are already fully implemented.
 
+## :arrow_down: Installation
+
+Install package from: [Nuget](https://www.nuget.org/packages/Paymongo.Sharp/) using nuget cli or the nuget package manager.
+
 ## :sparkles: What is currently Supported
 
 This client is in active development and features are slowly being implemented but not all of them are supported as of now.
@@ -87,10 +91,6 @@ You can track the support for all of Paymongo's official API actions below:
 </table>
 
 ---
-
-## :arrow_down: Installation
-
-Install package from: [Nuget](https://www.nuget.org/packages/Paymongo.Sharp/) using nuget cli or the nuget package manager.
 
 #### Client usage
 
