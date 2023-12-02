@@ -10,7 +10,6 @@
     <img src="https://img.shields.io/github/license/russkyc/paymongo-sharp">
     <img src="https://img.shields.io/github/issues/russkyc/paymongo-sharp">
     <img src="https://img.shields.io/nuget/dt/Paymongo.Sharp">
-">
 </p>
 
 <p style="text-align: justify">
