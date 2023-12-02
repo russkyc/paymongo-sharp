@@ -20,7 +20,6 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using FluentAssertions;
 using Paymongo.Sharp.Checkouts.Entities;
 
 namespace paymongo_sharp.tests.IntegrationTests;
