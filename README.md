@@ -23,12 +23,12 @@ This client wrapper is designed to make it easy for .NET developers to interact 
 > Paymongo API. But, full support for checkouts, links, sources, and payments already exist. you can use this as
 > both are already fully implemented.
 
-## :star: Payments Demo
+## :star: Payments Demo (Using WPF with Webview)
 
 <img src=".github/resources/images/demo-payments.gif" style="widt: 100%;">
 
-This uses the Wpf demo in the samples folder (With a webview 2 control), you can also look at the cli sample, wait for
-the upcoming samples for Blazor, Avalonia, and Maui, or go with any other .NET technologies!
+This uses the Wpf demo in the samples folder (With a webview 2 control) and you can also look at the cli sample, wait for
+the upcoming samples for Blazor, Asp.NET, Avalonia, and probably Maui. Or, you can go ahead and use any .NET Tech!
 
 ## :arrow_down: Installation
 
