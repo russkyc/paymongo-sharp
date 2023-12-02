@@ -25,7 +25,7 @@ This client wrapper is designed to make it easy for .NET developers to interact 
 
 ## :star: Payments Demo
 
-https://github.com/russkyc/paymongo-sharp/raw/updatate-wpf-sample/.github/resources/videos/wpf-webview-demo.mp4
+<img src=".github/resources/images/demo-payments.gif" style="widt: 100%;">
 
 This uses the Wpf demo in the samples folder (With a webview 2 control), you can also look at the cli sample, wait for
 the upcoming samples for Blazor, Avalonia, and Maui, or go with any other .NET technologies!
