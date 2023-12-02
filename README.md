@@ -9,6 +9,8 @@
     <img src="https://img.shields.io/badge/-.NET%20Standard%202.0-blueviolet?color=1f72de&label=NET" alt="">
     <img src="https://img.shields.io/github/license/russkyc/paymongo-sharp">
     <img src="https://img.shields.io/github/issues/russkyc/paymongo-sharp">
+    <img src="https://img.shields.io/nuget/dt/Paymongo.Sharp
+">
 </p>
 
 <p style="text-align: justify">
