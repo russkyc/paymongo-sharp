@@ -33,6 +33,10 @@ namespace Paymongo.Sharp.Sources.Entities
         [JsonIgnore]
         public string Id { get; set; }
         
+        [JsonProperty("description",
+            NullValueHandling = NullValueHandling.Ignore)]
+        public string Description { get; set; }
+        
         [JsonProperty("amount",
             NullValueHandling = NullValueHandling.Ignore)]
         public int Amount { get; set; }
@@ -49,6 +53,10 @@ namespace Paymongo.Sharp.Sources.Entities
             NullValueHandling = NullValueHandling.Ignore)]
         public SourceType Type { get; set; }
         
+        [JsonProperty("status",
+            NullValueHandling = NullValueHandling.Ignore)]
+        public SourceStatus Status { get; set; }
+
         [JsonProperty("redirect",
             NullValueHandling = NullValueHandling.Ignore)]
         public Redirect? Redirect { get; set; }
@@ -67,10 +75,5 @@ namespace Paymongo.Sharp.Sources.Entities
         [JsonConverter(typeof(UnixDateTimeConverter))]
         public DateTime? UpdatedAt { get; set; }
         
-        [JsonProperty("paid_at",
-            NullValueHandling = NullValueHandling.Ignore)]
-        [JsonConverter(typeof(UnixDateTimeConverter))]
-        public DateTime? PaidAt { get; set; }
-
     }
 }

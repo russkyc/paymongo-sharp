@@ -83,7 +83,6 @@ namespace Paymongo.Sharp.Helpers
             // Unix timestamp doesn't account for daylight savings, so we adjust it here
             source.CreatedAt = source.CreatedAt.ToLocalDateTime();
             source.UpdatedAt = source.UpdatedAt.ToLocalDateTime();
-            source.PaidAt = source.PaidAt.ToLocalDateTime();
             
             return source;
         }
