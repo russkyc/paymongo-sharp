@@ -22,6 +22,8 @@
 
 using Newtonsoft.Json;
 
+#pragma warning disable CS8618
+
 namespace Paymongo.Sharp.Sources.Entities
 {
     public class Redirect

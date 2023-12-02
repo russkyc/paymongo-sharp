@@ -26,6 +26,8 @@ using Newtonsoft.Json.Converters;
 using Paymongo.Sharp.Core.Entities;
 using Paymongo.Sharp.Core.Enums;
 
+#pragma warning disable CS8618
+
 namespace Paymongo.Sharp.Sources.Entities
 {
     public class Source

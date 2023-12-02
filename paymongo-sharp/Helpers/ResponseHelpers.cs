@@ -31,6 +31,8 @@ using Paymongo.Sharp.Sources.Entities;
 
 
 #pragma warning disable CS8604
+#pragma warning disable CS8601
+#pragma warning disable CS8602
 
 namespace Paymongo.Sharp.Helpers
 {
