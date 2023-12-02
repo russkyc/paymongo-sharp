@@ -81,8 +81,8 @@ You can track the support for all of Paymongo's official API actions below:
   </tr>
   <tr>
     <td>Sources</td>
-    <td>Not yet available</td>
-    <td>Not yet Added</td>
+    <td>Full</td>
+    <td>v0.4.0+</td>
   </tr>
 </table>
 
@@ -242,7 +242,7 @@ Link link = new Link {
 
 // We use the PaymongoClient from earlier
 // This returns the Link object with the new server info for checkout url, id, and others
-var linkResult = await client.Links.CreateLinkAsync(link);
+Link linkResult = await client.Links.CreateLinkAsync(link);
 ```
 
 **Retrieve a Link**
@@ -323,8 +323,51 @@ For full Customers API reference, please see: [Customer Resource](https://develo
 
 ### Sources (Gcash and GrabPay Checkout)
 
-- [ ] Create a Source
-- [ ] Retrieve a Source
+- [x] Create a Source
+- [x] Retrieve a Source
+
+**Create a Source**
+
+```csharp
+// We create a new Source object
+// This one includes the minimal required values
+Source source = new Source {
+    Amount = 100000,
+    Billing = new Billing {
+        Name = "TestName",
+        Email = "test@paymongo.com",
+        Phone = "9734534443",
+        Address = new Address {
+            Line1 = "TestAddress1",
+            Line2 = "TestAddress2",
+            PostalCode = "4506",
+            State = "TestState",
+            City = "TestCity",
+            Country = "PH"
+        }
+    },
+    Redirect = new Redirect {
+        Success = "http://127.0.0.1",
+        Failed = "http://127.0.0.1"
+    },
+    Type = SourceType.GCash,
+    Currency = Currency.Php
+};
+
+// We use the PaymongoClient from earlier
+// This returns a Source object from the server
+// containing the redirect object(with checkout url) and other info
+Source sourceResult = await client.Sources.CreateSourceAsync(source);
+```
+
+**Retrieve a Source**
+
+```csharp
+// We use the PaymongoClient from earlier
+// Lets assume that the Source id is "12345678"
+// This returns a Source object from the server
+Link sourceResult = await client.Sources.RetrieveSourceAsync("12345678");
+```
 
 For full Sources API reference, please see: [The Sources Object](https://developers.paymongo.com/reference/the-sources-object)
 
