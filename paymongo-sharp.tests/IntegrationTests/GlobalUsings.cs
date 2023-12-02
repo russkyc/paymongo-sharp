@@ -1,2 +1,7 @@
-namespace paymongo_sharp.tests.IntegrationTests;
-// paymongo-sharp
+
+global using DotNetEnv;
+global using Xunit;
+global using Paymongo.Sharp;
+global using Paymongo.Sharp.Interfaces;
+global using Paymongo.Sharp.Core.Enums;
+global using Paymongo.Sharp.Core.Entities;
