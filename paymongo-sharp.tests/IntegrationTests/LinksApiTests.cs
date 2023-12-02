@@ -43,16 +43,25 @@ public class LinksApiTests
         // Arrange
         Link link = new Link
         {
-            Description = "New Link",
+            Description = "New Payment Link",
             Amount = 100000,
-            Currency = Currency.Php
+            Currency = Currency.Php,
+            Remarks = "Sample Remarks"
         };
 
         // Act
         var linkResult = await _client.Links.CreateLinkAsync(link);
 
         // Assert
-        Assert.NotNull(linkResult);
+        linkResult.Should().NotBeNull();
+        linkResult.Id.Should().NotBeNull();
+        linkResult.ReferenceNumber.Should().NotBeNullOrEmpty();
+        linkResult.CheckoutUrl.Should().NotBeNullOrEmpty();
+        linkResult.Description.Should().BeEquivalentTo(link.Description);
+        linkResult.Remarks.Should().BeEquivalentTo(link.Remarks);
+        linkResult.Amount.Should().Be(link.Amount);
+        linkResult.Currency.Should().Be(link.Currency);
+        linkResult.Status.Should().Be(LinkStatus.Unpaid);
     }
     
     [Fact]
@@ -61,20 +70,20 @@ public class LinksApiTests
         // Arrange
         Link link = new Link
         {
-            Description = "New Link",
+            Description = "New Payment Link",
             Amount = 100000,
-            Currency = Currency.Php
+            Currency = Currency.Php,
+            Remarks = "Sample Remarks"
         };
 
         // Act
         var linkResult = await _client.Links.CreateLinkAsync(link);
-
-        // Assert
-        Assert.NotNull(linkResult);
-
         var getLinkResult = await _client.Links.RetrieveLinkAsync(linkResult.Id);
         
-        Assert.NotNull(getLinkResult);
+        // Assert
+        getLinkResult.Should().NotBeNull();
+        getLinkResult.Should().BeEquivalentTo(linkResult);
+
     }
     
     [Fact]
@@ -84,24 +93,22 @@ public class LinksApiTests
         Link link = new Link
         {
             Description = "New Link",
-            ReferenceNumber = "61223292",
             Amount = 100000,
+            Remarks = "Sample Remarks",
             Currency = Currency.Php
         };
 
         // Act
         var linkResult = await _client.Links.CreateLinkAsync(link);
+        var getLinkResult = await _client.Links.GetLinkByReferenceNumberAsync(linkResult.ReferenceNumber);
 
         // Assert
-        Assert.NotNull(linkResult);
-
-        var getLinkResult = await _client.Links.GetLinkByReferenceNumberAsync(linkResult.ReferenceNumber);
-        
-        Assert.NotNull(getLinkResult);
+        getLinkResult.Should().NotBeNull();
+        getLinkResult.Should().BeEquivalentTo(linkResult);
     }
     
     [Fact]
-    async Task CreateAndArchiveThenUnarchiveLink()
+    async Task CreateArchiveAndUnarchiveLink()
     {
         // Arrange
         Link link = new Link
@@ -114,21 +121,14 @@ public class LinksApiTests
 
         // Act
         var linkResult = await _client.Links.CreateLinkAsync(link);
-
-        // Assert
-        Assert.NotNull(linkResult);
-
         var getArchiveLinkResult = await _client.Links.ArchiveLinkAsync(linkResult.Id);
-        
-        // Assert
-        Assert.NotNull(getArchiveLinkResult);
-        Assert.True(getArchiveLinkResult.Archived);
-        
         var getUnarchiveLinkResult = await _client.Links.UnarchiveLinkAsync(linkResult.Id);
         
         // Assert
-        Assert.NotNull(getUnarchiveLinkResult);
-        Assert.False(getUnarchiveLinkResult.Archived);
+        getArchiveLinkResult.Should().NotBeNull();
+        getArchiveLinkResult.Archived.Should().BeTrue();
+        getUnarchiveLinkResult.Archived.Should().BeFalse();
+
     }
 
 }

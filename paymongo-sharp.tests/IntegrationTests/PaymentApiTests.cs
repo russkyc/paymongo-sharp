@@ -40,6 +40,8 @@ public class PaymentApiTests
     [Fact]
     async Task CreatePayment()
     {
+        // ! Note, This test really does fail. Might be fixed after integrating other api actions
+        
         // Arrange
         Payment payment = new Payment
         {
@@ -61,6 +63,7 @@ public class PaymentApiTests
     [Fact]
     async Task RetrievePayment()
     {
+        // ! Will remain this way until CreatePayment test gets fixed, sorry
         var paymentResult = await _client.Payments.RetrievePaymentAsync("pay_Lj5aRPSU9p6ozZdQxLuwjpiT");
         Assert.NotNull(paymentResult);
     }
