@@ -20,20 +20,22 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using System;
+using Newtonsoft.Json;
 
-namespace Paymongo.Sharp.Helpers
+namespace Paymongo.Sharp.Sources.Entities
 {
-    public static class DateTimeHelpers
+    public class SourceRequestAttributes
     {
-        public static DateTime? ToLocalDateTime(this DateTime? dateTime)
-        {
-            if (dateTime is null)
-            {
-                return dateTime;
-            }
-            // System doesn't know it is utc, we specify that here before converting to local time
-            return DateTime.SpecifyKind(dateTime!.Value, DateTimeKind.Utc).ToLocalTime();
-        }
+        [JsonProperty("id",
+            NullValueHandling = NullValueHandling.Ignore)]
+        public string? Id { get; set; }
+        
+        [JsonProperty("type",
+            NullValueHandling = NullValueHandling.Ignore)]
+        public string? Type { get; set; }
+        
+        [JsonProperty("attributes",
+            NullValueHandling = NullValueHandling.Ignore)]
+        public Source? Attributes { get; set; }
     }
 }

@@ -20,20 +20,18 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using System;
+using System.Runtime.Serialization;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
-namespace Paymongo.Sharp.Helpers
+namespace Paymongo.Sharp.Core.Enums
 {
-    public static class DateTimeHelpers
+    [JsonConverter(typeof(StringEnumConverter))]
+    public enum SourceType
     {
-        public static DateTime? ToLocalDateTime(this DateTime? dateTime)
-        {
-            if (dateTime is null)
-            {
-                return dateTime;
-            }
-            // System doesn't know it is utc, we specify that here before converting to local time
-            return DateTime.SpecifyKind(dateTime!.Value, DateTimeKind.Utc).ToLocalTime();
-        }
+        [EnumMember(Value = "gcash")]
+        GCash,
+        [EnumMember(Value = "grab_pay")]
+        GrabPay
     }
 }

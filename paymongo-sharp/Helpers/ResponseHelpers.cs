@@ -27,9 +27,12 @@ using Newtonsoft.Json.Linq;
 using Paymongo.Sharp.Checkouts.Entities;
 using Paymongo.Sharp.Links.Entities;
 using Paymongo.Sharp.Payments.Entities;
+using Paymongo.Sharp.Sources.Entities;
 
 
 #pragma warning disable CS8604
+#pragma warning disable CS8601
+#pragma warning disable CS8602
 
 namespace Paymongo.Sharp.Helpers
 {
@@ -68,6 +71,22 @@ namespace Paymongo.Sharp.Helpers
             payment.PaidAt = payment.PaidAt.ToLocalDateTime();
             
             return payment;
+        }
+        
+        public static Source ToSource(this string? response)
+        {
+            dynamic sourceRequestData = JObject.Parse(response);
+
+            Source source = JsonConvert.DeserializeObject<Source>(sourceRequestData.data.attributes.ToString());
+            
+            // Payment doesn't have an id field so we get it from the parent
+            source.Id = sourceRequestData.data.id.ToString();
+                    
+            // Unix timestamp doesn't account for daylight savings, so we adjust it here
+            source.CreatedAt = source.CreatedAt.ToLocalDateTime();
+            source.UpdatedAt = source.UpdatedAt.ToLocalDateTime();
+            
+            return source;
         }
         
         public static IEnumerable<Payment> ToCheckoutPayments(this string? response)

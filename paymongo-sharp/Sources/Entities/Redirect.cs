@@ -20,20 +20,24 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using System;
+using Newtonsoft.Json;
 
-namespace Paymongo.Sharp.Helpers
+#pragma warning disable CS8618
+
+namespace Paymongo.Sharp.Sources.Entities
 {
-    public static class DateTimeHelpers
+    public class Redirect
     {
-        public static DateTime? ToLocalDateTime(this DateTime? dateTime)
-        {
-            if (dateTime is null)
-            {
-                return dateTime;
-            }
-            // System doesn't know it is utc, we specify that here before converting to local time
-            return DateTime.SpecifyKind(dateTime!.Value, DateTimeKind.Utc).ToLocalTime();
-        }
+        [JsonProperty("checkout_url",
+            NullValueHandling = NullValueHandling.Ignore)]
+        public string CheckoutUrl { get; set; }
+        
+        [JsonProperty("success",
+            NullValueHandling = NullValueHandling.Ignore)]
+        public string Success { get; set; }
+        
+        [JsonProperty("failed",
+            NullValueHandling = NullValueHandling.Ignore)]
+        public string Failed { get; set; }
     }
 }
