@@ -51,8 +51,7 @@ namespace Paymongo.Sharp.Helpers
             checkout.UpdatedAt = checkout.UpdatedAt.ToLocalDateTime();
             
             // Get payments
-            dynamic paymentsCollection = JObject.Parse(response);
-            string paymentsData = paymentsCollection.data.attributes.payments.ToString();
+            string paymentsData = checkoutRequestData.data.attributes.payments.ToString();
             checkout.Payments = paymentsData.ToPayments();
             
             return checkout;
@@ -95,24 +94,17 @@ namespace Paymongo.Sharp.Helpers
         {
             dynamic linkRequestData = JObject.Parse(response);
 
-            // we need to check if it is from a reference number resource
-            // because if it is then the data is actually an array
-            Link link = JsonConvert.DeserializeObject<Link>(isReferenceResource
-                ? linkRequestData.data[0].attributes.ToString()
-                : linkRequestData.data.attributes.ToString());
+            dynamic linkData = isReferenceResource
+                ? linkRequestData.data[0]
+                : linkRequestData.data;
+
+            Link link = JsonConvert.DeserializeObject<Link>(linkData.attributes.ToString());
             
             // Link doesn't have an id field so we get it from the parent
-            // and we need to check if it is from a reference number resource
-            // because if it is then the data is actually an array
-            link.Id = isReferenceResource ? linkRequestData.data[0].id.ToString()
-                : linkRequestData.data.id.ToString();
+            link.Id = linkData.id;
 
             // Get payments
-            dynamic paymentsCollection = JObject.Parse(response);
-            string paymentsData = isReferenceResource
-                ? paymentsCollection.data[0].attributes.payments.ToString()
-                : paymentsCollection.data.attributes.payments.ToString();
-
+            string paymentsData = linkData.attributes.payments.ToString();
             link.Payments = paymentsData.ToDataPayments();
                     
             // Unix timestamp doesn't account for daylight savings, so we adjust it here
@@ -141,6 +133,7 @@ namespace Paymongo.Sharp.Helpers
             return paymentRequestArray.Select(paymentAttribute =>
             {
                 var payment = paymentAttribute.Attributes;
+                
                 // Payment doesn't have an id field so we get it from the parent
                 payment.Id = paymentAttribute.Id;
                     
@@ -148,6 +141,7 @@ namespace Paymongo.Sharp.Helpers
                 payment.CreatedAt = payment.CreatedAt.ToLocalDateTime();
                 payment.UpdatedAt = payment.UpdatedAt.ToLocalDateTime();
                 payment.PaidAt = payment.PaidAt.ToLocalDateTime();
+                
                 return payment;
             });
         }
@@ -171,6 +165,7 @@ namespace Paymongo.Sharp.Helpers
                 payment.CreatedAt = payment.CreatedAt.ToLocalDateTime();
                 payment.UpdatedAt = payment.UpdatedAt.ToLocalDateTime();
                 payment.PaidAt = payment.PaidAt.ToLocalDateTime();
+                
                 return payment;
             });
         }
