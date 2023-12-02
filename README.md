@@ -51,7 +51,7 @@ You can track the support for all of Paymongo's official API actions below:
   </tr>
   <tr>
     <td>Payments</td>
-    <td>Partial</td>
+    <td>Full</td>
     <td>v0.2.0+</td>
   </tr>
   <tr>
