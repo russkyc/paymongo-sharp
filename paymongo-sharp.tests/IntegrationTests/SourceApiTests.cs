@@ -37,13 +37,16 @@ public class SourceApiTests
         _client = new PaymongoClient(secretKey);
     }
 
-    [Fact]
-    async Task CreateSource()
+    [Theory]
+    [InlineData(SourceType.GCash)]
+    [InlineData(SourceType.GrabPay)]
+    async Task CreateSource(SourceType type)
     {
         // Arrange
         Source source = new Source
         {
             Amount = 100000,
+            Description = "New GcashPayment",
             Billing = new Billing
             {
                 Name = "TestName",
@@ -64,7 +67,7 @@ public class SourceApiTests
                 Success = "http://127.0.0.1",
                 Failed = "http://127.0.0.1"
             },
-            Type = SourceType.GCash,
+            Type = type,
             Currency = Currency.Php
         };
 
@@ -72,16 +75,26 @@ public class SourceApiTests
         var sourceResult = await _client.Sources.CreateSourceAsync(source);
 
         // Assert
-        Assert.NotNull(sourceResult);
+        sourceResult.Should().NotBeNull();
+        sourceResult.Id.Should().NotBeNullOrEmpty();
+        sourceResult.Description.Should().BeEquivalentTo(source.Description);
+        sourceResult.Amount.Should().Be(source.Amount);
+        sourceResult.Billing.Should().BeEquivalentTo(source.Billing);
+        sourceResult.Redirect.Success.Should().BeEquivalentTo(source.Redirect.Success);
+        sourceResult.Redirect.Failed.Should().BeEquivalentTo(source.Redirect.Failed);
+        sourceResult.Redirect.CheckoutUrl.Should().NotBeNullOrEmpty();
     }
 
-    [Fact]
-    async Task CreateAndRetrieveSource()
+    [Theory]
+    [InlineData(SourceType.GCash)]
+    [InlineData(SourceType.GrabPay)]
+    async Task CreateAndRetrieveSource(SourceType type)
     {
         // Arrange
         Source source = new Source
         {
             Amount = 100000,
+            Description = "New GcashPayment",
             Billing = new Billing
             {
                 Name = "TestName",
@@ -102,19 +115,16 @@ public class SourceApiTests
                 Success = "http://127.0.0.1",
                 Failed = "http://127.0.0.1"
             },
-            Type = SourceType.GCash,
+            Type = type,
             Currency = Currency.Php
         };
 
         // Act
         var sourceResult = await _client.Sources.CreateSourceAsync(source);
-
-        // Assert
-        Assert.NotNull(sourceResult);
-
         var getSourceResult = await _client.Sources.RetrieveSourceAsync(sourceResult.Id);
         
         // Assert
-        Assert.NotNull(getSourceResult);
+        getSourceResult.Should().NotBeNull();
+        getSourceResult.Should().BeEquivalentTo(sourceResult);
     }
 }
