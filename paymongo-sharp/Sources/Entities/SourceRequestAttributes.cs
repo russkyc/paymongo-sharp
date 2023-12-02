@@ -21,7 +21,6 @@
 // SOFTWARE.
 
 using Newtonsoft.Json;
-using Paymongo.Sharp.Payments.Entities;
 
 namespace Paymongo.Sharp.Sources.Entities
 {
@@ -37,6 +36,6 @@ namespace Paymongo.Sharp.Sources.Entities
         
         [JsonProperty("attributes",
             NullValueHandling = NullValueHandling.Ignore)]
-        public Payment? Attributes { get; set; }
+        public Source? Attributes { get; set; }
     }
 }
