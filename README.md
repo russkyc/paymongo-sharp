@@ -130,17 +130,17 @@ check the refernces for basic usage below.
 // We create a new Checkout object
 // This one includes the minimal required values
 Checkout checkout = new Checkout() {
-  Description = "Test Checkout",
+    Description = "Test Checkout",
     LineItems = new [] {
-      new LineItem {
-        Name = "item_name",
-          Quantity = 1,
-          Currency = Currency.Php,
-          Amount = 3500
-      }
+        new LineItem {
+            Name = "item_name",
+            Quantity = 1,
+            Currency = Currency.Php,
+            Amount = 3500
+        }
     },
     PaymentMethodTypes = new [] {
-      PaymentMethod.GCash,
+        PaymentMethod.GCash,
         PaymentMethod.Card,
         PaymentMethod.Paymaya
     }
@@ -241,9 +241,9 @@ For full Payments API reference, please see: [Payment Resource](https://develope
 // We create a new Link object
 // This one includes the minimal required values
 Link link = new Link {
-  Description = "New Link",
-  Amount = 100000,
-  Currency = Currency.Php
+    Description = "New Link",
+    Amount = 100000,
+    Currency = Currency.Php
 };
 
 // We use the PaymongoClient from earlier
@@ -487,17 +487,17 @@ fluent builder implementation for the Checkouts client.
 var client = new PaymongoClient(secretKey: "<secret_key>");
 
 Checkout checkout = new Checkout() {
-  Description = "Test Checkout",
+    Description = "Test Checkout",
     LineItems = new [] {
-      new LineItem {
-        Name = "Item Name",
-          Quantity = 1,
-          Currency = Currency.Php,
-          Amount = 3500
-      }
+        new LineItem {
+            Name = "Item Name",
+            Quantity = 1,
+            Currency = Currency.Php,
+            Amount = 3500
+        }
     },
     PaymentMethodTypes = new [] {
-      PaymentMethod.GCash,
+        PaymentMethod.GCash,
         PaymentMethod.Card,
         PaymentMethod.Paymaya
     }
