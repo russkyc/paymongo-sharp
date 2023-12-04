@@ -2,7 +2,7 @@
     <img src=".github/resources/images/banner.svg" style="width: 100%;" />
 </a>
 
-<h2 align="center">Paymongo.Sharp - Unofficial .NET Client Wrapper for the Paymongo API</h2>
+<h2 align="center">Paymongo.Sharp - The Unofficial Paymongo API Client for .NET</h2>
 
 <p align="center">
     <img src="https://img.shields.io/nuget/v/Paymongo.Sharp?color=1f72de" alt="Nuget">
@@ -91,8 +91,8 @@ You can track the support for all of Paymongo's official API actions below:
   </tr>
   <tr>
     <td>Customers</td>
-    <td>Not yet available</td>
-    <td>Not yet Added</td>
+    <td>Partial</td>
+    <td>v0.5.0+</td>
   </tr>
   <tr>
     <td>Treasury</td>
@@ -316,12 +316,64 @@ For full Refunds API reference, please see: [Refund Resource](https://developers
 
 ### Customers
 
-- [ ] Create a Customer
-- [ ] Retrieve a Customer
-- [ ] Edit a Customer
-- [ ] Delete a Customer
+- [x] Create a Customer
+- [x] Retrieve a Customer
+- [x] Edit a Customer
+- [x] Delete a Customer
 - [ ] Retrieve the Payment Methods of a Customer
 - [ ] Delete a Payment Method of a Customer
+
+**Create a Customer**
+
+```csharp
+// We create a new Customer object
+// This one includes the minimal required values
+Customer customer = new Customer() {
+    FirstName = "First Name",
+    LastName = "Last Name",
+    Email = "testcustomermail@mail.com",
+    Phone = "+639234735258",
+    DefaultDevice = Device.Email
+};
+
+// We use the PaymongoClient from earlier
+// This returns a Customer object from the server with an Id as confirmation
+Customer customerResult = await client.Customers.CreateCustomerAsync(customer);
+```
+
+**Retrieve a Customer**
+
+```csharp
+// We use the PaymongoClient from earlier
+// Lets assume that the customer email is "customer@mail.com"
+// Lets assume that the customer phone number is "+639876543210"
+// This returns a Customer object from the server
+Customer customerResult = await client.Customers.RetrieveCustomerAsync("customer@mail.com", "+639876543210");
+```
+
+**Edit a Customer**
+
+```csharp
+// First lets get the customer we want to edit
+Customer customerResult = await client.Customers.RetrieveCustomerAsync("customer@mail.com", "+639876543210");
+
+// Lets edit some of the customer information
+customerResult.FirstName = "New First Name";
+customerResult.LastName = "New Last Name";
+
+// After this update executes, this returns the Customer object with the updated information
+var editCustomerResult = await client.Customers.EditCustomerAsync(customerResult);
+
+```
+
+**Delete a Customer**
+
+```csharp
+// We use the PaymongoClient from earlier
+// Lets assume that the customer id is "12345678"
+// This returns true if the customer is deleted successfuly
+bool deletedCustomerResult = await client.Customers.DeleteCustomerAsync("12345678");
+```
 
 For full Customers API reference, please see: [Customer Resource](https://developers.paymongo.com/reference/customer-resource)
 

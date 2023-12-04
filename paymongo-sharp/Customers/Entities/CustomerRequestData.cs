@@ -20,20 +20,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Paymongo.Sharp.Checkouts;
-using Paymongo.Sharp.Customers;
-using Paymongo.Sharp.Links;
-using Paymongo.Sharp.Payments;
-using Paymongo.Sharp.Sources;
+using Newtonsoft.Json;
 
-namespace Paymongo.Sharp.Interfaces
+namespace Paymongo.Sharp.Checkouts.Entities
 {
-    public interface IPaymongoClient
+    public class CustomerRequestData
     {
-        CheckoutClient Checkouts { get; }
-        PaymentClient Payments { get; }
-        LinksClient Links { get; }
-        SourceClient Sources { get; set; }
-        CustomerClient Customers { get; set; }
+        [JsonProperty("data",
+            NullValueHandling = NullValueHandling.Ignore)]
+        public CustomerRequestAttributes? Data { get; set; }
     }
 }

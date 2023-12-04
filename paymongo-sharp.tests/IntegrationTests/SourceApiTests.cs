@@ -80,9 +80,9 @@ public class SourceApiTests
         sourceResult.Description.Should().BeEquivalentTo(source.Description);
         sourceResult.Amount.Should().Be(source.Amount);
         sourceResult.Billing.Should().BeEquivalentTo(source.Billing);
-        sourceResult.Redirect.Success.Should().BeEquivalentTo(source.Redirect.Success);
-        sourceResult.Redirect.Failed.Should().BeEquivalentTo(source.Redirect.Failed);
-        sourceResult.Redirect.CheckoutUrl.Should().NotBeNullOrEmpty();
+        sourceResult.Redirect!.Success.Should().BeEquivalentTo(source.Redirect.Success);
+        sourceResult.Redirect!.Failed.Should().BeEquivalentTo(source.Redirect.Failed);
+        sourceResult.Redirect!.CheckoutUrl.Should().NotBeNullOrEmpty();
     }
 
     [Theory]

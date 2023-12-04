@@ -9,6 +9,10 @@ using Paymongo.Sharp.Core.Enums;
 
 namespace cli_sample;
 
+#pragma warning disable CS8601
+#pragma warning disable CS8602
+#pragma warning disable CS8604
+
 public class Program
 {
     public static async Task Main(string[] args)

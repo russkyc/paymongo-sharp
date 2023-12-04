@@ -20,20 +20,16 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Paymongo.Sharp.Checkouts;
-using Paymongo.Sharp.Customers;
-using Paymongo.Sharp.Links;
-using Paymongo.Sharp.Payments;
-using Paymongo.Sharp.Sources;
+using System.Runtime.Serialization;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
-namespace Paymongo.Sharp.Interfaces
+namespace Paymongo.Sharp.Core.Enums
 {
-    public interface IPaymongoClient
+    [JsonConverter(typeof(StringEnumConverter))]
+    public enum PaymentMethodType
     {
-        CheckoutClient Checkouts { get; }
-        PaymentClient Payments { get; }
-        LinksClient Links { get; }
-        SourceClient Sources { get; set; }
-        CustomerClient Customers { get; set; }
+        [EnumMember(Value = "card")]
+        Card
     }
 }
