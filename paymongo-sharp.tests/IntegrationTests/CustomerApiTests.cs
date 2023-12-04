@@ -39,15 +39,15 @@ public class CustomerApiTests
     }
     
     [Fact]
-    async Task CreateAndDeleteACustomer()
+    async Task CreateAndDeleteCustomer()
     {
         // Arrange
         Customer customer = new Customer()
         {
             FirstName = "First Name",
             LastName = "Last Name",
-            Email = "test933@mail.com",
-            Phone = "+638271292731",
+            Email = "customailtest@mail.com",
+            Phone = "+639285725323",
             DefaultDevice = Device.Email
         };
         
@@ -89,6 +89,35 @@ public class CustomerApiTests
         // Assert
         getCustomersResult.Should().NotBeNull();
         getCustomersResult.Should().BeEquivalentTo(customerResult);
+        
+        // Cleanup
+        var deleteCustomerResult = await _client.Customers.DeleteCustomerAsync(customerResult.Id);
+        deleteCustomerResult.Should().BeTrue();
+    }
+    
+    [Fact]
+    async Task CreateAndEditCustomer()
+    {
+        // Arrange
+        Customer customer = new Customer()
+        {
+            FirstName = "First Name",
+            LastName = "Last Name",
+            Email = "testcustomermail3@mail.com",
+            Phone = "+628234735258",
+            DefaultDevice = Device.Email
+        };
+        
+        // Act
+        Customer customerResult = await _client.Customers.CreateCustomerAsync(customer);
+        
+        customerResult.FirstName = "New First Name";
+        
+        var editCustomerResult = await _client.Customers.EditCustomerAsync(customerResult);
+        
+        // Assert
+        editCustomerResult.Should().NotBeNull();
+        editCustomerResult.Should().NotBeEquivalentTo(customerResult);
         
         // Cleanup
         var deleteCustomerResult = await _client.Customers.DeleteCustomerAsync(customerResult.Id);

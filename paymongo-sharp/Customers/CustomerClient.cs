@@ -61,6 +61,24 @@ namespace Paymongo.Sharp.Customers
             return response.Content.ToCustomer();
         }
         
+        public async Task<Customer> EditCustomerAsync(Customer customer)
+        {
+            var data = new CustomerRequestData
+            {
+                Data = new CustomerRequestAttributes
+                {
+                    Attributes = customer
+                }
+            };
+
+            var body = JsonConvert.SerializeObject(data);
+        
+            var request = RequestHelpers.Create($"{Resource}/{customer.Id}",_secretKey,_secretKey, body);
+            var response = await _client.PutAsync(request);
+
+            return response.Content.ToCustomer();
+        }
+        
         public async Task<Customer?> RetrieveCustomerAsync(string email, string phoneNumber)
         {
             var request = RequestHelpers.Create($"{Resource}?email={email}&phone={phoneNumber}",_secretKey,_secretKey);
