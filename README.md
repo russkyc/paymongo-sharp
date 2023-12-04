@@ -19,7 +19,7 @@ This client wrapper is designed to make it easy for .NET developers to interact 
 </p>
 
 ## :arrow_down: Installation
-<div align="center">
+<div align="center" style="margin: 50px;">
     <a href="https://www.nuget.org/packages/Paymongo.Sharp/">
         <img src=".github/resources/images/button.svg" style="width:200px" alt="Nuget">
     </a>
