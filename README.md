@@ -18,10 +18,14 @@ Paymongo is a powerful payment platform that provides a wide range of payment so
 This client wrapper is designed to make it easy for .NET developers to interact with the Paymongo API. It provides a simple, intuitive interface that abstracts the API, allowing you to access a typed client and focus on building your Paymongo-integrated application faster.
 </p>
 
-> [!NOTE]  
-> This is package is now in the stable release cycle but does not yet offer full support for the entire
-> Paymongo API. But, full support for checkouts, links, sources, and payments already exist. you can use this as
-> both are already fully implemented.
+## :arrow_down: Installation
+<div align="center">
+    <a href="https://www.nuget.org/packages/Paymongo.Sharp/">
+        <img src=".github/resources/images/button.svg" style="width:200px" alt="Nuget">
+    </a>
+    <p align="center">Install package from: [Nuget](https://www.nuget.org/packages/Paymongo.Sharp/) using nuget cli or the nuget package manager.</p>
+</div>
+
 
 ## :star: Payments Demo (Using WPF with Webview)
 
@@ -29,10 +33,6 @@ This client wrapper is designed to make it easy for .NET developers to interact 
 
 This uses the Wpf demo in the samples folder (With a webview 2 control) and you can also look at the cli sample, wait for
 the upcoming samples for Blazor, Asp.NET, Avalonia, and probably Maui. Or, you can go ahead and use any .NET Tech!
-
-## :arrow_down: Installation
-
-Install package from: [Nuget](https://www.nuget.org/packages/Paymongo.Sharp/) using nuget cli or the nuget package manager.
 
 #### Client usage
 
