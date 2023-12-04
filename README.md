@@ -19,13 +19,16 @@ This client wrapper is designed to make it easy for .NET developers to interact 
 </p>
 
 ## :arrow_down: Installation
-<div align="center" style="margin: 50px;">
+
+<br/>
+<br/>
+<div align="center">
     <a href="https://www.nuget.org/packages/Paymongo.Sharp/">
         <img src=".github/resources/images/button.svg" style="width:200px" alt="Nuget">
     </a>
     <p align="center">Install package from: <a href="https://www.nuget.org/packages/Paymongo.Sharp/">Nuget</a> using nuget cli or the nuget package manager.</p>
 </div>
-
+<br/>
 
 ## :star: Payments Demo (Using WPF with Webview)
 
