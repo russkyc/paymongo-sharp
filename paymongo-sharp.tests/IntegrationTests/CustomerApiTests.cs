@@ -46,7 +46,7 @@ public class CustomerApiTests
         {
             FirstName = "First Name",
             LastName = "Last Name",
-            Email = "test93@mail.com",
+            Email = "test933@mail.com",
             Phone = "+638271292731",
             DefaultDevice = Device.Email
         };
@@ -64,7 +64,34 @@ public class CustomerApiTests
         customerResult.DefaultDevice.Should().Be(customer.DefaultDevice);
 
         bool deleteCustomerResult = await _client.Customers.DeleteCustomerAsync(customerResult.Id);
-        var c = deleteCustomerResult;
 
+        deleteCustomerResult.Should().BeTrue();
+
+    }
+
+    [Fact]
+    async Task CreateAndRetrieveCustomer()
+    {
+        // Arrange
+        Customer customer = new Customer()
+        {
+            FirstName = "First Name",
+            LastName = "Last Name",
+            Email = "testcustomermail@mail.com",
+            Phone = "+628234731949",
+            DefaultDevice = Device.Email
+        };
+        
+        // Act
+        Customer customerResult = await _client.Customers.CreateCustomerAsync(customer);
+        var getCustomersResult = await _client.Customers.RetrieveCustomerAsync(customer.Email, customer.Phone);
+        
+        // Assert
+        getCustomersResult.Should().NotBeNull();
+        getCustomersResult.Should().BeEquivalentTo(customerResult);
+        
+        // Cleanup
+        var deleteCustomerResult = await _client.Customers.DeleteCustomerAsync(customerResult.Id);
+        deleteCustomerResult.Should().BeTrue();
     }
 }

@@ -20,6 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Paymongo.Sharp.Checkouts.Entities;
@@ -58,6 +59,13 @@ namespace Paymongo.Sharp.Customers
             var response = await _client.PostAsync(request);
 
             return response.Content.ToCustomer();
+        }
+        
+        public async Task<Customer?> RetrieveCustomerAsync(string email, string phoneNumber)
+        {
+            var request = RequestHelpers.Create($"{Resource}?email={email}&phone={phoneNumber}",_secretKey,_secretKey);
+            var response = await _client.GetAsync(request);
+            return response.Content.ToCustomers().FirstOrDefault();
         }
         
         public async Task<bool> DeleteCustomerAsync(string id)

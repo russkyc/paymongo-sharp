@@ -195,6 +195,37 @@ namespace Paymongo.Sharp.Helpers
                 return payment;
             });
         }
-        
+        public static IEnumerable<Customer> ToCustomers(this string? data)
+        {
+            dynamic customerRequestData = JObject.Parse(data);
+            string customerData = customerRequestData.data.ToString();
+            var customerRequestAttributes = JsonConvert.DeserializeObject<IEnumerable<CustomerRequestAttributes>>(customerData);
+
+            if (customerRequestAttributes is null)
+            {
+                return Enumerable.Empty<Customer>();
+            }
+            
+            var customerRequestArray = customerRequestAttributes.ToArray();
+
+            if (!customerRequestArray.Any())
+            {
+                return Enumerable.Empty<Customer>();
+            }
+            
+            return customerRequestArray.Select(customerRequestData =>
+            {
+                var customer = customerRequestData.Attributes;
+                
+                // Payment doesn't have an id field so we get it from the parent
+                customer.Id = customerRequestData.Id;
+                    
+                // Unix timestamp doesn't account for daylight savings, so we adjust it here
+                customer.CreatedAt = customer.CreatedAt.ToLocalDateTime();
+                customer.UpdatedAt = customer.UpdatedAt.ToLocalDateTime();
+                
+                return customer;
+            });
+        }
     }
 }
