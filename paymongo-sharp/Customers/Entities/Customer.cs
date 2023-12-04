@@ -24,6 +24,7 @@ using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Paymongo.Sharp.Core.Enums;
 
 namespace Paymongo.Sharp.Customers.Entities
 {
@@ -40,6 +41,13 @@ namespace Paymongo.Sharp.Customers.Entities
         [JsonProperty("default_payment_method_id",
             NullValueHandling = NullValueHandling.Ignore)]
         public string DefaultPaymentMethodId { get; set; }
+        
+        [JsonProperty("payment_methods",
+            NullValueHandling = NullValueHandling.Ignore)]
+        public IEnumerable<CustomerPaymentMethod> PaymentMethods { get; set; }
+        
+        [JsonProperty("default_device")]
+        public Device DefaultDevice { get; set; }
         
         [JsonProperty("first_name",
             NullValueHandling = NullValueHandling.Ignore)]
@@ -71,8 +79,5 @@ namespace Paymongo.Sharp.Customers.Entities
         [JsonConverter(typeof(UnixDateTimeConverter))]
         public DateTime? UpdatedAt { get; set; }
         
-        [JsonProperty("payment_methods",
-            NullValueHandling = NullValueHandling.Ignore)]
-        public IEnumerable<CustomerPaymentMethod> PaymentMethods { get; set; }
     }
 }

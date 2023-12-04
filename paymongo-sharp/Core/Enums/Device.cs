@@ -27,7 +27,7 @@ using Newtonsoft.Json.Converters;
 namespace Paymongo.Sharp.Core.Enums
 {
     [JsonConverter(typeof(StringEnumConverter))]
-    public enum DefaultDevice
+    public enum Device
     {
         [EnumMember(Value = "phone")]
         Phone,

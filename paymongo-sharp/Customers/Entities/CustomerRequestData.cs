@@ -28,6 +28,6 @@ namespace Paymongo.Sharp.Checkouts.Entities
     {
         [JsonProperty("data",
             NullValueHandling = NullValueHandling.Ignore)]
-        public CheckoutRequestAttributes? Data { get; set; }
+        public CustomerRequestAttributes? Data { get; set; }
     }
 }

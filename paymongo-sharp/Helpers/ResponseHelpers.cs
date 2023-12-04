@@ -20,11 +20,13 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Paymongo.Sharp.Checkouts.Entities;
+using Paymongo.Sharp.Customers.Entities;
 using Paymongo.Sharp.Links.Entities;
 using Paymongo.Sharp.Payments.Entities;
 using Paymongo.Sharp.Sources.Entities;
@@ -38,6 +40,15 @@ namespace Paymongo.Sharp.Helpers
 {
     public static class ResponseHelpers
     {
+        public static Boolean ToCustomerResultBool(this string? response)
+        {
+            dynamic responseData = JObject.Parse(response);
+
+            bool result = responseData.data.attributes.deleted;
+            
+            return result;
+        }
+        
         public static Checkout ToCheckout(this string? response)
         {
             dynamic checkoutRequestData = JObject.Parse(response);
@@ -55,6 +66,21 @@ namespace Paymongo.Sharp.Helpers
             checkout.Payments = paymentsData.ToPayments();
             
             return checkout;
+        }
+        
+        public static Customer ToCustomer(this string? response)
+        {
+            dynamic checkoutRequestData = JObject.Parse(response);
+            Customer customer = JsonConvert.DeserializeObject<Customer>(checkoutRequestData.data!.attributes.ToString());
+            
+            // Checkout doesn't have an id field, so we take that from the parent
+            customer.Id = checkoutRequestData.data.id.ToString();
+        
+            // Unix timestamp doesn't account for daylight savings, so we adjust it here
+            customer.CreatedAt = customer.CreatedAt.ToLocalDateTime();
+            customer.UpdatedAt = customer.UpdatedAt.ToLocalDateTime();
+            
+            return customer;
         }
 
         public static Payment ToPayment(this string? response)

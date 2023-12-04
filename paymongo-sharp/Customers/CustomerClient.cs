@@ -20,10 +20,51 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using System.Threading.Tasks;
+using Newtonsoft.Json;
+using Paymongo.Sharp.Checkouts.Entities;
+using Paymongo.Sharp.Customers.Entities;
+using Paymongo.Sharp.Helpers;
+using RestSharp;
+
 namespace Paymongo.Sharp.Customers
 {
     public class CustomerClient
     {
+        private const string Resource = "/customers";
+        private readonly RestClient _client;
+    
+        private readonly string _secretKey;
+
+        public CustomerClient(string baseUrl, string secretKey)
+        {
+            _client = new RestClient(new RestClientOptions(baseUrl));
+            _secretKey = secretKey;
+        }
+
+        public async Task<Customer> CreateCustomerAsync(Customer customer)
+        {
+            var data = new CustomerRequestData
+            {
+                Data = new CustomerRequestAttributes
+                {
+                    Attributes = customer
+                }
+            };
+
+            var body = JsonConvert.SerializeObject(data);
         
+            var request = RequestHelpers.Create(Resource,_secretKey,_secretKey, body);
+            var response = await _client.PostAsync(request);
+
+            return response.Content.ToCustomer();
+        }
+        
+        public async Task<bool> DeleteCustomerAsync(string id)
+        {
+            var request = RequestHelpers.Create($"{Resource}/{id}",_secretKey,_secretKey);
+            var response = await _client.DeleteAsync(request);
+            return response.Content.ToCustomerResultBool();
+        }
     }
 }
