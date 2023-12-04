@@ -30,15 +30,6 @@ This client wrapper is designed to make it easy for .NET developers to interact 
 </div>
 <br/>
 
-## :star: Payments Demo (Using WPF with Webview)
-
-<img src=".github/resources/images/demo-payments.gif" style="widt: 100%;">
-
-This uses the Wpf demo in the samples folder (With a webview 2 control) and you can also look at the cli sample, wait for
-the upcoming samples for Blazor, Asp.NET, Avalonia, and probably Maui. Or, you can go ahead and use any .NET Tech!
-
-#### Client usage
-
 Add Imports
 
 ```csharp
@@ -49,6 +40,13 @@ Initialize Client
 ```csharp
 var client = new PaymongoClient(secretKey: "<secret_key>");
 ```
+
+## :star: Payments Demo (Using WPF with Webview)
+
+<img src=".github/resources/images/demo-payments.gif" style="widt: 100%;">
+
+This uses the Wpf demo in the samples folder (With a webview 2 control) and you can also look at the cli sample, wait for
+the upcoming samples for Blazor, Asp.NET, Avalonia, and probably Maui. Or, you can go ahead and use any .NET Tech!
 
 ## :sparkles: What is currently Supported
 
