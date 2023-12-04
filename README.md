@@ -23,7 +23,7 @@ This client wrapper is designed to make it easy for .NET developers to interact 
     <a href="https://www.nuget.org/packages/Paymongo.Sharp/">
         <img src=".github/resources/images/button.svg" style="width:200px" alt="Nuget">
     </a>
-    <p align="center">Install package from: [Nuget](https://www.nuget.org/packages/Paymongo.Sharp/) using nuget cli or the nuget package manager.</p>
+    <p align="center">Install package from: <a href="https://www.nuget.org/packages/Paymongo.Sharp/">Nuget</a> using nuget cli or the nuget package manager.</p>
 </div>
 
 
