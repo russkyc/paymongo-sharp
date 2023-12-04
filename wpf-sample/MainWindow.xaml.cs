@@ -10,6 +10,8 @@ using Paymongo.Sharp.Core.Enums;
 using Paymongo.Sharp.Links.Entities;
 using Paymongo.Sharp.Sources.Entities;
 
+#pragma warning disable CS8604
+
 namespace WpfSample
 {
     /// <summary>
@@ -230,7 +232,7 @@ namespace WpfSample
                     continue;
                 }
 
-                StatusBlock.Text = $"Chargeable on GCash by {paymentStatus.Billing!.Name} on {paymentStatus.UpdatedAt}";
+                StatusBlock.Text = $"Chargeable on GCash by {paymentStatus.Billing.Name} on {paymentStatus.UpdatedAt}";
                 
                 paymentWindow.Close();
                 
@@ -305,7 +307,7 @@ namespace WpfSample
                     continue;
                 }
 
-                StatusBlock.Text = $"Chargeable on GrabPay by {paymentStatus.Billing!.Name} on {paymentStatus.UpdatedAt}";
+                StatusBlock.Text = $"Chargeable on GrabPay by {paymentStatus.Billing.Name} on {paymentStatus.UpdatedAt}";
                 
                 paymentWindow.Close();
                 

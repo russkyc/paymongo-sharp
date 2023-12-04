@@ -25,6 +25,8 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Paymongo.Sharp.Core.Enums;
 
+#pragma warning disable CS8618
+
 namespace Paymongo.Sharp.Customers.Entities
 {
     public class CustomerPaymentMethod
