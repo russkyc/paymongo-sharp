@@ -2,6 +2,7 @@
 @using Paymongo.Sharp.Interfaces
 @using Paymongo.Sharp.Core.Enums
 @using Paymongo.Sharp.Checkouts.Entities
+@using Paymongo.Sharp.Payments.Entities
 
 @inject IPaymongoClient PaymongoClient
 @inject IJSRuntime JsRuntime
@@ -18,25 +19,37 @@
         <p class="my-auto mx-2">Waiting for transaction to complete..</p>
     </div>
 }
+else if (_transactionComplete)
+{
+    <div class="alert alert-success mt-3" role="alert">
+        Transaction completed! Paid by @payment.Billing.Name on @payment.PaidAt using @payment.Source["type"].
+    </div>
+}
 
 @code {
 
+    private bool _transactionComplete;
     private bool _isProcessing;
-    
+    private Payment payment;
+
     async Task OnPay()
     {
         _isProcessing = true;
-        var checkout = new Checkout {
+        var checkout = new Checkout
+        {
             Description = "Test Checkout",
-            LineItems = new [] {
-                new LineItem {
+            LineItems = new[]
+            {
+                new LineItem
+                {
                     Name = "item_name",
                     Quantity = 1,
                     Currency = Currency.Php,
                     Amount = 3500
                 }
             },
-            PaymentMethodTypes = new [] {
+            PaymentMethodTypes = new[]
+            {
                 PaymentMethod.GCash,
                 PaymentMethod.Card,
                 PaymentMethod.Paymaya
@@ -45,7 +58,20 @@
         };
 
         var checkoutResult = await PaymongoClient.Checkouts.CreateCheckoutAsync(checkout);
-        await JsRuntime.InvokeVoidAsync("open",checkoutResult.CheckoutUrl,"_blank");
+        await JsRuntime.InvokeVoidAsync("open", checkoutResult.CheckoutUrl, "_blank");
+
+        while (true)
+        {
+            var getCheckoutResult = await PaymongoClient.Checkouts.RetrieveCheckoutAsync(checkoutResult.Id);
+            if (getCheckoutResult.Payments.Any())
+            {
+                payment = getCheckoutResult.Payments.First(payment => payment.Status is PaymentStatus.Paid);
+                break;
+            }
+        }
+
+        _transactionComplete = true;
         _isProcessing = false;
     }
+
 }

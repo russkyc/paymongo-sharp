@@ -1,5 +1,4 @@
-﻿
-@page "/links"
+﻿@page "/links"
 @using Paymongo.Sharp.Interfaces
 @using Paymongo.Sharp.Links.Entities
 @using Paymongo.Sharp.Core.Enums
@@ -19,10 +18,11 @@
         </div>
         <p class="my-auto mx-2">Waiting for transaction to complete..</p>
     </div>
-} else if (_transactionComplete)
+}
+else if (_transactionComplete)
 {
     <div class="alert alert-success mt-3" role="alert">
-        Transaction completed! Paid by @payment.Billing.Name on @payment.PaidAt using @payment.Source["type"] with transaction id: @payment.BalanceTransactionId.
+        Transaction completed! Paid by @payment.Billing.Name on @payment.PaidAt using @payment.Source["type"].
     </div>
 }
 
@@ -31,18 +31,19 @@
     private bool _transactionComplete;
     private bool _isProcessing;
     private Payment payment;
-    
+
     async Task OnPay()
     {
         _isProcessing = true;
-        Link link = new Link {
+        Link link = new Link
+        {
             Description = "New Link",
             Amount = 100000,
             Currency = Currency.Php
         };
 
         var linkResult = await PaymongoClient.Links.CreateLinkAsync(link);
-        await JsRuntime.InvokeVoidAsync("open",linkResult.CheckoutUrl,"_blank");
+        await JsRuntime.InvokeVoidAsync("open", linkResult.CheckoutUrl, "_blank");
 
         while (true)
         {
@@ -53,8 +54,9 @@
                 break;
             }
         }
-        
+
         _transactionComplete = true;
         _isProcessing = false;
     }
+
 }
