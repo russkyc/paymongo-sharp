@@ -57,7 +57,7 @@ var client = new PaymongoClient(secretKey: "<secret_key>");
 
 This nuget package is not limited to these samples, it also supports the all .NET platforms including mono, android, and others.
 
-## :sparkles: What API Actions is currently Supported
+## :sparkles: What API Actions are currently Supported
 
 This client is in active development and features are slowly being implemented but not all of them are supported as of now.
 You can track the support for all of Paymongo's official API actions below:
