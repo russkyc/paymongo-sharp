@@ -1,0 +1,16 @@
+﻿@page "/success"
+
+@inject NavigationManager Navigation
+
+<h3>Payment Successful</h3>
+<p>You can place anything here, this is just a placeholder</p>
+
+<button @onclick="@NavigateHome">Back to home</button>
+
+@code
+{
+    void NavigateHome()
+    {
+        Navigation.NavigateTo("/");
+    }
+}

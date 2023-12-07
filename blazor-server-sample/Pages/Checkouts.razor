@@ -1,0 +1,49 @@
+﻿@page "/checkouts"
+@using Paymongo.Sharp.Interfaces
+@using Paymongo.Sharp.Core.Enums
+@using Paymongo.Sharp.Checkouts.Entities
+
+@inject IPaymongoClient PaymongoClient
+@inject IJSRuntime JsRuntime
+
+<h3>Checkouts</h3>
+
+<button disabled="@_isProcessing" class="btn btn-primary" @onclick="OnPay">Pay with Checkout API</button>
+
+@if (_isProcessing)
+{
+    <div class="alert alert-secondary mt-3" role="alert">
+        Creating payment request.
+    </div>
+}
+
+@code {
+
+    private bool _isProcessing;
+    
+    async Task OnPay()
+    {
+        _isProcessing = true;
+        var checkout = new Checkout {
+            Description = "Test Checkout",
+            LineItems = new [] {
+                new LineItem {
+                    Name = "item_name",
+                    Quantity = 1,
+                    Currency = Currency.Php,
+                    Amount = 3500
+                }
+            },
+            PaymentMethodTypes = new [] {
+                PaymentMethod.GCash,
+                PaymentMethod.Card,
+                PaymentMethod.Paymaya
+            },
+            SuccessUrl = "https://localhost:7213/success"
+        };
+
+        var checkoutResult = await PaymongoClient.Checkouts.CreateCheckoutAsync(checkout);
+        await JsRuntime.InvokeVoidAsync("open",checkoutResult.CheckoutUrl,"_blank");
+        _isProcessing = false;
+    }
+}
