@@ -123,7 +123,7 @@ You can track the support for all of Paymongo's official API actions below:
 
 ---
 
-## Basic Client API Reference
+## :notebook: Basic Client API Reference
 
 If you want to get started with this Paymongo client, you can
 check the refernces for basic usage below.
