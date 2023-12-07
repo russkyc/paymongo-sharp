@@ -12,8 +12,10 @@
 
 @if (_isProcessing)
 {
-    <div class="alert alert-secondary mt-3" role="alert">
-        Creating payment request.
+    <div class="d-flex flex-row alert alert-secondary mt-3" role="alert">
+        <div class="spinner-border text-dark" role="status">
+        </div>
+        <p class="my-auto mx-2">Waiting for transaction to complete..</p>
     </div>
 }
 
