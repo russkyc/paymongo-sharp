@@ -41,14 +41,23 @@ Initialize Client
 var client = new PaymongoClient(secretKey: "<secret_key>");
 ```
 
-## :star: Payments Demo (Using WPF with Webview)
+## :star: Payments Demo
+
+**Cli (Console)**
+
+<img src=".github/resources/images/demo-payments-cli.gif" style="widt: 100%;">
+
+**WPF (With WebView 2 Control)**
 
 <img src=".github/resources/images/demo-payments.gif" style="widt: 100%;">
 
-This uses the Wpf demo in the samples folder (With a webview 2 control) and you can also look at the cli sample, wait for
-the upcoming samples for Blazor, Asp.NET, Avalonia, and probably Maui. Or, you can go ahead and use any .NET Tech!
+**Blazor**
 
-## :sparkles: What is currently Supported
+<img src=".github/resources/images/demo-payments-blazor.gif" style="widt: 100%;">
+
+This nuget package is not limited to these samples, it also supports the all .NET platforms including mono, android, and others.
+
+## :sparkles: What API Actions is currently Supported
 
 This client is in active development and features are slowly being implemented but not all of them are supported as of now.
 You can track the support for all of Paymongo's official API actions below:
