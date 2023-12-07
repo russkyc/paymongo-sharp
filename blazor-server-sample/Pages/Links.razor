@@ -1,0 +1,60 @@
+﻿
+@page "/links"
+@using Paymongo.Sharp.Interfaces
+@using Paymongo.Sharp.Links.Entities
+@using Paymongo.Sharp.Core.Enums
+@using Paymongo.Sharp.Payments.Entities
+
+@inject IPaymongoClient PaymongoClient
+@inject IJSRuntime JsRuntime
+
+<h3>Links</h3>
+
+<button class="btn btn-primary" disabled="@_isProcessing" @onclick="OnPay">Pay with Links API</button>
+
+@if (_isProcessing)
+{
+    <div class="d-flex flex-row alert alert-secondary mt-3" role="alert">
+        <div class="spinner-border text-dark" role="status">
+        </div>
+        <p class="my-auto mx-2">Waiting for transaction to complete..</p>
+    </div>
+} else if (_transactionComplete)
+{
+    <div class="alert alert-success mt-3" role="alert">
+        Transaction completed! Paid by @payment.Billing.Name on @payment.PaidAt using @payment.Source["type"] with transaction id: @payment.BalanceTransactionId.
+    </div>
+}
+
+@code {
+
+    private bool _transactionComplete;
+    private bool _isProcessing;
+    private Payment payment;
+    
+    async Task OnPay()
+    {
+        _isProcessing = true;
+        Link link = new Link {
+            Description = "New Link",
+            Amount = 100000,
+            Currency = Currency.Php
+        };
+
+        var linkResult = await PaymongoClient.Links.CreateLinkAsync(link);
+        await JsRuntime.InvokeVoidAsync("open",linkResult.CheckoutUrl,"_blank");
+
+        while (true)
+        {
+            var getLinkResult = await PaymongoClient.Links.RetrieveLinkAsync(linkResult.Id);
+            if (getLinkResult.Status is LinkStatus.Paid)
+            {
+                payment = getLinkResult.Payments.First(payment => payment.Status is PaymentStatus.Paid);
+                break;
+            }
+        }
+        
+        _transactionComplete = true;
+        _isProcessing = false;
+    }
+}
