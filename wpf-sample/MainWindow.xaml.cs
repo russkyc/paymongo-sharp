@@ -9,6 +9,7 @@ using Paymongo.Sharp.Core.Entities;
 using Paymongo.Sharp.Core.Enums;
 using Paymongo.Sharp.Links.Entities;
 using Paymongo.Sharp.Sources.Entities;
+using Paymongo.Sharp.Utilities;
 
 #pragma warning disable CS8604
 
@@ -39,8 +40,6 @@ namespace WpfSample
                 return;
             }
 
-            var amount = ConvertToInt(doubleAmount);
-            
             AmountTextBox.Text = string.Empty;
             StatusBlock.Text = string.Empty;
             
@@ -50,7 +49,7 @@ namespace WpfSample
             var link = new Link
             {
                 Description = "Payment for",
-                Amount = amount,
+                Amount = doubleAmount,
                 Currency = Currency.Php
             };
 
@@ -98,8 +97,6 @@ namespace WpfSample
                 return;
             }
 
-            var amount = ConvertToInt(doubleAmount);
-            
             AmountTextBox.Text = string.Empty;
             StatusBlock.Text = string.Empty;
             
@@ -121,7 +118,7 @@ namespace WpfSample
                         },
                         Quantity = 1,
                         Currency = Currency.Php,
-                        Amount = amount
+                        Amount = doubleAmount
                     }
                 },
                 PaymentMethodTypes = new[]
@@ -180,8 +177,6 @@ namespace WpfSample
                 return;
             }
 
-            var amount = ConvertToInt(doubleAmount);
-            
             AmountTextBox.Text = string.Empty;
             StatusBlock.Text = string.Empty;
             
@@ -191,7 +186,7 @@ namespace WpfSample
             // Arrange
             Source source = new Source
             {
-                Amount = amount,
+                Amount = doubleAmount,
                 Description = "New Gcash Payment",
                 Billing = new Billing
                 {
@@ -255,8 +250,6 @@ namespace WpfSample
                 return;
             }
 
-            var amount = ConvertToInt(doubleAmount);
-            
             AmountTextBox.Text = string.Empty;
             StatusBlock.Text = string.Empty;
             
@@ -266,7 +259,7 @@ namespace WpfSample
             // Arrange
             Source source = new Source
             {
-                Amount = amount,
+                Amount = doubleAmount.ToIntAmount(),
                 Description = "New GrabPay Payment",
                 Billing = new Billing
                 {
@@ -316,12 +309,5 @@ namespace WpfSample
 
         }
         
-        int ConvertToInt(decimal decimalValue)
-        {
-            int decimalPlaces = BitConverter.GetBytes(decimal.GetBits(decimalValue)[3])[2];
-            decimal factor = (decimal)Math.Pow(10, decimalPlaces == 0 ? 2 : decimalPlaces);
-            int intValue = (int)(decimalValue * factor);
-            return intValue;
-        }
     }
 }
