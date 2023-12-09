@@ -24,6 +24,7 @@ using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Paymongo.Sharp.Converters;
 using Paymongo.Sharp.Core.Entities;
 using Paymongo.Sharp.Core.Enums;
 
@@ -51,11 +52,13 @@ namespace Paymongo.Sharp.Payments.Entities
         
         [JsonProperty("amount",
             NullValueHandling = NullValueHandling.Ignore)]
-        public int Amount { get; set; }
+        [JsonConverter(typeof(Int64DecimalConverter))]
+        public decimal Amount { get; set; }
         
         [JsonProperty("fee",
             NullValueHandling = NullValueHandling.Ignore)]
-        public int Fee { get; set; }
+        [JsonConverter(typeof(Int64DecimalConverter))]
+        public decimal Fee { get; set; }
         
         [JsonProperty("net_amount",
             NullValueHandling = NullValueHandling.Ignore)]

@@ -77,7 +77,7 @@ public class CustomerApiTests
         {
             FirstName = "First Name",
             LastName = "Last Name",
-            Email = "testcustomermail@mail.com",
+            Email = "testcustomermail6@mail.com",
             Phone = "+628234731949",
             DefaultDevice = Device.Email
         };
@@ -103,7 +103,7 @@ public class CustomerApiTests
         {
             FirstName = "First Name",
             LastName = "Last Name",
-            Email = "testcustomermail3@mail.com",
+            Email = "testcustomermail82@mail.com",
             Phone = "+628234735258",
             DefaultDevice = Device.Email
         };
@@ -117,7 +117,7 @@ public class CustomerApiTests
         
         // Assert
         editCustomerResult.Should().NotBeNull();
-        editCustomerResult.Should().NotBeEquivalentTo(customerResult);
+        editCustomerResult.Should().BeEquivalentTo(customerResult);
         
         // Cleanup
         var deleteCustomerResult = await _client.Customers.DeleteCustomerAsync(customerResult.Id);

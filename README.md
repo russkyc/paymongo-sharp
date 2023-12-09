@@ -212,7 +212,7 @@ For full Payment Method API reference, please see: [The Payment Method Object](h
 
 ### Payments
 
-- [ ] Create a Payment
+- [x] Create a Payment
 - [x] List all Payments
 - [x] Retrieve a Payment
 
