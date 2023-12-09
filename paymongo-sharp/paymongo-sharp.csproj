@@ -12,14 +12,11 @@
         <PackageIcon>icon.png</PackageIcon>
         <RepositoryUrl>https://github.com/russkyc/paymongo-sharp</RepositoryUrl>
         <PackageTags>paymongo paymongo-sharp pay payments</PackageTags>
-        <Version>0.5.0</Version>
+        <Version>0.5.1</Version>
         <Description>Unofficial C# Client for Paymongo</Description>
         <Copyright>russkyc 2023</Copyright>
-        <PackageReleaseNotes>- Add Partial Support for Customers API!
-- Create Customer (Customers API)
-- Edit Customer (Customers API)
-- Retrieve Customer (Customers API)
-- Delete Customer (Customers API)</PackageReleaseNotes>
+        <PackageReleaseNotes>BREAKING CHANGES:
+- All amount properties should now be decimal values (up to 2 decimal places only)</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     </PropertyGroup>
 
