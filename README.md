@@ -123,6 +123,14 @@ You can track the support for all of Paymongo's official API actions below:
 
 ---
 
+## :collision: Breaking Changes
+
+- (v0.5.1+) All amount related properties should now be a `decimal` (up to 2 decimal places)
+- (v0.2.0+) PaymongoClient now only needs a Secret Key on initialization
+- (v0.1.1-pre+) Updated root namespace to `Paymongo.Sharp` from `paymongo_sharp`
+
+---
+
 ## :notebook: Basic Client API Reference
 
 If you want to get started with this Paymongo client, you can
