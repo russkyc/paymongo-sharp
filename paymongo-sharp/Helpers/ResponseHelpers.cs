@@ -28,6 +28,7 @@ using Newtonsoft.Json.Linq;
 using Paymongo.Sharp.Checkouts.Entities;
 using Paymongo.Sharp.Customers.Entities;
 using Paymongo.Sharp.Links.Entities;
+using Paymongo.Sharp.PaymentMethods.Entities;
 using Paymongo.Sharp.Payments.Entities;
 using Paymongo.Sharp.Sources.Entities;
 
@@ -98,6 +99,53 @@ namespace Paymongo.Sharp.Helpers
             payment.PaidAt = payment.PaidAt.ToLocalDateTime();
             
             return payment;
+        }
+        
+        public static PaymentMethod ToPaymentMethod(this string? response)
+        {
+            dynamic paymentMethodRequestData = JObject.Parse(response);
+
+            PaymentMethod paymentMethod = JsonConvert.DeserializeObject<PaymentMethod>(paymentMethodRequestData.data.attributes.ToString());
+            
+            // Payment doesn't have an id field so we get it from the parent
+            paymentMethod.Id = paymentMethodRequestData.data.id.ToString();
+                    
+            // Unix timestamp doesn't account for daylight savings, so we adjust it here
+            paymentMethod.CreatedAt = paymentMethod.CreatedAt.ToLocalDateTime();
+            paymentMethod.UpdatedAt = paymentMethod.UpdatedAt.ToLocalDateTime();
+            
+            return paymentMethod;
+        }
+        
+        public static IEnumerable<PaymentMethod> ToPaymentMethods(this string data)
+        {
+            var paymentRequestDataCollection = JsonConvert.DeserializeObject<IEnumerable<PaymentMethodRequestAttributes>>(data);
+
+            if (paymentRequestDataCollection is null)
+            {
+                return Enumerable.Empty<PaymentMethod>();
+            }
+            
+            var paymentRequestArray = paymentRequestDataCollection.ToArray();
+
+            if (!paymentRequestArray.Any())
+            {
+                return Enumerable.Empty<PaymentMethod>();
+            }
+            
+            return paymentRequestArray.Select(paymentAttribute =>
+            {
+                var payment = paymentAttribute.Attributes;
+                
+                // Payment doesn't have an id field so we get it from the parent
+                payment.Id = paymentAttribute.Id;
+                    
+                // Unix timestamp doesn't account for daylight savings, so we adjust it here
+                payment.CreatedAt = payment.CreatedAt.ToLocalDateTime();
+                payment.UpdatedAt = payment.UpdatedAt.ToLocalDateTime();
+                
+                return payment;
+            });
         }
         
         public static Source ToSource(this string? response)

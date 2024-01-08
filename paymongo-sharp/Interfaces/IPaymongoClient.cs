@@ -23,6 +23,7 @@
 using Paymongo.Sharp.Checkouts;
 using Paymongo.Sharp.Customers;
 using Paymongo.Sharp.Links;
+using Paymongo.Sharp.PaymentMethods;
 using Paymongo.Sharp.Payments;
 using Paymongo.Sharp.Sources;
 
@@ -35,5 +36,6 @@ namespace Paymongo.Sharp.Interfaces
         LinksClient Links { get; }
         SourceClient Sources { get; set; }
         CustomerClient Customers { get; set; }
+        PaymentMethodsClient PaymentMethods { get; set; }
     }
 }

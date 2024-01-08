@@ -24,7 +24,9 @@ using Paymongo.Sharp.Checkouts;
 using Paymongo.Sharp.Customers;
 using Paymongo.Sharp.Interfaces;
 using Paymongo.Sharp.Links;
+using Paymongo.Sharp.PaymentMethods;
 using Paymongo.Sharp.Payments;
+using Paymongo.Sharp.Payments.Entities;
 using Paymongo.Sharp.Sources;
 
 namespace Paymongo.Sharp
@@ -41,6 +43,7 @@ namespace Paymongo.Sharp
             Links = new LinksClient(ApiEndpoint, secretKey);
             Sources = new SourceClient(ApiEndpoint, secretKey);
             Customers = new CustomerClient(ApiEndpoint, secretKey);
+            PaymentMethods = new PaymentMethodsClient(ApiEndpoint, secretKey);
         }
 
         public CheckoutClient Checkouts { get; }
@@ -48,5 +51,6 @@ namespace Paymongo.Sharp
         public LinksClient Links { get; }
         public SourceClient Sources { get; set; }
         public CustomerClient Customers { get; set; }
+        public PaymentMethodsClient PaymentMethods { get; set; }
     }
 }
