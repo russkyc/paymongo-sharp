@@ -44,7 +44,7 @@ public class PaymentMethodApiTests
         // Arrange
         var paymentMethod = new PaymentMethod
         {
-            Type = PaymentMethodType.GCash
+            Type = PaymentMethodType.Card
         };
 
         // Act
@@ -58,6 +58,33 @@ public class PaymentMethodApiTests
         Assert.Equal(paymentMethodResult.Type,getPaymentMethodResult.Type);
         Assert.NotEmpty(paymentMethodResult.Id);
         Assert.NotEmpty(getPaymentMethodResult.Id);
+    }
+    
+    [Fact]
+    async Task CreateAndUpdatePaymentMethod()
+    {
+        // Arrange
+        var paymentMethod = new PaymentMethod
+        {
+            Type = PaymentMethodType.Card
+        };
+
+        // Act
+        var paymentMethodResult = await _client.PaymentMethods.CreatePaymentMethodAsync(paymentMethod);
+
+        // Assert
+        Assert.NotNull(paymentMethodResult);
+        Assert.Equal(paymentMethod.Type,paymentMethodResult.Type);
+        Assert.NotEmpty(paymentMethodResult.Id);
+        
+        paymentMethodResult.Type = PaymentMethodType.Card;
+        paymentMethodResult.Cvc = 123;
+
+        var updatedPaymentMethodResult = await _client.PaymentMethods.UpdatePaymentMethodAsync(paymentMethodResult);
+        
+        // Assert
+        Assert.Equal(paymentMethodResult,updatedPaymentMethodResult);
+        
     }
 
     [Fact]

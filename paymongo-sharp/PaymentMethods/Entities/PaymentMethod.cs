@@ -50,6 +50,10 @@ namespace Paymongo.Sharp.PaymentMethods.Entities
         [JsonProperty("type",
             NullValueHandling = NullValueHandling.Ignore)]
         public PaymentMethodType Type { get; set; }
+        
+        [JsonProperty("cvc",
+            NullValueHandling = NullValueHandling.Ignore)]
+        public int Cvc { get; set; }
 
         [JsonProperty("metadata",
             NullValueHandling = NullValueHandling.Ignore)]

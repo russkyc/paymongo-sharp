@@ -60,6 +60,24 @@ namespace Paymongo.Sharp.PaymentMethods
 
             return response.Content.ToPaymentMethod();
         }
+        
+        public async Task<PaymentMethod> UpdatePaymentMethodAsync(PaymentMethod paymentMethod)
+        {
+            var data = new PaymentMethodRequestData
+            {
+                Data = new PaymentMethodRequestAttributes
+                {
+                    Attributes = paymentMethod
+                }
+            };
+
+            var body = JsonConvert.SerializeObject(data);
+        
+            var request = RequestHelpers.Create($"{Resource}/{paymentMethod.Id}",_secretKey,_secretKey, body);
+            var response = await _client.PutAsync(request);
+
+            return response.Content.ToPaymentMethod();
+        }
 
         public async Task<PaymentMethod> RetrievePaymentMethodAsync(string id)
         {
