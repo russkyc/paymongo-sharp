@@ -1,6 +1,6 @@
 ﻿// MIT License
 // 
-// Copyright (c) 2023 Russell Camo (@russkyc)
+// Copyright (c) $CURRENT_YEAR$ Russell Camo (@russkyc)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,26 +20,26 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using System.Runtime.Serialization;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
-namespace Paymongo.Sharp.Core.Enums
+namespace Paymongo.Sharp.PaymentMethods.Entities
 {
-    [JsonConverter(typeof(StringEnumConverter))]
-    public enum PaymentMethodType
+    public class Details
     {
-        [EnumMember(Value = "card")]
-        Card,
-        [EnumMember(Value = "dob")]
-        Dob,
-        [EnumMember(Value = "gcash")]
-        GCash,
-        [EnumMember(Value = "grab_pay")]
-        GrabPay,
-        [EnumMember(Value = "billease")]
-        Billease,
-        [EnumMember(Value = "paymaya")]
-        Paymaya
+        [JsonProperty("last4")]
+        public string Last4 { get; set; }
+        
+        [JsonProperty("exp_month",
+            NullValueHandling = NullValueHandling.Ignore)]
+        public int ExpMonth { get; set; }
+        
+        [JsonProperty("exp_year",
+            NullValueHandling = NullValueHandling.Ignore)]
+        public int ExpYear { get; set; }
+        
+        [JsonProperty("live_mode",
+            NullValueHandling = NullValueHandling.Ignore)]
+        public bool LiveMode { get; set; }
+
     }
 }

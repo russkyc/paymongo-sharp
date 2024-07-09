@@ -20,26 +20,15 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using System.Runtime.Serialization;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+using Paymongo.Sharp.Links.Entities;
 
-namespace Paymongo.Sharp.Core.Enums
+namespace Paymongo.Sharp.PaymentMethods.Entities
 {
-    [JsonConverter(typeof(StringEnumConverter))]
-    public enum PaymentMethodType
+    public class PaymentMethodRequestData
     {
-        [EnumMember(Value = "card")]
-        Card,
-        [EnumMember(Value = "dob")]
-        Dob,
-        [EnumMember(Value = "gcash")]
-        GCash,
-        [EnumMember(Value = "grab_pay")]
-        GrabPay,
-        [EnumMember(Value = "billease")]
-        Billease,
-        [EnumMember(Value = "paymaya")]
-        Paymaya
+        [JsonProperty("data",
+            NullValueHandling = NullValueHandling.Ignore)]
+        public PaymentMethodRequestAttributes? Data { get; set; }
     }
 }
