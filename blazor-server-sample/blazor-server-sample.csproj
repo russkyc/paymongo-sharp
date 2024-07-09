@@ -8,7 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\paymongo-sharp\paymongo-sharp.csproj" />
+      <ProjectReference Include="..\Paymongo.Sharp\Paymongo.Sharp.csproj" />
     </ItemGroup>
 
     <ItemGroup>
