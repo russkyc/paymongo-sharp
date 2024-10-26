@@ -20,24 +20,22 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Paymongo.Sharp.Checkouts;
-using Paymongo.Sharp.Customers;
-using Paymongo.Sharp.Links;
-using Paymongo.Sharp.PaymentMethods;
-using Paymongo.Sharp.Payments;
-using Paymongo.Sharp.Refunds;
-using Paymongo.Sharp.Sources;
+using System.Runtime.Serialization;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
-namespace Paymongo.Sharp.Interfaces
+namespace Paymongo.Sharp.Core.Enums
 {
-    public interface IPaymongoClient
+    [JsonConverter(typeof(StringEnumConverter))]
+    public enum RefundStatus
     {
-        CheckoutClient Checkouts { get; }
-        PaymentClient Payments { get; }
-        LinksClient Links { get; }
-        SourceClient Sources { get; set; }
-        CustomerClient Customers { get; set; }
-        PaymentMethodsClient PaymentMethods { get; set; }
-        RefundClient Refunds { get; set; }
+        [EnumMember(Value = "pending")]
+        Pending,
+        [EnumMember(Value = "processing")]
+        Processing,
+        [EnumMember(Value = "succeeded")]
+        Succeeded,
+        [EnumMember(Value = "failed")]
+        Failed
     }
 }

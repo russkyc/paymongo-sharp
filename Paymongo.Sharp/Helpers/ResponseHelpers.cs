@@ -30,6 +30,7 @@ using Paymongo.Sharp.Customers.Entities;
 using Paymongo.Sharp.Links.Entities;
 using Paymongo.Sharp.PaymentMethods.Entities;
 using Paymongo.Sharp.Payments.Entities;
+using Paymongo.Sharp.Refunds.Entities;
 using Paymongo.Sharp.Sources.Entities;
 
 
@@ -68,7 +69,53 @@ namespace Paymongo.Sharp.Helpers
             
             return checkout;
         }
-        
+
+        public static Refund ToRefund(this string? response)
+        {
+            dynamic refundRequestData = JObject.Parse(response);
+            Refund refund = JsonConvert.DeserializeObject<Refund>(refundRequestData.data!.attributes.ToString());
+
+            // Refund doesn't have an id field, so we take that from the parent
+            refund.Id = refundRequestData.data.id.ToString();
+
+            // Unix timestamp doesn't account for daylight savings, so we adjust it here
+            refund.CreatedAt = refund.CreatedAt.ToLocalDateTime();
+            refund.UpdatedAt = refund.UpdatedAt.ToLocalDateTime();
+
+            return refund;
+        }
+
+        public static IEnumerable<Refund> ToRefunds(this string data)
+        {
+            var refundRequestDataCollection = JsonConvert.DeserializeObject<IEnumerable<RefundRequestAttributes>>(data);
+
+            if (refundRequestDataCollection is null)
+            {
+                return Enumerable.Empty<Refund>();
+            }
+
+            var refundRequestArray = refundRequestDataCollection.ToArray();
+
+            if (!refundRequestArray.Any())
+            {
+                return Enumerable.Empty<Refund>();
+            }
+
+            return refundRequestArray.Select(refundAttribute =>
+            {
+                var refund = refundAttribute.Attributes;
+
+                // refund doesn't have an id field so we get it from the parent
+                refund.Id = refundAttribute.Id;
+
+                // Unix timestamp doesn't account for daylight savings, so we adjust it here
+                refund.CreatedAt = refund.CreatedAt.ToLocalDateTime();
+                refund.UpdatedAt = refund.UpdatedAt.ToLocalDateTime();
+
+                return refund;
+            });
+        }
+
         public static Customer ToCustomer(this string? response)
         {
             dynamic checkoutRequestData = JObject.Parse(response);
