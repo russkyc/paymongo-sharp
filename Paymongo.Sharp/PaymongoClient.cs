@@ -27,6 +27,7 @@ using Paymongo.Sharp.Links;
 using Paymongo.Sharp.PaymentMethods;
 using Paymongo.Sharp.Payments;
 using Paymongo.Sharp.Payments.Entities;
+using Paymongo.Sharp.Refunds;
 using Paymongo.Sharp.Sources;
 
 namespace Paymongo.Sharp
@@ -44,6 +45,7 @@ namespace Paymongo.Sharp
             Sources = new SourceClient(ApiEndpoint, secretKey);
             Customers = new CustomerClient(ApiEndpoint, secretKey);
             PaymentMethods = new PaymentMethodsClient(ApiEndpoint, secretKey);
+            Refunds = new RefundClient(ApiEndpoint, secretKey);
         }
 
         public CheckoutClient Checkouts { get; }
@@ -52,5 +54,6 @@ namespace Paymongo.Sharp
         public SourceClient Sources { get; set; }
         public CustomerClient Customers { get; set; }
         public PaymentMethodsClient PaymentMethods { get; set; }
+        public RefundClient Refunds { get; set; }
     }
 }

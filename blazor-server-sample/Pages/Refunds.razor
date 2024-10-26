@@ -1,0 +1,186 @@
+﻿@page "/refunds"
+@using Paymongo.Sharp.Core.Enums
+@using Paymongo.Sharp.Interfaces
+@using Paymongo.Sharp.Refunds.Entities
+@inject IPaymongoClient PaymongoClient
+@inject IJSRuntime JsRuntime
+
+<h3>Refunds</h3>
+
+<!-- Section for creating a refund -->
+<div class="card mb-4">
+    <div class="card-header">Request a Refund</div>
+    <div class="card-body">
+        <div>
+            <label>Payment ID:</label>
+            <input type="text" @bind="paymentId" class="form-control" />
+        </div>
+        <div>
+            <label>Refund Amount:</label>
+            <input type="number" @bind="refundAmount" class="form-control" />
+        </div>
+        <div>
+            <label>Reason:</label>
+            <select @bind="refundReason" class="form-control">
+                <option>Select a reason</option>
+                <option value="@RefundReason.Duplicate.ToString()">Duplicate</option>
+                <option value="@RefundReason.Fraudulent.ToString()">Fraudulent</option>
+                <option value="@RefundReason.RequestedByCustomer.ToString()">Requested by Customer</option>
+            </select>
+        </div>
+
+        <button disabled="@_isProcessing" class="btn btn-primary mt-2" @onclick="OnRefund">Request Refund</button>
+    </div>
+</div>
+
+@if (_isProcessing)
+{
+    <div class="d-flex flex-row alert alert-secondary mt-3" role="alert">
+        <div class="spinner-border text-dark" role="status"></div>
+        <p class="my-auto mx-2">Processing refund request...</p>
+    </div>
+}
+else if (_refundProcessed)
+{
+    <div class="alert alert-success mt-3" role="alert">
+        Refund processed successfully! Amount refunded: @processedRefund.Amount.
+    </div>
+}
+else if (_refunded)
+{
+    <div class="alert alert-danger mt-3" role="alert">
+        Error processing refund. Payment already refunded.
+    </div>
+}
+
+<!-- Section to retrieve a refund by ID -->
+<div class="card mb-4">
+    <div class="card-header">Retrieve a Refund</div>
+    <div class="card-body">
+        <div>
+            <label>Refund ID:</label>
+            <input type="text" @bind="refundId" class="form-control" />
+        </div>
+
+        <button class="btn btn-secondary mt-2" @onclick="RetrieveRefund">Retrieve Refund</button>
+
+        @if (retrievedRefund != null)
+        {
+            <div class="alert alert-info mt-3" role="alert">
+                <h5>Refund Details</h5>
+                <p><strong>ID:</strong> @retrievedRefund.Id</p>
+                <p><strong>Amount:</strong> @retrievedRefund.Amount</p>
+                <p><strong>Status:</strong> @retrievedRefund.Status</p>
+                <p><strong>Reason:</strong> @retrievedRefund.Reason</p>
+                <p><strong>Notes:</strong> @retrievedRefund.Notes</p>
+                <p><strong>Currency:</strong> @retrievedRefund.Currency</p>
+                <p><strong>Payment ID:</strong> @retrievedRefund.PaymentId</p>
+                <p><strong>Created At:</strong> @retrievedRefund.CreatedAt</p>
+            </div>
+        }
+    </div>
+</div>
+
+<!-- Section to list all refunds -->
+<div class="card mb-4">
+    <div class="card-header">All Refunds</div>
+    <div class="card-body">
+        <button class="btn btn-info mb-2" @onclick="ListAllRefunds">Load All Refunds</button>
+
+        @if (refundsList != null && refundsList.Any())
+        {
+            <ul class="list-group">
+                @foreach (var refund in refundsList)
+                {
+                    <li class="list-group-item">
+                        <p><strong>ID:</strong> @refund.Id</p>
+                        <p><strong>Amount:</strong> @refund.Amount</p>
+                        <p><strong>Status:</strong> @refund.Status</p>
+                        <p><strong>Reason:</strong> @refund.Reason</p>
+                        <p><strong>Notes:</strong> @refund.Notes</p>
+                        <p><strong>Currency:</strong> @refund.Currency</p>
+                        <p><strong>Payment ID:</strong> @refund.PaymentId</p>
+                        <p><strong>Created At:</strong> @refund.CreatedAt</p>
+                    </li>
+                }
+            </ul>
+        }
+        else
+        {
+            <p>No refunds found.</p>
+        }
+    </div>
+</div>
+
+@code {
+    private bool _isProcessing = false;
+    private bool _refundProcessed = false;
+    private bool _refunded = false;
+    private Refund processedRefund;
+    private Refund retrievedRefund;
+    private IEnumerable<Refund> refundsList;
+
+    private string paymentId;
+    private decimal refundAmount;
+    private RefundReason? refundReason;
+
+    private string refundId;
+
+    // Method to create a refund
+    async Task OnRefund()
+    {
+        _isProcessing = true;
+        _refundProcessed = false;
+        _refunded = false;
+
+        try
+        {
+            var refund = new Refund
+            {
+                PaymentId = paymentId,
+                Amount = refundAmount,
+                Notes = "Test refund",
+                Currency = Paymongo.Sharp.Core.Enums.Currency.Php,
+                Reason = refundReason
+            };
+
+            processedRefund = await PaymongoClient.Refunds.CreateRefundAsync(refund);
+            _refundProcessed = true;
+        }
+        catch (Exception ex)
+        {
+            _refunded = true;
+            Console.WriteLine($"Error processing refund: {ex.Message}");
+        }
+        finally
+        {
+            _isProcessing = false;
+        }
+    }
+
+    // Method to retrieve a specific refund by ID
+    async Task RetrieveRefund()
+    {
+        try
+        {
+            retrievedRefund = await PaymongoClient.Refunds.RetrieveRefundAsync(refundId);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error retrieving refund: {ex.Message}");
+        }
+    }
+
+    // Method to list all refunds
+    async Task ListAllRefunds()
+    {
+        try
+        {
+            refundsList = await PaymongoClient.Refunds.ListAllRefundsAsync();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error listing refunds: {ex.Message}");
+        }
+    }
+}
