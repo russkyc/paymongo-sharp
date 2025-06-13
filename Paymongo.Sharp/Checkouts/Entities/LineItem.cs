@@ -22,7 +22,6 @@
 
 using System.Collections.Generic;
 using Newtonsoft.Json;
-using Paymongo.Sharp.Converters;
 using Paymongo.Sharp.Core.Enums;
 
 #pragma warning disable CS8618
@@ -53,7 +52,6 @@ namespace Paymongo.Sharp.Checkouts.Entities
         
         [JsonProperty("amount",
             NullValueHandling = NullValueHandling.Ignore)]
-        [JsonConverter(typeof(Int64DecimalConverter))]
-        public decimal Amount { get; set; }
+        public long Amount { get; set; }
     }
 }

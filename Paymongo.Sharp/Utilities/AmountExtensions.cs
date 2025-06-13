@@ -24,20 +24,20 @@ using System;
 
 namespace Paymongo.Sharp.Utilities
 {
-    public static class Extensions
+    public static class AmountExtensions
     {
-        public static int ToIntAmount(this decimal decimalValue)
+        public static long ToLongAmount(this decimal decimalValue)
         {
             int decimalPlaces = BitConverter.GetBytes(decimal.GetBits(decimalValue)[3])[2];
-            decimal factor = (decimal)Math.Pow(10, decimalPlaces == 0 ? 2 : decimalPlaces);
-            int intValue = (int)(decimalValue * factor);
+            var factor = (decimal)Math.Pow(10, decimalPlaces == 0 ? 2 : decimalPlaces);
+            var intValue = (long)(decimalValue * factor);
             return intValue;
         }
         
         public static decimal ToDecimalAmount(this long intValue)
         {
-            decimal factor = (decimal)Math.Pow(10, 2);
-            decimal decimalValue = intValue / factor;
+            var factor = (decimal)Math.Pow(10, 2);
+            var decimalValue = intValue / factor;
             return decimalValue;
         }
         

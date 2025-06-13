@@ -24,10 +24,7 @@ using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using Paymongo.Sharp.Converters;
-using Paymongo.Sharp.Core.Entities;
 using Paymongo.Sharp.Core.Enums;
-using Paymongo.Sharp.Payments.Entities;
 
 #pragma warning disable CS8618
 
@@ -38,14 +35,9 @@ namespace Paymongo.Sharp.Refunds.Entities
         [JsonIgnore]
         public string? Id { get; set; }
         
-        //[JsonProperty("client_key",
-        //    NullValueHandling = NullValueHandling.Ignore)]
-        //public string ClientKey { get; set; }
-
         [JsonProperty("amount",
             NullValueHandling = NullValueHandling.Ignore)]
-        [JsonConverter(typeof(Int64DecimalConverter))]
-        public decimal Amount { get; set; }
+        public long Amount { get; set; }
 
         [JsonProperty("currency",
             NullValueHandling = NullValueHandling.Ignore)]

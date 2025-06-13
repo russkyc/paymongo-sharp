@@ -49,7 +49,7 @@ namespace WpfSample
             var link = new Link
             {
                 Description = "Payment for",
-                Amount = doubleAmount,
+                Amount = doubleAmount.ToLongAmount(),
                 Currency = Currency.Php
             };
 
@@ -118,7 +118,7 @@ namespace WpfSample
                         },
                         Quantity = 1,
                         Currency = Currency.Php,
-                        Amount = doubleAmount
+                        Amount = doubleAmount.ToLongAmount()
                     }
                 },
                 PaymentMethodTypes = new[]
@@ -186,7 +186,7 @@ namespace WpfSample
             // Arrange
             Source source = new Source
             {
-                Amount = doubleAmount,
+                Amount = doubleAmount.ToLongAmount(),
                 Description = "New Gcash Payment",
                 Billing = new Billing
                 {
@@ -259,7 +259,7 @@ namespace WpfSample
             // Arrange
             Source source = new Source
             {
-                Amount = doubleAmount.ToIntAmount(),
+                Amount = doubleAmount.ToLongAmount(),
                 Description = "New GrabPay Payment",
                 Billing = new Billing
                 {
