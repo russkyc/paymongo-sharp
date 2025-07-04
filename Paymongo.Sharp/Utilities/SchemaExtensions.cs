@@ -1,6 +1,6 @@
 ﻿// MIT License
 // 
-// Copyright (c) 2023 Russell Camo (@russkyc)
+// Copyright (c) 2025 Russell Camo (@russkyc)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,14 +20,21 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Newtonsoft.Json;
+using Paymongo.Sharp.Core.Contracts;
 
-namespace Paymongo.Sharp.Checkouts.Entities
+namespace Paymongo.Sharp.Utilities
 {
-    public class CustomerRequestData
+    internal static class SchemaHelpers
     {
-        [JsonProperty("data",
-            NullValueHandling = NullValueHandling.Ignore)]
-        public CustomerRequestAttributes? Data { get; set; }
+        internal static Schema<TDataContract> ToSchema<TDataContract>(this TDataContract data)
+        {
+            return new Schema<TDataContract>
+            {
+                Data = new Data<TDataContract>()
+                {
+                    Attributes = data
+                }
+            };
+        }
     }
 }

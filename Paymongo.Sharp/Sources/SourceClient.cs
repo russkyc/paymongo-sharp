@@ -24,6 +24,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Paymongo.Sharp.Helpers;
 using Paymongo.Sharp.Sources.Entities;
+using Paymongo.Sharp.Utilities;
 using RestSharp;
 
 namespace Paymongo.Sharp.Sources
@@ -44,13 +45,7 @@ namespace Paymongo.Sharp.Sources
         public async Task<Source> CreateSourceAsync(Source source)
         {
         
-            var data = new SourceRequestData
-            {
-                Data = new SourceRequestAttributes
-                {
-                    Attributes = source
-                }
-            };
+            var data = source.ToSchema();
 
             var body = JsonConvert.SerializeObject(data);
         

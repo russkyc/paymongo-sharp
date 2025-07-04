@@ -28,6 +28,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Paymongo.Sharp.Helpers;
 using Paymongo.Sharp.Payments.Entities;
+using Paymongo.Sharp.Utilities;
 using RestSharp;
 
 namespace Paymongo.Sharp.Payments
@@ -47,13 +48,7 @@ namespace Paymongo.Sharp.Payments
 
         public async Task<Payment> CreatePaymentAsync(Payment payment)
         {
-            var data = new PaymentRequestData()
-            {
-                Data = new PaymentRequestAttributes
-                {
-                    Attributes = payment
-                }
-            };
+            var data = payment.ToSchema();
 
             var body = JsonConvert.SerializeObject(data);
         

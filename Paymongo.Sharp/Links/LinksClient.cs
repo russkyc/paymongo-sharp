@@ -24,6 +24,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Paymongo.Sharp.Helpers;
 using Paymongo.Sharp.Links.Entities;
+using Paymongo.Sharp.Utilities;
 using RestSharp;
 
 namespace Paymongo.Sharp.Links
@@ -44,13 +45,7 @@ namespace Paymongo.Sharp.Links
         public async Task<Link> CreateLinkAsync(Link link)
         {
         
-            var data = new LinkRequestData
-            {
-                Data = new LinkRequestAttributes
-                {
-                    Attributes = link
-                }
-            };
+            var data = link.ToSchema();
 
             var body = JsonConvert.SerializeObject(data);
         

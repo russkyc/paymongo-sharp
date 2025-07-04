@@ -24,6 +24,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Paymongo.Sharp.Checkouts.Entities;
 using Paymongo.Sharp.Helpers;
+using Paymongo.Sharp.Utilities;
 using RestSharp;
 
 namespace Paymongo.Sharp.Checkouts
@@ -44,13 +45,7 @@ namespace Paymongo.Sharp.Checkouts
         public async Task<Checkout> CreateCheckoutAsync(Checkout checkout)
         {
         
-            var data = new CheckoutRequestData
-            {
-                Data = new CheckoutRequestAttributes
-                {
-                    Attributes = checkout
-                }
-            };
+            var data = checkout.ToSchema();
 
             var body = JsonConvert.SerializeObject(data);
         

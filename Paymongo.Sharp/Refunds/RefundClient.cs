@@ -29,6 +29,7 @@ using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System;
 using System.Linq;
+using Paymongo.Sharp.Utilities;
 
 namespace Paymongo.Sharp.Refunds
 {
@@ -48,13 +49,7 @@ namespace Paymongo.Sharp.Refunds
         public async Task<Refund> CreateRefundAsync(Refund refund)
         {
         
-            var data = new RefundRequestData
-            {
-                Data = new RefundRequestAttributes
-                {
-                    Attributes = refund
-                }
-            };
+            var data = refund.ToSchema();
 
             var body = JsonConvert.SerializeObject(data);
         

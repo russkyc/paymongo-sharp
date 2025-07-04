@@ -26,6 +26,7 @@ using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Paymongo.Sharp.Checkouts.Entities;
+using Paymongo.Sharp.Core.Contracts;
 using Paymongo.Sharp.Customers.Entities;
 using Paymongo.Sharp.Links.Entities;
 using Paymongo.Sharp.PaymentMethods.Entities;
@@ -87,7 +88,7 @@ namespace Paymongo.Sharp.Helpers
 
         public static IEnumerable<Refund> ToRefunds(this string data)
         {
-            var refundRequestDataCollection = JsonConvert.DeserializeObject<IEnumerable<RefundRequestAttributes>>(data);
+            var refundRequestDataCollection = JsonConvert.DeserializeObject<IEnumerable<Data<Refund>>>(data);
 
             if (refundRequestDataCollection is null)
             {
@@ -166,7 +167,7 @@ namespace Paymongo.Sharp.Helpers
         
         public static IEnumerable<PaymentMethod> ToPaymentMethods(this string data)
         {
-            var paymentRequestDataCollection = JsonConvert.DeserializeObject<IEnumerable<PaymentMethodRequestAttributes>>(data);
+            var paymentRequestDataCollection = JsonConvert.DeserializeObject<IEnumerable<Data<PaymentMethod>>>(data);
 
             if (paymentRequestDataCollection is null)
             {
@@ -237,7 +238,7 @@ namespace Paymongo.Sharp.Helpers
         
         public static IEnumerable<Payment> ToPayments(this string data)
         {
-            var paymentRequestDataCollection = JsonConvert.DeserializeObject<IEnumerable<PaymentRequestAttributes>>(data);
+            var paymentRequestDataCollection = JsonConvert.DeserializeObject<IEnumerable<Data<Payment>>>(data);
 
             if (paymentRequestDataCollection is null)
             {
@@ -269,7 +270,7 @@ namespace Paymongo.Sharp.Helpers
         
         public static IEnumerable<Payment> ToDataPayments(this string response)
         {
-            var paymentRequestDataCollection = JsonConvert.DeserializeObject<IEnumerable<PaymentRequestData>>(response);
+            var paymentRequestDataCollection = JsonConvert.DeserializeObject<IEnumerable<Schema<Payment>>>(response);
 
             if (paymentRequestDataCollection is null)
             {
@@ -294,7 +295,7 @@ namespace Paymongo.Sharp.Helpers
         {
             dynamic customerRequestData = JObject.Parse(data);
             string customerData = customerRequestData.data.ToString();
-            var customerRequestAttributes = JsonConvert.DeserializeObject<IEnumerable<CustomerRequestAttributes>>(customerData);
+            var customerRequestAttributes = JsonConvert.DeserializeObject<IEnumerable<Data<Customer>>>(customerData);
 
             if (customerRequestAttributes is null)
             {
@@ -308,12 +309,12 @@ namespace Paymongo.Sharp.Helpers
                 return Enumerable.Empty<Customer>();
             }
             
-            return customerRequestArray.Select(customerRequestData =>
+            return customerRequestArray.Select(requestData =>
             {
-                var customer = customerRequestData.Attributes;
+                var customer = requestData.Attributes;
                 
                 // Payment doesn't have an id field so we get it from the parent
-                customer.Id = customerRequestData.Id;
+                customer.Id = requestData.Id;
                     
                 // Unix timestamp doesn't account for daylight savings, so we adjust it here
                 customer.CreatedAt = customer.CreatedAt.ToLocalDateTime();

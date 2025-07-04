@@ -23,9 +23,9 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using Paymongo.Sharp.Checkouts.Entities;
 using Paymongo.Sharp.Customers.Entities;
 using Paymongo.Sharp.Helpers;
+using Paymongo.Sharp.Utilities;
 using RestSharp;
 
 namespace Paymongo.Sharp.Customers
@@ -45,13 +45,7 @@ namespace Paymongo.Sharp.Customers
 
         public async Task<Customer> CreateCustomerAsync(Customer customer)
         {
-            var data = new CustomerRequestData
-            {
-                Data = new CustomerRequestAttributes
-                {
-                    Attributes = customer
-                }
-            };
+            var data = customer.ToSchema();
 
             var body = JsonConvert.SerializeObject(data);
         
@@ -63,13 +57,7 @@ namespace Paymongo.Sharp.Customers
         
         public async Task<Customer> EditCustomerAsync(Customer customer)
         {
-            var data = new CustomerRequestData
-            {
-                Data = new CustomerRequestAttributes
-                {
-                    Attributes = customer
-                }
-            };
+            var data = customer.ToSchema();
 
             var body = JsonConvert.SerializeObject(data);
         
