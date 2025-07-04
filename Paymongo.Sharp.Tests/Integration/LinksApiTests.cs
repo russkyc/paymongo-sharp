@@ -22,7 +22,7 @@
 
 using Paymongo.Sharp.Links.Entities;
 
-namespace paymongo_sharp.tests.IntegrationTests;
+namespace Paymongo.Sharp.Tests.Integration;
 
 public class LinksApiTests
 {

@@ -22,7 +22,7 @@
 
 using Paymongo.Sharp.Checkouts.Entities;
 
-namespace paymongo_sharp.tests.IntegrationTests;
+namespace Paymongo.Sharp.Tests.Integration;
 
 #pragma warning disable CS8604
 

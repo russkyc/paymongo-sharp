@@ -22,7 +22,7 @@
 
 using Paymongo.Sharp.Sources.Entities;
 
-namespace paymongo_sharp.tests.IntegrationTests;
+namespace Paymongo.Sharp.Tests.Integration;
 
 public class SourceApiTests
 {

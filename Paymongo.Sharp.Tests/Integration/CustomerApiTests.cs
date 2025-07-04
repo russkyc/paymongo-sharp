@@ -20,9 +20,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Paymongo.Sharp.Customers.Entities;
+using Paymongo.Sharp.Tests.Utils;
 
-namespace paymongo_sharp.tests.IntegrationTests;
+namespace Paymongo.Sharp.Tests.Integration;
 
 public class CustomerApiTests
 {
@@ -42,17 +42,10 @@ public class CustomerApiTests
     async Task CreateAndDeleteCustomer()
     {
         // Arrange
-        Customer customer = new Customer()
-        {
-            FirstName = "First Name",
-            LastName = "Last Name",
-            Email = "customailtest@mail.com",
-            Phone = "+639285725323",
-            DefaultDevice = Device.Email
-        };
+        var customer = DataFakers.GenerateCustomer();
         
         // Act
-        Customer customerResult = await _client.Customers.CreateCustomerAsync(customer);
+        var customerResult = await _client.Customers.CreateCustomerAsync(customer);
         
         // Assert
         customerResult.Should().NotBeNull();
@@ -73,17 +66,10 @@ public class CustomerApiTests
     async Task CreateAndRetrieveCustomer()
     {
         // Arrange
-        Customer customer = new Customer()
-        {
-            FirstName = "First Name2",
-            LastName = "Last Name4",
-            Email = "testcustomermail614@mail.com",
-            Phone = "+628234731949",
-            DefaultDevice = Device.Email
-        };
+        var customer = DataFakers.GenerateCustomer();
         
         // Act
-        Customer customerResult = await _client.Customers.CreateCustomerAsync(customer);
+        var customerResult = await _client.Customers.CreateCustomerAsync(customer);
         var getCustomersResult = await _client.Customers.RetrieveCustomerAsync(customer.Email, customer.Phone);
         
         // Assert
@@ -99,17 +85,10 @@ public class CustomerApiTests
     async Task CreateAndEditCustomer()
     {
         // Arrange
-        Customer customer = new Customer()
-        {
-            FirstName = "First Name4",
-            LastName = "Last Name4",
-            Email = "testcustomermail482@gmail.com",
-            Phone = "+628234735258",
-            DefaultDevice = Device.Email
-        };
+        var customer = DataFakers.GenerateCustomer();
         
         // Act
-        Customer customerResult = await _client.Customers.CreateCustomerAsync(customer);
+        var customerResult = await _client.Customers.CreateCustomerAsync(customer);
         
         customerResult.FirstName = "New First Name";
         

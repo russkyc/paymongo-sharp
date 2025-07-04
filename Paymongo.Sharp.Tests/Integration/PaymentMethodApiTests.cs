@@ -22,7 +22,7 @@
 
 using PaymentMethod = Paymongo.Sharp.PaymentMethods.Entities.PaymentMethod;
 
-namespace paymongo_sharp.tests.IntegrationTests;
+namespace Paymongo.Sharp.Tests.Integration;
 
 public class PaymentMethodApiTests
 {
