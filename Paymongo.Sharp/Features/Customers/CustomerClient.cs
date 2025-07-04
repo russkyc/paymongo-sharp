@@ -61,7 +61,7 @@ namespace Paymongo.Sharp.Features.Customers
         public async Task<bool> DeleteCustomerAsync(string id)
         {
             var url = $"{Resource}/{id}";
-            return await _client.SendRequestAsync<bool>(HttpMethod.Delete, url, responseDeserializer: content => content.ToCustomerResultBool());
+            return await _client.SendRequestAsync(HttpMethod.Delete, url, responseDeserializer: content => content.ToCustomerResultBool());
         }
     }
 }
