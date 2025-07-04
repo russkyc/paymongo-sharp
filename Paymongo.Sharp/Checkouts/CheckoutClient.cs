@@ -20,8 +20,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using System.Text.Json;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 using Paymongo.Sharp.Checkouts.Entities;
 using Paymongo.Sharp.Helpers;
 using Paymongo.Sharp.Utilities;
@@ -47,7 +47,7 @@ namespace Paymongo.Sharp.Checkouts
         
             var data = checkout.ToSchema();
 
-            var body = JsonConvert.SerializeObject(data);
+            var body = JsonSerializer.Serialize(data);
         
             var request = RequestHelpers.Create(Resource,_secretKey,_secretKey, body);
             var response = await _client.PostAsync(request);

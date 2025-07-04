@@ -21,7 +21,7 @@
 // SOFTWARE.
 
 using System.Collections.Generic;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 using Paymongo.Sharp.Core.Enums;
 
 #pragma warning disable CS8618
@@ -30,28 +30,25 @@ namespace Paymongo.Sharp.Checkouts.Entities
 {
     public class LineItem
     {
-        [JsonProperty("name",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("name")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string Name { get; set; }
         
-        [JsonProperty("description",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("description")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string Description { get; set; }
         
-        [JsonProperty("images",
-            NullValueHandling=NullValueHandling.Ignore)]
+        [JsonPropertyName("images")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public IEnumerable<string>? Images { get; set; }
         
-        [JsonProperty("quantity",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("quantity")]
         public int Quantity { get; set; }
         
-        [JsonProperty("currency",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("currency")]
         public Currency Currency { get; set; }
         
-        [JsonProperty("amount",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("amount")]
         public long Amount { get; set; }
     }
 }

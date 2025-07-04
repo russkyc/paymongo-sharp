@@ -20,22 +20,22 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Paymongo.Sharp.Core.Contracts
 {
     public class Data<TRequestAttribute>
     {
-        [JsonProperty("id",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("id")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string? Id { get; set; }
         
-        [JsonProperty("type",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("type")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string? Type { get; set; }
         
-        [JsonProperty("attributes",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("attributes")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public TRequestAttribute? Attributes { get; set; }
     }
 }

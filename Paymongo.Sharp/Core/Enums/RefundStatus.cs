@@ -20,22 +20,20 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using System.Runtime.Serialization;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+using System.Text.Json.Serialization;
 
 namespace Paymongo.Sharp.Core.Enums
 {
-    [JsonConverter(typeof(StringEnumConverter))]
+    [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum RefundStatus
     {
-        [EnumMember(Value = "pending")]
+        [JsonStringEnumMemberName("pending")]
         Pending,
-        [EnumMember(Value = "processing")]
+        [JsonStringEnumMemberName("processing")]
         Processing,
-        [EnumMember(Value = "succeeded")]
+        [JsonStringEnumMemberName("succeeded")]
         Succeeded,
-        [EnumMember(Value = "failed")]
+        [JsonStringEnumMemberName("failed")]
         Failed
     }
 }

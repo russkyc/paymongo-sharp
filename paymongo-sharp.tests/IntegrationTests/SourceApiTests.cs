@@ -32,9 +32,9 @@ public class SourceApiTests
     {
         Env.TraversePath().Load();
         
-        var secretKey = Env.GetString("SECRET_KEY");
+        var publicKey = Env.GetString("PUBLIC_KEY");
         
-        _client = new PaymongoClient(secretKey);
+        _client = new PaymongoClient(publicKey);
     }
 
     [Theory]
@@ -45,23 +45,8 @@ public class SourceApiTests
         // Arrange
         Source source = new Source
         {
-            Amount = 100000,
-            Description = "New GcashPayment",
-            Billing = new Billing
-            {
-                Name = "TestName",
-                Email = "test@paymongo.com",
-                Phone = "9063364572",
-                Address = new Address
-                {
-                    Line1 = "TestAddress1",
-                    Line2 = "TestAddress2",
-                    PostalCode = "4506",
-                    State = "TestState",
-                    City = "TestCity",
-                    Country = "PH"
-                }
-            },
+            Amount = 10000,
+            Description = $"New {type} Payment",
             Redirect = new Redirect
             {
                 Success = "http://127.0.0.1",
@@ -93,23 +78,8 @@ public class SourceApiTests
         // Arrange
         Source source = new Source
         {
-            Amount = 100000,
-            Description = "New GcashPayment",
-            Billing = new Billing
-            {
-                Name = "TestName",
-                Email = "test@paymongo.com",
-                Phone = "9063364572",
-                Address = new Address
-                {
-                    Line1 = "TestAddress1",
-                    Line2 = "TestAddress2",
-                    PostalCode = "4506",
-                    State = "TestState",
-                    City = "TestCity",
-                    Country = "PH"
-                }
-            },
+            Amount = 10000,
+            Description = $"New {type} Payment",
             Redirect = new Redirect
             {
                 Success = "http://127.0.0.1",

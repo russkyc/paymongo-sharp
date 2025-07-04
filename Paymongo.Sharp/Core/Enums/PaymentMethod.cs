@@ -20,28 +20,34 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using System.Runtime.Serialization;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+using System.Text.Json.Serialization;
 
 namespace Paymongo.Sharp.Core.Enums
 {
-    [JsonConverter(typeof(StringEnumConverter))]
+    [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum PaymentMethod
     {
-        [EnumMember(Value = "billease")]
+        [JsonStringEnumMemberName("billease")]
         BillEase,
-        [EnumMember(Value = "card")]
+        [JsonStringEnumMemberName("card")]
         Card,
-        [EnumMember(Value = "dob")]
+        [JsonStringEnumMemberName("brankas_bdo")]
+        BrankasBdo,
+        [JsonStringEnumMemberName("brankas_landbank")]
+        BrankasLandbank,
+        [JsonStringEnumMemberName("brankas_metrobank")]
+        BrankasMetrobank,
+        [JsonStringEnumMemberName("dob")]
         Dob,
-        [EnumMember(Value = "dob_ubp")]
+        [JsonStringEnumMemberName("dob_ubp")]
         DobUbp,
-        [EnumMember(Value = "gcash")] 
+        [JsonStringEnumMemberName("gcash")]
         GCash,
-        [EnumMember(Value = "grab_pay")]
+        [JsonStringEnumMemberName("grab_pay")]
         GrabPay,
-        [EnumMember(Value = "paymaya")]
+        [JsonStringEnumMemberName("paymaya")]
         Paymaya,
+        [JsonStringEnumMemberName("qrph")]
+        QrPh
     }
 }

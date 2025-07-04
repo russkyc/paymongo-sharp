@@ -26,9 +26,9 @@ namespace Paymongo.Sharp.Utilities
 {
     internal static class SchemaHelpers
     {
-        internal static Schema<TDataContract> ToSchema<TDataContract>(this TDataContract data)
+        internal static Schema<Data<TDataContract>> ToSchema<TDataContract>(this TDataContract data)
         {
-            return new Schema<TDataContract>
+            return new Schema<Data<TDataContract>>
             {
                 Data = new Data<TDataContract>()
                 {

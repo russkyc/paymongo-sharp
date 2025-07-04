@@ -22,12 +22,10 @@
 
 using System;
 using System.Collections.Generic;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+using System.Text.Json.Serialization;
+using Paymongo.Sharp.Converters;
 using Paymongo.Sharp.Core.Enums;
 using Paymongo.Sharp.Payments.Entities;
-
-#pragma warning disable CS8618
 
 namespace Paymongo.Sharp.Links.Entities
 {
@@ -36,54 +34,49 @@ namespace Paymongo.Sharp.Links.Entities
         [JsonIgnore]
         public string Id { get; set; }
         
-        [JsonProperty("reference_number",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("reference_number")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string ReferenceNumber { get; set; }
         
-        [JsonProperty("description",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("description")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string Description { get; set; }
         
-        [JsonProperty("remarks",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("remarks")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string Remarks { get; set; }
 
-        [JsonProperty("amount",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("amount")]
         public long Amount { get; set; }
         
-        [JsonProperty("currency",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("currency")]
         public Currency Currency { get; set; }
         
-        [JsonProperty("checkout_url",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("checkout_url")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string CheckoutUrl { get; set; }
 
-        [JsonProperty("status",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("status")]
         public LinkStatus Status { get; set; }
         
-        [JsonProperty("livemode",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("livemode")]
         public bool LiveMode { get; set; }
         
-        [JsonProperty("archived",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("archived")]
         public bool Archived { get; set; }
         
-        [JsonProperty("payments",
-            NullValueHandling = NullValueHandling.Ignore)]
-        public IEnumerable<Payment>? Payments { get; set; }
+        [JsonPropertyName("payments")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public IEnumerable<Payment> Payments { get; set; }
         
-        [JsonProperty("created_at",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("created_at")]
         [JsonConverter(typeof(UnixDateTimeConverter))]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public DateTime? CreatedAt { get; set; }
         
-        [JsonProperty("updated_at",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("updated_at")]
         [JsonConverter(typeof(UnixDateTimeConverter))]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public DateTime? UpdatedAt { get; set; }
     }
 }

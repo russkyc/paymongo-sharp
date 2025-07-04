@@ -26,7 +26,7 @@ namespace Paymongo.Sharp.Helpers
     {
         public static string Encode(string authUsername, string authPassword)
         {
-            var combined = $"{authUsername}:{authPassword}";
+            var combined = $"{authUsername}:";
             var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(combined);
             return System.Convert.ToBase64String(plainTextBytes);
 

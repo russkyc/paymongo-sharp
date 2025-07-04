@@ -20,25 +20,23 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Paymongo.Sharp.PaymentMethods.Entities
 {
     public class Details
     {
-        [JsonProperty("last4")]
-        public string Last4 { get; set; }
+        [JsonPropertyName("last4")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public string? Last4 { get; set; }
         
-        [JsonProperty("exp_month",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("exp_month")]
         public int ExpMonth { get; set; }
         
-        [JsonProperty("exp_year",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("exp_year")]
         public int ExpYear { get; set; }
         
-        [JsonProperty("live_mode",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("live_mode")]
         public bool LiveMode { get; set; }
 
     }

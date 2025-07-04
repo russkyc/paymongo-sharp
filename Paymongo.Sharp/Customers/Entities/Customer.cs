@@ -22,8 +22,8 @@
 
 using System;
 using System.Collections.Generic;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+using System.Text.Json.Serialization;
+using Paymongo.Sharp.Converters;
 using Paymongo.Sharp.Core.Enums;
 
 #pragma warning disable CS8618
@@ -32,54 +32,57 @@ namespace Paymongo.Sharp.Customers.Entities
 {
     public class Customer
     {
-        [JsonProperty("id",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("id")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string Id { get; set; }
         
-        [JsonProperty("organization_id",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("organization_id")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string OrganizationId { get; set; }
         
-        [JsonProperty("default_payment_method_id",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("default_payment_method_id")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string DefaultPaymentMethodId { get; set; }
         
-        [JsonProperty("payment_methods",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("payment_methods")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public IEnumerable<CustomerPaymentMethod> PaymentMethods { get; set; }
         
-        [JsonProperty("default_device")]
+        [JsonPropertyName("default_device")]
         public Device DefaultDevice { get; set; }
         
-        [JsonProperty("first_name",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("first_name")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string FirstName { get; set; }
         
-        [JsonProperty("last_name",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("last_name")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string LastName { get; set; }
         
-        [JsonProperty("phone",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("phone")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string Phone { get; set; }
         
-        [JsonProperty("email",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("email")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string Email { get; set; }
         
-        [JsonProperty("live_mode",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("live_mode")]
         public bool LiveMode { get; set; }
         
-        [JsonProperty("created_at",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("created_at")]
         [JsonConverter(typeof(UnixDateTimeConverter))]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public DateTime? CreatedAt { get; set; }
         
-        [JsonProperty("updated_at",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("updated_at")]
         [JsonConverter(typeof(UnixDateTimeConverter))]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public DateTime? UpdatedAt { get; set; }
+        
+        [JsonPropertyName("deleted")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public bool? Deleted { get; set; }
         
     }
 }

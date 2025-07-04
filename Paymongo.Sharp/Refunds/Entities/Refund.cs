@@ -22,11 +22,9 @@
 
 using System;
 using System.Collections.Generic;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+using System.Text.Json.Serialization;
+using Paymongo.Sharp.Converters;
 using Paymongo.Sharp.Core.Enums;
-
-#pragma warning disable CS8618
 
 namespace Paymongo.Sharp.Refunds.Entities
 {
@@ -35,50 +33,50 @@ namespace Paymongo.Sharp.Refunds.Entities
         [JsonIgnore]
         public string? Id { get; set; }
         
-        [JsonProperty("amount",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("amount")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public long Amount { get; set; }
 
-        [JsonProperty("currency",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("currency")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public Currency Currency { get; set; }
 
-        [JsonProperty("livemode",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("livemode")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public bool? LiveMode { get; set; }
 
-        [JsonProperty("notes",
-            NullValueHandling = NullValueHandling.Ignore)]
-        public string Notes { get; set; }
+        [JsonPropertyName("notes")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public string? Notes { get; set; }
 
-        [JsonProperty("payment_id",
-            NullValueHandling = NullValueHandling.Ignore)]
-        public string PaymentId { get; set; }
+        [JsonPropertyName("payment_id")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public string? PaymentId { get; set; }
 
-        [JsonProperty("payout_id",
-            NullValueHandling = NullValueHandling.Ignore)]
-        public string PayoutId { get; set; }
+        [JsonPropertyName("payout_id")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public string? PayoutId { get; set; }
 
-        [JsonProperty("reason",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("reason")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public RefundReason? Reason { get; set; }
 
-        [JsonProperty("status",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("status")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public RefundStatus? Status { get; set; }
 
-        [JsonProperty("metadata",
-         NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("metadata")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public Dictionary<string, string>? Metadata { get; set; }
 
-        [JsonProperty("created_at",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("created_at")]
         [JsonConverter(typeof(UnixDateTimeConverter))]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public DateTime? CreatedAt { get; set; }
         
-        [JsonProperty("updated_at",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("updated_at")]
         [JsonConverter(typeof(UnixDateTimeConverter))]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public DateTime? UpdatedAt { get; set; }
     }
 }

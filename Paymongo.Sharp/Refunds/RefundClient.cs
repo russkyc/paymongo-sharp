@@ -21,15 +21,14 @@
 // SOFTWARE.
 
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 using Paymongo.Sharp.Refunds.Entities;
 using Paymongo.Sharp.Helpers;
 using RestSharp;
-using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System;
 using System.Linq;
 using Paymongo.Sharp.Utilities;
+using System.Text.Json;
 
 namespace Paymongo.Sharp.Refunds
 {
@@ -51,7 +50,7 @@ namespace Paymongo.Sharp.Refunds
         
             var data = refund.ToSchema();
 
-            var body = JsonConvert.SerializeObject(data);
+            var body = JsonSerializer.Serialize(data);
         
             var request = RequestHelpers.Create(Resource,_secretKey,_secretKey, body);
             var response = await _client.PostAsync(request);
@@ -93,9 +92,20 @@ namespace Paymongo.Sharp.Refunds
             var request = RequestHelpers.Create($"{Resource}/{(parameters.Any() ? paramsCollection : string.Empty)}", _secretKey, _secretKey);
             var response = await _client.GetAsync(request);
 
-            dynamic refundsResponse = JObject.Parse(response.Content!);
-            string refundsData = refundsResponse.data.ToString();
-            return refundsData.ToRefunds();
+            // Use System.Text.Json to parse the response
+            using var doc = JsonDocument.Parse(response.Content!);
+            var dataElement = doc.RootElement.GetProperty("data");
+            var refunds = new List<Refund>();
+            foreach (var item in dataElement.EnumerateArray())
+            {
+                var attributes = item.GetProperty("attributes").GetRawText();
+                var refund = JsonSerializer.Deserialize<Refund>(attributes);
+                refund.Id = item.GetProperty("id").GetString();
+                refund.CreatedAt = refund.CreatedAt.ToLocalDateTime();
+                refund.UpdatedAt = refund.UpdatedAt.ToLocalDateTime();
+                refunds.Add(refund);
+            }
+            return refunds;
         }
     }
 }

@@ -3,4 +3,5 @@
 # And rename to .env before building or starting the project
 
 # Keys for Testing
-SECRET_KEY=
+SECRET_KEY = *your_private_key*
+PUBLIC_KEY = *your_public_key*

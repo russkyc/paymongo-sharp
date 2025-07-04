@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 #pragma warning disable CS8618
 
@@ -28,28 +28,28 @@ namespace Paymongo.Sharp.Core.Entities
 {
     public class Address
     {
-        [JsonProperty("line1",
-            NullValueHandling = NullValueHandling.Ignore)]
-        public string Line1 { get; set; }
+        [JsonPropertyName("line1")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public string? Line1 { get; set; }
         
-        [JsonProperty("line2",
-            NullValueHandling = NullValueHandling.Ignore)]
-        public string Line2 { get; set; }
+        [JsonPropertyName("line2")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public string? Line2 { get; set; }
         
-        [JsonProperty("postal_code",
-            NullValueHandling = NullValueHandling.Ignore)]
-        public string PostalCode { get; set; }
+        [JsonPropertyName("postal_code")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public string? PostalCode { get; set; }
         
-        [JsonProperty("state",
-            NullValueHandling = NullValueHandling.Ignore)]
-        public string State { get; set; }
+        [JsonPropertyName("state")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public string? State { get; set; }
         
-        [JsonProperty("city",
-            NullValueHandling = NullValueHandling.Ignore)]
-        public string City { get; set; }
+        [JsonPropertyName("city")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public string? City { get; set; }
         
-        [JsonProperty("country",
-            NullValueHandling = NullValueHandling.Ignore)]
-        public string Country { get; set; }
+        [JsonPropertyName("country")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public string? Country { get; set; }
     }
 }

@@ -44,7 +44,7 @@ public class LinksApiTests
         Link link = new Link
         {
             Description = "New Payment Link",
-            Amount = 100000,
+            Amount = 10000,
             Currency = Currency.Php,
             Remarks = "Sample Remarks"
         };

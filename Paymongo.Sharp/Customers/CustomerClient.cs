@@ -22,7 +22,7 @@
 
 using System.Linq;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
+using System.Text.Json;
 using Paymongo.Sharp.Customers.Entities;
 using Paymongo.Sharp.Helpers;
 using Paymongo.Sharp.Utilities;
@@ -47,7 +47,7 @@ namespace Paymongo.Sharp.Customers
         {
             var data = customer.ToSchema();
 
-            var body = JsonConvert.SerializeObject(data);
+            var body = JsonSerializer.Serialize(data);
         
             var request = RequestHelpers.Create(Resource,_secretKey,_secretKey, body);
             var response = await _client.PostAsync(request);
@@ -59,10 +59,10 @@ namespace Paymongo.Sharp.Customers
         {
             var data = customer.ToSchema();
 
-            var body = JsonConvert.SerializeObject(data);
+            var body = JsonSerializer.Serialize(data);
         
             var request = RequestHelpers.Create($"{Resource}/{customer.Id}",_secretKey,_secretKey, body);
-            var response = await _client.PutAsync(request);
+            var response = await _client.PatchAsync(request);
 
             return response.Content.ToCustomer();
         }

@@ -20,14 +20,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Paymongo.Sharp.Core.Contracts
 {
     public class Schema<TDataContract>
     {
-        [JsonProperty("data",
-            NullValueHandling = NullValueHandling.Ignore)]
-        public Data<TDataContract>? Data { get; set; }
+        [JsonPropertyName("data")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public TDataContract? Data { get; set; }
     }
 }

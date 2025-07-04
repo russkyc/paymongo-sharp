@@ -33,7 +33,7 @@ namespace Paymongo.Sharp.Helpers
                 return dateTime;
             }
             // System doesn't know it is utc, we specify that here before converting to local time
-            return DateTime.SpecifyKind(dateTime!.Value, DateTimeKind.Utc).ToLocalTime();
+            return DateTime.SpecifyKind(dateTime.Value, DateTimeKind.Utc).ToLocalTime();
         }
     }
 }

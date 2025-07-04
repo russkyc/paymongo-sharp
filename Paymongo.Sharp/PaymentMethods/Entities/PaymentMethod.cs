@@ -22,8 +22,8 @@
 
 using System;
 using System.Collections.Generic;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+using System.Text.Json.Serialization;
+using Paymongo.Sharp.Converters;
 using Paymongo.Sharp.Core.Entities;
 using Paymongo.Sharp.Core.Enums;
 
@@ -31,42 +31,39 @@ namespace Paymongo.Sharp.PaymentMethods.Entities
 {
     public class PaymentMethod
     {
-        [JsonProperty("id",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("id")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string Id { get; set; }
         
-        [JsonProperty("billing",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("billing")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public Billing Billing { get; set; }
         
-        [JsonProperty("details",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("details")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public Details Details { get; set; }
         
-        [JsonProperty("livemode",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("livemode")]
         public bool LiveMode { get; set; }
         
-        [JsonProperty("type",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("type")]
         public PaymentMethodType Type { get; set; }
         
-        [JsonProperty("cvc",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("cvc")]
         public int Cvc { get; set; }
 
-        [JsonProperty("metadata",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("metadata")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public Dictionary<string,string>? Metadata { get; set; }
         
-        [JsonProperty("created_at",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("created_at")]
         [JsonConverter(typeof(UnixDateTimeConverter))]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public DateTime? CreatedAt { get; set; }
         
-        [JsonProperty("updated_at",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("updated_at")]
         [JsonConverter(typeof(UnixDateTimeConverter))]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public DateTime? UpdatedAt { get; set; }
     }
 }

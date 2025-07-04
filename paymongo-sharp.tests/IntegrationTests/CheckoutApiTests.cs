@@ -202,7 +202,7 @@ public class CheckoutApiTests
                     },
                     Quantity = 1000,
                     Currency = Currency.Php,
-                    Amount = 100
+                    Amount = 10000
                 }
             },
             PaymentMethodTypes = new[]

@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 #pragma warning disable CS8618
 
@@ -28,19 +28,20 @@ namespace Paymongo.Sharp.Core.Entities
 {
     public class Billing
     {
-        [JsonProperty("name",
-            NullValueHandling = NullValueHandling.Ignore)]
-        public string Name { get; set; }
+        [JsonPropertyName("name")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public string? Name { get; set; }
         
-        [JsonProperty("email",
-            NullValueHandling = NullValueHandling.Ignore)]
-        public string Email { get; set; }
+        [JsonPropertyName("email")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public string? Email { get; set; }
         
-        [JsonProperty("phone",
-            NullValueHandling = NullValueHandling.Ignore)]
-        public string Phone { get; set; }
+        [JsonPropertyName("phone")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public string? Phone { get; set; }
         
-        [JsonProperty("address")]
+        [JsonPropertyName("address")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public Address? Address { get; set; }
     }
 }

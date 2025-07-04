@@ -21,8 +21,7 @@
 // SOFTWARE.
 
 using System;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+using System.Text.Json.Serialization;
 using Paymongo.Sharp.Core.Enums;
 
 #pragma warning disable CS8618
@@ -31,38 +30,34 @@ namespace Paymongo.Sharp.Customers.Entities
 {
     public class CustomerPaymentMethod
     {
-        [JsonProperty("id",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("id")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string Id { get; set; }
         
-        [JsonProperty("customer_id",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("customer_id")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string CustomerId { get; set; }
         
-        [JsonProperty("organization_id",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("organization_id")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string OrganizationId { get; set; }
         
-        [JsonProperty("payment_method_id",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("payment_method_id")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string PaymentMethodId { get; set; }
         
-        [JsonProperty("session_type",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("payment_method_type")]
         public PaymentMethodType PaymentMethodType { get; set; }
 
-        [JsonProperty("session_type",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("session_type")]
         public SessionType SessionType { get; set; }
 
-        [JsonProperty("created_at",
-            NullValueHandling = NullValueHandling.Ignore)]
-        [JsonConverter(typeof(UnixDateTimeConverter))]
+        [JsonPropertyName("created_at")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public DateTime? CreatedAt { get; set; }
         
-        [JsonProperty("updated_at",
-            NullValueHandling = NullValueHandling.Ignore)]
-        [JsonConverter(typeof(UnixDateTimeConverter))]
+        [JsonPropertyName("updated_at")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public DateTime? UpdatedAt { get; set; }
 
     }

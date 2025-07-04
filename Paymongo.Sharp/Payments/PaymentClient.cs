@@ -24,8 +24,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using System.Text.Json;
 using Paymongo.Sharp.Helpers;
 using Paymongo.Sharp.Payments.Entities;
 using Paymongo.Sharp.Utilities;
@@ -50,7 +49,7 @@ namespace Paymongo.Sharp.Payments
         {
             var data = payment.ToSchema();
 
-            var body = JsonConvert.SerializeObject(data);
+            var body = JsonSerializer.Serialize(data);
         
             var request = RequestHelpers.Create(Resource,_secretKey,_secretKey, body);
             var response = await _client.PostAsync(request);
@@ -87,9 +86,21 @@ namespace Paymongo.Sharp.Payments
             var request = RequestHelpers.Create($"{Resource}/{(parameters.Any() ? paramsCollection : string.Empty)}",_secretKey,_secretKey);
             var response = await _client.GetAsync(request);
 
-            dynamic paymentsResponse = JObject.Parse(response.Content!);
-            string paymentsData = paymentsResponse.data.ToString();
-            return paymentsData.ToPayments();
+            // Use System.Text.Json to parse the response
+            using var doc = JsonDocument.Parse(response.Content!);
+            var dataElement = doc.RootElement.GetProperty("data");
+            var payments = new List<Payment>();
+            foreach (var item in dataElement.EnumerateArray())
+            {
+                var attributes = item.GetProperty("attributes").GetRawText();
+                var payment = JsonSerializer.Deserialize<Payment>(attributes);
+                payment.Id = item.GetProperty("id").GetString();
+                payment.CreatedAt = payment.CreatedAt.ToLocalDateTime();
+                payment.UpdatedAt = payment.UpdatedAt.ToLocalDateTime();
+                payment.PaidAt = payment.PaidAt.ToLocalDateTime();
+                payments.Add(payment);
+            }
+            return payments;
         }
     }
 }

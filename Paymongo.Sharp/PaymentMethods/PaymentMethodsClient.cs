@@ -22,7 +22,7 @@
 
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
+using System.Text.Json;
 using Paymongo.Sharp.Helpers;
 using Paymongo.Sharp.PaymentMethods.Entities;
 using Paymongo.Sharp.Utilities;
@@ -48,7 +48,7 @@ namespace Paymongo.Sharp.PaymentMethods
         {
             var data = paymentMethod.ToSchema();
 
-            var body = JsonConvert.SerializeObject(data);
+            var body = JsonSerializer.Serialize(data);
         
             var request = RequestHelpers.Create(Resource,_secretKey,_secretKey, body);
             var response = await _client.PostAsync(request);
@@ -60,7 +60,7 @@ namespace Paymongo.Sharp.PaymentMethods
         {
             var data = paymentMethod.ToSchema();
 
-            var body = JsonConvert.SerializeObject(data);
+            var body = JsonSerializer.Serialize(data);
         
             var request = RequestHelpers.Create($"{Resource}/{paymentMethod.Id}",_secretKey,_secretKey, body);
             var response = await _client.PutAsync(request);

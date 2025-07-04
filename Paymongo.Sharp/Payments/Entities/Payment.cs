@@ -22,82 +22,74 @@
 
 using System;
 using System.Collections.Generic;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+using System.Text.Json.Serialization;
+using Paymongo.Sharp.Converters;
 using Paymongo.Sharp.Core.Entities;
 using Paymongo.Sharp.Core.Enums;
-
-#pragma warning disable CS8618
 
 namespace Paymongo.Sharp.Payments.Entities
 {
     public class Payment
     {
-        [JsonProperty("id",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("id")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string Id { get; set; }
         
-        [JsonProperty("payment_intent_id",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("payment_intent_id")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string PaymentIntentId { get; set; }
         
-        [JsonProperty("balance_transaction_id",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("balance_transaction_id")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string BalanceTransactionId { get; set; }
         
-        [JsonProperty("description",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("description")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string Description { get; set; }
         
-        [JsonProperty("amount",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("amount")]
         public long Amount { get; set; }
         
-        [JsonProperty("fee",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("fee")]
         public long Fee { get; set; }
         
-        [JsonProperty("net_amount",
-            NullValueHandling = NullValueHandling.Ignore)]
-        public int NetAmount { get; set; }
+        [JsonPropertyName("net_amount")]
+        public long NetAmount { get; set; }
         
-        [JsonProperty("currency",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("currency")]
         public Currency Currency { get; set; }
         
-        [JsonProperty("billing",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("billing")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public Billing? Billing { get; set; }
         
-        [JsonProperty("payout",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("payout")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public Dictionary<string,string>? Payout { get; set; }
         
-        [JsonProperty("source",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("source")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public Dictionary<string,string>? Source { get; set; }
 
-        [JsonProperty("livemode",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("livemode")]
         public bool LiveMode { get; set; }
         
-        [JsonProperty("status",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("status")]
         public PaymentStatus Status { get; set; }
         
-        [JsonProperty("created_at",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("created_at")]
         [JsonConverter(typeof(UnixDateTimeConverter))]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public DateTime? CreatedAt { get; set; }
         
-        [JsonProperty("paid_at",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("paid_at")]
         [JsonConverter(typeof(UnixDateTimeConverter))]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public DateTime? PaidAt { get; set; }
 
-        [JsonProperty("updated_at",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("updated_at")]
         [JsonConverter(typeof(UnixDateTimeConverter))]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public DateTime? UpdatedAt { get; set; }
     }
 }

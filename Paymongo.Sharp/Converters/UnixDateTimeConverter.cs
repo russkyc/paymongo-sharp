@@ -1,6 +1,6 @@
 ﻿// MIT License
 // 
-// Copyright (c) 2023 Russell Camo (@russkyc)
+// Copyright (c) 2025 Russell Camo (@russkyc)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,20 +20,22 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using System;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace Paymongo.Sharp.Sources.Entities
+namespace Paymongo.Sharp.Converters
 {
-    public class Redirect
+    internal class UnixDateTimeConverter : JsonConverter<DateTime>
     {
-        [JsonPropertyName("checkout_url")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public string CheckoutUrl { get; set; }
-        
-        [JsonPropertyName("success")]
-        public string Success { get; set; }
-        
-        [JsonPropertyName("failed")]
-        public string Failed { get; set; }
+        public override DateTime Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        {
+            return DateTimeOffset.FromUnixTimeMilliseconds(reader.GetInt64()).LocalDateTime;
+        }
+
+        public override void Write(Utf8JsonWriter writer, DateTime value, JsonSerializerOptions options)
+        {
+            writer.WriteNumberValue(((DateTimeOffset)value).ToUnixTimeMilliseconds());
+        }
     }
 }

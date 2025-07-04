@@ -21,61 +21,55 @@
 // SOFTWARE.
 
 using System;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+using System.Text.Json.Serialization;
+using Paymongo.Sharp.Converters;
 using Paymongo.Sharp.Core.Entities;
 using Paymongo.Sharp.Core.Enums;
-
-#pragma warning disable CS8618
 
 namespace Paymongo.Sharp.Sources.Entities
 {
     public class Source
     {
-        [JsonIgnore]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string Id { get; set; }
         
-        [JsonProperty("description",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("description")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string Description { get; set; }
         
-        [JsonProperty("amount",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("amount")]
         public long Amount { get; set; }
         
-        [JsonProperty("currency",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("currency")]
         public Currency Currency { get; set; }
         
-        [JsonProperty("billing",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("billing")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public Billing Billing { get; set; }
         
-        [JsonProperty("type",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("type")]
         public SourceType Type { get; set; }
         
-        [JsonProperty("status",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("status")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public SourceStatus Status { get; set; }
 
-        [JsonProperty("redirect",
-            NullValueHandling = NullValueHandling.Ignore)]
-        public Redirect? Redirect { get; set; }
+        [JsonPropertyName("redirect")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public Redirect Redirect { get; set; }
         
-        [JsonProperty("livemode",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("livemode")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public bool LiveMode { get; set; }
         
-        [JsonProperty("created_at",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("created_at")]
         [JsonConverter(typeof(UnixDateTimeConverter))]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public DateTime? CreatedAt { get; set; }
         
-        [JsonProperty("updated_at",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("updated_at")]
         [JsonConverter(typeof(UnixDateTimeConverter))]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public DateTime? UpdatedAt { get; set; }
-        
     }
 }

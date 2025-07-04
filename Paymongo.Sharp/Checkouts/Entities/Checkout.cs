@@ -22,8 +22,8 @@
 
 using System;
 using System.Collections.Generic;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+using System.Text.Json.Serialization;
+using Paymongo.Sharp.Converters;
 using Paymongo.Sharp.Core.Entities;
 using Paymongo.Sharp.Core.Enums;
 using Paymongo.Sharp.Payments.Entities;
@@ -37,82 +37,82 @@ namespace Paymongo.Sharp.Checkouts.Entities
         [JsonIgnore]
         public string? Id { get; set; }
         
-        [JsonProperty("client_key",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("client_key")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string ClientKey { get; set; }
         
-        [JsonProperty("reference_number",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("reference_number")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string ReferenceNumber { get; set; }
         
-        [JsonProperty("merchant",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("merchant")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string Merchant { get; set; }
         
-        [JsonProperty("description",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("description")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string Description { get; set; }
         
-        [JsonProperty("cancel_url",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("cancel_url")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string CancelUrl { get; set; }
         
-        [JsonProperty("success_url",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("success_url")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string SuccessUrl { get; set; }
         
-        [JsonProperty("checkout_url",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("checkout_url")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string CheckoutUrl { get; set; }
         
-        [JsonProperty("created_at",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("created_at")]
         [JsonConverter(typeof(UnixDateTimeConverter))]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public DateTime? CreatedAt { get; set; }
         
-        [JsonProperty("updated_at",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("updated_at")]
         [JsonConverter(typeof(UnixDateTimeConverter))]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public DateTime? UpdatedAt { get; set; }
         
-        [JsonProperty("billing",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("billing")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public Billing? Billing { get; set; }
         
-        [JsonProperty("payment_method_types",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("payment_method_types")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public IEnumerable<PaymentMethod>? PaymentMethodTypes { get; set; }
         
-        [JsonProperty("payments",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("payments")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public IEnumerable<Payment>? Payments { get; set; }
         
-        [JsonProperty("metadata",
-         NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("metadata")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public Dictionary<string,string>? Metadata { get; set; }
         
-        [JsonProperty("livemode",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("livemode")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public bool? LiveMode { get; set; }
 
-        [JsonProperty("send_email_receipt",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("send_email_receipt")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public bool? SendEmailReceipt { get; set; }
         
-        [JsonProperty("show_description",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("show_description")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public bool? ShowDescription { get; set; }
         
-        [JsonProperty("show_line_items",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("show_line_items")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public bool? ShowLineItems { get; set; }
 
-        [JsonProperty("status",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("status")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public CheckoutStatus? Status { get; set; }
 
-        [JsonProperty("line_items",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("line_items")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public IEnumerable<LineItem>? LineItems { get; set; }
     }
 }
