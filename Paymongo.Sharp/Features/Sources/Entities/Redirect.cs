@@ -20,24 +20,20 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Paymongo.Sharp.Features.Checkouts;
-using Paymongo.Sharp.Features.Customers;
-using Paymongo.Sharp.Features.Links;
-using Paymongo.Sharp.Features.PaymentMethods;
-using Paymongo.Sharp.Features.Payments;
-using Paymongo.Sharp.Features.Refunds;
-using Paymongo.Sharp.Features.Sources;
+using System.Text.Json.Serialization;
 
-namespace Paymongo.Sharp.Interfaces
+namespace Paymongo.Sharp.Features.Sources.Entities
 {
-    public interface IPaymongoClient
+    public class Redirect
     {
-        CheckoutClient Checkouts { get; }
-        PaymentClient Payments { get; }
-        LinksClient Links { get; }
-        SourceClient Sources { get; set; }
-        CustomerClient Customers { get; set; }
-        PaymentMethodsClient PaymentMethods { get; set; }
-        RefundClient Refunds { get; set; }
+        [JsonPropertyName("checkout_url")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public string CheckoutUrl { get; set; }
+        
+        [JsonPropertyName("success")]
+        public string Success { get; set; }
+        
+        [JsonPropertyName("failed")]
+        public string Failed { get; set; }
     }
 }

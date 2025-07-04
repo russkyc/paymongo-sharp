@@ -23,8 +23,8 @@
 using Bogus;
 using Bogus.DataSets;
 using Bogus.Extensions.Extras;
-using Paymongo.Sharp.Customers.Entities;
-using Paymongo.Sharp.PaymentMethods.Entities;
+using Paymongo.Sharp.Features.Customers.Entities;
+using Paymongo.Sharp.Features.PaymentMethods.Entities;
 using Address = Paymongo.Sharp.Core.Entities.Address;
 
 namespace Paymongo.Sharp.Tests.Utils;

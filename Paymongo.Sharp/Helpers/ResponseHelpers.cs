@@ -24,14 +24,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
-using Paymongo.Sharp.Checkouts.Entities;
 using Paymongo.Sharp.Core.Contracts;
-using Paymongo.Sharp.Customers.Entities;
-using Paymongo.Sharp.Links.Entities;
-using Paymongo.Sharp.PaymentMethods.Entities;
-using Paymongo.Sharp.Payments.Entities;
-using Paymongo.Sharp.Refunds.Entities;
-using Paymongo.Sharp.Sources.Entities;
+using Paymongo.Sharp.Features.Checkouts.Entities;
+using Paymongo.Sharp.Features.Customers.Entities;
+using Paymongo.Sharp.Features.Links.Entities;
+using Paymongo.Sharp.Features.PaymentMethods.Entities;
+using Paymongo.Sharp.Features.Payments.Entities;
+using Paymongo.Sharp.Features.Refunds.Entities;
+using Paymongo.Sharp.Features.Sources.Entities;
 
 
 #pragma warning disable CS8604

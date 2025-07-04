@@ -21,7 +21,7 @@
 // SOFTWARE.
 
 using Paymongo.Sharp.Tests.Utils;
-using PaymentMethod = Paymongo.Sharp.PaymentMethods.Entities.PaymentMethod;
+using PaymentMethod = Paymongo.Sharp.Features.PaymentMethods.Entities.PaymentMethod;
 
 namespace Paymongo.Sharp.Tests.Integration;
 

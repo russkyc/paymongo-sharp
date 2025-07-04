@@ -4,11 +4,11 @@ using System.Linq;
 using System.Windows;
 using DotNetEnv;
 using Paymongo.Sharp;
-using Paymongo.Sharp.Checkouts.Entities;
 using Paymongo.Sharp.Core.Entities;
 using Paymongo.Sharp.Core.Enums;
-using Paymongo.Sharp.Links.Entities;
-using Paymongo.Sharp.Sources.Entities;
+using Paymongo.Sharp.Features.Checkouts.Entities;
+using Paymongo.Sharp.Features.Links.Entities;
+using Paymongo.Sharp.Features.Sources.Entities;
 using Paymongo.Sharp.Utilities;
 
 #pragma warning disable CS8604

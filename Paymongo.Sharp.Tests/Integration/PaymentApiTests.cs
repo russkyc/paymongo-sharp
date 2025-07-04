@@ -20,7 +20,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Paymongo.Sharp.Payments.Entities;
+using Paymongo.Sharp.Features.Payments.Entities;
+using Paymongo.Sharp.Features.Sources.Entities;
 
 namespace Paymongo.Sharp.Tests.Integration;
 
@@ -40,20 +41,37 @@ public class PaymentApiTests
     [Fact]
     async Task CreatePayment()
     {
-        // ! Note, This test really does fail. Might be fixed after integrating other api actions
-        
         // Arrange
+        
+        // A payment requires a source, so we need to create a source first
+        Source source = new Source
+        {
+            Amount = 10000,
+            Description = $"New GCash Source",
+            Redirect = new Redirect
+            {
+                Success = "http://127.0.0.1",
+                Failed = "http://127.0.0.1"
+            },
+            Type = SourceType.GCash,
+            Currency = Currency.Php
+        };
+
         Payment payment = new Payment
         {
             Description = "New Payment",
-            Amount = 100000,
-            Fee = 20000,
-            NetAmount = 80000,
+            Amount = 10000,
+            Fee = 200,
+            NetAmount = 92000,
             Currency = Currency.Php,
             Billing = new Billing()
         };
 
         // Act
+        var sourceResult = await _client.Sources.CreateSourceAsync(source);
+        
+        payment.Source = sourceResult;
+        
         var paymentResult = await _client.Payments.CreatePaymentAsync(payment);
 
         // Assert

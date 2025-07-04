@@ -20,15 +20,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Paymongo.Sharp.Checkouts;
-using Paymongo.Sharp.Customers;
+using Paymongo.Sharp.Features.Checkouts;
+using Paymongo.Sharp.Features.Customers;
+using Paymongo.Sharp.Features.Links;
+using Paymongo.Sharp.Features.PaymentMethods;
+using Paymongo.Sharp.Features.Payments;
+using Paymongo.Sharp.Features.Refunds;
+using Paymongo.Sharp.Features.Sources;
 using Paymongo.Sharp.Interfaces;
-using Paymongo.Sharp.Links;
-using Paymongo.Sharp.PaymentMethods;
-using Paymongo.Sharp.Payments;
-using Paymongo.Sharp.Payments.Entities;
-using Paymongo.Sharp.Refunds;
-using Paymongo.Sharp.Sources;
 
 namespace Paymongo.Sharp
 {

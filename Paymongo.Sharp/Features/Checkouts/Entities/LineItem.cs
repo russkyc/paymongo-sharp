@@ -20,24 +20,35 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Paymongo.Sharp.Features.Checkouts;
-using Paymongo.Sharp.Features.Customers;
-using Paymongo.Sharp.Features.Links;
-using Paymongo.Sharp.Features.PaymentMethods;
-using Paymongo.Sharp.Features.Payments;
-using Paymongo.Sharp.Features.Refunds;
-using Paymongo.Sharp.Features.Sources;
+using System.Collections.Generic;
+using System.Text.Json.Serialization;
+using Paymongo.Sharp.Core.Enums;
 
-namespace Paymongo.Sharp.Interfaces
+#pragma warning disable CS8618
+
+namespace Paymongo.Sharp.Features.Checkouts.Entities
 {
-    public interface IPaymongoClient
+    public class LineItem
     {
-        CheckoutClient Checkouts { get; }
-        PaymentClient Payments { get; }
-        LinksClient Links { get; }
-        SourceClient Sources { get; set; }
-        CustomerClient Customers { get; set; }
-        PaymentMethodsClient PaymentMethods { get; set; }
-        RefundClient Refunds { get; set; }
+        [JsonPropertyName("name")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public string Name { get; set; }
+        
+        [JsonPropertyName("description")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public string Description { get; set; }
+        
+        [JsonPropertyName("images")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public IEnumerable<string>? Images { get; set; }
+        
+        [JsonPropertyName("quantity")]
+        public int Quantity { get; set; }
+        
+        [JsonPropertyName("currency")]
+        public Currency Currency { get; set; }
+        
+        [JsonPropertyName("amount")]
+        public long Amount { get; set; }
     }
 }

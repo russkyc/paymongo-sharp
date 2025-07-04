@@ -1,6 +1,6 @@
 ﻿// MIT License
 // 
-// Copyright (c) 2023 Russell Camo (@russkyc)
+// Copyright (c) $CURRENT_YEAR$ Russell Camo (@russkyc)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,24 +20,36 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Paymongo.Sharp.Features.Checkouts;
-using Paymongo.Sharp.Features.Customers;
-using Paymongo.Sharp.Features.Links;
-using Paymongo.Sharp.Features.PaymentMethods;
-using Paymongo.Sharp.Features.Payments;
-using Paymongo.Sharp.Features.Refunds;
-using Paymongo.Sharp.Features.Sources;
+using System.Text.Json.Serialization;
 
-namespace Paymongo.Sharp.Interfaces
+namespace Paymongo.Sharp.Features.PaymentMethods.Entities
 {
-    public interface IPaymongoClient
+    public class Details
     {
-        CheckoutClient Checkouts { get; }
-        PaymentClient Payments { get; }
-        LinksClient Links { get; }
-        SourceClient Sources { get; set; }
-        CustomerClient Customers { get; set; }
-        PaymentMethodsClient PaymentMethods { get; set; }
-        RefundClient Refunds { get; set; }
+        [JsonPropertyName("card_number")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public string? CardNumber { get; set; }
+        
+        [JsonPropertyName("last4")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public string? Last4 { get; set; }
+        
+        [JsonPropertyName("cvc")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public string? Cvc { get; set; }
+        
+        [JsonPropertyName("bank_code")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public string? BankCode { get; set; }
+        
+        [JsonPropertyName("exp_month")]
+        public int ExpMonth { get; set; }
+        
+        [JsonPropertyName("exp_year")]
+        public int ExpYear { get; set; }
+        
+        [JsonPropertyName("live_mode")]
+        public bool LiveMode { get; set; }
+
     }
 }
