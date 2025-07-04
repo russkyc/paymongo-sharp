@@ -28,6 +28,6 @@ namespace Paymongo.Sharp.Core.Contracts
     {
         [JsonPropertyName("data")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public TDataContract? Data { get; set; }
+        public TDataContract Data { get; set; }
     }
 }

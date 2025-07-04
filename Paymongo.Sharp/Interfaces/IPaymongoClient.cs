@@ -35,9 +35,9 @@ namespace Paymongo.Sharp.Interfaces
         CheckoutClient Checkouts { get; }
         PaymentClient Payments { get; }
         LinksClient Links { get; }
-        SourceClient Sources { get; set; }
-        CustomerClient Customers { get; set; }
-        PaymentMethodsClient PaymentMethods { get; set; }
-        RefundClient Refunds { get; set; }
+        SourceClient Sources { get; }
+        CustomerClient Customers { get; }
+        PaymentMethodsClient PaymentMethods { get; }
+        RefundClient Refunds { get; }
     }
 }

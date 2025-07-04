@@ -20,55 +20,38 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using System.Text.Json;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Paymongo.Sharp.Features.Checkouts.Entities;
 using Paymongo.Sharp.Helpers;
 using Paymongo.Sharp.Utilities;
-using RestSharp;
 
 namespace Paymongo.Sharp.Features.Checkouts
 {
     public class CheckoutClient
     {
         private const string Resource = "/checkout_sessions";
-        private readonly RestClient _client;
-    
-        private readonly string _secretKey;
+        private readonly HttpClient _client;
 
-        public CheckoutClient(string baseUrl, string secretKey)
+        public CheckoutClient(HttpClient client)
         {
-            _client = new RestClient(new RestClientOptions(baseUrl));
-            _secretKey = secretKey;
+            _client = client;
         }
 
         public async Task<Checkout> CreateCheckoutAsync(Checkout checkout)
         {
-        
             var data = checkout.ToSchema();
-
-            var body = JsonSerializer.Serialize(data);
-        
-            var request = RequestHelpers.Create(Resource,_secretKey,_secretKey, body);
-            var response = await _client.PostAsync(request);
-
-            return response.Content.ToCheckout();
+            return await _client.SendRequestAsync<Checkout>(HttpMethod.Post, Resource, data, content => content.ToCheckout());
         }
 
         public async Task<Checkout> RetrieveCheckoutAsync(string id)
         {
-            var request = RequestHelpers.Create($"{Resource}/{id}",_secretKey,_secretKey);
-            var response = await _client.GetAsync(request);
-            
-            return response.Content.ToCheckout();
+            return await _client.SendRequestAsync<Checkout>(HttpMethod.Get, $"{Resource}/{id}", responseDeserializer: content => content.ToCheckout());
         }
     
         public async Task<Checkout> ExpireCheckoutAsync(string id)
         {
-            var request = RequestHelpers.Create($"{Resource}/{id}/expire",_secretKey,_secretKey);
-            var response = await _client.PostAsync(request);
-
-            return response.Content.ToCheckout();
+            return await _client.SendRequestAsync<Checkout>(HttpMethod.Post, $"{Resource}/{id}/expire", responseDeserializer: content => content.ToCheckout());
         }
     }
 }

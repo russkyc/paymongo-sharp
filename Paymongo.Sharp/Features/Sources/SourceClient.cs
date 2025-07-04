@@ -20,46 +20,33 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using System.Text.Json;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Paymongo.Sharp.Features.Sources.Entities;
 using Paymongo.Sharp.Helpers;
 using Paymongo.Sharp.Utilities;
-using RestSharp;
 
 namespace Paymongo.Sharp.Features.Sources
 {
     public class SourceClient
     {
         private const string Resource = "/sources";
-        private readonly RestClient _client;
-    
-        private readonly string _secretKey;
+        private readonly HttpClient _client;
 
-        public SourceClient(string baseUrl, string secretKey)
+        public SourceClient(HttpClient client)
         {
-            _client = new RestClient(new RestClientOptions(baseUrl));
-            _secretKey = secretKey;
+            _client = client;
         }
-        
+
         public async Task<Source> CreateSourceAsync(Source source)
         {
-        
             var data = source.ToSchema();
-
-            var body = JsonSerializer.Serialize(data);
-        
-            var request = RequestHelpers.Create(Resource,_secretKey,_secretKey, body);
-            var response = await _client.PostAsync(request);
-
-            return response.Content.ToSource();
+            return await _client.SendRequestAsync<Source>(HttpMethod.Post, Resource, data, content => content.ToSource());
         }
-        
+
         public async Task<Source> RetrieveSourceAsync(string id)
         {
-            var request = RequestHelpers.Create($"{Resource}/{id}",_secretKey,_secretKey);
-            var response = await _client.GetAsync(request);
-            return response.Content.ToSource();
+            return await _client.SendRequestAsync<Source>(HttpMethod.Get, $"{Resource}/{id}", responseDeserializer: content => content.ToSource());
         }
 
     }

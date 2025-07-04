@@ -20,87 +20,48 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.Json;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Paymongo.Sharp.Features.Payments.Entities;
 using Paymongo.Sharp.Helpers;
 using Paymongo.Sharp.Utilities;
-using RestSharp;
 
 namespace Paymongo.Sharp.Features.Payments
 {
     public class PaymentClient
     {
         private const string Resource = "/payments";
-        private readonly RestClient _client;
-    
-        private readonly string _secretKey;
+        private readonly HttpClient _client;
 
-        public PaymentClient(string baseUrl, string secretKey)
+        public PaymentClient(HttpClient client)
         {
-            _client = new RestClient(new RestClientOptions(baseUrl));
-            _secretKey = secretKey;
+            _client = client;
         }
 
         public async Task<Payment> CreatePaymentAsync(Payment payment)
         {
             var data = payment.ToSchema();
-
-            var body = JsonSerializer.Serialize(data);
-        
-            var request = RequestHelpers.Create(Resource,_secretKey,_secretKey, body);
-            var response = await _client.PostAsync(request);
-
-            return response.Content.ToPayment();
+            return await _client.SendRequestAsync<Payment>(HttpMethod.Post, Resource, data, content => content.ToPayment());
         }
 
         public async Task<Payment> RetrievePaymentAsync(string id)
         {
-            var request = RequestHelpers.Create($"{Resource}/{id}",_secretKey,_secretKey);
-            var response = await _client.GetAsync(request);
-            return response.Content.ToPayment();
+            return await _client.SendRequestAsync<Payment>(HttpMethod.Get, $"{Resource}/{id}", responseDeserializer: content => content.ToPayment());
         }
 
-        public async Task<IEnumerable<Payment>> ListAllPaymentsAsync(int limit = Int32.MaxValue, string? before = null, string? after = null)
+        public async Task<IEnumerable<Payment>> ListAllPaymentsAsync(int limit = int.MaxValue, string? before = null, string? after = null)
         {
-            List<string> parameters = new List<string>();
-
-            if (limit != Int32.MaxValue)
-            {
+            var parameters = new List<string>();
+            if (limit != int.MaxValue)
                 parameters.Add($"limit={limit}");
-            }
             if (before != null)
-            {
                 parameters.Add($"before={before}");
-            }
             if (after != null)
-            {
                 parameters.Add($"after={after}");
-            }
-
-            var paramsCollection = $"?{string.Join("&", parameters)}";
-            
-            var request = RequestHelpers.Create($"{Resource}/{(parameters.Any() ? paramsCollection : string.Empty)}",_secretKey,_secretKey);
-            var response = await _client.GetAsync(request);
-
-            // Use System.Text.Json to parse the response
-            using var doc = JsonDocument.Parse(response.Content!);
-            var dataElement = doc.RootElement.GetProperty("data");
-            var payments = new List<Payment>();
-            foreach (var item in dataElement.EnumerateArray())
-            {
-                var attributes = item.GetProperty("attributes").GetRawText();
-                var payment = JsonSerializer.Deserialize<Payment>(attributes);
-                payment.Id = item.GetProperty("id").GetString();
-                payment.CreatedAt = payment.CreatedAt.ToLocalDateTime();
-                payment.UpdatedAt = payment.UpdatedAt.ToLocalDateTime();
-                payment.PaidAt = payment.PaidAt.ToLocalDateTime();
-                payments.Add(payment);
-            }
-            return payments;
+            var url = parameters.Any() ? $"{Resource}?{string.Join("&", parameters)}" : Resource;
+            return await _client.SendRequestAsync<IEnumerable<Payment>>(HttpMethod.Get, url, responseDeserializer: content => content.ToPayments());
         }
     }
 }

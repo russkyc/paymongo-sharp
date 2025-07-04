@@ -20,67 +20,49 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using System.Text.Json;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Paymongo.Sharp.Features.Links.Entities;
 using Paymongo.Sharp.Helpers;
 using Paymongo.Sharp.Utilities;
-using RestSharp;
 
 namespace Paymongo.Sharp.Features.Links
 {
     public class LinksClient
     {
         private const string Resource = "/links";
-        private readonly RestClient _client;
-    
-        private readonly string _secretKey;
+        private readonly HttpClient _client;
 
-        public LinksClient(string baseUrl, string secretKey)
+        public LinksClient(HttpClient client)
         {
-            _client = new RestClient(new RestClientOptions(baseUrl));
-            _secretKey = secretKey;
+            _client = client;
         }
-        
+
         public async Task<Link> CreateLinkAsync(Link link)
         {
-        
             var data = link.ToSchema();
-
-            var body = JsonSerializer.Serialize(data);
-        
-            var request = RequestHelpers.Create(Resource,_secretKey,_secretKey, body);
-            var response = await _client.PostAsync(request);
-
-            return response.Content.ToLink();
+            return await _client.SendRequestAsync<Link>(HttpMethod.Post, Resource, data, content => content.ToLink());
         }
-        
+
         public async Task<Link> RetrieveLinkAsync(string id)
         {
-            var request = RequestHelpers.Create($"{Resource}/{id}",_secretKey,_secretKey);
-            var response = await _client.GetAsync(request);
-            return response.Content.ToLink();
+            return await _client.SendRequestAsync<Link>(HttpMethod.Get, $"{Resource}/{id}", responseDeserializer: content => content.ToLink());
         }
-        
+
         public async Task<Link> GetLinkByReferenceNumberAsync(string referenceNumber)
         {
-            var request = RequestHelpers.Create($"{Resource}?reference_number={referenceNumber}",_secretKey,_secretKey);
-            var response = await _client.GetAsync(request);
-            return response.Content.ToLink(true);
+            var url = $"{Resource}?reference_number={referenceNumber}";
+            return await _client.SendRequestAsync<Link>(HttpMethod.Get, url, responseDeserializer: content => content.ToLink(true));
         }
-        
+
         public async Task<Link> ArchiveLinkAsync(string id)
         {
-            var request = RequestHelpers.Create($"{Resource}/{id}/archive",_secretKey,_secretKey);
-            var response = await _client.PostAsync(request);
-            return response.Content.ToLink();
+            return await _client.SendRequestAsync<Link>(HttpMethod.Post, $"{Resource}/{id}/archive", responseDeserializer: content => content.ToLink());
         }
-        
+
         public async Task<Link> UnarchiveLinkAsync(string id)
         {
-            var request = RequestHelpers.Create($"{Resource}/{id}/unarchive",_secretKey,_secretKey);
-            var response = await _client.PostAsync(request);
-            return response.Content.ToLink();
+            return await _client.SendRequestAsync<Link>(HttpMethod.Post, $"{Resource}/{id}/unarchive", responseDeserializer: content => content.ToLink());
         }
     }
 }

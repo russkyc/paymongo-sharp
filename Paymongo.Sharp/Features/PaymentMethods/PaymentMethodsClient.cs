@@ -21,12 +21,11 @@
 // SOFTWARE.
 
 using System.Collections.Generic;
-using System.Text.Json;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Paymongo.Sharp.Features.PaymentMethods.Entities;
 using Paymongo.Sharp.Helpers;
 using Paymongo.Sharp.Utilities;
-using RestSharp;
 
 namespace Paymongo.Sharp.Features.PaymentMethods
 {
@@ -34,53 +33,34 @@ namespace Paymongo.Sharp.Features.PaymentMethods
     {
         private const string Resource = "/payment_methods";
         private const string MerchantResource = "/merchants/capabilities/payment_methods";
-        private readonly RestClient _client;
-    
-        private readonly string _secretKey;
+        private readonly HttpClient _client;
 
-        public PaymentMethodsClient(string baseUrl, string secretKey)
+        public PaymentMethodsClient(HttpClient client)
         {
-            _client = new RestClient(new RestClientOptions(baseUrl));
-            _secretKey = secretKey;
+            _client = client;
         }
 
         public async Task<PaymentMethod> CreatePaymentMethodAsync(PaymentMethod paymentMethod)
         {
             var data = paymentMethod.ToSchema();
-
-            var body = JsonSerializer.Serialize(data);
-        
-            var request = RequestHelpers.Create(Resource,_secretKey,_secretKey, body);
-            var response = await _client.PostAsync(request);
-
-            return response.Content.ToPaymentMethod();
+            return await _client.SendRequestAsync<PaymentMethod>(HttpMethod.Post, Resource, data, content => content.ToPaymentMethod());
         }
-        
+
         public async Task<PaymentMethod> UpdatePaymentMethodAsync(PaymentMethod paymentMethod)
         {
             paymentMethod.Details = null;
             var data = paymentMethod.ToSchema();
-
-            var body = JsonSerializer.Serialize(data);
-        
-            var request = RequestHelpers.Create($"{Resource}/{paymentMethod.Id}",_secretKey,_secretKey, body);
-            var response = await _client.PutAsync(request);
-
-            return response.Content.ToPaymentMethod();
+            return await _client.SendRequestAsync<PaymentMethod>(HttpMethod.Put, $"{Resource}/{paymentMethod.Id}", data, content => content.ToPaymentMethod());
         }
 
         public async Task<PaymentMethod> RetrievePaymentMethodAsync(string id)
         {
-            var request = RequestHelpers.Create($"{Resource}/{id}",_secretKey,_secretKey);
-            var response = await _client.GetAsync(request);
-            return response.Content.ToPaymentMethod();
+            return await _client.SendRequestAsync<PaymentMethod>(HttpMethod.Get, $"{Resource}/{id}", responseDeserializer: content => content.ToPaymentMethod());
         }
-        
+
         public async Task<IEnumerable<PaymentMethod>> RetrievePaymentMethodsAsync()
         {
-            var request = RequestHelpers.Create(MerchantResource,_secretKey,_secretKey);
-            var response = await _client.GetAsync(request);
-            return response.Content.ToPaymentMethods();
+            return await _client.SendRequestAsync<IEnumerable<PaymentMethod>>(HttpMethod.Get, MerchantResource, responseDeserializer: content => content.ToPaymentMethods());
         }
 
     }

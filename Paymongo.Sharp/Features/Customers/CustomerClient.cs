@@ -20,65 +20,48 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using System.Collections.Generic;
 using System.Linq;
-using System.Text.Json;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Paymongo.Sharp.Features.Customers.Entities;
 using Paymongo.Sharp.Helpers;
 using Paymongo.Sharp.Utilities;
-using RestSharp;
 
 namespace Paymongo.Sharp.Features.Customers
 {
     public class CustomerClient
     {
         private const string Resource = "/customers";
-        private readonly RestClient _client;
-    
-        private readonly string _secretKey;
+        private readonly HttpClient _client;
 
-        public CustomerClient(string baseUrl, string secretKey)
+        public CustomerClient(HttpClient client)
         {
-            _client = new RestClient(new RestClientOptions(baseUrl));
-            _secretKey = secretKey;
+            _client = client;
         }
 
         public async Task<Customer> CreateCustomerAsync(Customer customer)
         {
             var data = customer.ToSchema();
-
-            var body = JsonSerializer.Serialize(data);
-        
-            var request = RequestHelpers.Create(Resource,_secretKey,_secretKey, body);
-            var response = await _client.PostAsync(request);
-
-            return response.Content.ToCustomer();
+            return await _client.SendRequestAsync<Customer>(HttpMethod.Post, Resource, data, content => content.ToCustomer());
         }
-        
+
         public async Task<Customer> EditCustomerAsync(Customer customer)
         {
             var data = customer.ToSchema();
-
-            var body = JsonSerializer.Serialize(data);
-        
-            var request = RequestHelpers.Create($"{Resource}/{customer.Id}",_secretKey,_secretKey, body);
-            var response = await _client.PatchAsync(request);
-
-            return response.Content.ToCustomer();
+            return await _client.SendRequestAsync<Customer>(HttpMethod.Put, $"{Resource}/{customer.Id}", data, content => content.ToCustomer());
         }
-        
+
         public async Task<Customer?> RetrieveCustomerAsync(string email, string phoneNumber)
         {
-            var request = RequestHelpers.Create($"{Resource}?email={email}&phone={phoneNumber}",_secretKey,_secretKey);
-            var response = await _client.GetAsync(request);
-            return response.Content.ToCustomers().FirstOrDefault();
+            var url = $"{Resource}?email={email}&phone={phoneNumber}";
+            return (await _client.SendRequestAsync<IEnumerable<Customer>>(HttpMethod.Get, url, responseDeserializer: content => content.ToCustomers())).FirstOrDefault();
         }
-        
+
         public async Task<bool> DeleteCustomerAsync(string id)
         {
-            var request = RequestHelpers.Create($"{Resource}/{id}",_secretKey,_secretKey);
-            var response = await _client.DeleteAsync(request);
-            return response.Content.ToCustomerResultBool();
+            var url = $"{Resource}/{id}";
+            return await _client.SendRequestAsync<bool>(HttpMethod.Delete, url, responseDeserializer: content => content.ToCustomerResultBool());
         }
     }
 }
