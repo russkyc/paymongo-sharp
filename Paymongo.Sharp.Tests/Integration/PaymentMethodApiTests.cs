@@ -20,6 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using Paymongo.Sharp.Tests.Utils;
 using PaymentMethod = Paymongo.Sharp.PaymentMethods.Entities.PaymentMethod;
 
 namespace Paymongo.Sharp.Tests.Integration;
@@ -43,20 +44,19 @@ public class PaymentMethodApiTests
         // Arrange
         var paymentMethod = new PaymentMethod
         {
-            Type = PaymentMethodType.Card
+            Type = PaymentMethodType.GCash,
+            Billing = DataFakers.GenerateBilling()
         };
 
         // Act
         var paymentMethodResult = await _client.PaymentMethods.CreatePaymentMethodAsync(paymentMethod);
-        var getPaymentMethodResult = await _client.PaymentMethods.RetrievePaymentMethodAsync(paymentMethod.Id);
+        var getPaymentMethodResult = await _client.PaymentMethods.RetrievePaymentMethodAsync(paymentMethodResult.Id);
         
         // Assert
-        Assert.NotNull(paymentMethodResult);
-        Assert.NotNull(getPaymentMethodResult);
-        Assert.Equal(paymentMethod.Type,paymentMethodResult.Type);
-        Assert.Equal(paymentMethodResult.Type,getPaymentMethodResult.Type);
         Assert.NotEmpty(paymentMethodResult.Id);
         Assert.NotEmpty(getPaymentMethodResult.Id);
+        Assert.Equal(paymentMethod.Type,paymentMethodResult.Type);
+        Assert.Equal(paymentMethodResult.Type,getPaymentMethodResult.Type);
     }
     
     [Fact]
@@ -65,7 +65,9 @@ public class PaymentMethodApiTests
         // Arrange
         var paymentMethod = new PaymentMethod
         {
-            Type = PaymentMethodType.Card
+            Type = PaymentMethodType.Dob,
+            Billing = DataFakers.GenerateBilling(),
+            Details = DataFakers.GenerateDetails()
         };
 
         // Act
@@ -76,8 +78,8 @@ public class PaymentMethodApiTests
         Assert.Equal(paymentMethod.Type,paymentMethodResult.Type);
         Assert.NotEmpty(paymentMethodResult.Id);
         
-        paymentMethodResult.Type = PaymentMethodType.Card;
-        paymentMethodResult.Cvc = 123;
+        paymentMethodResult.Type = PaymentMethodType.Dob;
+        paymentMethodResult.Cvc = "424";
 
         var updatedPaymentMethodResult = await _client.PaymentMethods.UpdatePaymentMethodAsync(paymentMethodResult);
         

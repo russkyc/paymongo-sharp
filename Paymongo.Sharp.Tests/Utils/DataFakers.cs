@@ -21,20 +21,55 @@
 // SOFTWARE.
 
 using Bogus;
+using Bogus.DataSets;
+using Bogus.Extensions.Extras;
 using Paymongo.Sharp.Customers.Entities;
+using Paymongo.Sharp.PaymentMethods.Entities;
+using Address = Paymongo.Sharp.Core.Entities.Address;
 
 namespace Paymongo.Sharp.Tests.Utils;
 
 internal static class DataFakers
 {
+    // Bogus/Faker currently does not support "en_PH" locale, so we use "en_US" for English.
+    private const string Locale = "en_US";
+    
     internal static Customer GenerateCustomer()
     {
-        var faker = new Faker<Customer>()
+        return new Faker<Customer>(Locale)
             .RuleFor(c => c.FirstName, f => f.Name.FirstName())
             .RuleFor(c => c.LastName, f => f.Name.LastName())
             .RuleFor(c => c.Email, f => f.Internet.Email())
             .RuleFor(c => c.Phone, f => f.Phone.PhoneNumber("+639#########")) // Philippine phone number format
-            .RuleFor(c => c.DefaultDevice, f => f.PickRandom<Device>());
-        return faker.Generate();
+            .RuleFor(c => c.DefaultDevice, f => f.PickRandom<Device>())
+            .Generate();
+    }
+    
+    internal static Details GenerateDetails()
+    {
+        return new Faker<Details>(Locale)
+            .RuleFor(d => d.Last4, f => f.Finance.CreditCardNumberLastFourDigits())
+            .RuleFor(d => d.Cvc, f => f.Finance.CreditCardCvv())
+            .RuleFor(d => d.ExpMonth, f => f.Random.Number(1, 12))
+            .RuleFor(d => d.BankCode, f => f.PickRandom("test_bank_one", "test_bank_two")) // Placeholder for bank code
+            .RuleFor(d => d.ExpYear, f => f.Random.Number(DateTime.Now.Year, 2050))
+            .Generate();
+    }
+
+    internal static Billing GenerateBilling()
+    {
+        var addressFaker = new Faker<Address>(Locale)
+            .RuleFor(a => a.Line1, f => f.Address.StreetAddress())
+            .RuleFor(a => a.Line2, f => f.Address.SecondaryAddress())
+            .RuleFor(a => a.City, f => f.Address.City())
+            .RuleFor(a => a.State, f => f.Address.State())
+            .RuleFor(a => a.PostalCode, f => f.Address.ZipCode())
+            .RuleFor(a => a.Country, "PH"); // Philippines
+        return new Faker<Billing>(Locale)
+            .RuleFor(b => b.Name, f => f.Name.FullName())
+            .RuleFor(b => b.Email, f => f.Internet.Email())
+            .RuleFor(b => b.Phone, f => f.Phone.PhoneNumber("+639#########"))
+            .RuleFor(b => b.Address, addressFaker)
+            .Generate();
     }
 }

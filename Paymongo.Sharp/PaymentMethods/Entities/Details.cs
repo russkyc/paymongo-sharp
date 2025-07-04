@@ -26,9 +26,21 @@ namespace Paymongo.Sharp.PaymentMethods.Entities
 {
     public class Details
     {
+        [JsonPropertyName("card_number")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public string? CardNumber { get; set; }
+        
         [JsonPropertyName("last4")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string? Last4 { get; set; }
+        
+        [JsonPropertyName("cvc")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public string? Cvc { get; set; }
+        
+        [JsonPropertyName("bank_code")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public string? BankCode { get; set; }
         
         [JsonPropertyName("exp_month")]
         public int ExpMonth { get; set; }

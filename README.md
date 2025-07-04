@@ -81,8 +81,8 @@ You can track the support for all of Paymongo's official API actions below:
   </tr>
   <tr>
     <td>Payment Method</td>
-    <td>Not yet available</td>
-    <td>Not yet Added</td>
+    <td>Full</td>
+    <td>v1.0.0+</td>
   </tr>
   <tr>
     <td>Payments</td>
@@ -209,10 +209,63 @@ For full Payment API reference, please see: [The Payment Intent Object](https://
 
 ### Payment Method
 
-- [ ] Retrieve list of possible merchant payment methods
-- [ ] Create a payment method
-- [ ] Retrieve a payment method
-- [ ] Update a payment method
+- [x] Create a Payment Method
+- [x] Retrieve a Payment Method
+- [x] Update a Payment Method
+- [x] Retrieve list of Payment Methods
+
+**Create a Payment Method**
+
+```csharp
+// We create a new PaymentMethod object
+PaymentMethod paymentMethod = new PaymentMethod {
+    Type = PaymentMethodType.GCash,
+    Billing = new Billing {
+        Name = "Test Name",
+        Email = "test@paymongo.com",
+        Phone = "+639123456789",
+        Address = new Address {
+            Line1 = "Test Address 1",
+            Line2 = "Test Address 2",
+            PostalCode = "1234",
+            State = "Test State",
+            City = "Test City",
+            Country = "PH"
+        }
+    }
+};
+
+// Use the PaymongoClient from earlier
+PaymentMethod paymentMethodResult = await client.PaymentMethods.CreatePaymentMethodAsync(paymentMethod);
+```
+
+**Retrieve a Payment Method**
+
+```csharp
+// Use the PaymongoClient from earlier
+// Let's assume the payment method id is "pm_12345678"
+PaymentMethod paymentMethodResult = await client.PaymentMethods.RetrievePaymentMethodAsync("pm_12345678");
+```
+
+**Update a Payment Method**
+
+```csharp
+// Retrieve the payment method first
+PaymentMethod paymentMethodResult = await client.PaymentMethods.RetrievePaymentMethodAsync("pm_12345678");
+
+// Update properties as needed
+paymentMethodResult.Cvc = "424";
+
+// Update the payment method on the server
+PaymentMethod updatedPaymentMethodResult = await client.PaymentMethods.UpdatePaymentMethodAsync(paymentMethodResult);
+```
+
+**Retrieve list of Payment Methods**
+
+```csharp
+// Use the PaymongoClient from earlier
+IEnumerable<PaymentMethod> paymentMethods = await client.PaymentMethods.RetrievePaymentMethodsAsync();
+```
 
 For full Payment Method API reference, please see: [The Payment Method Object](https://developers.paymongo.com/reference/the-payment-method-object)
 
@@ -324,9 +377,9 @@ For full Webhook API reference, please see: [Webhook Resource](https://developer
 
 ### Refunds
 
-- [ ] Create a Refund
-- [ ] Retrieve a Refund
-- [ ] List all Refunds
+- [x] Create a Refund
+- [x] Retrieve a Refund
+- [x] List all Refunds
 
 For full Refunds API reference, please see: [Refund Resource](https://developers.paymongo.com/reference/refund-resource)
 

@@ -58,6 +58,7 @@ namespace Paymongo.Sharp.PaymentMethods
         
         public async Task<PaymentMethod> UpdatePaymentMethodAsync(PaymentMethod paymentMethod)
         {
+            paymentMethod.Details = null;
             var data = paymentMethod.ToSchema();
 
             var body = JsonSerializer.Serialize(data);

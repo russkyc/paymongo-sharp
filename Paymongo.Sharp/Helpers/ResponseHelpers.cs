@@ -160,8 +160,13 @@ namespace Paymongo.Sharp.Helpers
             return paymentMethod;
         }
         
-        public static IEnumerable<PaymentMethod> ToPaymentMethods(this string data)
+        public static IEnumerable<PaymentMethod> ToPaymentMethods(this string? data)
         {
+            if (data is null)
+            {
+                return Enumerable.Empty<PaymentMethod>();
+            }
+            
             var paymentRequestDataCollection = JsonSerializer.Deserialize<IEnumerable<Data<PaymentMethod>>>(data);
 
             if (paymentRequestDataCollection is null)

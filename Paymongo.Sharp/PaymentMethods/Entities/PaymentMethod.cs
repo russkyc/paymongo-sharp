@@ -41,7 +41,7 @@ namespace Paymongo.Sharp.PaymentMethods.Entities
         
         [JsonPropertyName("details")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public Details Details { get; set; }
+        public Details? Details { get; set; }
         
         [JsonPropertyName("livemode")]
         public bool LiveMode { get; set; }
@@ -50,7 +50,8 @@ namespace Paymongo.Sharp.PaymentMethods.Entities
         public PaymentMethodType Type { get; set; }
         
         [JsonPropertyName("cvc")]
-        public int Cvc { get; set; }
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public string? Cvc { get; set; }
 
         [JsonPropertyName("metadata")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
