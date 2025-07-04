@@ -40,9 +40,9 @@ using Paymongo.Sharp.Features.Sources.Entities;
 
 namespace Paymongo.Sharp.Helpers
 {
-    public static class ResponseHelpers
+    internal static class ResponseHelpers
     {
-        public static Boolean ToCustomerResultBool(this string? response)
+        internal static Boolean ToCustomerResultBool(this string? response)
         {
             var schema = JsonSerializer.Deserialize<Schema<Data<Customer>>>(response);
 
@@ -51,7 +51,7 @@ namespace Paymongo.Sharp.Helpers
             return result;
         }
         
-        public static Checkout ToCheckout(this string? response)
+        internal static Checkout ToCheckout(this string? response)
         {
             var schema = JsonSerializer.Deserialize<Schema<Data<Checkout>>>(response);
             var checkout = schema.Data.Attributes;
@@ -66,7 +66,7 @@ namespace Paymongo.Sharp.Helpers
             return checkout;
         }
 
-        public static Refund ToRefund(this string? response)
+        internal static Refund ToRefund(this string? response)
         {
             var schema = JsonSerializer.Deserialize<Schema<Data<Refund>>>(response);
             var refund = schema.Data.Attributes;
@@ -81,7 +81,7 @@ namespace Paymongo.Sharp.Helpers
             return refund;
         }
 
-        public static IEnumerable<Refund> ToRefunds(this string data)
+        internal static IEnumerable<Refund> ToRefunds(this string data)
         {
             var refundRequestDataCollection = JsonSerializer.Deserialize<IEnumerable<Data<Refund>>>(data);
 
@@ -112,7 +112,7 @@ namespace Paymongo.Sharp.Helpers
             });
         }
 
-        public static Customer ToCustomer(this string? response)
+        internal static Customer ToCustomer(this string? response)
         {
             var schema = JsonSerializer.Deserialize<Schema<Data<Customer>>>(response);
             var customer = schema.Data.Attributes;
@@ -127,7 +127,7 @@ namespace Paymongo.Sharp.Helpers
             return customer;
         }
 
-        public static Payment ToPayment(this string? response)
+        internal static Payment ToPayment(this string? response)
         {
             var schema = JsonSerializer.Deserialize<Schema<Data<Payment>>>(response);
 
@@ -144,7 +144,7 @@ namespace Paymongo.Sharp.Helpers
             return payment;
         }
         
-        public static PaymentMethod ToPaymentMethod(this string? response)
+        internal static PaymentMethod ToPaymentMethod(this string? response)
         {
             var schema = JsonSerializer.Deserialize<Schema<Data<PaymentMethod>>>(response);
 
@@ -160,7 +160,7 @@ namespace Paymongo.Sharp.Helpers
             return paymentMethod;
         }
         
-        public static IEnumerable<PaymentMethod> ToPaymentMethods(this string? data)
+        internal static IEnumerable<PaymentMethod> ToPaymentMethods(this string? data)
         {
             if (data is null)
             {
@@ -196,7 +196,7 @@ namespace Paymongo.Sharp.Helpers
             });
         }
         
-        public static Source ToSource(this string? response)
+        internal static Source ToSource(this string? response)
         {
             var schema = JsonSerializer.Deserialize<Schema<Data<Source>>>(response);
             
@@ -212,7 +212,7 @@ namespace Paymongo.Sharp.Helpers
             return source;
         }
         
-        public static Link ToLink(this string? response, bool isReferenceResource = false)
+        internal static Link ToLink(this string? response, bool isReferenceResource = false)
         {
             if (isReferenceResource)
             {
@@ -243,7 +243,7 @@ namespace Paymongo.Sharp.Helpers
             return link;
         }
         
-        public static IEnumerable<Payment> ToPayments(this string data)
+        internal static IEnumerable<Payment> ToPayments(this string data)
         {
             var paymentRequestDataCollection = JsonSerializer.Deserialize<IEnumerable<Data<Payment>>>(data);
 
@@ -275,7 +275,7 @@ namespace Paymongo.Sharp.Helpers
             });
         }
         
-        public static IEnumerable<Payment> ToDataPayments(this string response)
+        internal static IEnumerable<Payment> ToDataPayments(this string response)
         {
             var paymentRequestDataCollection = JsonSerializer.Deserialize<IEnumerable<Schema<Data<Payment>>>>(response);
 
@@ -298,7 +298,7 @@ namespace Paymongo.Sharp.Helpers
                 return payment;
             });
         }
-        public static IEnumerable<Customer> ToCustomers(this string? data)
+        internal static IEnumerable<Customer> ToCustomers(this string? data)
         {
             var schema = JsonSerializer.Deserialize<Schema<IList<Data<Customer>>>>(data);
             var customers = schema.Data;

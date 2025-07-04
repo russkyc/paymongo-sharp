@@ -24,9 +24,9 @@ using System;
 
 namespace Paymongo.Sharp.Helpers
 {
-    public static class DateTimeHelpers
+    internal static class DateTimeHelpers
     {
-        public static DateTime? ToLocalDateTime(this DateTime? dateTime)
+        internal static DateTime? ToLocalDateTime(this DateTime? dateTime)
         {
             if (dateTime is null)
             {
