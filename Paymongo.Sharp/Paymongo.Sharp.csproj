@@ -12,11 +12,18 @@
         <PackageIcon>icon.png</PackageIcon>
         <RepositoryUrl>https://github.com/russkyc/paymongo-sharp</RepositoryUrl>
         <PackageTags>paymongo paymongo-sharp pay payments</PackageTags>
-        <Version>0.5.1</Version>
+        <Version>1.0.0</Version>
         <Description>Unofficial C# Client for Paymongo</Description>
         <Copyright>russkyc 2023</Copyright>
-        <PackageReleaseNotes>BREAKING CHANGES:
-- All amount properties should now be decimal values (up to 2 decimal places only)</PackageReleaseNotes>
+        <PackageReleaseNotes>Api Parity and Package Slimming Update:
+
+BREAKING CHANGES (API Parity):
+
+- Amount Values are now whole number values (like the official API), which means Amounts like 100.00 should be defined as 100000 similar to the api docs. But There is a new extension method added to automatically do this by using `.ToLongAmount()` to Convert to whole numbers, and `.ToDecimalAmount()` to convert back to decimal values accordingly.
+
+OTHER CHANGES (Package Rework):
+
+- Remove dependency to Newtonsoft.Json and RestSharp, the package now uses Microsoft's System.Text.Json and HttpClient.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     </PropertyGroup>
 

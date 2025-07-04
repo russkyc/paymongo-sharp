@@ -63,72 +63,71 @@ This nuget package is not limited to these samples, it also supports the all .NE
 This client is in active development and features are slowly being implemented but not all of them are supported as of now.
 You can track the support for all of Paymongo's official API actions below:
 
-### API Support (Paymongo API v1)
+### Feature Table (Paymongo API v1)
 <table>
-  <tr>
-    <th>API Resource</th>
-    <th>Status</th>
-    <th>Added on</th>
-  </tr>
-  <tr>
-    <td>Checkout</td>
-    <td>Full</td>
-    <td>v0.1.2-pre+</td>
-  </tr>
-  <tr>
-    <td>Payment Intent</td>
-    <td>Not yet available</td>
-    <td>Not yet Added</td>
-  </tr>
-  <tr>
-    <td>Payment Method</td>
-    <td>Full</td>
-    <td>v1.0.0+</td>
-  </tr>
-  <tr>
-    <td>Payments</td>
-    <td>Full</td>
-    <td>v0.2.0+</td>
-  </tr>
-  <tr>
-    <td>Links</td>
-    <td>Full</td>
-    <td>v0.3.0+</td>
-  </tr>
-  <tr>
-    <td>Webhooks</td>
-    <td>Not yet available</td>
-    <td>Not yet Added</td>
-  </tr>
-  <tr>
-    <td>Customers</td>
-    <td>Partial</td>
-    <td>v0.5.0+</td>
-  </tr>
-  <tr>
-    <td>Treasury</td>
-    <td>Not yet available</td>
-    <td>Not yet Added</td>
-  </tr>
-  <tr>
-    <td>Installments</td>
-    <td>Not yet available</td>
-    <td>Not yet Added</td>
-  </tr>
-  <tr>
-    <td>Sources</td>
-    <td>Full</td>
-    <td>v0.4.0+</td>
-  </tr>
+  <thead>
+    <tr>
+      <th>API Resource</th>
+      <th style="text-align:center;">Implementation Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- Full Support -->
+    <tr>
+      <td>Checkout</td>
+      <td style="text-align:center;"><b style="color:#e5f393;">Full</b></td>
+    </tr>
+    <tr>
+      <td>Links</td>
+      <td style="text-align:center;"><b style="color:#e5f393;">Full</b></td>
+    </tr>
+    <tr>
+      <td>Payment Method</td>
+      <td style="text-align:center;"><b style="color:#e5f393;">Full</b></td>
+    </tr>
+    <tr>
+      <td>Payments</td>
+      <td style="text-align:center;"><b style="color:#e5f393;">Full</b></td>
+    </tr>
+    <tr>
+      <td>Refunds</td>
+      <td style="text-align:center;"><b style="color:#e5f393;">Full</b></td>
+    </tr>
+    <tr>
+      <td>Sources</td>
+      <td style="text-align:center;"><b style="color:#e5f393;">Full</b></td>
+    </tr>
+    <!-- Partial Support -->
+    <tr>
+      <td>Customers</td>
+      <td style="text-align:center;"><b style="color:#ffffff;">Partial</b></td>
+    </tr>
+    <!-- In Development / Unavailable -->
+    <tr>
+      <td>Installments</td>
+      <td style="text-align:center;"><b style="color:gray;">Unavailable, In Development</b></td>
+    </tr>
+    <tr>
+      <td>Payment Intent</td>
+      <td style="text-align:center;"><b style="color:gray;">Unavailable, In Development</b></td>
+    </tr>
+    <tr>
+      <td>Treasury</td>
+      <td style="text-align:center;"><b style="color:gray;">Unavailable, In Development</b></td>
+    </tr>
+    <tr>
+      <td>Webhooks</td>
+      <td style="text-align:center;"><b style="color:gray;">Unavailable, In Development</b></td>
+    </tr>
+  </tbody>
 </table>
 
 ---
 
-## :collision: Breaking Changes
+## :collision: Breaking Changes (V1.0.0+)
 
-- (v0.5.1+) All amount related properties should now be a `decimal` (up to 2 decimal places)
-- (v0.2.0+) PaymongoClient now only needs a Secret Key on initialization
-- (v0.1.1-pre+) Updated root namespace to `Paymongo.Sharp` from `paymongo_sharp`
+- All amount related properties should now be single number values, eg; 100.00 should be represented as 10000, to help with this
+there is a new extension method `ToLongAmount()` that can be used to convert decimal values to the correct amount format.
 
 ---
 
@@ -299,7 +298,7 @@ For full Payments API reference, please see: [Payment Resource](https://develope
 
 ---
 
-### Links API
+### Links
 
 - [x] Create a Link
 - [x] Retrieve a Link
