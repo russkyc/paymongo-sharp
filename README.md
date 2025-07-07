@@ -245,6 +245,53 @@ For full Checkout API reference, please see: [Checkout Session Resource](https:/
 - [x] Retrieve a Payment Intent
 - [x] Attach to a Payment Intent
 
+**Create a Payment Intent**
+
+```csharp
+// Create a new PaymentIntent object with minimal required values
+PaymentIntent paymentIntent = new PaymentIntent
+{
+    Amount = 10000,
+    Currency = Currency.Php,
+    PaymentMethodAllowed =
+    [
+        PaymentMethod.Card,
+        PaymentMethod.Paymaya
+    ],
+    PaymentMethodOptions = new PaymentMethodOption()
+    {
+        Card = new Card()
+    }
+};
+
+// Use the PaymongoClient to create the payment intent
+PaymentIntent paymentIntentResult = await client.PaymentIntents.CreatePaymentIntentAsync(paymentIntent);
+```
+
+**Retrieve a Payment Intent**
+
+```csharp
+// Let's assume we have a payment intent id from the previous step
+const string paymentIntentId = "pi_WENqK7d5L3XN9YQzEt39B3oF";
+
+PaymentIntent getPaymentIntent = await client.PaymentIntents.RetrievePaymentIntentAsync(paymentIntentId);
+```
+
+**Attach to a Payment Intent**
+
+```csharp
+// Attach a payment method to an existing PaymentIntent
+const string paymentIntentId = "pi_WENqK7d5L3XN9YQzEt39B3oF";
+
+PaymentIntentAttachment paymentIntentAttachment = new PaymentIntentAttachment
+{
+    PaymentMethod = PaymentMethod.Card,
+    ReturnUrl = "https://google.com"
+};
+
+PaymentIntent paymentIntentResult = await client.PaymentIntents.AttachToPaymentIntentAsync(paymentIntentId, paymentIntentAttachment);
+```
+
 For full Payment API reference, please see: [The Payment Intent Object](https://developers.paymongo.com/reference/the-payment-intent-object), [(Pre-Authorization) Capture](https://developers.paymongo.com/reference/capture-a-payment), [(Pre-Authorization) Cancel](https://developers.paymongo.com/reference/cancel-a-payment)
 
 ---
@@ -424,6 +471,56 @@ For full Links API reference, please see: [Links Resource](https://developers.pa
 - [x] Enable a Webhook
 - [x] Update a Webhook
 
+**Create a Webhook**
+
+```csharp
+// Create a new Webhook object with required values
+Webhook webhook = new Webhook {
+    Url = "https://www.example.com/webhook",
+    Events = new[] { "source.chargeable", "payment.paid" }
+};
+
+// Use the PaymongoClient to create the webhook
+Webhook created = await client.Webhooks.CreateWebhookAsync(webhook);
+```
+
+**Retrieve a Webhook**
+
+```csharp
+// Retrieve a webhook by its ID
+Webhook retrieved = await client.Webhooks.RetrieveWebhookAsync("wh_12345678");
+```
+
+**List Webhooks**
+
+```csharp
+// List all webhooks
+IEnumerable<Webhook> webhooks = await client.Webhooks.ListWebhooksAsync();
+```
+
+**Update a Webhook**
+
+```csharp
+// Update an existing webhook's URL
+Webhook webhook = await client.Webhooks.RetrieveWebhookAsync("wh_12345678");
+webhook.Url = "https://www.example.com/updated";
+Webhook updated = await client.Webhooks.UpdateWebhookAsync(webhook);
+```
+
+**Enable a Webhook**
+
+```csharp
+// Enable a webhook by its ID
+Webhook enabled = await client.Webhooks.EnableWebhookAsync("wh_12345678");
+```
+
+**Disable a Webhook**
+
+```csharp
+// Disable a webhook by its ID
+Webhook disabled = await client.Webhooks.DisableWebhookAsync("wh_12345678");
+```
+
 For full Webhook API reference, please see: [Webhook Resource](https://developers.paymongo.com/reference/webhook-resource)
 
 ---
@@ -555,6 +652,23 @@ For full Sources API reference, please see: [The Sources Object](https://develop
 
 ---
 
+### Installments
+
+- [x] List Installment Plans
+
+**List Card Installment Plans**
+
+```csharp
+// We use the PaymongoClient from earlier
+// Let's assume the amount is 100000 (in centavos)
+// This returns a list of available InstallmentPlan objects for the given amount
+IEnumerable<InstallmentPlan> plans = await client.CardInstallments.ListInstallmentPlansAsync(100000);
+```
+
+For full Installments API reference, please see: [List Installment Plans](https://developers.paymongo.com/reference/list-installment-plans)
+
+---
+
 ### QR PH
 
 - [x] Create a Static QR PH Code
@@ -611,14 +725,6 @@ For full Transaction History API reference, please see: [Batch Transaction Resou
 - [ ] Retrieve Batch Object
 
 For full Transaction History API reference, please see: [Retrieve a Wallet Transaction By ID](https://developers.paymongo.com/reference/retrieve-a-wallet-transaction)
-
----
-
-### Installments
-
-- [x] List Installment Plans
-
-For full Installments API reference, please see: [List Installment Plans](https://developers.paymongo.com/reference/list-installment-plans)
 
 ---
 
