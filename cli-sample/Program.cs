@@ -123,7 +123,7 @@ public class Program
             {
                 var payment = getLink.Payments.First();
 
-                var platform = payment.Source["type"];
+                var platform = payment.Source.Type;
                 var paymentDate = payment.PaidAt;
                 var fee = (payment.Fee / 100).ToString("C", CultureInfo.InstalledUICulture);
 

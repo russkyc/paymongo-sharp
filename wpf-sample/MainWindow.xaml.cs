@@ -1,5 +1,4 @@
 ﻿
-using System;
 using System.Linq;
 using System.Windows;
 using DotNetEnv;
@@ -62,19 +61,19 @@ namespace WpfSample
             {
                 var paymentStatus = await client.Links.RetrieveLinkAsync(linkResult.Id);
                 
-                if (!paymentStatus.Payments!.Any())
+                if (!paymentStatus.Payments.Any())
                 {
                     continue;
                 }
                 
-                var payment = paymentStatus.Payments!.First();
+                var payment = paymentStatus.Payments.FirstOrDefault();
 
-                if (payment.Status != PaymentStatus.Paid)
+                if (payment is null || payment.Status != PaymentStatus.Pending)
                 {
                     continue;
                 }
 
-                StatusBlock.Text = $"Paid by {payment.Billing!.Name} on {payment.PaidAt} using {payment.Source!["type"]}";
+                StatusBlock.Text = $"Paid by {payment.Billing?.Name} on {payment.PaidAt} using {payment.Source?.Type}";
                 
                 paymentWindow.Close();
                 
@@ -107,8 +106,8 @@ namespace WpfSample
             {
                 Description = "Test Checkout",
                 ReferenceNumber = "9282321A",
-                LineItems = new []
-                {
+                LineItems =
+                [
                     new LineItem
                     {
                         Name = "Give You Up",
@@ -120,7 +119,7 @@ namespace WpfSample
                         Currency = Currency.Php,
                         Amount = doubleAmount.ToLongAmount()
                     }
-                },
+                ],
                 PaymentMethodTypes = new[]
                 {
                     PaymentMethod.GCash,
@@ -142,19 +141,19 @@ namespace WpfSample
             {
                 var paymentStatus = await client.Checkouts.RetrieveCheckoutAsync(checkoutResult.Id);
                 
-                if (!paymentStatus.Payments!.Any())
+                if (paymentStatus.Payments is null || !paymentStatus.Payments.Any())
                 {
                     continue;
                 }
                 
-                var payment = paymentStatus.Payments!.First();
+                var payment = paymentStatus.Payments.FirstOrDefault();
 
-                if (payment.Status != PaymentStatus.Paid)
+                if (payment is null || payment.Status != PaymentStatus.Pending)
                 {
                     continue;
                 }
 
-                StatusBlock.Text = $"Paid by {payment.Billing!.Name} on {payment.PaidAt} using {payment.Source!["type"]}";
+                StatusBlock.Text = $"Paid by {payment.Billing?.Name} on {payment.PaidAt} using {payment.Source?.Type}";
                 
                 paymentWindow.Close();
                 
@@ -214,7 +213,7 @@ namespace WpfSample
 
             // Act
             var sourceResult = await client.Sources.CreateSourceAsync(source);
-            var paymentWindow = new PaymentWindow(sourceResult.Redirect!.CheckoutUrl);
+            var paymentWindow = new PaymentWindow(sourceResult.Redirect.CheckoutUrl);
 
             paymentWindow.Show();
 
@@ -287,7 +286,7 @@ namespace WpfSample
 
             // Act
             var sourceResult = await client.Sources.CreateSourceAsync(source);
-            var paymentWindow = new PaymentWindow(sourceResult.Redirect!.CheckoutUrl);
+            var paymentWindow = new PaymentWindow(sourceResult.Redirect.CheckoutUrl);
 
             paymentWindow.Show();
 

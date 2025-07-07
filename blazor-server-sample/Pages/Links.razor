@@ -19,10 +19,10 @@
         <p class="my-auto mx-2">Waiting for transaction to complete..</p>
     </div>
 }
-else if (_transactionComplete)
+else if (_transactionComplete && _payment is not null)
 {
     <div class="alert alert-success mt-3" role="alert">
-        Transaction completed! Paid by @payment.Billing.Name on @payment.PaidAt using @payment.Source["type"].
+        Transaction completed! Paid by @_payment.Billing?.Name on @_payment.PaidAt using @_payment.Source?.Type.
     </div>
 }
 
@@ -30,7 +30,7 @@ else if (_transactionComplete)
 
     private bool _transactionComplete;
     private bool _isProcessing;
-    private Payment payment;
+    private Payment? _payment;
 
     async Task OnPay()
     {
@@ -48,11 +48,12 @@ else if (_transactionComplete)
         while (true)
         {
             var getLinkResult = await PaymongoClient.Links.RetrieveLinkAsync(linkResult.Id);
-            if (getLinkResult.Status is LinkStatus.Paid)
-            {
-                payment = getLinkResult.Payments.First(payment => payment.Status is PaymentStatus.Paid);
-                break;
-            }
+            if (getLinkResult.Status is not LinkStatus.Paid) continue;
+            
+            // Ideally we would want to get the payment with a Paid status,
+            // but, the payment status will only be in Pending in the test environment
+            _payment = getLinkResult.Payments.First(payment => payment.Status is PaymentStatus.Pending);
+            break;
         }
 
         _transactionComplete = true;
