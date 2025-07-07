@@ -1,6 +1,6 @@
 ﻿// MIT License
 // 
-// Copyright (c) 2023 Russell Camo (@russkyc)
+// Copyright (c) 2025 Russell Camo (@russkyc)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,28 +20,15 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Paymongo.Sharp.Features.Checkouts;
-using Paymongo.Sharp.Features.Customers;
-using Paymongo.Sharp.Features.Links;
-using Paymongo.Sharp.Features.PaymentMethods;
-using Paymongo.Sharp.Features.Payments;
-using Paymongo.Sharp.Features.QrPh;
-using Paymongo.Sharp.Features.Refunds;
-using Paymongo.Sharp.Features.Sources;
-using Paymongo.Sharp.Features.WebHooks;
+using System.Text.Json.Serialization;
 
-namespace Paymongo.Sharp.Interfaces
+namespace Paymongo.Sharp.Core.Enums
 {
-    public interface IPaymongoClient
+    public enum WebhookStatus
     {
-        CheckoutClient Checkouts { get; }
-        PaymentClient Payments { get; }
-        LinksClient Links { get; }
-        SourceClient Sources { get; }
-        CustomerClient Customers { get; }
-        PaymentMethodsClient PaymentMethods { get; }
-        RefundClient Refunds { get; }
-        QrPhClient QrPh { get; }
-        WebhooksClient Webhooks { get; }
+        [JsonStringEnumMemberName("enabled")]
+        Enabled,
+        [JsonStringEnumMemberName("disabled")]
+        Disabled,
     }
 }

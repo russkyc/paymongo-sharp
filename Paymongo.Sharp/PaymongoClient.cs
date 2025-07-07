@@ -29,6 +29,7 @@ using Paymongo.Sharp.Features.Payments;
 using Paymongo.Sharp.Features.QrPh;
 using Paymongo.Sharp.Features.Refunds;
 using Paymongo.Sharp.Features.Sources;
+using Paymongo.Sharp.Features.WebHooks;
 using Paymongo.Sharp.Helpers;
 using Paymongo.Sharp.Interfaces;
 
@@ -47,8 +48,8 @@ namespace Paymongo.Sharp
                 BaseAddress = new System.Uri(ApiEndpoint),
                 DefaultRequestHeaders =
                 {
-                    { "Accept", "application/json" },
-                    { "User-Agent", "PaymongoSharp Client" },
+                    { "Accept", "*/*" },
+                    { "User-Agent", "Paymongo.Sharp Client" },
                     { "Authorization", $"Basic {apiKey.Encode()}"}
                 }
             };
@@ -62,6 +63,7 @@ namespace Paymongo.Sharp
             PaymentMethods = new PaymentMethodsClient(_httpClient);
             Refunds = new RefundClient(_httpClient);
             QrPh = new QrPhClient(_httpClient);
+            Webhooks = new WebhooksClient(_httpClient);
         }
 
         public CheckoutClient Checkouts { get; }
@@ -72,5 +74,6 @@ namespace Paymongo.Sharp
         public PaymentMethodsClient PaymentMethods { get; }
         public RefundClient Refunds { get; }
         public QrPhClient QrPh { get; }
+        public WebhooksClient Webhooks { get; }
     }
 }

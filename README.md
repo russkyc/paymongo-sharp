@@ -2,7 +2,7 @@
     <img src=".github/resources/images/banner.svg" style="width: 100%;" />
 </a>
 
-<h2 align="center">Paymongo.Sharp - Easy to use Paymongo integration for .NET</h2>
+<h2 align="center">Paymongo.Sharp - Effortless Paymongo integration for .NET</h2>
 
 <p align="center">
     <img src="https://img.shields.io/nuget/v/Paymongo.Sharp?color=1f72de" alt="Nuget">
@@ -39,7 +39,7 @@ using Paymongo.Sharp;
 
 Initialize Client
 ```csharp
-var client = new PaymongoClient(apiKey: "<secret_key or public_key>");
+var client = new PaymongoClient(apiKey: "<api_key or public_key>");
 ```
 
 ## :star: Payments Demo
@@ -101,6 +101,10 @@ You can track the support for all of Paymongo's official API actions below:
       <td>QR PH</td>
       <td style="text-align:center;"><b style="color:#e5f393;">Full</b></td>
     </tr>
+    <tr>
+      <td>Webhooks</td>
+      <td style="text-align:center;"><b style="color:#e5f393;">Full</b></td>
+    </tr>
     <!-- Partial Support -->
     <tr>
       <td>Customers</td>
@@ -145,10 +149,6 @@ You can track the support for all of Paymongo's official API actions below:
     </tr>
     <tr>
       <td>Treasury</td>
-      <td style="text-align:center;"><b style="color:gray;">Unavailable, In Development</b></td>
-    </tr>
-    <tr>
-      <td>Webhooks</td>
       <td style="text-align:center;"><b style="color:gray;">Unavailable, In Development</b></td>
     </tr>
   </tbody>
@@ -407,12 +407,12 @@ For full Links API reference, please see: [Links Resource](https://developers.pa
 
 ### Webhooks
 
-- [ ] Create a Webhook
+- [x] Create a Webhook
 - [ ] List all Webhooks
-- [ ] Retrieve a Webhook
-- [ ] Disable a Webhook
-- [ ] Enable a Webhook
-- [ ] Update a Webhook
+- [x] Retrieve a Webhook
+- [x] Disable a Webhook
+- [x] Enable a Webhook
+- [x] Update a Webhook
 
 For full Webhook API reference, please see: [Webhook Resource](https://developers.paymongo.com/reference/webhook-resource)
 
@@ -622,7 +622,7 @@ fluent builder implementation for the Checkouts client.
 ##### 1. Current
 
 ```csharp
-var client = new PaymongoClient(secretKey: "<secret_key>");
+var client = new PaymongoClient(apiKey: "<api_key>");
 
 Checkout checkout = new Checkout() {
     Description = "Test Checkout",
@@ -647,7 +647,7 @@ Checkout checkoutResult = await client.Checkouts.CreateCheckoutAsync(checkout);
 ##### 2. Future Fluent Builder
 
 ```csharp
-var client = new PaymongoClient(secretKey: "<secret_key>");
+var client = new PaymongoClient(apiKey: "<api_key>");
 
 Checkout checkoutResult = await CheckoutBuilder
                                     .WithDescription("Test Checkout")

@@ -41,12 +41,12 @@ namespace Paymongo.Sharp.Helpers
             Func<string?,TResponseType>? responseDeserializer = null)
         {
             using var request = new HttpRequestMessage(method, requestUri);
-            
+
             if (content != null)
             {
                 request.Content = new StringContent(
                     JsonSerializer.Serialize(content), 
-                    Encoding.UTF8, 
+                    Encoding.Default, 
                     "application/json");
             }
 

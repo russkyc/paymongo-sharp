@@ -32,6 +32,7 @@ using Paymongo.Sharp.Features.PaymentMethods.Entities;
 using Paymongo.Sharp.Features.Payments.Entities;
 using Paymongo.Sharp.Features.Refunds.Entities;
 using Paymongo.Sharp.Features.Sources.Entities;
+using Paymongo.Sharp.Features.WebHooks.Entities;
 
 
 #pragma warning disable CS8604
@@ -210,6 +211,46 @@ namespace Paymongo.Sharp.Helpers
             source.UpdatedAt = source.UpdatedAt.ToLocalDateTime();
             
             return source;
+        }
+        
+        internal static Webhook ToWebHook(this string? response)
+        {
+            var schema = JsonSerializer.Deserialize<Schema<Data<Webhook>>>(response);
+            var webHook = schema.Data.Attributes;
+            
+            // Webhook doesn't have an id field so we get it from the parent
+            webHook.Id = schema.Data.Id;
+            
+            // Unix timestamp doesn't account for daylight savings, so we adjust it here
+            webHook.CreatedAt = webHook.CreatedAt.ToLocalDateTime();
+            webHook.UpdatedAt = webHook.UpdatedAt.ToLocalDateTime();
+            
+            return webHook;
+        }
+        
+        internal static IEnumerable<Webhook> ToWebHookList(this string? response)
+        {
+            var schema = JsonSerializer.Deserialize<Schema<IList<Data<Webhook>>>>(response);
+            var webHooks = schema.Data;
+
+            if (!webHooks.Any())
+            {
+                return Enumerable.Empty<Webhook>();
+            }
+            
+            return webHooks.Select(webHookData =>
+            {
+                var webHook = webHookData.Attributes;
+                
+                // Webhook doesn't have an id field so we get it from the parent
+                webHook.Id = webHookData.Id;
+                
+                // Unix timestamp doesn't account for daylight savings, so we adjust it here
+                webHook.CreatedAt = webHook.CreatedAt.ToLocalDateTime();
+                webHook.UpdatedAt = webHook.UpdatedAt.ToLocalDateTime();
+                
+                return webHook;
+            });
         }
         
         internal static Link ToLink(this string? response, bool isReferenceResource = false)
