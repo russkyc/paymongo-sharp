@@ -28,6 +28,6 @@ namespace Paymongo.Sharp.Core.Contracts
     public class ErrorResponse
     {
         [JsonPropertyName("errors")]
-        public ICollection<Error> Errors { get; set; }
+        public ICollection<Error> Errors { get; set; } = null!;
     }
 }

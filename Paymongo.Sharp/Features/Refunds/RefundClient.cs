@@ -63,7 +63,7 @@ namespace Paymongo.Sharp.Features.Refunds
             if (after != null)
                 parameters.Add($"after={after}");
             var url = parameters.Any() ? $"{Resource}?{string.Join("&", parameters)}" : Resource;
-            return await _client.SendRequestAsync<IEnumerable<Refund>>(HttpMethod.Get, url, responseDeserializer: content => content.ToRefunds());
+            return await _client.SendRequestAsync<IEnumerable<Refund>>(HttpMethod.Get, url, responseDeserializer: content => content?.ToRefunds() ?? Enumerable.Empty<Refund>());
         }
     }
 }

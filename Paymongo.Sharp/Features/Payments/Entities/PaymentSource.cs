@@ -27,10 +27,10 @@ namespace Paymongo.Sharp.Features.Payments.Entities
     public class PaymentSource
     {
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string Id { get; set; }
+        public string Id { get; set; } = null!;
         
         [JsonPropertyName("type")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public string Type { get; set; }
+        public string Type { get; set; } = null!;
     }
 }

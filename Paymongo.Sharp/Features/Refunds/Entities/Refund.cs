@@ -30,8 +30,8 @@ namespace Paymongo.Sharp.Features.Refunds.Entities
 {
     public class Refund
     {
-        [JsonIgnore]
-        public string? Id { get; set; }
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public string Id { get; set; } = null!;
         
         [JsonPropertyName("amount")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

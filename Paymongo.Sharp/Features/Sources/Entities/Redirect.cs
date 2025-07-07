@@ -28,12 +28,12 @@ namespace Paymongo.Sharp.Features.Sources.Entities
     {
         [JsonPropertyName("checkout_url")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public string CheckoutUrl { get; set; }
+        public string CheckoutUrl { get; set; } = null!;
         
         [JsonPropertyName("success")]
-        public string Success { get; set; }
+        public string Success { get; set; } = null!;
         
         [JsonPropertyName("failed")]
-        public string Failed { get; set; }
+        public string Failed { get; set; } = null!;
     }
 }

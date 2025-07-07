@@ -28,6 +28,6 @@ namespace Paymongo.Sharp.Features.CardInstallments.Entities
     {
         [JsonPropertyName("plan")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public Plan Plan { get; set; }
+        public Plan Plan { get; set; } = null!;
     }
 }

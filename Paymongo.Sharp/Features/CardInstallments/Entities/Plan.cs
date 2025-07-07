@@ -28,7 +28,7 @@ namespace Paymongo.Sharp.Features.CardInstallments.Entities
     {
         [JsonPropertyName("issuer_id")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string IssuerId { get; set; }
+        public string IssuerId { get; set; } = null!;
         [JsonPropertyName("tenure")]
         public int Tenure { get; set; }
     }

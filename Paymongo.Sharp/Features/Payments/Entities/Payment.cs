@@ -34,19 +34,19 @@ namespace Paymongo.Sharp.Features.Payments.Entities
     {
         [JsonPropertyName("id")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public string Id { get; set; }
+        public string Id { get; set; } = null!;
         
         [JsonPropertyName("payment_intent_id")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public string PaymentIntentId { get; set; }
+        public string PaymentIntentId { get; set; } = null!;
         
         [JsonPropertyName("balance_transaction_id")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public string BalanceTransactionId { get; set; }
+        public string BalanceTransactionId { get; set; } = null!;
         
         [JsonPropertyName("description")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public string Description { get; set; }
+        public string? Description { get; set; }
         
         [JsonPropertyName("amount")]
         public long Amount { get; set; }

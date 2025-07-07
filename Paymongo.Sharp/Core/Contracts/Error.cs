@@ -27,10 +27,10 @@ namespace Paymongo.Sharp.Core.Contracts
     public class Error
     {
         [JsonPropertyName("code")]
-        public string Code { get; set; }
+        public string Code { get; set; } = null!;
 
         [JsonPropertyName("detail")]
-        public string Detail { get; set; }
+        public string Detail { get; set; } = null!;
     }
 
 }

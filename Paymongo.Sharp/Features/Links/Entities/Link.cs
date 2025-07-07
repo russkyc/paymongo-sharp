@@ -32,19 +32,19 @@ namespace Paymongo.Sharp.Features.Links.Entities
     public class Link
     {
         [JsonIgnore]
-        public string Id { get; set; }
+        public string Id { get; set; } = null!;
         
         [JsonPropertyName("reference_number")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public string ReferenceNumber { get; set; }
+        public string ReferenceNumber { get; set; } = null!;
         
         [JsonPropertyName("description")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public string Description { get; set; }
+        public string Description { get; set; } = null!;
         
         [JsonPropertyName("remarks")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public string Remarks { get; set; }
+        public string Remarks { get; set; } = null!;
 
         [JsonPropertyName("amount")]
         public long Amount { get; set; }
@@ -54,7 +54,7 @@ namespace Paymongo.Sharp.Features.Links.Entities
         
         [JsonPropertyName("checkout_url")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public string CheckoutUrl { get; set; }
+        public string CheckoutUrl { get; set; } = null!;
 
         [JsonPropertyName("status")]
         public LinkStatus Status { get; set; }
@@ -67,7 +67,7 @@ namespace Paymongo.Sharp.Features.Links.Entities
         
         [JsonPropertyName("payments")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public IEnumerable<Payment> Payments { get; set; }
+        public IEnumerable<Payment> Payments { get; set; } = null!;
         
         [JsonPropertyName("created_at")]
         [JsonConverter(typeof(UnixDateTimeConverter))]

@@ -31,11 +31,11 @@ namespace Paymongo.Sharp.Features.Sources.Entities
     public class Source
     {
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string Id { get; set; }
+        public string Id { get; set; } = null!;
         
         [JsonPropertyName("description")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public string Description { get; set; }
+        public string? Description { get; set; }
         
         [JsonPropertyName("amount")]
         public long Amount { get; set; }
@@ -45,7 +45,7 @@ namespace Paymongo.Sharp.Features.Sources.Entities
         
         [JsonPropertyName("billing")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public Billing Billing { get; set; }
+        public Billing Billing { get; set; } = null!;
         
         [JsonPropertyName("type")]
         public SourceType Type { get; set; }
@@ -56,7 +56,7 @@ namespace Paymongo.Sharp.Features.Sources.Entities
 
         [JsonPropertyName("redirect")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public Redirect Redirect { get; set; }
+        public Redirect Redirect { get; set; } = null!;
         
         [JsonPropertyName("livemode")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

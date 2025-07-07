@@ -28,6 +28,6 @@ namespace Paymongo.Sharp.Features.CardInstallments.Entities
     {
         [JsonPropertyName("installments")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public Installments Installments { get; set; }
+        public Installments Installments { get; set; } = null!;
     }
 }

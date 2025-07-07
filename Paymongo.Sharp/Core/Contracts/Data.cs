@@ -33,9 +33,9 @@ namespace Paymongo.Sharp.Core.Contracts
         [JsonPropertyName("type")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string? Type { get; set; }
-        
+
         [JsonPropertyName("attributes")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public TRequestAttribute Attributes { get; set; }
+        public TRequestAttribute Attributes { get; set; } = default!;
     }
 }

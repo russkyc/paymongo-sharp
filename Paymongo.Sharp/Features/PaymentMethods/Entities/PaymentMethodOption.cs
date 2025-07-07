@@ -26,6 +26,6 @@ namespace Paymongo.Sharp.Features.PaymentMethods.Entities
 {
     public class PaymentMethodOption
     {
-        public Card Card { get; set; }
+        public Card Card { get; set; } = null!;
     }
 }

@@ -29,15 +29,15 @@ namespace Paymongo.Sharp.Features.QrPh.Entities
     {
         [JsonPropertyName("id")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string Id { get; set; }
+        public string Id { get; set; } = null!;
 
         [JsonPropertyName("mobile_number")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string MobileNumber { get; set; }
+        public string MobileNumber { get; set; } = null!;
 
         [JsonPropertyName("name")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string Name { get; set; }
+        public string Name { get; set; } = null!;
 
         [JsonPropertyName("kind")]
         [JsonConverter(typeof(JsonStringEnumConverter))]

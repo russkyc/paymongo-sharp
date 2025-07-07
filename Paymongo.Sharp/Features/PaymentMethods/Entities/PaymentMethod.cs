@@ -33,11 +33,11 @@ namespace Paymongo.Sharp.Features.PaymentMethods.Entities
     {
         [JsonPropertyName("id")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public string Id { get; set; }
+        public string Id { get; set; } = null!;
         
         [JsonPropertyName("billing")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public Billing Billing { get; set; }
+        public Billing Billing { get; set; } = null!;
         
         [JsonPropertyName("details")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

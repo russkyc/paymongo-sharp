@@ -61,7 +61,7 @@ namespace Paymongo.Sharp.Features.Payments
             if (after != null)
                 parameters.Add($"after={after}");
             var url = parameters.Any() ? $"{Resource}?{string.Join("&", parameters)}" : Resource;
-            return await _client.SendRequestAsync<IEnumerable<Payment>>(HttpMethod.Get, url, responseDeserializer: content => content.ToPayments());
+            return await _client.SendRequestAsync<IEnumerable<Payment>>(HttpMethod.Get, url, responseDeserializer: content => content?.ToPayments() ?? Enumerable.Empty<Payment>());
         }
     }
 }

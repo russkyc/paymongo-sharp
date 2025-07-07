@@ -28,7 +28,7 @@ namespace Paymongo.Sharp.Core.Exceptions
 {
     public class ApiException : Exception
     {
-        public ApiException(ErrorResponse errorResponse) : base(JsonSerializer.Serialize(errorResponse.Errors))
+        public ApiException(ErrorResponse? errorResponse) : base(JsonSerializer.Serialize(errorResponse?.Errors))
         {
         }
     }
