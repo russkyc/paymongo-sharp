@@ -554,16 +554,7 @@ QrPhCode qrPh = new QrPhCode() {
 QrPhCode qrPhResult = await client.QrPh.CreateStaticQrPhCodeAsync(qrPh);
 ```
 
-**Retrieve a Source**
-
-```csharp
-// We use the PaymongoClient from earlier
-// Lets assume that the Source id is "12345678"
-// This returns a Source object from the server
-Link sourceResult = await client.Sources.RetrieveSourceAsync("12345678");
-```
-
-For full Sources API reference, please see: [The Sources Object](https://developers.paymongo.com/reference/the-sources-object)
+For full QR PH API reference, please see: [Create a Static QR PH Code](https://developers.paymongo.com/reference/create-a-static-qr-ph-code)
 
 ---
 
