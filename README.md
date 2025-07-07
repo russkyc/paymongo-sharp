@@ -82,6 +82,10 @@ You can track the support for all of Paymongo's official API actions below:
       <td style="text-align:center;"><b style="color:#e5f393;">Full</b></td>
     </tr>
     <tr>
+      <td>Payment Intent</td>
+      <td style="text-align:center;"><b style="color:#e5f393;">Full</b></td>
+    </tr>
+    <tr>
       <td>Payment Method</td>
       <td style="text-align:center;"><b style="color:#e5f393;">Full</b></td>
     </tr>
@@ -125,10 +129,6 @@ You can track the support for all of Paymongo's official API actions below:
     </tr>
     <tr>
       <td>Installments</td>
-      <td style="text-align:center;"><b style="color:gray;">Unavailable, In Development</b></td>
-    </tr>
-    <tr>
-      <td>Payment Intent</td>
       <td style="text-align:center;"><b style="color:gray;">Unavailable, In Development</b></td>
     </tr>
     <tr>

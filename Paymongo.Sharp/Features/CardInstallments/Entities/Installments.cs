@@ -26,6 +26,9 @@ namespace Paymongo.Sharp.Features.CardInstallments.Entities
 {
     public class Installments
     {
+        [JsonPropertyName("enabled")]
+        public bool Enabled { get; set; }
+        
         [JsonPropertyName("plan")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public Plan Plan { get; set; } = null!;

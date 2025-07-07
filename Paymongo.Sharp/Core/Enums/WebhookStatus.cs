@@ -24,6 +24,7 @@ using System.Text.Json.Serialization;
 
 namespace Paymongo.Sharp.Core.Enums
 {
+    [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum WebhookStatus
     {
         [JsonStringEnumMemberName("enabled")]
