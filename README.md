@@ -330,6 +330,17 @@ For full Payments API reference, please see: [Payment Resource](https://develope
 
 ---
 
+### Subscriptions (Plans)
+
+- [ ] Create Plan
+- [ ] Retrieve a Plan
+- [ ] Update a Plan
+- [ ] Retrieve Lis of Plans
+
+For full Subscriptions(Plans) API reference, please see: [Plan Resource](https://developers.paymongo.com/reference/plan-resource)
+
+---
+
 ### Links
 
 - [x] Create a Link
