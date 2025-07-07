@@ -70,7 +70,7 @@ namespace Paymongo.Sharp.Features.Payments.Entities
         
         [JsonPropertyName("source")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public Source? Source { get; set; }
+        public PaymentSource? Source { get; set; }
 
         [JsonPropertyName("livemode")]
         public bool LiveMode { get; set; }

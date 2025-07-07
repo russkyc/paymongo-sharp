@@ -2,7 +2,7 @@
     <img src=".github/resources/images/banner.svg" style="width: 100%;" />
 </a>
 
-<h2 align="center">Paymongo.Sharp - The Unofficial Paymongo API Client for .NET</h2>
+<h2 align="center">Paymongo.Sharp - Easy to use Paymongo integration for .NET</h2>
 
 <p align="center">
     <img src="https://img.shields.io/nuget/v/Paymongo.Sharp?color=1f72de" alt="Nuget">
@@ -39,7 +39,7 @@ using Paymongo.Sharp;
 
 Initialize Client
 ```csharp
-var client = new PaymongoClient(secretKey: "<secret_key>");
+var client = new PaymongoClient(apiKey: "<secret_key or public_key>");
 ```
 
 ## :star: Payments Demo
@@ -104,11 +104,43 @@ You can track the support for all of Paymongo's official API actions below:
     </tr>
     <!-- In Development / Unavailable -->
     <tr>
+      <td>Card Installments</td>
+      <td style="text-align:center;"><b style="color:gray;">Unavailable, In Development</b></td>
+    </tr>
+    <tr>
+      <td>Child Merchant</td>
+      <td style="text-align:center;"><b style="color:gray;">Unavailable, In Development</b></td>
+    </tr>
+    <tr>
+      <td>File Record</td>
+      <td style="text-align:center;"><b style="color:gray;">Unavailable, In Development</b></td>
+    </tr>
+    <tr>
       <td>Installments</td>
       <td style="text-align:center;"><b style="color:gray;">Unavailable, In Development</b></td>
     </tr>
     <tr>
       <td>Payment Intent</td>
+      <td style="text-align:center;"><b style="color:gray;">Unavailable, In Development</b></td>
+    </tr>
+    <tr>
+      <td>Platforms</td>
+      <td style="text-align:center;"><b style="color:gray;">Unavailable, In Development</b></td>
+    </tr>
+    <tr>
+      <td>QR PH</td>
+      <td style="text-align:center;"><b style="color:gray;">Unavailable, In Development</b></td>
+    </tr>
+    <tr>
+      <td>Related Consumer</td>
+      <td style="text-align:center;"><b style="color:gray;">Unavailable, In Development</b></td>
+    </tr>
+    <tr>
+      <td>Requirements</td>
+      <td style="text-align:center;"><b style="color:gray;">Unavailable, In Development</b></td>
+    </tr>
+    <tr>
+      <td>Subscriptions</td>
       <td style="text-align:center;"><b style="color:gray;">Unavailable, In Development</b></td>
     </tr>
     <tr>

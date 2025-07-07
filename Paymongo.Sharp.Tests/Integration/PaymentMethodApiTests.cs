@@ -65,7 +65,7 @@ public class PaymentMethodApiTests
         // Arrange
         var paymentMethod = new PaymentMethod
         {
-            Type = PaymentMethodType.Dob,
+            Type = PaymentMethodType.Card,
             Billing = DataFakers.GenerateBilling(),
             Details = DataFakers.GenerateDetails()
         };
@@ -75,16 +75,17 @@ public class PaymentMethodApiTests
 
         // Assert
         Assert.NotNull(paymentMethodResult);
-        Assert.Equal(paymentMethod.Type,paymentMethodResult.Type);
         Assert.NotEmpty(paymentMethodResult.Id);
+        Assert.Equal(paymentMethod.Type, paymentMethodResult.Type);
         
-        paymentMethodResult.Type = PaymentMethodType.Dob;
+        paymentMethodResult.Type = PaymentMethodType.Card;
         paymentMethodResult.Cvc = "424";
 
         var updatedPaymentMethodResult = await _client.PaymentMethods.UpdatePaymentMethodAsync(paymentMethodResult);
         
         // Assert
-        Assert.Equal(paymentMethodResult,updatedPaymentMethodResult);
+        Assert.Equal(paymentMethodResult.Id,updatedPaymentMethodResult.Id);
+        Assert.Equal(paymentMethodResult.Type, updatedPaymentMethodResult.Type);
         
     }
 

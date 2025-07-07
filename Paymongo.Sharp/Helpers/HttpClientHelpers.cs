@@ -21,16 +21,19 @@
 // SOFTWARE.
 
 using System;
+using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Paymongo.Sharp.Core.Contracts;
+using Paymongo.Sharp.Core.Exceptions;
 
 namespace Paymongo.Sharp.Helpers
 {
     internal static class HttpClientHelpers
     {
-        internal static async Task<TResponseType> SendRequestAsync<TResponseType>(
+        internal static async Task<TResponseType>   SendRequestAsync<TResponseType>(
             this HttpClient client, 
             HttpMethod method, 
             string requestUri, 
@@ -48,7 +51,13 @@ namespace Paymongo.Sharp.Helpers
             }
 
             using var response = await client.SendAsync(request);
-            response.EnsureSuccessStatusCode();
+            
+            if (!response.IsSuccessStatusCode)
+            {
+                var errorContent = await response.Content.ReadAsStreamAsync();
+                var error = await JsonSerializer.DeserializeAsync<ErrorResponse>(errorContent)!;
+                throw new ApiException(error);
+            }
 
             var responseContent = await response.Content.ReadAsStringAsync();
             

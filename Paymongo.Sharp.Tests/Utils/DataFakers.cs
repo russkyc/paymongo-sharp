@@ -47,7 +47,7 @@ internal static class DataFakers
     internal static Details GenerateDetails()
     {
         return new Faker<Details>(Locale)
-            .RuleFor(d => d.Last4, f => f.Finance.CreditCardNumberLastFourDigits())
+            .RuleFor(d => d.CardNumber, f => "4343434343434345") // Remove dashes
             .RuleFor(d => d.Cvc, f => f.Finance.CreditCardCvv())
             .RuleFor(d => d.ExpMonth, f => f.Random.Number(1, 12))
             .RuleFor(d => d.BankCode, f => f.PickRandom("test_bank_one", "test_bank_two")) // Placeholder for bank code

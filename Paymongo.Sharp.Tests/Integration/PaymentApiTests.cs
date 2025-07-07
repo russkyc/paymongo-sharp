@@ -57,21 +57,24 @@ public class PaymentApiTests
             Currency = Currency.Php
         };
 
+        // Act
+        var sourceResult = await _client.Sources.CreateSourceAsync(source);
+        
         Payment payment = new Payment
         {
             Description = "New Payment",
             Amount = 10000,
             Fee = 200,
-            NetAmount = 92000,
+            NetAmount = 9800,
             Currency = Currency.Php,
-            Billing = new Billing()
+            Billing = new Billing(),
+            Source = new PaymentSource()
+            {
+                Id = sourceResult.Id,
+                Type = "source"
+            }
         };
 
-        // Act
-        var sourceResult = await _client.Sources.CreateSourceAsync(source);
-        
-        payment.Source = sourceResult;
-        
         var paymentResult = await _client.Payments.CreatePaymentAsync(payment);
 
         // Assert

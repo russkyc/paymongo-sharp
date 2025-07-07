@@ -43,6 +43,10 @@ namespace Paymongo.Sharp.Features.PaymentMethods.Entities
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public Details? Details { get; set; }
         
+        [JsonPropertyName("payment_method_option")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public PaymentMethodOption? PaymentMethodOption { get; set; }
+        
         [JsonPropertyName("livemode")]
         public bool LiveMode { get; set; }
         

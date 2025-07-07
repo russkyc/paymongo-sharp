@@ -245,14 +245,14 @@ namespace Paymongo.Sharp.Helpers
         
         internal static IEnumerable<Payment> ToPayments(this string data)
         {
-            var paymentRequestDataCollection = JsonSerializer.Deserialize<IEnumerable<Data<Payment>>>(data);
+            var paymentRequestDataCollection = JsonSerializer.Deserialize<Schema<IEnumerable<Data<Payment>>>>(data);
 
             if (paymentRequestDataCollection is null)
             {
                 return Enumerable.Empty<Payment>();
             }
             
-            var paymentRequestArray = paymentRequestDataCollection.ToArray();
+            var paymentRequestArray = paymentRequestDataCollection.Data.ToArray();
 
             if (!paymentRequestArray.Any())
             {
