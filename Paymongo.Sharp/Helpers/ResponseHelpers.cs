@@ -27,6 +27,7 @@ using System.Text.Json;
 using Paymongo.Sharp.Core.Contracts;
 using Paymongo.Sharp.Features.Checkouts.Entities;
 using Paymongo.Sharp.Features.Customers.Entities;
+using Paymongo.Sharp.Features.Installments.Entities;
 using Paymongo.Sharp.Features.Links.Entities;
 using Paymongo.Sharp.Features.PaymentIntents.Entities;
 using Paymongo.Sharp.Features.PaymentMethods.Entities;
@@ -298,6 +299,19 @@ namespace Paymongo.Sharp.Helpers
             paymentIntent.UpdatedAt = paymentIntent.UpdatedAt.ToLocalDateTime();
             
             return paymentIntent;
+        }
+
+        internal static IEnumerable<InstallmentPlan> ToInstallmentPlans(this string? response)
+        {
+            if (response is null)
+            {
+                return Enumerable.Empty<InstallmentPlan>();
+            }
+            
+            var schema = JsonSerializer.Deserialize<Schema<IList<InstallmentPlan>>>(response);
+            var installmentPlans = schema.Data;
+
+            return !installmentPlans.Any() ? Enumerable.Empty<InstallmentPlan>() : installmentPlans;
         }
         
         internal static IEnumerable<Payment> ToPayments(this string data)

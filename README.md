@@ -94,6 +94,10 @@ You can track the support for all of Paymongo's official API actions below:
       <td style="text-align:center;"><b style="color:#e5f393;">Full</b></td>
     </tr>
     <tr>
+      <td>Card Installments</td>
+      <td style="text-align:center;"><b style="color:#e5f393;">Full</b></td>
+    </tr>
+    <tr>
       <td>Refunds</td>
       <td style="text-align:center;"><b style="color:#e5f393;">Full</b></td>
     </tr>
@@ -116,19 +120,11 @@ You can track the support for all of Paymongo's official API actions below:
     </tr>
     <!-- In Development / Unavailable -->
     <tr>
-      <td>Card Installments</td>
-      <td style="text-align:center;"><b style="color:gray;">Unavailable, In Development</b></td>
-    </tr>
-    <tr>
       <td>Child Merchant</td>
       <td style="text-align:center;"><b style="color:gray;">Unavailable, In Development</b></td>
     </tr>
     <tr>
       <td>File Record</td>
-      <td style="text-align:center;"><b style="color:gray;">Unavailable, In Development</b></td>
-    </tr>
-    <tr>
-      <td>Installments</td>
       <td style="text-align:center;"><b style="color:gray;">Unavailable, In Development</b></td>
     </tr>
     <tr>
@@ -408,7 +404,7 @@ For full Links API reference, please see: [Links Resource](https://developers.pa
 ### Webhooks
 
 - [x] Create a Webhook
-- [ ] List all Webhooks
+- [x] List all Webhooks
 - [x] Retrieve a Webhook
 - [x] Disable a Webhook
 - [x] Enable a Webhook
@@ -606,7 +602,7 @@ For full Transaction History API reference, please see: [Retrieve a Wallet Trans
 
 ### Installments
 
-- [ ] List Installment Plans
+- [x] List Installment Plans
 
 For full Installments API reference, please see: [List Installment Plans](https://developers.paymongo.com/reference/list-installment-plans)
 

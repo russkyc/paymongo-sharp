@@ -23,6 +23,7 @@
 using System.Net.Http;
 using Paymongo.Sharp.Features.Checkouts;
 using Paymongo.Sharp.Features.Customers;
+using Paymongo.Sharp.Features.Installments;
 using Paymongo.Sharp.Features.Links;
 using Paymongo.Sharp.Features.PaymentIntents;
 using Paymongo.Sharp.Features.PaymentMethods;
@@ -66,11 +67,13 @@ namespace Paymongo.Sharp
             QrPh = new QrPhClient(_httpClient);
             Webhooks = new WebhooksClient(_httpClient);
             PaymentIntents = new PaymentIntentClient(_httpClient);
+            CardInstallments = new CardInstallmentsClient(_httpClient);
         }
 
         public CheckoutClient Checkouts { get; }
-        public PaymentClient Payments { get; }
+        public CardInstallmentsClient CardInstallments { get; set; }
         public LinksClient Links { get; }
+        public PaymentClient Payments { get; }
         public SourceClient Sources { get; }
         public CustomerClient Customers { get; }
         public PaymentIntentClient PaymentIntents { get; }

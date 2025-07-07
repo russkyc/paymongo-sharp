@@ -1,6 +1,6 @@
 ﻿// MIT License
 // 
-// Copyright (c) 2023 Russell Camo (@russkyc)
+// Copyright (c) 2025 Russell Camo (@russkyc)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,32 +20,37 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Paymongo.Sharp.Features.Checkouts;
-using Paymongo.Sharp.Features.Customers;
-using Paymongo.Sharp.Features.Installments;
-using Paymongo.Sharp.Features.Links;
-using Paymongo.Sharp.Features.PaymentIntents;
-using Paymongo.Sharp.Features.PaymentMethods;
-using Paymongo.Sharp.Features.Payments;
-using Paymongo.Sharp.Features.QrPh;
-using Paymongo.Sharp.Features.Refunds;
-using Paymongo.Sharp.Features.Sources;
-using Paymongo.Sharp.Features.WebHooks;
+using Paymongo.Sharp.Features.Installments.Entities;
 
-namespace Paymongo.Sharp.Interfaces
+namespace Paymongo.Sharp.Tests.Integration;
+
+public class CardInstallmentsApiTests
 {
-    public interface IPaymongoClient
+    private readonly IPaymongoClient _client;
+
+    public CardInstallmentsApiTests()
     {
-        CheckoutClient Checkouts { get; }
-        CardInstallmentsClient CardInstallments { get; set; }
-        LinksClient Links { get; }
-        PaymentClient Payments { get; }
-        SourceClient Sources { get; }
-        CustomerClient Customers { get; }
-        PaymentIntentClient PaymentIntents { get; }
-        PaymentMethodsClient PaymentMethods { get; }
-        RefundClient Refunds { get; }
-        QrPhClient QrPh { get; }
-        WebhooksClient Webhooks { get; }
+        Env.TraversePath().Load();
+        
+        var secretKey = Env.GetString("SECRET_KEY");
+        
+        _client = new PaymongoClient(secretKey);
+    }
+
+    [Theory]
+    [InlineData(10000)]
+    [InlineData(50000)]
+    [InlineData(100000)]
+    [InlineData(200000)]
+    async Task GetCardInstallments(int amount)
+    {
+        // Arrange and Act
+        var result = await _client.CardInstallments.ListInstallmentPlansAsync(amount);
+
+        // Assert
+        var installmentPlans = result as InstallmentPlan[] ?? result.ToArray();
+        
+        installmentPlans.Should().NotBeNull();
+        installmentPlans.Should().NotBeEmpty();
     }
 }
