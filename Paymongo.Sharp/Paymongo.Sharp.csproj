@@ -15,11 +15,19 @@
         <Version>1.0.0</Version>
         <Description>Unofficial C# Client for Paymongo</Description>
         <Copyright>russkyc 2023</Copyright>
-        <PackageReleaseNotes>Api Parity and Package Slimming Update:
+        <PackageReleaseNotes>v1.0.0 Stable: Api Parity Update
 
-BREAKING CHANGES (API Parity):
+BREAKING CHANGES (Consistency):
 
 - Amount Values are now whole number values (like the official API), which means Amounts like 100.00 should be defined as 100000 similar to the api docs. But There is a new extension method added to automatically do this by using `.ToLongAmount()` to Convert to whole numbers, and `.ToDecimalAmount()` to convert back to decimal values accordingly.
+
+NEW FEATURES (API Parity):
+
+Added support for the following features:
+- Payment Intents
+- Webhooks
+- Card Installments
+- QR PH
 
 OTHER CHANGES (Package Rework):
 
