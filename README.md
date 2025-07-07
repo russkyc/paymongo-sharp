@@ -63,7 +63,7 @@ This nuget package is not limited to these samples, it also supports the all .NE
 This client is in active development and features are slowly being implemented but not all of them are supported as of now.
 You can track the support for all of Paymongo's official API actions below:
 
-### Feature Support Table
+### Feature Support Table (Paymongo.Sharp Version: 1.0.0+)
 
 <table>
   <thead>
@@ -160,12 +160,12 @@ You can track the support for all of Paymongo's official API actions below:
     <tr>
       <td>⛔</td>
       <td>Subscriptions</td>
-      <td style="text-align:center;"><b style="color:gray;">Unavailable, In Development</b></td>
+      <td style="text-align:center;"><b style="color:gray;">Unavailable, Planned</b></td>
     </tr>
     <tr>
       <td>⛔</td>
       <td>Treasury</td>
-      <td style="text-align:center;"><b style="color:gray;">Unavailable, In Development</b></td>
+      <td style="text-align:center;"><b style="color:gray;">Unavailable, Planned</b></td>
     </tr>
   </tbody>
 </table>
@@ -177,6 +177,13 @@ You can track the support for all of Paymongo's official API actions below:
 - All amount related properties should now be single number values, eg; 100.00 should be represented as 10000, to help with this
 there is a new extension method `ToLongAmount()` that can be used to convert decimal values to the correct amount format.
 
+```csharp
+
+decimal amount = 100.00m;
+// Convert to long amount (single number value in with centavos)
+long longAmount = amount.ToLongAmount(); // 10000
+
+```
 ---
 
 ## :notebook: Basic Client API Reference
@@ -530,6 +537,39 @@ For full Webhook API reference, please see: [Webhook Resource](https://developer
 - [x] Create a Refund
 - [x] Retrieve a Refund
 - [x] List all Refunds
+
+**Create a Refund**
+
+```csharp
+// Create a new Refund object with the minimal required values
+Refund refund = new Refund {
+    Amount = 10000,
+    PaymentId = "payment_id_12345678",
+    Currency = Currency.Php,
+    Notes = "Test refund"
+};
+
+// Use the PaymongoClient from earlier
+// This returns the Refund object with server info
+Refund refundResult = await client.Refunds.CreateRefundAsync(refund);
+```
+
+**Retrieve a Refund**
+
+```csharp
+// Use the PaymongoClient from earlier
+// Assume the refund id is "refund_id_12345678"
+// This returns a Refund object from the server
+Refund refundResult = await client.Refunds.RetrieveRefundAsync("refund_id_12345678");
+```
+
+**List All Refunds**
+
+```csharp
+// Use the PaymongoClient from earlier
+// Optionally filter by payment id and set a limit
+IEnumerable<Refund> refunds = await client.Refunds.ListAllRefundsAsync(paymentId: "payment_id_12345678", limit: 10);
+```
 
 For full Refunds API reference, please see: [Refund Resource](https://developers.paymongo.com/reference/refund-resource)
 
