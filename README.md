@@ -63,10 +63,12 @@ This nuget package is not limited to these samples, it also supports the all .NE
 This client is in active development and features are slowly being implemented but not all of them are supported as of now.
 You can track the support for all of Paymongo's official API actions below:
 
-### Feature Table (Paymongo API v1)
+### Feature Support Table
+
 <table>
   <thead>
     <tr>
+      <th></th>
       <th>API Resource</th>
       <th style="text-align:center;">Implementation Status</th>
     </tr>
@@ -74,76 +76,94 @@ You can track the support for all of Paymongo's official API actions below:
   <tbody>
     <!-- Full Support -->
     <tr>
+      <td>✅</td>
       <td>Checkout</td>
       <td style="text-align:center;"><b style="color:#e5f393;">Full</b></td>
     </tr>
     <tr>
+      <td>✅</td>
       <td>Links</td>
       <td style="text-align:center;"><b style="color:#e5f393;">Full</b></td>
     </tr>
     <tr>
+      <td>✅</td>
       <td>Payment Intent</td>
       <td style="text-align:center;"><b style="color:#e5f393;">Full</b></td>
     </tr>
     <tr>
+      <td>✅</td>
       <td>Payment Method</td>
       <td style="text-align:center;"><b style="color:#e5f393;">Full</b></td>
     </tr>
     <tr>
+      <td>✅</td>
       <td>Payments</td>
       <td style="text-align:center;"><b style="color:#e5f393;">Full</b></td>
     </tr>
     <tr>
+      <td>✅</td>
       <td>Card Installments</td>
       <td style="text-align:center;"><b style="color:#e5f393;">Full</b></td>
     </tr>
     <tr>
+      <td>✅</td>
       <td>Refunds</td>
       <td style="text-align:center;"><b style="color:#e5f393;">Full</b></td>
     </tr>
     <tr>
+      <td>✅</td>
       <td>Sources</td>
       <td style="text-align:center;"><b style="color:#e5f393;">Full</b></td>
     </tr>
     <tr>
+      <td>✅</td>
       <td>QR PH</td>
       <td style="text-align:center;"><b style="color:#e5f393;">Full</b></td>
     </tr>
     <tr>
+      <td>✅</td>
       <td>Webhooks</td>
       <td style="text-align:center;"><b style="color:#e5f393;">Full</b></td>
     </tr>
     <!-- Partial Support -->
     <tr>
+      <td>⚠️</td>
       <td>Customers</td>
       <td style="text-align:center;"><b style="color:#ffffff;">Partial</b></td>
     </tr>
     <!-- In Development / Unavailable -->
     <tr>
+      <td>⛔</td>
       <td>Child Merchant</td>
-      <td style="text-align:center;"><b style="color:gray;">Unavailable, In Development</b></td>
+      <td style="text-align:center;"><b style="color:gray;">Unavailable, Planned</b></td>
     </tr>
     <tr>
+      <td>⛔</td>
       <td>File Record</td>
-      <td style="text-align:center;"><b style="color:gray;">Unavailable, In Development</b></td>
+      <td style="text-align:center;"><b style="color:gray;">Unavailable, Planned</b></td>
     </tr>
     <tr>
+      <td>⛔</td>
       <td>Platforms</td>
-      <td style="text-align:center;"><b style="color:gray;">Unavailable, In Development</b></td>
+      <td style="text-align:center;"><b style="color:gray;">Unavailable, Planned</b></td>
     </tr>
     <tr>
+      <td>⛔</td>
       <td>Related Consumer</td>
-      <td style="text-align:center;"><b style="color:gray;">Unavailable, In Development</b></td>
+      <td style="text-align:center;"><b style="color:gray;">Unavailable, Planned</b></td>
     </tr>
     <tr>
+      <td>⛔</td>
       <td>Requirements</td>
-      <td style="text-align:center;"><b style="color:gray;">Unavailable, In Development</b></td>
+      <td style="text-align:center;"><b style="color:gray;">Unavailable, Planned</b></td>
     </tr>
     <tr>
+      <td>⛔</td>
       <td>Subscriptions</td>
       <td style="text-align:center;"><b style="color:gray;">Unavailable, In Development</b></td>
     </tr>
     <tr>
+      <td>⛔</td>
       <td>Treasury</td>
       <td style="text-align:center;"><b style="color:gray;">Unavailable, In Development</b></td>
     </tr>
@@ -221,15 +241,9 @@ For full Checkout API reference, please see: [Checkout Session Resource](https:/
 
 ### Payment Intent
 
-- [ ] Create Payment Intent
-- [ ] Retrieve a Payment Intent
-- [ ] Attach to a Payment Intent
-- [ ] Attach to a Payment Intent
-
-Pre Authorization and Capture
-
-- [ ] Capture a Payment Intent
-- [ ] Cancel a Payment Intent
+- [x] Create Payment Intent
+- [x] Retrieve a Payment Intent
+- [x] Attach to a Payment Intent
 
 For full Payment API reference, please see: [The Payment Intent Object](https://developers.paymongo.com/reference/the-payment-intent-object), [(Pre-Authorization) Capture](https://developers.paymongo.com/reference/capture-a-payment), [(Pre-Authorization) Cancel](https://developers.paymongo.com/reference/cancel-a-payment)
 
