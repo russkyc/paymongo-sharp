@@ -2,7 +2,7 @@
     <img src=".github/resources/images/banner.svg" style="width: 100%;" />
 </a>
 
-<h2 align="center">Paymongo.Sharp - The Unofficial Paymongo API Client for .NET</h2>
+<h2 align="center">Paymongo.Sharp - Effortless Paymongo integration for .NET</h2>
 
 <p align="center">
     <img src="https://img.shields.io/nuget/v/Paymongo.Sharp?color=1f72de" alt="Nuget">
@@ -13,7 +13,8 @@
 </p>
 
 <p style="text-align: justify">
-Paymongo is a powerful payment platform that provides a wide range of payment solutions for businesses of all sizes. With the Paymongo API, you can integrate payment processing into your .NET applications, allowing you to securely accept payments, manage transactions, and more.
+
+[Paymongo](https://www.paymongo.com) is a powerful payment platform that provides a full suite of financial tools for businesses and more. With the Paymongo.Sharp, you can integrate payment processing into your .NET applications, allowing you to securely accept payments, manage transactions, and more.
 
 This client wrapper is designed to make it easy for .NET developers to interact with the Paymongo API. It provides a simple, intuitive interface that abstracts the API, allowing you to access a typed client and focus on building your Paymongo-integrated application faster.
 </p>
@@ -38,7 +39,7 @@ using Paymongo.Sharp;
 
 Initialize Client
 ```csharp
-var client = new PaymongoClient(secretKey: "<secret_key>");
+var client = new PaymongoClient(apiKey: "<api_key or public_key>");
 ```
 
 ## :star: Payments Demo
@@ -62,73 +63,127 @@ This nuget package is not limited to these samples, it also supports the all .NE
 This client is in active development and features are slowly being implemented but not all of them are supported as of now.
 You can track the support for all of Paymongo's official API actions below:
 
-### API Support (Paymongo API v1)
+### Feature Support Table (Paymongo.Sharp Version: 1.0.0+)
+
 <table>
-  <tr>
-    <th>API Resource</th>
-    <th>Status</th>
-    <th>Added on</th>
-  </tr>
-  <tr>
-    <td>Checkout</td>
-    <td>Full</td>
-    <td>v0.1.2-pre+</td>
-  </tr>
-  <tr>
-    <td>Payment Intent</td>
-    <td>Not yet available</td>
-    <td>Not yet Added</td>
-  </tr>
-  <tr>
-    <td>Payment Method</td>
-    <td>Not yet available</td>
-    <td>Not yet Added</td>
-  </tr>
-  <tr>
-    <td>Payments</td>
-    <td>Full</td>
-    <td>v0.2.0+</td>
-  </tr>
-  <tr>
-    <td>Links</td>
-    <td>Full</td>
-    <td>v0.3.0+</td>
-  </tr>
-  <tr>
-    <td>Webhooks</td>
-    <td>Not yet available</td>
-    <td>Not yet Added</td>
-  </tr>
-  <tr>
-    <td>Customers</td>
-    <td>Partial</td>
-    <td>v0.5.0+</td>
-  </tr>
-  <tr>
-    <td>Treasury</td>
-    <td>Not yet available</td>
-    <td>Not yet Added</td>
-  </tr>
-  <tr>
-    <td>Installments</td>
-    <td>Not yet available</td>
-    <td>Not yet Added</td>
-  </tr>
-  <tr>
-    <td>Sources</td>
-    <td>Full</td>
-    <td>v0.4.0+</td>
-  </tr>
+  <thead>
+    <tr>
+      <th></th>
+      <th>API Resource</th>
+      <th style="text-align:center;">Implementation Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- Full Support -->
+    <tr>
+      <td>✅</td>
+      <td>Checkout</td>
+      <td style="text-align:center;"><b style="color:#e5f393;">Full</b></td>
+    </tr>
+    <tr>
+      <td>✅</td>
+      <td>Links</td>
+      <td style="text-align:center;"><b style="color:#e5f393;">Full</b></td>
+    </tr>
+    <tr>
+      <td>✅</td>
+      <td>Payment Intent</td>
+      <td style="text-align:center;"><b style="color:#e5f393;">Full</b></td>
+    </tr>
+    <tr>
+      <td>✅</td>
+      <td>Payment Method</td>
+      <td style="text-align:center;"><b style="color:#e5f393;">Full</b></td>
+    </tr>
+    <tr>
+      <td>✅</td>
+      <td>Payments</td>
+      <td style="text-align:center;"><b style="color:#e5f393;">Full</b></td>
+    </tr>
+    <tr>
+      <td>✅</td>
+      <td>Card Installments</td>
+      <td style="text-align:center;"><b style="color:#e5f393;">Full</b></td>
+    </tr>
+    <tr>
+      <td>✅</td>
+      <td>Refunds</td>
+      <td style="text-align:center;"><b style="color:#e5f393;">Full</b></td>
+    </tr>
+    <tr>
+      <td>✅</td>
+      <td>Sources</td>
+      <td style="text-align:center;"><b style="color:#e5f393;">Full</b></td>
+    </tr>
+    <tr>
+      <td>✅</td>
+      <td>QR PH</td>
+      <td style="text-align:center;"><b style="color:#e5f393;">Full</b></td>
+    </tr>
+    <tr>
+      <td>✅</td>
+      <td>Webhooks</td>
+      <td style="text-align:center;"><b style="color:#e5f393;">Full</b></td>
+    </tr>
+    <!-- Partial Support -->
+    <tr>
+      <td>⚠️</td>
+      <td>Customers</td>
+      <td style="text-align:center;"><b style="color:#ffffff;">Partial</b></td>
+    </tr>
+    <!-- In Development / Unavailable -->
+    <tr>
+      <td>⛔</td>
+      <td>Child Merchant</td>
+      <td style="text-align:center;"><b style="color:gray;">Unavailable, Planned</b></td>
+    </tr>
+    <tr>
+      <td>⛔</td>
+      <td>File Record</td>
+      <td style="text-align:center;"><b style="color:gray;">Unavailable, Planned</b></td>
+    </tr>
+    <tr>
+      <td>⛔</td>
+      <td>Platforms</td>
+      <td style="text-align:center;"><b style="color:gray;">Unavailable, Planned</b></td>
+    </tr>
+    <tr>
+      <td>⛔</td>
+      <td>Related Consumer</td>
+      <td style="text-align:center;"><b style="color:gray;">Unavailable, Planned</b></td>
+    </tr>
+    <tr>
+      <td>⛔</td>
+      <td>Requirements</td>
+      <td style="text-align:center;"><b style="color:gray;">Unavailable, Planned</b></td>
+    </tr>
+    <tr>
+      <td>⛔</td>
+      <td>Subscriptions</td>
+      <td style="text-align:center;"><b style="color:gray;">Unavailable, Planned</b></td>
+    </tr>
+    <tr>
+      <td>⛔</td>
+      <td>Treasury</td>
+      <td style="text-align:center;"><b style="color:gray;">Unavailable, Planned</b></td>
+    </tr>
+  </tbody>
 </table>
 
 ---
 
-## :collision: Breaking Changes
+## :collision: Breaking Changes (V1.0.0+)
 
-- (v0.5.1+) All amount related properties should now be a `decimal` (up to 2 decimal places)
-- (v0.2.0+) PaymongoClient now only needs a Secret Key on initialization
-- (v0.1.1-pre+) Updated root namespace to `Paymongo.Sharp` from `paymongo_sharp`
+- All amount related properties should now be single number values, eg; 100.00 should be represented as 10000, to help with this
+there is a new extension method `ToLongAmount()` that can be used to convert decimal values to the correct amount format.
 
+```csharp
+
+decimal amount = 100.00m;
+// Convert to long amount (single number value in with centavos)
+long longAmount = amount.ToLongAmount(); // 10000
+
+```
 ---
 
 ## :notebook: Basic Client API Reference
@@ -193,15 +248,56 @@ For full Checkout API reference, please see: [Checkout Session Resource](https:/
 
 ### Payment Intent
 
-- [ ] Create Payment Intent
-- [ ] Retrieve a Payment Intent
-- [ ] Attach to a Payment Intent
-- [ ] Attach to a Payment Intent
+- [x] Create Payment Intent
+- [x] Retrieve a Payment Intent
+- [x] Attach to a Payment Intent
 
-Pre Authorization and Capture
+**Create a Payment Intent**
 
-- [ ] Capture a Payment Intent
-- [ ] Cancel a Payment Intent
+```csharp
+// Create a new PaymentIntent object with minimal required values
+PaymentIntent paymentIntent = new PaymentIntent
+{
+    Amount = 10000,
+    Currency = Currency.Php,
+    PaymentMethodAllowed =
+    [
+        PaymentMethod.Card,
+        PaymentMethod.Paymaya
+    ],
+    PaymentMethodOptions = new PaymentMethodOption()
+    {
+        Card = new Card()
+    }
+};
+
+// Use the PaymongoClient to create the payment intent
+PaymentIntent paymentIntentResult = await client.PaymentIntents.CreatePaymentIntentAsync(paymentIntent);
+```
+
+**Retrieve a Payment Intent**
+
+```csharp
+// Let's assume we have a payment intent id from the previous step
+const string paymentIntentId = "pi_WENqK7d5L3XN9YQzEt39B3oF";
+
+PaymentIntent getPaymentIntent = await client.PaymentIntents.RetrievePaymentIntentAsync(paymentIntentId);
+```
+
+**Attach to a Payment Intent**
+
+```csharp
+// Attach a payment method to an existing PaymentIntent
+const string paymentIntentId = "pi_WENqK7d5L3XN9YQzEt39B3oF";
+
+PaymentIntentAttachment paymentIntentAttachment = new PaymentIntentAttachment
+{
+    PaymentMethod = PaymentMethod.Card,
+    ReturnUrl = "https://google.com"
+};
+
+PaymentIntent paymentIntentResult = await client.PaymentIntents.AttachToPaymentIntentAsync(paymentIntentId, paymentIntentAttachment);
+```
 
 For full Payment API reference, please see: [The Payment Intent Object](https://developers.paymongo.com/reference/the-payment-intent-object), [(Pre-Authorization) Capture](https://developers.paymongo.com/reference/capture-a-payment), [(Pre-Authorization) Cancel](https://developers.paymongo.com/reference/cancel-a-payment)
 
@@ -209,10 +305,63 @@ For full Payment API reference, please see: [The Payment Intent Object](https://
 
 ### Payment Method
 
-- [ ] Retrieve list of possible merchant payment methods
-- [ ] Create a payment method
-- [ ] Retrieve a payment method
-- [ ] Update a payment method
+- [x] Create a Payment Method
+- [x] Retrieve a Payment Method
+- [x] Update a Payment Method
+- [x] Retrieve list of Payment Methods
+
+**Create a Payment Method**
+
+```csharp
+// We create a new PaymentMethod object
+PaymentMethod paymentMethod = new PaymentMethod {
+    Type = PaymentMethodType.GCash,
+    Billing = new Billing {
+        Name = "Test Name",
+        Email = "test@paymongo.com",
+        Phone = "+639123456789",
+        Address = new Address {
+            Line1 = "Test Address 1",
+            Line2 = "Test Address 2",
+            PostalCode = "1234",
+            State = "Test State",
+            City = "Test City",
+            Country = "PH"
+        }
+    }
+};
+
+// Use the PaymongoClient from earlier
+PaymentMethod paymentMethodResult = await client.PaymentMethods.CreatePaymentMethodAsync(paymentMethod);
+```
+
+**Retrieve a Payment Method**
+
+```csharp
+// Use the PaymongoClient from earlier
+// Let's assume the payment method id is "pm_12345678"
+PaymentMethod paymentMethodResult = await client.PaymentMethods.RetrievePaymentMethodAsync("pm_12345678");
+```
+
+**Update a Payment Method**
+
+```csharp
+// Retrieve the payment method first
+PaymentMethod paymentMethodResult = await client.PaymentMethods.RetrievePaymentMethodAsync("pm_12345678");
+
+// Update properties as needed
+paymentMethodResult.Cvc = "424";
+
+// Update the payment method on the server
+PaymentMethod updatedPaymentMethodResult = await client.PaymentMethods.UpdatePaymentMethodAsync(paymentMethodResult);
+```
+
+**Retrieve list of Payment Methods**
+
+```csharp
+// Use the PaymongoClient from earlier
+IEnumerable<PaymentMethod> paymentMethods = await client.PaymentMethods.RetrievePaymentMethodsAsync();
+```
 
 For full Payment Method API reference, please see: [The Payment Method Object](https://developers.paymongo.com/reference/the-payment-method-object)
 
@@ -245,7 +394,18 @@ For full Payments API reference, please see: [Payment Resource](https://develope
 
 ---
 
-### Links API
+### Subscriptions (Plans)
+
+- [ ] Create Plan
+- [ ] Retrieve a Plan
+- [ ] Update a Plan
+- [ ] Retrieve Lis of Plans
+
+For full Subscriptions(Plans) API reference, please see: [Plan Resource](https://developers.paymongo.com/reference/plan-resource)
+
+---
+
+### Links
 
 - [x] Create a Link
 - [x] Retrieve a Link
@@ -311,12 +471,62 @@ For full Links API reference, please see: [Links Resource](https://developers.pa
 
 ### Webhooks
 
-- [ ] Create a Webhook
-- [ ] List all Webhooks
-- [ ] Retrieve a Webhook
-- [ ] Disable a Webhook
-- [ ] Enable a Webhook
-- [ ] Update a Webhook
+- [x] Create a Webhook
+- [x] List all Webhooks
+- [x] Retrieve a Webhook
+- [x] Disable a Webhook
+- [x] Enable a Webhook
+- [x] Update a Webhook
+
+**Create a Webhook**
+
+```csharp
+// Create a new Webhook object with required values
+Webhook webhook = new Webhook {
+    Url = "https://www.example.com/webhook",
+    Events = new[] { "source.chargeable", "payment.paid" }
+};
+
+// Use the PaymongoClient to create the webhook
+Webhook created = await client.Webhooks.CreateWebhookAsync(webhook);
+```
+
+**Retrieve a Webhook**
+
+```csharp
+// Retrieve a webhook by its ID
+Webhook retrieved = await client.Webhooks.RetrieveWebhookAsync("wh_12345678");
+```
+
+**List Webhooks**
+
+```csharp
+// List all webhooks
+IEnumerable<Webhook> webhooks = await client.Webhooks.ListWebhooksAsync();
+```
+
+**Update a Webhook**
+
+```csharp
+// Update an existing webhook's URL
+Webhook webhook = await client.Webhooks.RetrieveWebhookAsync("wh_12345678");
+webhook.Url = "https://www.example.com/updated";
+Webhook updated = await client.Webhooks.UpdateWebhookAsync(webhook);
+```
+
+**Enable a Webhook**
+
+```csharp
+// Enable a webhook by its ID
+Webhook enabled = await client.Webhooks.EnableWebhookAsync("wh_12345678");
+```
+
+**Disable a Webhook**
+
+```csharp
+// Disable a webhook by its ID
+Webhook disabled = await client.Webhooks.DisableWebhookAsync("wh_12345678");
+```
 
 For full Webhook API reference, please see: [Webhook Resource](https://developers.paymongo.com/reference/webhook-resource)
 
@@ -324,9 +534,42 @@ For full Webhook API reference, please see: [Webhook Resource](https://developer
 
 ### Refunds
 
-- [ ] Create a Refund
-- [ ] Retrieve a Refund
-- [ ] List all Refunds
+- [x] Create a Refund
+- [x] Retrieve a Refund
+- [x] List all Refunds
+
+**Create a Refund**
+
+```csharp
+// Create a new Refund object with the minimal required values
+Refund refund = new Refund {
+    Amount = 10000,
+    PaymentId = "payment_id_12345678",
+    Currency = Currency.Php,
+    Notes = "Test refund"
+};
+
+// Use the PaymongoClient from earlier
+// This returns the Refund object with server info
+Refund refundResult = await client.Refunds.CreateRefundAsync(refund);
+```
+
+**Retrieve a Refund**
+
+```csharp
+// Use the PaymongoClient from earlier
+// Assume the refund id is "refund_id_12345678"
+// This returns a Refund object from the server
+Refund refundResult = await client.Refunds.RetrieveRefundAsync("refund_id_12345678");
+```
+
+**List All Refunds**
+
+```csharp
+// Use the PaymongoClient from earlier
+// Optionally filter by payment id and set a limit
+IEnumerable<Refund> refunds = await client.Refunds.ListAllRefundsAsync(paymentId: "payment_id_12345678", limit: 10);
+```
 
 For full Refunds API reference, please see: [Refund Resource](https://developers.paymongo.com/reference/refund-resource)
 
@@ -449,6 +692,47 @@ For full Sources API reference, please see: [The Sources Object](https://develop
 
 ---
 
+### Installments
+
+- [x] List Installment Plans
+
+**List Card Installment Plans**
+
+```csharp
+// We use the PaymongoClient from earlier
+// Let's assume the amount is 100000 (in centavos)
+// This returns a list of available InstallmentPlan objects for the given amount
+IEnumerable<InstallmentPlan> plans = await client.CardInstallments.ListInstallmentPlansAsync(100000);
+```
+
+For full Installments API reference, please see: [List Installment Plans](https://developers.paymongo.com/reference/list-installment-plans)
+
+---
+
+### QR PH
+
+- [x] Create a Static QR PH Code
+
+**Create a Static QR PH Code**
+
+```csharp
+// We create a new QrPhCode object
+// This one includes the minimal required values
+QrPhCode qrPh = new QrPhCode() {
+  MobileNumber = "+639123456789",
+  Kind = QrCodeKind.Instore
+};
+
+// We use the PaymongoClient from earlier
+// This returns a Source object from the server
+// containing the redirect object(with checkout url) and other info
+QrPhCode qrPhResult = await client.QrPh.CreateStaticQrPhCodeAsync(qrPh);
+```
+
+For full QR PH API reference, please see: [Create a Static QR PH Code](https://developers.paymongo.com/reference/create-a-static-qr-ph-code)
+
+---
+
 ### Treasury
 
 Treasury has a couple of sub sections
@@ -484,14 +768,6 @@ For full Transaction History API reference, please see: [Retrieve a Wallet Trans
 
 ---
 
-### Installments
-
-- [ ] List Installment Plans
-
-For full Installments API reference, please see: [List Installment Plans](https://developers.paymongo.com/reference/list-installment-plans)
-
----
-
 ## Future Plans
 
 ### Fluent Builder
@@ -502,7 +778,7 @@ fluent builder implementation for the Checkouts client.
 ##### 1. Current
 
 ```csharp
-var client = new PaymongoClient(secretKey: "<secret_key>");
+var client = new PaymongoClient(apiKey: "<api_key>");
 
 Checkout checkout = new Checkout() {
     Description = "Test Checkout",
@@ -527,7 +803,7 @@ Checkout checkoutResult = await client.Checkouts.CreateCheckoutAsync(checkout);
 ##### 2. Future Fluent Builder
 
 ```csharp
-var client = new PaymongoClient(secretKey: "<secret_key>");
+var client = new PaymongoClient(apiKey: "<api_key>");
 
 Checkout checkoutResult = await CheckoutBuilder
                                     .WithDescription("Test Checkout")

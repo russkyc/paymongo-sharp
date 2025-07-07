@@ -1,14 +1,13 @@
 ﻿
-using System;
 using System.Linq;
 using System.Windows;
 using DotNetEnv;
 using Paymongo.Sharp;
-using Paymongo.Sharp.Checkouts.Entities;
 using Paymongo.Sharp.Core.Entities;
 using Paymongo.Sharp.Core.Enums;
-using Paymongo.Sharp.Links.Entities;
-using Paymongo.Sharp.Sources.Entities;
+using Paymongo.Sharp.Features.Checkouts.Entities;
+using Paymongo.Sharp.Features.Links.Entities;
+using Paymongo.Sharp.Features.Sources.Entities;
 using Paymongo.Sharp.Utilities;
 
 #pragma warning disable CS8604
@@ -49,7 +48,7 @@ namespace WpfSample
             var link = new Link
             {
                 Description = "Payment for",
-                Amount = doubleAmount,
+                Amount = doubleAmount.ToLongAmount(),
                 Currency = Currency.Php
             };
 
@@ -62,19 +61,19 @@ namespace WpfSample
             {
                 var paymentStatus = await client.Links.RetrieveLinkAsync(linkResult.Id);
                 
-                if (!paymentStatus.Payments!.Any())
+                if (!paymentStatus.Payments.Any())
                 {
                     continue;
                 }
                 
-                var payment = paymentStatus.Payments!.First();
+                var payment = paymentStatus.Payments.FirstOrDefault();
 
-                if (payment.Status != PaymentStatus.Paid)
+                if (payment is null || payment.Status != PaymentStatus.Pending)
                 {
                     continue;
                 }
 
-                StatusBlock.Text = $"Paid by {payment.Billing!.Name} on {payment.PaidAt} using {payment.Source!["type"]}";
+                StatusBlock.Text = $"Paid by {payment.Billing?.Name} on {payment.PaidAt} using {payment.Source?.Type}";
                 
                 paymentWindow.Close();
                 
@@ -107,8 +106,8 @@ namespace WpfSample
             {
                 Description = "Test Checkout",
                 ReferenceNumber = "9282321A",
-                LineItems = new []
-                {
+                LineItems =
+                [
                     new LineItem
                     {
                         Name = "Give You Up",
@@ -118,9 +117,9 @@ namespace WpfSample
                         },
                         Quantity = 1,
                         Currency = Currency.Php,
-                        Amount = doubleAmount
+                        Amount = doubleAmount.ToLongAmount()
                     }
-                },
+                ],
                 PaymentMethodTypes = new[]
                 {
                     PaymentMethod.GCash,
@@ -142,19 +141,19 @@ namespace WpfSample
             {
                 var paymentStatus = await client.Checkouts.RetrieveCheckoutAsync(checkoutResult.Id);
                 
-                if (!paymentStatus.Payments!.Any())
+                if (paymentStatus.Payments is null || !paymentStatus.Payments.Any())
                 {
                     continue;
                 }
                 
-                var payment = paymentStatus.Payments!.First();
+                var payment = paymentStatus.Payments.FirstOrDefault();
 
-                if (payment.Status != PaymentStatus.Paid)
+                if (payment is null || payment.Status != PaymentStatus.Pending)
                 {
                     continue;
                 }
 
-                StatusBlock.Text = $"Paid by {payment.Billing!.Name} on {payment.PaidAt} using {payment.Source!["type"]}";
+                StatusBlock.Text = $"Paid by {payment.Billing?.Name} on {payment.PaidAt} using {payment.Source?.Type}";
                 
                 paymentWindow.Close();
                 
@@ -186,7 +185,7 @@ namespace WpfSample
             // Arrange
             Source source = new Source
             {
-                Amount = doubleAmount,
+                Amount = doubleAmount.ToLongAmount(),
                 Description = "New Gcash Payment",
                 Billing = new Billing
                 {
@@ -214,7 +213,7 @@ namespace WpfSample
 
             // Act
             var sourceResult = await client.Sources.CreateSourceAsync(source);
-            var paymentWindow = new PaymentWindow(sourceResult.Redirect!.CheckoutUrl);
+            var paymentWindow = new PaymentWindow(sourceResult.Redirect.CheckoutUrl);
 
             paymentWindow.Show();
 
@@ -259,7 +258,7 @@ namespace WpfSample
             // Arrange
             Source source = new Source
             {
-                Amount = doubleAmount.ToIntAmount(),
+                Amount = doubleAmount.ToLongAmount(),
                 Description = "New GrabPay Payment",
                 Billing = new Billing
                 {
@@ -287,7 +286,7 @@ namespace WpfSample
 
             // Act
             var sourceResult = await client.Sources.CreateSourceAsync(source);
-            var paymentWindow = new PaymentWindow(sourceResult.Redirect!.CheckoutUrl);
+            var paymentWindow = new PaymentWindow(sourceResult.Redirect.CheckoutUrl);
 
             paymentWindow.Show();
 

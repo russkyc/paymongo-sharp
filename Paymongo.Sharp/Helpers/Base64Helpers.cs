@@ -22,9 +22,9 @@
 
 namespace Paymongo.Sharp.Helpers
 {
-    public static class Base64Helpers
+    internal static class Base64Helpers
     {
-        public static string Encode(string authUsername, string authPassword)
+        internal static string Encode(this string authUsername, string authPassword = "")
         {
             var combined = $"{authUsername}:{authPassword}";
             var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(combined);

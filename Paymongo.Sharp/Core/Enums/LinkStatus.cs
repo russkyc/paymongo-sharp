@@ -20,24 +20,22 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using System.Runtime.Serialization;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+using System.Text.Json.Serialization;
 
 namespace Paymongo.Sharp.Core.Enums
 {
-    [JsonConverter(typeof(StringEnumConverter))]
+    [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum LinkStatus
     {
-        [EnumMember(Value = "unpaid")]
+        [JsonStringEnumMemberName("unpaid")]
         Unpaid,
-        [EnumMember(Value = "paid")]
+        [JsonStringEnumMemberName("paid")]
         Paid,
-        [EnumMember(Value = "refunded")]
+        [JsonStringEnumMemberName("refunded")]
         Refunded,
-        [EnumMember(Value = "partially_refunded")]
+        [JsonStringEnumMemberName("partially_refunded")]
         PartiallyRefunded,
-        [EnumMember(Value = "disputed")]
+        [JsonStringEnumMemberName("disputed")]
         Disputed
     }
 }

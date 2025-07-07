@@ -3,7 +3,7 @@
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
         <RootNamespace>Paymongo.Sharp</RootNamespace>
-        <LangVersion>8</LangVersion>
+        <LangVersion>9</LangVersion>
         <Nullable>enable</Nullable>
         <PackageId>Paymongo.Sharp</PackageId>
         <Title>Paymongo.Sharp</Title>
@@ -12,19 +12,33 @@
         <PackageIcon>icon.png</PackageIcon>
         <RepositoryUrl>https://github.com/russkyc/paymongo-sharp</RepositoryUrl>
         <PackageTags>paymongo paymongo-sharp pay payments</PackageTags>
-        <Version>0.5.1</Version>
+        <Version>1.0.0</Version>
         <Description>Unofficial C# Client for Paymongo</Description>
         <Copyright>russkyc 2023</Copyright>
-        <PackageReleaseNotes>BREAKING CHANGES:
-- All amount properties should now be decimal values (up to 2 decimal places only)</PackageReleaseNotes>
+        <PackageReleaseNotes>v1.0.0 Stable: Api Parity Update
+
+BREAKING CHANGES (Consistency):
+
+- Amount Values are now whole number values (like the official API), which means Amounts like 100.00 should be defined as 100000 similar to the api docs. But There is a new extension method added to automatically do this by using `.ToLongAmount()` to Convert to whole numbers, and `.ToDecimalAmount()` to convert back to decimal values accordingly.
+
+NEW FEATURES (API Parity):
+
+Added support for the following features:
+- Payment Intents
+- Webhooks
+- Card Installments
+- QR PH
+
+OTHER CHANGES (Package Rework):
+
+- Remove dependency to Newtonsoft.Json and RestSharp, the package now uses Microsoft's System.Text.Json and HttpClient.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     </PropertyGroup>
 
     <ItemGroup>
       <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-      <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-      <PackageReference Include="RestSharp" Version="111.3.0" />
       <PackageReference Include="System.Dynamic.Runtime" Version="4.3.0" />
+      <PackageReference Include="System.Text.Json" Version="9.0.6" />
     </ItemGroup>
 
     <PropertyGroup>

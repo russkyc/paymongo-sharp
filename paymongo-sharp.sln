@@ -4,7 +4,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{EE3947E4-E39
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{EEB8BC90-9351-4C81-B93D-C13275D8E518}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "paymongo-sharp.tests", "paymongo-sharp.tests\paymongo-sharp.tests.csproj", "{08180986-AB30-4B6F-9904-C67215D237DE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Paymongo.Sharp.Tests", "Paymongo.Sharp.Tests\Paymongo.Sharp.Tests.csproj", "{08180986-AB30-4B6F-9904-C67215D237DE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Paymongo.Sharp", "Paymongo.Sharp\Paymongo.Sharp.csproj", "{FE168FAD-2DBB-46D8-BEEB-FD9D8AE2E6DF}"
 EndProject

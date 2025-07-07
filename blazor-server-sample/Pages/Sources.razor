@@ -2,8 +2,7 @@
 @using Paymongo.Sharp.Interfaces
 @using Paymongo.Sharp.Core.Enums
 @using Paymongo.Sharp.Core.Entities
-@using Paymongo.Sharp.Payments.Entities
-@using Paymongo.Sharp.Sources.Entities
+@using Paymongo.Sharp.Features.Sources.Entities
 
 @inject IPaymongoClient PaymongoClient
 @inject IJSRuntime JsRuntime
@@ -21,7 +20,7 @@
         <p class="my-auto mx-2">Waiting for transaction to complete..</p>
     </div>
 }
-else if (_transactionComplete)
+else if (_transactionComplete && _source is not null)
 {
     <div class="alert alert-success mt-3" role="alert">
         Transaction completed! Paid by @_source.Billing.Name on @_source.UpdatedAt using @_source.Type.
@@ -32,7 +31,7 @@ else if (_transactionComplete)
     
     private bool _transactionComplete;
     private bool _isProcessing;
-    private Source _source;
+    private Source? _source;
 
     async Task OnPay(SourceType type)
     {
