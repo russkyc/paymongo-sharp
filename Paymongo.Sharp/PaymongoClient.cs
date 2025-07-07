@@ -26,6 +26,7 @@ using Paymongo.Sharp.Features.Customers;
 using Paymongo.Sharp.Features.Links;
 using Paymongo.Sharp.Features.PaymentMethods;
 using Paymongo.Sharp.Features.Payments;
+using Paymongo.Sharp.Features.QrPh;
 using Paymongo.Sharp.Features.Refunds;
 using Paymongo.Sharp.Features.Sources;
 using Paymongo.Sharp.Helpers;
@@ -60,6 +61,7 @@ namespace Paymongo.Sharp
             Customers = new CustomerClient(_httpClient);
             PaymentMethods = new PaymentMethodsClient(_httpClient);
             Refunds = new RefundClient(_httpClient);
+            QrPh = new QrPhClient(_httpClient);
         }
 
         public CheckoutClient Checkouts { get; }
@@ -69,5 +71,6 @@ namespace Paymongo.Sharp
         public CustomerClient Customers { get; }
         public PaymentMethodsClient PaymentMethods { get; }
         public RefundClient Refunds { get; }
+        public QrPhClient QrPh { get; }
     }
 }

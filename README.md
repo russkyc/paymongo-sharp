@@ -97,6 +97,10 @@ You can track the support for all of Paymongo's official API actions below:
       <td>Sources</td>
       <td style="text-align:center;"><b style="color:#e5f393;">Full</b></td>
     </tr>
+    <tr>
+      <td>QR PH</td>
+      <td style="text-align:center;"><b style="color:#e5f393;">Full</b></td>
+    </tr>
     <!-- Partial Support -->
     <tr>
       <td>Customers</td>
@@ -125,10 +129,6 @@ You can track the support for all of Paymongo's official API actions below:
     </tr>
     <tr>
       <td>Platforms</td>
-      <td style="text-align:center;"><b style="color:gray;">Unavailable, In Development</b></td>
-    </tr>
-    <tr>
-      <td>QR PH</td>
       <td style="text-align:center;"><b style="color:gray;">Unavailable, In Development</b></td>
     </tr>
     <tr>
@@ -519,6 +519,39 @@ Source source = new Source {
 // This returns a Source object from the server
 // containing the redirect object(with checkout url) and other info
 Source sourceResult = await client.Sources.CreateSourceAsync(source);
+```
+
+**Retrieve a Source**
+
+```csharp
+// We use the PaymongoClient from earlier
+// Lets assume that the Source id is "12345678"
+// This returns a Source object from the server
+Link sourceResult = await client.Sources.RetrieveSourceAsync("12345678");
+```
+
+For full Sources API reference, please see: [The Sources Object](https://developers.paymongo.com/reference/the-sources-object)
+
+---
+
+### QR PH
+
+- [x] Create a Static QR PH Code
+
+**Create a Static QR PH Code**
+
+```csharp
+// We create a new QrPhCode object
+// This one includes the minimal required values
+QrPhCode qrPh = new QrPhCode() {
+  MobileNumber = "+639123456789",
+  Kind = QrCodeKind.Instore
+};
+
+// We use the PaymongoClient from earlier
+// This returns a Source object from the server
+// containing the redirect object(with checkout url) and other info
+QrPhCode qrPhResult = await client.QrPh.CreateStaticQrPhCodeAsync(qrPh);
 ```
 
 **Retrieve a Source**
