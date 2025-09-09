@@ -1,6 +1,6 @@
 ﻿// MIT License
 // 
-// Copyright (c) 2023 Russell Camo (@russkyc)
+// Copyright (c) 2025 Russell Camo (@russkyc)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -28,15 +28,10 @@ using Paymongo.Sharp.Core.Entities;
 using Paymongo.Sharp.Core.Enums;
 using Paymongo.Sharp.Features.Payments.Entities;
 
-#pragma warning disable CS8618
-
-namespace Paymongo.Sharp.Features.Checkouts.Entities
+namespace Paymongo.Sharp.Features.Checkouts.Contracts
 {
-    public class Checkout
+    public class CheckoutAttributes
     {
-        [JsonIgnore]
-        public string? Id { get; set; }
-        
         [JsonPropertyName("client_key")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string ClientKey { get; set; }

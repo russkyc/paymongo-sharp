@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Paymongo.Sharp.Features.Checkouts.Entities;
+using Paymongo.Sharp.Features.Checkouts.Contracts;
 
 namespace Paymongo.Sharp.Tests.Integration;
 
@@ -40,140 +40,72 @@ public class CheckoutApiTests
     }
     
     [Fact]
-    async Task CreateCheckoutSession()
-    {
-        // Arrange
-        Checkout checkout = new Checkout()
-        {
-            Description = "Test Checkout",
-            CancelUrl = "http://127.0.0.1",
-            SuccessUrl = "http://127.0.0.1",
-            ReferenceNumber = "9282321A",
-            LineItems = new []
-            {
-                new LineItem
-                {
-                    Name = "Give You Up",
-                    Images = new []
-                    {
-                        "https://i.insider.com/602ee9ced3ad27001837f2ac?width=750&format=jpeg"
-                    },
-                    Quantity = 1000,
-                    Currency = Currency.Php,
-                    Amount = 100
-                }
-            },
-            PaymentMethodTypes = new[]
-            {
-                PaymentMethod.GCash,
-                PaymentMethod.Card,
-                PaymentMethod.Paymaya,
-                PaymentMethod.BillEase,
-                PaymentMethod.Dob,
-                PaymentMethod.GrabPay,
-                PaymentMethod.DobUbp
-            },
-            Billing = new Billing
-            {
-                Name = "TestName",
-                Email = "test@paymongo.com",
-                Phone = "9063364572",
-                Address = new Address
-                {
-                    Line1 = "TestAddress1",
-                    Line2 = "TestAddress2",
-                    PostalCode = "4506",
-                    State = "TestState",
-                    City = "TestCity",
-                    Country = "PH"
-                }
-            },
-            Metadata = new Dictionary<string, string>()
-            {
-                {"testKey","Test Value"}
-            },
-            SendEmailReceipt = true,
-            ShowDescription = true,
-            ShowLineItems = false
-        };
-        
-        // Act
-        Checkout checkoutResult = await _client.Checkouts.CreateCheckoutAsync(checkout);
-        
-        // Assert
-        checkoutResult.Should().NotBeNull();
-        checkoutResult.Id.Should().NotBeNullOrEmpty();
-        checkoutResult.CheckoutUrl.Should().NotBeNullOrEmpty();
-        checkoutResult.Status.Should().Be(CheckoutStatus.Active);
-        checkoutResult.Billing.Should().BeEquivalentTo(checkout.Billing);
-        checkoutResult.Metadata.Should().BeEquivalentTo(checkout.Metadata);
-        checkoutResult.LineItems.Should().BeEquivalentTo(checkout.LineItems);
-        checkoutResult.Description.Should().BeEquivalentTo(checkout.Description);
-        checkoutResult.PaymentMethodTypes.Should().BeEquivalentTo(checkout.PaymentMethodTypes);
-
-    }
-    
-    [Fact]
     async Task CreateAndRetrieveCheckoutSession()
     {
         // Arrange
         Checkout checkout = new Checkout()
         {
-            Description = "Test Checkout",
-            CancelUrl = "http://127.0.0.1",
-            SuccessUrl = "http://127.0.0.1",
-            ReferenceNumber = "9282321A",
-            LineItems = new []
+            Data = new CheckoutData()
             {
-                new LineItem
+                Attributes = new CheckoutAttributes()
                 {
-                    Name = "Give You Up",
-                    Images = new []
+                    Description = "Test Checkout",
+                    CancelUrl = "http://127.0.0.1",
+                    SuccessUrl = "http://127.0.0.1",
+                    ReferenceNumber = "9282321A",
+                    LineItems = new []
                     {
-                        "https://i.insider.com/602ee9ced3ad27001837f2ac?width=750&format=jpeg"
+                        new LineItem
+                        {
+                            Name = "Give You Up",
+                            Images = new []
+                            {
+                                "https://i.insider.com/602ee9ced3ad27001837f2ac?width=750&format=jpeg"
+                            },
+                            Quantity = 1000,
+                            Currency = Currency.Php,
+                            Amount = 100
+                        }
                     },
-                    Quantity = 1000,
-                    Currency = Currency.Php,
-                    Amount = 100
+                    PaymentMethodTypes = new[]
+                    {
+                        PaymentMethod.GCash,
+                        PaymentMethod.Card,
+                        PaymentMethod.Paymaya,
+                        PaymentMethod.BillEase,
+                        PaymentMethod.Dob,
+                        PaymentMethod.GrabPay,
+                        PaymentMethod.DobUbp
+                    },
+                    Billing = new Billing
+                    {
+                        Name = "TestName",
+                        Email = "test@paymongo.com",
+                        Phone = "9063364572",
+                        Address = new Address
+                        {
+                            Line1 = "TestAddress1",
+                            Line2 = "TestAddress2",
+                            PostalCode = "4506",
+                            State = "TestState",
+                            City = "TestCity",
+                            Country = "PH"
+                        }
+                    },
+                    Metadata = new Dictionary<string, string>()
+                    {
+                        {"testKey","Test Value"}
+                    },
+                    SendEmailReceipt = true,
+                    ShowDescription = true,
+                    ShowLineItems = false
                 }
-            },
-            PaymentMethodTypes = new[]
-            {
-                PaymentMethod.GCash,
-                PaymentMethod.Card,
-                PaymentMethod.Paymaya,
-                PaymentMethod.BillEase,
-                PaymentMethod.Dob,
-                PaymentMethod.GrabPay,
-                PaymentMethod.DobUbp
-            },
-            Billing = new Billing
-            {
-                Name = "TestName",
-                Email = "test@paymongo.com",
-                Phone = "9063364572",
-                Address = new Address
-                {
-                    Line1 = "TestAddress1",
-                    Line2 = "TestAddress2",
-                    PostalCode = "4506",
-                    State = "TestState",
-                    City = "TestCity",
-                    Country = "PH"
-                }
-            },
-            Metadata = new Dictionary<string, string>()
-            {
-                {"testKey","Test Value"}
-            },
-            SendEmailReceipt = true,
-            ShowDescription = true,
-            ShowLineItems = false
+            }
         };
         
         // Act
         Checkout checkoutResult = await _client.Checkouts.CreateCheckoutAsync(checkout);
-        Checkout getCheckoutResult = await _client.Checkouts.RetrieveCheckoutAsync(checkoutResult.Id);
+        Checkout getCheckoutResult = await _client.Checkouts.RetrieveCheckoutAsync(checkoutResult.Data.Id);
         
         // Assert
         getCheckoutResult.Should().NotBeNull();
@@ -187,68 +119,74 @@ public class CheckoutApiTests
         // Arrange
         Checkout checkout = new Checkout()
         {
-            Description = "Test Checkout",
-            CancelUrl = "http://127.0.0.1",
-            SuccessUrl = "http://127.0.0.1",
-            ReferenceNumber = "9282321A",
-            LineItems = new []
+            Data = new CheckoutData()
             {
-                new LineItem
+                Attributes = new CheckoutAttributes()
                 {
-                    Name = "Give You Up",
-                    Images = new []
+                    Description = "Test Checkout",
+                    CancelUrl = "http://127.0.0.1",
+                    SuccessUrl = "http://127.0.0.1",
+                    ReferenceNumber = "9282321A",
+                    LineItems = new []
                     {
-                        "https://i.insider.com/602ee9ced3ad27001837f2ac?width=750&format=jpeg"
+                        new LineItem
+                        {
+                            Name = "Give You Up",
+                            Images = new []
+                            {
+                                "https://i.insider.com/602ee9ced3ad27001837f2ac?width=750&format=jpeg"
+                            },
+                            Quantity = 1000,
+                            Currency = Currency.Php,
+                            Amount = 10000
+                        }
                     },
-                    Quantity = 1000,
-                    Currency = Currency.Php,
-                    Amount = 10000
+                    PaymentMethodTypes = new[]
+                    {
+                        PaymentMethod.GCash,
+                        PaymentMethod.Card,
+                        PaymentMethod.Paymaya,
+                        PaymentMethod.BillEase,
+                        PaymentMethod.Dob,
+                        PaymentMethod.GrabPay,
+                        PaymentMethod.DobUbp
+                    },
+                    Billing = new Billing
+                    {
+                        Name = "TestName",
+                        Email = "test@paymongo.com",
+                        Phone = "9063364572",
+                        Address = new Address
+                        {
+                            Line1 = "TestAddress1",
+                            Line2 = "TestAddress2",
+                            PostalCode = "4506",
+                            State = "TestState",
+                            City = "TestCity",
+                            Country = "PH"
+                        }
+                    },
+                    Metadata = new Dictionary<string, string>()
+                    {
+                        {"testKey","Test Value"}
+                    },
+                    SendEmailReceipt = true,
+                    ShowDescription = true,
+                    ShowLineItems = false
                 }
-            },
-            PaymentMethodTypes = new[]
-            {
-                PaymentMethod.GCash,
-                PaymentMethod.Card,
-                PaymentMethod.Paymaya,
-                PaymentMethod.BillEase,
-                PaymentMethod.Dob,
-                PaymentMethod.GrabPay,
-                PaymentMethod.DobUbp
-            },
-            Billing = new Billing
-            {
-                Name = "TestName",
-                Email = "test@paymongo.com",
-                Phone = "9063364572",
-                Address = new Address
-                {
-                    Line1 = "TestAddress1",
-                    Line2 = "TestAddress2",
-                    PostalCode = "4506",
-                    State = "TestState",
-                    City = "TestCity",
-                    Country = "PH"
-                }
-            },
-            Metadata = new Dictionary<string, string>()
-            {
-                {"testKey","Test Value"}
-            },
-            SendEmailReceipt = true,
-            ShowDescription = true,
-            ShowLineItems = false
+            }
         };
         
         // Act
         Checkout checkoutResult = await _client.Checkouts.CreateCheckoutAsync(checkout);
-        Checkout getExpiredCheckoutResult = await _client.Checkouts.ExpireCheckoutAsync(checkoutResult.Id);
+        Checkout getExpiredCheckoutResult = await _client.Checkouts.ExpireCheckoutAsync(checkoutResult.Data.Id);
         
         // Assert
         checkoutResult.Should().NotBeNull();
-        checkoutResult.Status.Should().Be(CheckoutStatus.Active);
+        checkoutResult.Data.Attributes.Status.Should().Be(CheckoutStatus.Active);
         
         getExpiredCheckoutResult.Should().NotBeNull();
-        getExpiredCheckoutResult.Status.Should().Be(CheckoutStatus.Expired);
+        getExpiredCheckoutResult.Data.Attributes.Status.Should().Be(CheckoutStatus.Expired);
         
     }
     

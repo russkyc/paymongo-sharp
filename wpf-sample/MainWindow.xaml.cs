@@ -5,8 +5,8 @@ using DotNetEnv;
 using Paymongo.Sharp;
 using Paymongo.Sharp.Core.Entities;
 using Paymongo.Sharp.Core.Enums;
-using Paymongo.Sharp.Features.Checkouts.Entities;
-using Paymongo.Sharp.Features.Links.Entities;
+using Paymongo.Sharp.Features.Checkouts.Contracts;
+using Paymongo.Sharp.Features.Links.Contracts;
 using Paymongo.Sharp.Features.Sources.Entities;
 using Paymongo.Sharp.Utilities;
 

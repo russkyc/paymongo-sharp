@@ -1,6 +1,6 @@
 ﻿// MIT License
 // 
-// Copyright (c) 2023 Russell Camo (@russkyc)
+// Copyright (c) 2025 Russell Camo (@russkyc)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -27,13 +27,10 @@ using Paymongo.Sharp.Converters;
 using Paymongo.Sharp.Core.Enums;
 using Paymongo.Sharp.Features.Payments.Entities;
 
-namespace Paymongo.Sharp.Features.Links.Entities
+namespace Paymongo.Sharp.Features.Links.Contracts
 {
-    public class Link
+    public class LinkAttributes
     {
-        [JsonIgnore]
-        public string Id { get; set; } = null!;
-        
         [JsonPropertyName("reference_number")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string ReferenceNumber { get; set; } = null!;

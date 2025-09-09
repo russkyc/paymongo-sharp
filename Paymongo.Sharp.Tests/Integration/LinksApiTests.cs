@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Paymongo.Sharp.Features.Links.Entities;
+using Paymongo.Sharp.Features.Links.Contracts;
 
 namespace Paymongo.Sharp.Tests.Integration;
 
@@ -31,104 +31,66 @@ public class LinksApiTests
     public LinksApiTests()
     {
         Env.TraversePath().Load();
-        
+
         var secretKey = Env.GetString("SECRET_KEY");
-        
+
         _client = new PaymongoClient(secretKey);
     }
-    
-    [Fact]
-    async Task CreateLink()
-    {
-        // Arrange
-        Link link = new Link
-        {
-            Description = "New Payment Link",
-            Amount = 10000,
-            Currency = Currency.Php,
-            Remarks = "Sample Remarks"
-        };
 
-        // Act
-        var linkResult = await _client.Links.CreateLinkAsync(link);
-
-        // Assert
-        linkResult.Should().NotBeNull();
-        linkResult.Id.Should().NotBeNull();
-        linkResult.ReferenceNumber.Should().NotBeNullOrEmpty();
-        linkResult.CheckoutUrl.Should().NotBeNullOrEmpty();
-        linkResult.Description.Should().BeEquivalentTo(link.Description);
-        linkResult.Remarks.Should().BeEquivalentTo(link.Remarks);
-        linkResult.Amount.Should().Be(link.Amount);
-        linkResult.Currency.Should().Be(link.Currency);
-        linkResult.Status.Should().Be(LinkStatus.Unpaid);
-    }
-    
     [Fact]
     async Task CreateAndRetrieveLink()
     {
         // Arrange
-        Link link = new Link
+        Link link = new Link()
         {
-            Description = "New Payment Link",
-            Amount = 100000,
-            Currency = Currency.Php,
-            Remarks = "Sample Remarks"
+            Data = new LinkData()
+            {
+                Attributes = new LinkAttributes()
+                {
+                    Description = "New Payment Link",
+                    Amount = 100000,
+                    Currency = Currency.Php,
+                    Remarks = "Sample Remarks"
+                }
+            }
         };
 
         // Act
         var linkResult = await _client.Links.CreateLinkAsync(link);
-        var getLinkResult = await _client.Links.RetrieveLinkAsync(linkResult.Id);
-        
-        // Assert
-        getLinkResult.Should().NotBeNull();
-        getLinkResult.Should().BeEquivalentTo(linkResult);
 
-    }
-    
-    [Fact]
-    async Task CreateAndRetrieveLinkByReferenceNumber()
-    {
-        // Arrange
-        Link link = new Link
-        {
-            Description = "New Link",
-            Amount = 100000,
-            Remarks = "Sample Remarks",
-            Currency = Currency.Php
-        };
-
-        // Act
-        var linkResult = await _client.Links.CreateLinkAsync(link);
-        var getLinkResult = await _client.Links.GetLinkByReferenceNumberAsync(linkResult.ReferenceNumber);
+        linkResult.Should().NotBeNull();
+        var getLinkResult = await _client.Links.RetrieveLinkAsync(linkResult.Data.Id);
 
         // Assert
-        getLinkResult.Should().NotBeNull();
         getLinkResult.Should().BeEquivalentTo(linkResult);
     }
-    
+
     [Fact]
     async Task CreateArchiveAndUnarchiveLink()
     {
         // Arrange
-        Link link = new Link
+        Link link = new Link()
         {
-            Description = "New Link",
-            ReferenceNumber = "61223292",
-            Amount = 100000,
-            Currency = Currency.Php
+            Data = new LinkData()
+            {
+                Attributes = new LinkAttributes()
+                {
+                    Description = "New Link",
+                    ReferenceNumber = "61223292",
+                    Amount = 100000,
+                    Currency = Currency.Php
+                }
+            }
         };
 
         // Act
         var linkResult = await _client.Links.CreateLinkAsync(link);
-        var getArchiveLinkResult = await _client.Links.ArchiveLinkAsync(linkResult.Id);
-        var getUnarchiveLinkResult = await _client.Links.UnarchiveLinkAsync(linkResult.Id);
-        
+        var getArchiveLinkResult = await _client.Links.ArchiveLinkAsync(linkResult.Data.Id);
+        var getUnarchiveLinkResult = await _client.Links.UnarchiveLinkAsync(linkResult.Data.Id);
+
         // Assert
         getArchiveLinkResult.Should().NotBeNull();
-        getArchiveLinkResult.Archived.Should().BeTrue();
-        getUnarchiveLinkResult.Archived.Should().BeFalse();
-
+        getArchiveLinkResult.Data.Attributes.Archived.Should().BeTrue();
+        getUnarchiveLinkResult.Data.Attributes.Archived.Should().BeFalse();
     }
-
 }

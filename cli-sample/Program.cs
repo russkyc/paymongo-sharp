@@ -5,7 +5,7 @@ using DotNetEnv;
 using Paymongo.Sharp;
 using Paymongo.Sharp.Core.Entities;
 using Paymongo.Sharp.Core.Enums;
-using Paymongo.Sharp.Features.Checkouts.Entities;
+using Paymongo.Sharp.Features.Checkouts.Contracts;
 
 namespace cli_sample;
 

@@ -22,9 +22,8 @@
 
 using System.Net.Http;
 using System.Threading.Tasks;
-using Paymongo.Sharp.Features.Links.Entities;
+using Paymongo.Sharp.Features.Links.Contracts;
 using Paymongo.Sharp.Helpers;
-using Paymongo.Sharp.Utilities;
 
 namespace Paymongo.Sharp.Features.Links
 {
@@ -40,19 +39,12 @@ namespace Paymongo.Sharp.Features.Links
 
         public async Task<Link> CreateLinkAsync(Link link)
         {
-            var data = link.ToSchema();
-            return await _client.SendRequestAsync<Link>(HttpMethod.Post, Resource, data, content => content.ToLink());
+            return await _client.SendRequestAsync<Link>(HttpMethod.Post, Resource, link, content => content.ToLink());
         }
 
         public async Task<Link> RetrieveLinkAsync(string id)
         {
             return await _client.SendRequestAsync<Link>(HttpMethod.Get, $"{Resource}/{id}", responseDeserializer: content => content.ToLink());
-        }
-
-        public async Task<Link> GetLinkByReferenceNumberAsync(string referenceNumber)
-        {
-            var url = $"{Resource}?reference_number={referenceNumber}";
-            return await _client.SendRequestAsync<Link>(HttpMethod.Get, url, responseDeserializer: content => content.ToLink(true));
         }
 
         public async Task<Link> ArchiveLinkAsync(string id)

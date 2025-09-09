@@ -1,6 +1,6 @@
 ﻿// MIT License
 // 
-// Copyright (c) 2025 Russell Camo (@russkyc)
+// Copyright (c) 2023 Russell Camo (@russkyc)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,22 +20,35 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
+using Paymongo.Sharp.Core.Enums;
 
-namespace Paymongo.Sharp.Core.Contracts
+#pragma warning disable CS8618
+
+namespace Paymongo.Sharp.Features.Checkouts.Contracts
 {
-    public class Data<TRequestAttribute>
+    public class LineItem
     {
-        [JsonPropertyName("id")]
+        [JsonPropertyName("name")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public string? Id { get; set; }
+        public string Name { get; set; }
         
-        [JsonPropertyName("type")]
+        [JsonPropertyName("description")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public string? Type { get; set; }
-
-        [JsonPropertyName("attributes")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public TRequestAttribute Attributes { get; set; } = default!;
+        public string Description { get; set; }
+        
+        [JsonPropertyName("images")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public IEnumerable<string>? Images { get; set; }
+        
+        [JsonPropertyName("quantity")]
+        public int Quantity { get; set; }
+        
+        [JsonPropertyName("currency")]
+        public Currency Currency { get; set; }
+        
+        [JsonPropertyName("amount")]
+        public long Amount { get; set; }
     }
 }

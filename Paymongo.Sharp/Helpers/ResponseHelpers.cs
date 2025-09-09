@@ -25,10 +25,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 using Paymongo.Sharp.Core.Contracts;
-using Paymongo.Sharp.Features.Checkouts.Entities;
+using Paymongo.Sharp.Features.Checkouts.Contracts;
 using Paymongo.Sharp.Features.Customers.Entities;
 using Paymongo.Sharp.Features.Installments.Entities;
-using Paymongo.Sharp.Features.Links.Entities;
+using Paymongo.Sharp.Features.Links.Contracts;
 using Paymongo.Sharp.Features.PaymentIntents.Entities;
 using Paymongo.Sharp.Features.PaymentMethods.Entities;
 using Paymongo.Sharp.Features.Payments.Entities;
@@ -56,17 +56,14 @@ namespace Paymongo.Sharp.Helpers
         
         internal static Checkout ToCheckout(this string? response)
         {
-            var schema = JsonSerializer.Deserialize<Schema<Data<Checkout>>>(response);
-            var checkout = schema.Data.Attributes;
+            var schema = JsonSerializer.Deserialize<Checkout>(response);
+            var checkoutAttributes = schema.Data.Attributes;
             
-            // Checkout doesn't have an id field, so we take that from the parent
-            checkout.Id = schema.Data.Id;
-        
             // Unix timestamp doesn't account for daylight savings, so we adjust it here
-            checkout.CreatedAt = checkout.CreatedAt.ToLocalDateTime();
-            checkout.UpdatedAt = checkout.UpdatedAt.ToLocalDateTime();
+            schema.Data.Attributes.CreatedAt = checkoutAttributes.CreatedAt.ToLocalDateTime();
+            schema.Data.Attributes.UpdatedAt = checkoutAttributes.UpdatedAt.ToLocalDateTime();
             
-            return checkout;
+            return schema;
         }
 
         internal static Refund ToRefund(this string? response)
@@ -259,31 +256,26 @@ namespace Paymongo.Sharp.Helpers
         {
             if (isReferenceResource)
             {
-                var referenceSchema = JsonSerializer.Deserialize<Schema<IList<Data<Link>>>>(response);
+                var referenceSchema = JsonSerializer.Deserialize<Schema<IList<Link>>>(response);
                 var referenceLinkData = referenceSchema.Data[0];
-                var referenceLink = referenceLinkData.Attributes;
+                var referenceLink = referenceLinkData.Data.Attributes;
                 
-                // Link doesn't have an id field so we get it from the parent
-                referenceLink.Id = referenceLinkData.Id;
                 // Unix timestamp doesn't account for daylight savings, so we adjust it here
-                referenceLink.CreatedAt = referenceLink.CreatedAt.ToLocalDateTime();
-                referenceLink.UpdatedAt = referenceLink.UpdatedAt.ToLocalDateTime();
+                referenceLinkData.Data.Attributes.CreatedAt = referenceLink.CreatedAt.ToLocalDateTime();
+                referenceLinkData.Data.Attributes.UpdatedAt = referenceLink.UpdatedAt.ToLocalDateTime();
 
-                return referenceLink;
+                return referenceLinkData;
 
             }
 
-            var schema = JsonSerializer.Deserialize<Schema<Data<Link>>>(response);
-            var linkData = schema.Data;
-            var link = linkData.Attributes;
+            var schema = JsonSerializer.Deserialize<Link>(response);
+            var link = schema.Data.Attributes;
             
-            // Link doesn't have an id field so we get it from the parent
-            link.Id = schema.Data.Id;
             // Unix timestamp doesn't account for daylight savings, so we adjust it here
-            link.CreatedAt = link.CreatedAt.ToLocalDateTime();
-            link.UpdatedAt = link.UpdatedAt.ToLocalDateTime();
+            schema.Data.Attributes.CreatedAt = link.CreatedAt.ToLocalDateTime();
+            schema.Data.Attributes.UpdatedAt = link.UpdatedAt.ToLocalDateTime();
 
-            return link;
+            return schema;
         }
         
         internal static PaymentIntent ToPaymentIntent(this string? response)

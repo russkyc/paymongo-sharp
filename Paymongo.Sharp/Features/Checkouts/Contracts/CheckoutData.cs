@@ -20,22 +20,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using System.Text.Json.Serialization;
+using Paymongo.Sharp.Core.Contracts;
 
-namespace Paymongo.Sharp.Core.Contracts
+namespace Paymongo.Sharp.Features.Checkouts.Contracts
 {
-    public class Data<TRequestAttribute>
+    public class CheckoutData : Data<CheckoutAttributes>
     {
-        [JsonPropertyName("id")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public string? Id { get; set; }
         
-        [JsonPropertyName("type")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public string? Type { get; set; }
-
-        [JsonPropertyName("attributes")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public TRequestAttribute Attributes { get; set; } = default!;
     }
 }

@@ -409,7 +409,7 @@ For full Subscriptions(Plans) API reference, please see: [Plan Resource](https:/
 
 - [x] Create a Link
 - [x] Retrieve a Link
-- [x] Get Link by Reference Number
+- [x] ~~Get Link by Reference Number~~ (Deprecated)
 - [x] Archive a Link
 - [x] Unarchive a Link
 
@@ -438,7 +438,7 @@ Link linkResult = await client.Links.CreateLinkAsync(link);
 Link linkResult = await client.Links.RetrieveLinkAsync("12345678");
 ```
 
-**Get Link by Reference Number**
+**~~Get Link by Reference Number~~ (Deprecated)**
 
 ```csharp
 // We use the PaymongoClient from earlier
