@@ -25,7 +25,7 @@ using Paymongo.Sharp.Core.Enums;
 
 namespace Paymongo.Sharp.Features.QrPh.Entities
 {
-    public class QrPhCode
+    public class QrPhCodeAttributes
     {
         [JsonPropertyName("id")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

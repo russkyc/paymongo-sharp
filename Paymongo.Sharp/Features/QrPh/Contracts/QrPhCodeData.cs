@@ -20,29 +20,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using System.Net.Http;
-using System.Threading.Tasks;
-using Paymongo.Sharp.Features.QrPh.Entities;
-using Paymongo.Sharp.Features.Sources.Entities;
-using Paymongo.Sharp.Helpers;
-using Paymongo.Sharp.Utilities;
+using Paymongo.Sharp.Core.Contracts;
 
-namespace Paymongo.Sharp.Features.QrPh
+namespace Paymongo.Sharp.Features.QrPh.Entities
 {
-    public class QrPhClient
+    public class QrPhCodeData : Data<QrPhCodeAttributes>
     {
-        private const string Resource = "/qrph";
-        private readonly HttpClient _client;
-
-        public QrPhClient(HttpClient client)
-        {
-            _client = client;
-        }
-
-        public async Task<QrPhCode> CreateStaticQrPhCodeAsync(QrPhCode qrPhCode)
-        {
-            return await _client.SendRequestAsync<QrPhCode>(HttpMethod.Post, $"{Resource}/generate", qrPhCode);
-        }
-
+        
     }
 }

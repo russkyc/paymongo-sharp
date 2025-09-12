@@ -43,8 +43,14 @@ public class QrPhTests
         // Arrange
         var qrCode = new QrPhCode()
         {
-            MobileNumber = "+639123456789",
-            Kind = QrCodeKind.Instore
+            Data = new QrPhCodeData()
+            {
+                Attributes = new QrPhCodeAttributes()
+                {
+                    MobileNumber = "+639123456789",
+                    Kind = QrCodeKind.Instore
+                }
+            }
         };
 
         // Act
