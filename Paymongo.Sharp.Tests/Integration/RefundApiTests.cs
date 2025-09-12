@@ -21,7 +21,7 @@
 // SOFTWARE.
 
 using Paymongo.Sharp.Features.Payments.Contracts;
-using Paymongo.Sharp.Features.Refunds.Entities;
+using Paymongo.Sharp.Features.Refunds.Contracts;
 
 namespace Paymongo.Sharp.Tests.Integration;
 
@@ -61,19 +61,25 @@ public class RefundApiTests
         // Act: create a refund for the payment
         var refund = new Refund
         {
-            Amount = 10000,
-            PaymentId = paymentResult.Data.Id,
-            Currency = Currency.Php,
-            Notes = "Test refund"
+            Data = new RefundData()
+            {
+                Attributes = new RefundAttributes()
+                {
+                    Amount = 10000,
+                    PaymentId = paymentResult.Data.Id,
+                    Currency = Currency.Php,
+                    Notes = "Test refund"
+                }
+            }
         };
         var refundResult = await _client.Refunds.CreateRefundAsync(refund);
 
         // Assert
         refundResult.Should().NotBeNull();
-        refundResult.Id.Should().NotBeNullOrEmpty();
-        refundResult.Amount.Should().Be(refund.Amount);
-        refundResult.PaymentId.Should().Be(paymentResult.Data.Id);
-        refundResult.Currency.Should().Be(refund.Currency);
+        refundResult.Data.Id.Should().NotBeNullOrEmpty();
+        refundResult.Data.Attributes.Amount.Should().Be(refund.Data.Attributes.Amount);
+        refundResult.Data.Attributes.PaymentId.Should().Be(paymentResult.Data.Id);
+        refundResult.Data.Attributes.Currency.Should().Be(refund.Data.Attributes.Currency);
     }
 
     [Fact]
@@ -99,19 +105,25 @@ public class RefundApiTests
         var paymentResult = await _client.Payments.CreatePaymentAsync(payment);
         var refund = new Refund
         {
-            Amount = 10000,
-            PaymentId = paymentResult.Data.Id,
-            Currency = Currency.Php
+            Data = new RefundData()
+            {
+                Attributes = new RefundAttributes()
+                {
+                    Amount = 10000,
+                    PaymentId = paymentResult.Data.Id,
+                    Currency = Currency.Php
+                }
+            }
         };
         var refundResult = await _client.Refunds.CreateRefundAsync(refund);
 
         // Act
-        var getRefundResult = await _client.Refunds.RetrieveRefundAsync(refundResult.Id);
+        var getRefundResult = await _client.Refunds.RetrieveRefundAsync(refundResult.Data.Id);
 
         // Assert
         getRefundResult.Should().NotBeNull();
-        getRefundResult.Id.Should().Be(refundResult.Id);
-        getRefundResult.Amount.Should().Be(refund.Amount);
+        getRefundResult.Data.Id.Should().Be(refundResult.Data.Id);
+        getRefundResult.Data.Attributes.Amount.Should().Be(refund.Data.Attributes.Amount);
     }
 
     [Fact]
@@ -137,9 +149,15 @@ public class RefundApiTests
         var paymentResult = await _client.Payments.CreatePaymentAsync(payment);
         var refund = new Refund
         {
-            Amount = 10000,
-            PaymentId = paymentResult.Data.Id,
-            Currency = Currency.Php
+            Data = new RefundData()
+            {
+                Attributes = new RefundAttributes()
+                {
+                    Amount = 10000,
+                    PaymentId = paymentResult.Data.Id,
+                    Currency = Currency.Php
+                }
+            }
         };
         await _client.Refunds.CreateRefundAsync(refund);
 
@@ -148,7 +166,7 @@ public class RefundApiTests
 
         // Assert
         refunds.Should().NotBeNull();
-        refunds.Should().Contain(r => r.PaymentId == paymentResult.Data.Id);
+        refunds.Should().Contain(refundData => refundData.Attributes.PaymentId == paymentResult.Data.Id);
     }
 }
 

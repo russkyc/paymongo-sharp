@@ -1,6 +1,6 @@
 ﻿// MIT License
 // 
-// Copyright (c) 2023 Russell Camo (@russkyc)
+// Copyright (c) 2025 Russell Camo (@russkyc)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -26,19 +26,14 @@ using System.Text.Json.Serialization;
 using Paymongo.Sharp.Converters;
 using Paymongo.Sharp.Core.Enums;
 
-namespace Paymongo.Sharp.Features.Refunds.Entities
+namespace Paymongo.Sharp.Features.Refunds.Contracts
 {
-    public class Refund
+    public class RefundAttributes
     {
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public string Id { get; set; } = null!;
-        
         [JsonPropertyName("amount")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public long Amount { get; set; }
 
         [JsonPropertyName("currency")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public Currency Currency { get; set; }
 
         [JsonPropertyName("livemode")]
@@ -58,11 +53,9 @@ namespace Paymongo.Sharp.Features.Refunds.Entities
         public string? PayoutId { get; set; }
 
         [JsonPropertyName("reason")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public RefundReason? Reason { get; set; }
 
         [JsonPropertyName("status")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public RefundStatus? Status { get; set; }
 
         [JsonPropertyName("metadata")]

@@ -1,6 +1,6 @@
 ﻿@page "/refunds"
 @using Paymongo.Sharp.Core.Enums
-@using Paymongo.Sharp.Features.Refunds.Entities
+@using Paymongo.Sharp.Features.Refunds.Contracts
 @using Paymongo.Sharp.Interfaces
 @inject IPaymongoClient PaymongoClient
 
@@ -42,7 +42,7 @@
 else if (_refundProcessed && _processedRefund != null)
 {
     <div class="alert alert-success mt-3" role="alert">
-        Refund processed successfully! Amount refunded: @_processedRefund.Amount.
+        Refund processed successfully! Amount refunded: @_processedRefund.Data.Attributes.Amount.
     </div>
 }
 else if (_refunded)
@@ -67,14 +67,14 @@ else if (_refunded)
         {
             <div class="alert alert-info mt-3" role="alert">
                 <h5>Refund Details</h5>
-                <p><strong>ID:</strong> @_retrievedRefund.Id</p>
-                <p><strong>Amount:</strong> @_retrievedRefund.Amount</p>
-                <p><strong>Status:</strong> @_retrievedRefund.Status</p>
-                <p><strong>Reason:</strong> @_retrievedRefund.Reason</p>
-                <p><strong>Notes:</strong> @_retrievedRefund.Notes</p>
-                <p><strong>Currency:</strong> @_retrievedRefund.Currency</p>
-                <p><strong>Payment ID:</strong> @_retrievedRefund.PaymentId</p>
-                <p><strong>Created At:</strong> @_retrievedRefund.CreatedAt</p>
+                <p><strong>ID:</strong> @_retrievedRefund.Data.Id</p>
+                <p><strong>Amount:</strong> @_retrievedRefund.Data.Attributes.Amount</p>
+                <p><strong>Status:</strong> @_retrievedRefund.Data.Attributes.Status</p>
+                <p><strong>Reason:</strong> @_retrievedRefund.Data.Attributes.Reason</p>
+                <p><strong>Notes:</strong> @_retrievedRefund.Data.Attributes.Notes</p>
+                <p><strong>Currency:</strong> @_retrievedRefund.Data.Attributes.Currency</p>
+                <p><strong>Payment ID:</strong> @_retrievedRefund.Data.Attributes.PaymentId</p>
+                <p><strong>Created At:</strong> @_retrievedRefund.Data.Attributes.CreatedAt</p>
             </div>
         }
     </div>
@@ -92,13 +92,13 @@ else if (_refunded)
                 {
                     <li class="list-group-item">
                         <p><strong>ID:</strong> @refund.Id</p>
-                        <p><strong>Amount:</strong> @refund.Amount</p>
-                        <p><strong>Status:</strong> @refund.Status</p>
-                        <p><strong>Reason:</strong> @refund.Reason</p>
-                        <p><strong>Notes:</strong> @refund.Notes</p>
-                        <p><strong>Currency:</strong> @refund.Currency</p>
-                        <p><strong>Payment ID:</strong> @refund.PaymentId</p>
-                        <p><strong>Created At:</strong> @refund.CreatedAt</p>
+                        <p><strong>Amount:</strong> @refund.Attributes.Amount</p>
+                        <p><strong>Status:</strong> @refund.Attributes.Status</p>
+                        <p><strong>Reason:</strong> @refund.Attributes.Reason</p>
+                        <p><strong>Notes:</strong> @refund.Attributes.Notes</p>
+                        <p><strong>Currency:</strong> @refund.Attributes.Currency</p>
+                        <p><strong>Payment ID:</strong> @refund.Attributes.PaymentId</p>
+                        <p><strong>Created At:</strong> @refund.Attributes.CreatedAt</p>
                     </li>
                 }
             </ul>
@@ -116,7 +116,7 @@ else if (_refunded)
     private bool _refunded;
     private Refund? _processedRefund;
     private Refund? _retrievedRefund;
-    private IEnumerable<Refund> _refundsList = [];
+    private IEnumerable<RefundData> _refundsList = [];
 
     private string? _paymentId;
     private int _refundAmount;
@@ -135,11 +135,17 @@ else if (_refunded)
         {
             var refund = new Refund
             {
-                PaymentId = _paymentId,
-                Amount = _refundAmount,
-                Notes = "Test refund",
-                Currency = Currency.Php,
-                Reason = _refundReason
+                Data = new RefundData()
+                {
+                    Attributes = new RefundAttributes()
+                    {
+                        PaymentId = _paymentId,
+                        Amount = _refundAmount,
+                        Notes = "Test refund",
+                        Currency = Currency.Php,
+                        Reason = _refundReason
+                    }
+                }
             };
 
             _processedRefund = await PaymongoClient.Refunds.CreateRefundAsync(refund);

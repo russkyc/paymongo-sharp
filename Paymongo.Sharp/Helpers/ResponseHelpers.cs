@@ -32,7 +32,7 @@ using Paymongo.Sharp.Features.Links.Contracts;
 using Paymongo.Sharp.Features.PaymentIntents.Entities;
 using Paymongo.Sharp.Features.PaymentMethods.Entities;
 using Paymongo.Sharp.Features.Payments.Contracts;
-using Paymongo.Sharp.Features.Refunds.Entities;
+using Paymongo.Sharp.Features.Refunds.Contracts;
 using Paymongo.Sharp.Features.Sources.Entities;
 using Paymongo.Sharp.Features.WebHooks.Contracts;
 
@@ -67,47 +67,37 @@ namespace Paymongo.Sharp.Helpers
 
         internal static Refund ToRefund(this string? response)
         {
-            var schema = JsonSerializer.Deserialize<Schema<Data<Refund>>>(response);
-            var refund = schema.Data.Attributes;
-
-            // Refund doesn't have an id field, so we take that from the parent
-            refund.Id = schema.Data.Id;
-
+            var schema = JsonSerializer.Deserialize<Refund>(response);
             // Unix timestamp doesn't account for daylight savings, so we adjust it here
-            refund.CreatedAt = refund.CreatedAt.ToLocalDateTime();
-            refund.UpdatedAt = refund.UpdatedAt.ToLocalDateTime();
+            schema.Data.Attributes.CreatedAt = schema.Data.Attributes.CreatedAt.ToLocalDateTime();
+            schema.Data.Attributes.UpdatedAt = schema.Data.Attributes.UpdatedAt.ToLocalDateTime();
 
-            return refund;
+            return schema;
         }
 
-        internal static IEnumerable<Refund> ToRefunds(this string data)
+        internal static IEnumerable<RefundData> ToRefunds(this string data)
         {
-            var refundRequestDataCollection = JsonSerializer.Deserialize<IEnumerable<Data<Refund>>>(data);
+            var refundRequestDataCollection = JsonSerializer.Deserialize<PaginatedSchema<RefundData>>(data);
 
             if (refundRequestDataCollection is null)
             {
-                return Enumerable.Empty<Refund>();
+                return Enumerable.Empty<RefundData>();
             }
 
-            var refundRequestArray = refundRequestDataCollection.ToArray();
+            var refundRequestArray = refundRequestDataCollection.Data.ToArray();
 
             if (!refundRequestArray.Any())
             {
-                return Enumerable.Empty<Refund>();
+                return Enumerable.Empty<RefundData>();
             }
 
-            return refundRequestArray.Select(refundAttribute =>
+            return refundRequestArray.Select(refundData =>
             {
-                var refund = refundAttribute.Attributes;
-
-                // refund doesn't have an id field so we get it from the parent
-                refund.Id = refundAttribute.Id;
-
                 // Unix timestamp doesn't account for daylight savings, so we adjust it here
-                refund.CreatedAt = refund.CreatedAt.ToLocalDateTime();
-                refund.UpdatedAt = refund.UpdatedAt.ToLocalDateTime();
+                refundData.Attributes.CreatedAt = refundData.Attributes.CreatedAt.ToLocalDateTime();
+                refundData.Attributes.UpdatedAt = refundData.Attributes.UpdatedAt.ToLocalDateTime();
 
-                return refund;
+                return refundData;
             });
         }
 
