@@ -21,21 +21,17 @@
 // SOFTWARE.
 
 using System.Text.Json.Serialization;
-using Paymongo.Sharp.Core.Enums;
 
-namespace Paymongo.Sharp.Features.PaymentIntents.Entities
+namespace Paymongo.Sharp.Features.PaymentIntents.Contracts
 {
-    public class PaymentIntentAttachment
+    public class PaymentIntentRedirect
     {
-        [JsonPropertyName("payment_method")]
-        public PaymentMethod PaymentMethod { get; set; }
-        
-        [JsonPropertyName("client_key")]
+        [JsonPropertyName("url")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public string ClientKey { get; set; } = null!;
+        public string Url { get; set; } = null!;
         
         [JsonPropertyName("return_url")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public string? ReturnUrl { get; set; }
+        public string ReturnUrl { get; set; } = null!;
     }
 }

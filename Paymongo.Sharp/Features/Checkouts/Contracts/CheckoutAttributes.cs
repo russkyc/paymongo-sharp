@@ -76,7 +76,7 @@ namespace Paymongo.Sharp.Features.Checkouts.Contracts
         
         [JsonPropertyName("payment_method_types")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public IEnumerable<PaymentMethod>? PaymentMethodTypes { get; set; }
+        public IEnumerable<PaymentMethodType>? PaymentMethodTypes { get; set; }
         
         [JsonPropertyName("payments")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

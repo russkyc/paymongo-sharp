@@ -22,14 +22,20 @@
 
 using System.Text.Json.Serialization;
 using Paymongo.Sharp.Core.Enums;
-using Paymongo.Sharp.Features.CardInstallments.Contracts;
 
-namespace Paymongo.Sharp.Features.PaymentIntents.Entities
+namespace Paymongo.Sharp.Features.PaymentIntents.Contracts
 {
-    public class PaymentMethodOption
+    public class PaymentIntentAttachment
     {
-        [JsonPropertyName("card")]
-        public Card Card { get; set; } = null!;
-
+        [JsonPropertyName("payment_method")]
+        public string PaymentMethod { get; set; }
+        
+        [JsonPropertyName("client_key")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public string ClientKey { get; set; } = null!;
+        
+        [JsonPropertyName("return_url")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public string? ReturnUrl { get; set; }
     }
 }

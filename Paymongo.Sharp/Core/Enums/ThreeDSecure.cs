@@ -25,7 +25,7 @@ using System.Text.Json.Serialization;
 namespace Paymongo.Sharp.Core.Enums
 {
     [JsonConverter(typeof(JsonStringEnumConverter))]
-    public enum SecureConfiguration {
+    public enum ThreeDSecure {
         [JsonStringEnumMemberName("any")]
         Any,
         [JsonStringEnumMemberName("automatic")]

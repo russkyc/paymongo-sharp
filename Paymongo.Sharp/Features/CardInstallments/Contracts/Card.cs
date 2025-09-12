@@ -21,6 +21,7 @@
 // SOFTWARE.
 
 using System.Text.Json.Serialization;
+using Paymongo.Sharp.Core.Enums;
 
 namespace Paymongo.Sharp.Features.CardInstallments.Contracts
 {
@@ -29,5 +30,9 @@ namespace Paymongo.Sharp.Features.CardInstallments.Contracts
         [JsonPropertyName("installments")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public Installments Installments { get; set; } = null!;
+        
+        [JsonPropertyName("request_three_d_secure")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public ThreeDSecure? RequestThreeDSecure { get; set; } = null!;
     }
 }

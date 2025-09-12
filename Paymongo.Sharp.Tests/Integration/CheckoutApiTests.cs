@@ -69,13 +69,13 @@ public class CheckoutApiTests
                     },
                     PaymentMethodTypes = new[]
                     {
-                        PaymentMethod.GCash,
-                        PaymentMethod.Card,
-                        PaymentMethod.Paymaya,
-                        PaymentMethod.BillEase,
-                        PaymentMethod.Dob,
-                        PaymentMethod.GrabPay,
-                        PaymentMethod.DobUbp
+                        PaymentMethodType.GCash,
+                        PaymentMethodType.Card,
+                        PaymentMethodType.Paymaya,
+                        PaymentMethodType.BillEase,
+                        PaymentMethodType.Dob,
+                        PaymentMethodType.GrabPay,
+                        PaymentMethodType.DobUbp
                     },
                     Billing = new Billing
                     {
@@ -143,13 +143,13 @@ public class CheckoutApiTests
                     },
                     PaymentMethodTypes = new[]
                     {
-                        PaymentMethod.GCash,
-                        PaymentMethod.Card,
-                        PaymentMethod.Paymaya,
-                        PaymentMethod.BillEase,
-                        PaymentMethod.Dob,
-                        PaymentMethod.GrabPay,
-                        PaymentMethod.DobUbp
+                        PaymentMethodType.GCash,
+                        PaymentMethodType.Card,
+                        PaymentMethodType.Paymaya,
+                        PaymentMethodType.BillEase,
+                        PaymentMethodType.Dob,
+                        PaymentMethodType.GrabPay,
+                        PaymentMethodType.DobUbp
                     },
                     Billing = new Billing
                     {

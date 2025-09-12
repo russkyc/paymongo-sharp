@@ -21,7 +21,11 @@
 // SOFTWARE.
 
 using Paymongo.Sharp.Features.CardInstallments.Contracts;
-using Paymongo.Sharp.Features.PaymentIntents.Entities;
+using Paymongo.Sharp.Features.PaymentIntents.Contracts;
+using Paymongo.Sharp.Features.PaymentMethods.Entities;
+using Paymongo.Sharp.Tests.Utils;
+using PaymentMethodOption = Paymongo.Sharp.Features.PaymentIntents.Contracts.PaymentMethodOption;
+using PaymentMethodType = Paymongo.Sharp.Features.PaymentMethods.Entities.PaymentMethod;
 
 namespace Paymongo.Sharp.Tests.Integration;
 
@@ -44,16 +48,23 @@ public class PaymentIntentApiTests
         // Arrange
         PaymentIntent paymentIntent = new PaymentIntent
         {
-            Amount = 10000,
-            Currency = Currency.Php,
-            PaymentMethodAllowed =
-            [
-                PaymentMethod.Card,
-                PaymentMethod.Paymaya
-            ],
-            PaymentMethodOptions = new PaymentMethodOption()
+            Data = new PaymentIntentData()
             {
-                Card = new Card()
+                Attributes = new PaymentIntentAttributes()
+                {
+                    Amount = 10000,
+                    Currency = Currency.Php,
+                    PaymentMethodAllowed =
+                    [
+                        Core.Enums.PaymentMethodType.Card,
+                        Core.Enums.PaymentMethodType.Paymaya,
+                        Core.Enums.PaymentMethodType.GCash
+                    ],
+                    PaymentMethodOptions = new PaymentMethodOption()
+                    {
+                        Card = new Card()
+                    }
+                }
             }
         };
         
@@ -70,16 +81,23 @@ public class PaymentIntentApiTests
         // Arrange
         PaymentIntent paymentIntent = new PaymentIntent
         {
-            Amount = 10000,
-            Currency = Currency.Php,
-            PaymentMethodAllowed =
-            [
-                PaymentMethod.Card,
-                PaymentMethod.Paymaya
-            ],
-            PaymentMethodOptions = new PaymentMethodOption()
+            Data = new PaymentIntentData()
             {
-                Card = new Card()
+                Attributes = new PaymentIntentAttributes()
+                {
+                    Amount = 10000,
+                    Currency = Currency.Php,
+                    PaymentMethodAllowed =
+                    [
+                        Core.Enums.PaymentMethodType.Card,
+                        Core.Enums.PaymentMethodType.Paymaya,
+                        Core.Enums.PaymentMethodType.GCash
+                    ],
+                    PaymentMethodOptions = new PaymentMethodOption()
+                    {
+                        Card = new Card()
+                    }
+                }
             }
         };
         
@@ -87,26 +105,64 @@ public class PaymentIntentApiTests
         var paymentIntentResult = await _client.PaymentIntents.CreatePaymentIntentAsync(paymentIntent);
 
         // Act
-        var getPaymentIntentResult = await _client.PaymentIntents.RetrievePaymentIntentAsync(paymentIntentResult.Id);
+        var getPaymentIntentResult = await _client.PaymentIntents.RetrievePaymentIntentAsync(paymentIntentResult.Data.Id);
         
         // Assert
         Assert.NotNull(getPaymentIntentResult);
     }
     
     [Fact]
-    async Task AttachToPaymentIntent()
+    async Task PaymentIntentWorkflow()
     {
         // Arrange
-        const string paymentIntentId = "pi_WENqK7d5L3XN9YQzEt39B3oF";
+        var paymentMethod = new PaymentMethodType
+        {
+            Data = new PaymentMethodData()
+            {
+                Attributes = new PaymentMethodAttributes()
+                {
+                    Type = Core.Enums.PaymentMethodType.GCash,
+                    Billing = DataFakers.GenerateBilling()
+                }
+            }
+        };
+
+        // Act
+        var paymentMethodResult = await _client.PaymentMethods.CreatePaymentMethodAsync(paymentMethod);
         
+        PaymentIntent paymentIntent = new PaymentIntent
+        {
+            Data = new PaymentIntentData()
+            {
+                Attributes = new PaymentIntentAttributes()
+                {
+                    Amount = 10000,
+                    Currency = Currency.Php,
+                    PaymentMethodAllowed =
+                    [
+                        Core.Enums.PaymentMethodType.Card,
+                        Core.Enums.PaymentMethodType.Paymaya,
+                        Core.Enums.PaymentMethodType.GCash
+                    ],
+                    PaymentMethodOptions = new PaymentMethodOption()
+                    {
+                        Card = new Card()
+                    }
+                }
+            }
+        };
+        
+        // Act
+        var createdPaymentIntent = await _client.PaymentIntents.CreatePaymentIntentAsync(paymentIntent);
+
         PaymentIntentAttachment paymentIntentAttachment = new PaymentIntentAttachment
         {
-            PaymentMethod = PaymentMethod.Card,
+            PaymentMethod = paymentMethodResult.Data.Id,
             ReturnUrl = "https://google.com"
         };
         
         // Act
-        var paymentIntentResult = await _client.PaymentIntents.AttachToPaymentIntentAsync(paymentIntentId, paymentIntentAttachment);
+        var paymentIntentResult = await _client.PaymentIntents.AttachToPaymentIntentAsync(createdPaymentIntent.Data.Id, paymentIntentAttachment);
         
         // Assert
         Assert.NotNull(paymentIntentResult);

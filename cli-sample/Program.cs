@@ -106,9 +106,9 @@ public class Program
                     LineItems = products,
                     PaymentMethodTypes = new[]
                     {
-                        PaymentMethod.GCash,
-                        PaymentMethod.Card,
-                        PaymentMethod.Paymaya
+                        PaymentMethodType.GCash,
+                        PaymentMethodType.Card,
+                        PaymentMethodType.Paymaya
                     }
                 }
             }

@@ -1,6 +1,6 @@
 ﻿// MIT License
 // 
-// Copyright (c) 2023 Russell Camo (@russkyc)
+// Copyright (c) 2025 Russell Camo (@russkyc)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -21,35 +21,18 @@
 // SOFTWARE.
 
 using System.Text.Json.Serialization;
+using Paymongo.Sharp.Features.Sources.Entities;
 
-namespace Paymongo.Sharp.Core.Enums
+namespace Paymongo.Sharp.Features.PaymentIntents.Contracts
 {
-    [JsonConverter(typeof(JsonStringEnumConverter))]
-    public enum PaymentMethodType
+    public class NextAction
     {
-        [JsonStringEnumMemberName("billease")]
-        BillEase,
-        [JsonStringEnumMemberName("card")]
-        Card,
-        [JsonStringEnumMemberName("brankas")]
-        Brankas,
-        [JsonStringEnumMemberName("brankas_bdo")]
-        BrankasBdo,
-        [JsonStringEnumMemberName("brankas_landbank")]
-        BrankasLandbank,
-        [JsonStringEnumMemberName("brankas_metrobank")]
-        BrankasMetrobank,
-        [JsonStringEnumMemberName("dob")]
-        Dob,
-        [JsonStringEnumMemberName("dob_ubp")]
-        DobUbp,
-        [JsonStringEnumMemberName("gcash")]
-        GCash,
-        [JsonStringEnumMemberName("grab_pay")]
-        GrabPay,
-        [JsonStringEnumMemberName("paymaya")]
-        Paymaya,
-        [JsonStringEnumMemberName("qrph")]
-        QrPh
+        [JsonPropertyName("type")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public string? Type { get; set; }
+        
+        [JsonPropertyName("redirect")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public PaymentIntentRedirect? Redirect { get; set; }
     }
 }

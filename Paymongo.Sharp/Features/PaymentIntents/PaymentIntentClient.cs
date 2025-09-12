@@ -22,7 +22,7 @@
 
 using System.Net.Http;
 using System.Threading.Tasks;
-using Paymongo.Sharp.Features.PaymentIntents.Entities;
+using Paymongo.Sharp.Features.PaymentIntents.Contracts;
 using Paymongo.Sharp.Helpers;
 using Paymongo.Sharp.Utilities;
 
@@ -40,8 +40,7 @@ namespace Paymongo.Sharp.Features.PaymentIntents
 
         public async Task<PaymentIntent> CreatePaymentIntentAsync(PaymentIntent paymentIntent)
         {
-            var data = paymentIntent.ToSchema();
-            return await _client.SendRequestAsync<PaymentIntent>(HttpMethod.Post, Resource, data, content => content.ToPaymentIntent());
+            return await _client.SendRequestAsync<PaymentIntent>(HttpMethod.Post, Resource, paymentIntent, content => content.ToPaymentIntent());
         }
 
         public async Task<PaymentIntent> RetrievePaymentIntentAsync(string id)

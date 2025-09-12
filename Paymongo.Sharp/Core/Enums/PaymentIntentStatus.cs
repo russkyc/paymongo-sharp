@@ -29,8 +29,8 @@ namespace Paymongo.Sharp.Core.Enums
     {
         [JsonStringEnumMemberName("awaiting_payment_method")]
         AwaitingPaymentMethod,
-        [JsonStringEnumMemberName("awaiting_capture")]
-        AwaitingCapture,
+        [JsonStringEnumMemberName("awaiting_next_action")]
+        AwaitingNextAction,
         [JsonStringEnumMemberName("processing")]
         Processing,
         [JsonStringEnumMemberName("succeeded")]

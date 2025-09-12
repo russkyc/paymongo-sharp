@@ -19,6 +19,7 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
+
 using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
@@ -26,13 +27,10 @@ using Paymongo.Sharp.Converters;
 using Paymongo.Sharp.Core.Enums;
 using Paymongo.Sharp.Features.Payments.Contracts;
 
-namespace Paymongo.Sharp.Features.PaymentIntents.Entities
+namespace Paymongo.Sharp.Features.PaymentIntents.Contracts
 {
-    public class PaymentIntent
+    public class PaymentIntentAttributes
     {
-        [JsonPropertyName("id")]
-        public string Id { get; set; } = null!;
-
         [JsonPropertyName("amount")]
         public long Amount { get; set; }
 
@@ -66,7 +64,7 @@ namespace Paymongo.Sharp.Features.PaymentIntents.Entities
         public Dictionary<string, string>? LastPaymentError { get; set; }
 
         [JsonPropertyName("payment_method_allowed")]
-        public List<PaymentMethod>? PaymentMethodAllowed { get; set; }
+        public List<PaymentMethodType>? PaymentMethodAllowed { get; set; }
 
         [JsonPropertyName("payments")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -74,7 +72,7 @@ namespace Paymongo.Sharp.Features.PaymentIntents.Entities
 
         [JsonPropertyName("next_action")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public Dictionary<string, string>? NextAction { get; set; }
+        public NextAction? NextAction { get; set; }
 
         [JsonPropertyName("payment_method_options")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

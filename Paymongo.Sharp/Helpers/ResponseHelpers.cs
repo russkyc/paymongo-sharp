@@ -29,7 +29,7 @@ using Paymongo.Sharp.Features.CardInstallments.Contracts;
 using Paymongo.Sharp.Features.Checkouts.Contracts;
 using Paymongo.Sharp.Features.Customers.Contracts;
 using Paymongo.Sharp.Features.Links.Contracts;
-using Paymongo.Sharp.Features.PaymentIntents.Entities;
+using Paymongo.Sharp.Features.PaymentIntents.Contracts;
 using Paymongo.Sharp.Features.PaymentMethods.Entities;
 using Paymongo.Sharp.Features.Payments.Contracts;
 using Paymongo.Sharp.Features.Refunds.Contracts;
@@ -232,17 +232,13 @@ namespace Paymongo.Sharp.Helpers
         
         internal static PaymentIntent ToPaymentIntent(this string? response)
         {
-            var schema = JsonSerializer.Deserialize<Schema<Data<PaymentIntent>>>(response);
-            var paymentIntent = schema.Data.Attributes;
+            var schema = JsonSerializer.Deserialize<PaymentIntent>(response);
             
-            // PaymentIntent doesn't have an id field so we get it from the parent
-            paymentIntent.Id = schema.Data.Id;
-                    
             // Unix timestamp doesn't account for daylight savings, so we adjust it here
-            paymentIntent.CreatedAt = paymentIntent.CreatedAt.ToLocalDateTime();
-            paymentIntent.UpdatedAt = paymentIntent.UpdatedAt.ToLocalDateTime();
+            schema.Data.Attributes.CreatedAt = schema.Data.Attributes.CreatedAt.ToLocalDateTime();
+            schema.Data.Attributes.UpdatedAt = schema.Data.Attributes.UpdatedAt.ToLocalDateTime();
             
-            return paymentIntent;
+            return schema;
         }
 
         internal static IEnumerable<Plan> ToInstallmentPlans(this string? response)
