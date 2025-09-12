@@ -2,7 +2,7 @@
 @using Paymongo.Sharp.Interfaces
 @using Paymongo.Sharp.Core.Enums
 @using Paymongo.Sharp.Features.Checkouts.Contracts
-@using Paymongo.Sharp.Features.Payments.Entities
+@using Paymongo.Sharp.Features.Payments.Contracts
 
 @inject IPaymongoClient PaymongoClient
 @inject IJSRuntime JsRuntime
@@ -22,7 +22,7 @@
 else if (_transactionComplete && _payment is not null)
 {
     <div class="alert alert-success mt-3" role="alert">
-        Transaction completed! Paid by @_payment.Billing?.Name on @_payment.PaidAt using @_payment.Source?.Type.
+        Transaction completed! Paid by @_payment.Attributes.Billing?.Name on @_payment.Attributes.PaidAt using @_payment.Attributes.Source?.Type.
     </div>
 }
 
@@ -30,51 +30,66 @@ else if (_transactionComplete && _payment is not null)
 
     private bool _transactionComplete;
     private bool _isProcessing;
-    private Payment? _payment;
+    private PaymentData? _payment;
 
     async Task OnPay()
     {
         _isProcessing = true;
         var checkout = new Checkout
         {
-            Description = "Test Checkout",
-            LineItems = new[]
+            Data = new CheckoutData()
             {
-                new LineItem
+                Attributes = new CheckoutAttributes()
                 {
-                    Name = "item_name",
-                    Quantity = 1,
-                    Currency = Currency.Php,
-                    Amount = 3500
+                    Description = "Test Checkout",
+                    LineItems = new[]
+                    {
+                        new LineItem
+                        {
+                            Name = "item_name",
+                            Quantity = 1,
+                            Currency = Currency.Php,
+                            Amount = 3500
+                        }
+                    },
+                    PaymentMethodTypes = new[]
+                    {
+                        PaymentMethod.GCash,
+                        PaymentMethod.Card,
+                        PaymentMethod.Paymaya,
+                        PaymentMethod.BillEase,
+                        PaymentMethod.Dob,
+                        PaymentMethod.GrabPay,
+                        PaymentMethod.DobUbp
+                    },
+                    SuccessUrl = "https://localhost:7213/success"
                 }
-            },
-            PaymentMethodTypes = new[]
-            {
-                PaymentMethod.GCash,
-                PaymentMethod.Card,
-                PaymentMethod.Paymaya,
-                PaymentMethod.BillEase,
-                PaymentMethod.Dob,
-                PaymentMethod.GrabPay,
-                PaymentMethod.DobUbp
-            },
-            SuccessUrl = "https://localhost:7213/success"
+            }
         };
 
         var checkoutResult = await PaymongoClient.Checkouts.CreateCheckoutAsync(checkout);
-        await JsRuntime.InvokeVoidAsync("open", checkoutResult.CheckoutUrl, "_blank");
+        await JsRuntime.InvokeVoidAsync("open", checkoutResult.Data.Attributes.CheckoutUrl, "_blank");
 
         while (true)
         {
-            if (checkoutResult.Id == null) continue;
-            
-            var getCheckoutResult = await PaymongoClient.Checkouts.RetrieveCheckoutAsync(checkoutResult.Id);
-            if (getCheckoutResult.Payments is null || !getCheckoutResult.Payments.Any()) continue;
-            
-            // Ideally we would want to get the payment with a Paid status,
-            // but, the payment status will only be in Pending in the test environment
-            _payment = getCheckoutResult.Payments.First(payment => payment.Status is PaymentStatus.Pending);
-            break;
+            try
+            {
+                var getCheckoutResult = await PaymongoClient.Checkouts.RetrieveCheckoutAsync(checkoutResult.Data.Id);
+                if (getCheckoutResult.Data.Attributes.Payments is null || !getCheckoutResult.Data.Attributes.Payments.Any())
+                {
+                    await Task.Delay(500);
+                    continue;
+                }
+
+                // Ideally we would want to get the payment with a Paid status,
+                // but, the payment status will only be in Pending in the test environment
+                _payment = getCheckoutResult.Data.Attributes.Payments.First(payment => payment.Attributes.Status is PaymentStatus.Paid);
+                break;
+            }
+            catch (Exception)
+            {
+                await Task.Delay(500);
+            }
         }
 
         _transactionComplete = true;

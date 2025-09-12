@@ -22,20 +22,15 @@
 
 using System.Text.Json.Serialization;
 
-namespace Paymongo.Sharp.Core.Contracts
+namespace Paymongo.Sharp.Features.Payments.Contracts
 {
-    public class Data<TRequestAttribute>
+    public class PaymentSource
     {
-        [JsonPropertyName("id")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string Id { get; set; } = null!;
         
         [JsonPropertyName("type")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public string? Type { get; set; }
-
-        [JsonPropertyName("attributes")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public TRequestAttribute Attributes { get; set; } = default!;
+        public string Type { get; set; } = null!;
     }
 }

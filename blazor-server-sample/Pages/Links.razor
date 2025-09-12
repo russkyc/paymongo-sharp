@@ -1,8 +1,9 @@
 ﻿@page "/links"
+@using System.Text.Json
 @using Paymongo.Sharp.Interfaces
 @using Paymongo.Sharp.Core.Enums
 @using Paymongo.Sharp.Features.Links.Contracts
-@using Paymongo.Sharp.Features.Payments.Entities
+@using Paymongo.Sharp.Features.Payments.Contracts
 
 @inject IPaymongoClient PaymongoClient
 @inject IJSRuntime JsRuntime
@@ -22,7 +23,7 @@
 else if (_transactionComplete && _payment is not null)
 {
     <div class="alert alert-success mt-3" role="alert">
-        Transaction completed! Paid by @_payment.Billing?.Name on @_payment.PaidAt using @_payment.Source?.Type.
+        Transaction completed! Paid by @_payment.Data.Attributes.Billing?.Name on @_payment.Data.Attributes.PaidAt using @_payment.Data.Attributes.Source?.Type.
     </div>
 }
 
@@ -37,23 +38,38 @@ else if (_transactionComplete && _payment is not null)
         _isProcessing = true;
         Link link = new Link
         {
-            Description = "New Link",
-            Amount = 100000,
-            Currency = Currency.Php
+            Data = new LinkData()
+            {
+                Attributes = new LinkAttributes()
+                {
+                    Description = "New Link",
+                    Amount = 100000,
+                    Currency = Currency.Php
+                }
+            }
         };
 
         var linkResult = await PaymongoClient.Links.CreateLinkAsync(link);
-        await JsRuntime.InvokeVoidAsync("open", linkResult.CheckoutUrl, "_blank");
+        await JsRuntime.InvokeVoidAsync("open", linkResult.Data.Attributes.CheckoutUrl, "_blank");
 
         while (true)
         {
-            var getLinkResult = await PaymongoClient.Links.RetrieveLinkAsync(linkResult.Id);
-            if (getLinkResult.Status is not LinkStatus.Paid) continue;
-            
-            // Ideally we would want to get the payment with a Paid status,
-            // but, the payment status will only be in Pending in the test environment
-            _payment = getLinkResult.Payments.First(payment => payment.Status is PaymentStatus.Pending);
-            break;
+            try
+            {
+                var getLinkResult = await PaymongoClient.Links.RetrieveLinkAsync(linkResult.Data.Id);
+                if (getLinkResult.Data.Attributes.Status is not LinkStatus.Paid)
+                {
+                    await Task.Delay(500);
+                    continue;
+                }
+
+                _payment = getLinkResult.Data.Attributes.Payments.First(payment => payment.Data.Attributes.Status is PaymentStatus.Paid);
+                break;
+            }
+            catch (Exception)
+            {
+                await Task.Delay(500);
+            }
         }
 
         _transactionComplete = true;

@@ -20,22 +20,20 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 namespace Paymongo.Sharp.Core.Contracts
 {
-    public class Data<TRequestAttribute>
+    public class PaginatedSchema<TDataContract>
     {
-        [JsonPropertyName("id")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public string Id { get; set; } = null!;
-        
-        [JsonPropertyName("type")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public string? Type { get; set; }
-
-        [JsonPropertyName("attributes")]
+        [JsonPropertyName("has_more")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public TRequestAttribute Attributes { get; set; } = default!;
+        public bool HasMore { get; set; }
+        
+        
+        [JsonPropertyName("data")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public IEnumerable<TDataContract> Data { get; set; } = default!;
     }
 }

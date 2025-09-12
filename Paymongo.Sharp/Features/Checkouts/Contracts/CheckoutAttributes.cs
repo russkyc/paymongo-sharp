@@ -26,7 +26,7 @@ using System.Text.Json.Serialization;
 using Paymongo.Sharp.Converters;
 using Paymongo.Sharp.Core.Entities;
 using Paymongo.Sharp.Core.Enums;
-using Paymongo.Sharp.Features.Payments.Entities;
+using Paymongo.Sharp.Features.Payments.Contracts;
 
 namespace Paymongo.Sharp.Features.Checkouts.Contracts
 {
@@ -80,7 +80,7 @@ namespace Paymongo.Sharp.Features.Checkouts.Contracts
         
         [JsonPropertyName("payments")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public IEnumerable<Payment>? Payments { get; set; }
+        public IEnumerable<PaymentData>? Payments { get; set; }
         
         [JsonPropertyName("metadata")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

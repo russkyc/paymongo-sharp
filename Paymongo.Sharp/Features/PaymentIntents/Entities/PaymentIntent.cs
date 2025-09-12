@@ -24,7 +24,7 @@ using System.Collections.Generic;
 using System.Text.Json.Serialization;
 using Paymongo.Sharp.Converters;
 using Paymongo.Sharp.Core.Enums;
-using Paymongo.Sharp.Features.Payments.Entities;
+using Paymongo.Sharp.Features.Payments.Contracts;
 
 namespace Paymongo.Sharp.Features.PaymentIntents.Entities
 {

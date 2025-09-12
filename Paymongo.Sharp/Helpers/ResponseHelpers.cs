@@ -31,7 +31,7 @@ using Paymongo.Sharp.Features.Installments.Entities;
 using Paymongo.Sharp.Features.Links.Contracts;
 using Paymongo.Sharp.Features.PaymentIntents.Entities;
 using Paymongo.Sharp.Features.PaymentMethods.Entities;
-using Paymongo.Sharp.Features.Payments.Entities;
+using Paymongo.Sharp.Features.Payments.Contracts;
 using Paymongo.Sharp.Features.Refunds.Entities;
 using Paymongo.Sharp.Features.Sources.Entities;
 using Paymongo.Sharp.Features.WebHooks.Entities;
@@ -57,11 +57,10 @@ namespace Paymongo.Sharp.Helpers
         internal static Checkout ToCheckout(this string? response)
         {
             var schema = JsonSerializer.Deserialize<Checkout>(response);
-            var checkoutAttributes = schema.Data.Attributes;
             
             // Unix timestamp doesn't account for daylight savings, so we adjust it here
-            schema.Data.Attributes.CreatedAt = checkoutAttributes.CreatedAt.ToLocalDateTime();
-            schema.Data.Attributes.UpdatedAt = checkoutAttributes.UpdatedAt.ToLocalDateTime();
+            schema.Data.Attributes.CreatedAt = schema.Data.Attributes.CreatedAt.ToLocalDateTime();
+            schema.Data.Attributes.UpdatedAt = schema.Data.Attributes.UpdatedAt.ToLocalDateTime();
             
             return schema;
         }
@@ -129,19 +128,14 @@ namespace Paymongo.Sharp.Helpers
 
         internal static Payment ToPayment(this string? response)
         {
-            var schema = JsonSerializer.Deserialize<Schema<Data<Payment>>>(response);
+            var schema = JsonSerializer.Deserialize<Payment>(response);
 
-            var payment = schema.Data.Attributes;
-            
-            // Payment doesn't have an id field so we get it from the parent
-            payment.Id = schema.Data.Id;
-                    
             // Unix timestamp doesn't account for daylight savings, so we adjust it here
-            payment.CreatedAt = payment.CreatedAt.ToLocalDateTime();
-            payment.UpdatedAt = payment.UpdatedAt.ToLocalDateTime();
-            payment.PaidAt = payment.PaidAt.ToLocalDateTime();
+            schema.Data.Attributes.CreatedAt = schema.Data.Attributes.CreatedAt.ToLocalDateTime();
+            schema.Data.Attributes.UpdatedAt = schema.Data.Attributes.UpdatedAt.ToLocalDateTime();
+            schema.Data.Attributes.PaidAt = schema.Data.Attributes.PaidAt.ToLocalDateTime();
             
-            return payment;
+            return schema;
         }
         
         internal static PaymentMethod ToPaymentMethod(this string? response)
@@ -258,11 +252,10 @@ namespace Paymongo.Sharp.Helpers
             {
                 var referenceSchema = JsonSerializer.Deserialize<Schema<IList<Link>>>(response);
                 var referenceLinkData = referenceSchema.Data[0];
-                var referenceLink = referenceLinkData.Data.Attributes;
                 
                 // Unix timestamp doesn't account for daylight savings, so we adjust it here
-                referenceLinkData.Data.Attributes.CreatedAt = referenceLink.CreatedAt.ToLocalDateTime();
-                referenceLinkData.Data.Attributes.UpdatedAt = referenceLink.UpdatedAt.ToLocalDateTime();
+                referenceLinkData.Data.Attributes.CreatedAt = referenceLinkData.Data.Attributes.CreatedAt.ToLocalDateTime();
+                referenceLinkData.Data.Attributes.UpdatedAt = referenceLinkData.Data.Attributes.UpdatedAt.ToLocalDateTime();
 
                 return referenceLinkData;
 
@@ -308,7 +301,7 @@ namespace Paymongo.Sharp.Helpers
         
         internal static IEnumerable<Payment> ToPayments(this string data)
         {
-            var paymentRequestDataCollection = JsonSerializer.Deserialize<Schema<IEnumerable<Data<Payment>>>>(data);
+            var paymentRequestDataCollection = JsonSerializer.Deserialize<PaginatedSchema<PaymentData>>(data);
 
             if (paymentRequestDataCollection is null)
             {
@@ -322,19 +315,19 @@ namespace Paymongo.Sharp.Helpers
                 return Enumerable.Empty<Payment>();
             }
             
-            return paymentRequestArray.Select(paymentAttribute =>
+            var paymentData = paymentRequestArray.Select(schema =>
             {
-                var payment = paymentAttribute.Attributes;
-                
-                // Payment doesn't have an id field so we get it from the parent
-                payment.Id = paymentAttribute.Id;
-                    
                 // Unix timestamp doesn't account for daylight savings, so we adjust it here
-                payment.CreatedAt = payment.CreatedAt.ToLocalDateTime();
-                payment.UpdatedAt = payment.UpdatedAt.ToLocalDateTime();
-                payment.PaidAt = payment.PaidAt.ToLocalDateTime();
+                schema.Attributes.CreatedAt = schema.Attributes.CreatedAt.ToLocalDateTime();
+                schema.Attributes.UpdatedAt = schema.Attributes.UpdatedAt.ToLocalDateTime();
+                schema.Attributes.PaidAt = schema.Attributes.PaidAt.ToLocalDateTime();
                 
-                return payment;
+                return schema;
+            });
+
+            return paymentData.Select(dataSchema => new Payment()
+            {
+                Data = dataSchema
             });
         }
         
@@ -343,7 +336,7 @@ namespace Paymongo.Sharp.Helpers
             var schema = JsonSerializer.Deserialize<Schema<IList<Data<Customer>>>>(data);
             var customers = schema.Data;
 
-            if (customers is null || !customers.Any())
+            if (!customers.Any())
             {
                 return Enumerable.Empty<Customer>();
             }

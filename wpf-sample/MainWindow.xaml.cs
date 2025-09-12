@@ -1,5 +1,7 @@
 ﻿
+using System;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using DotNetEnv;
 using Paymongo.Sharp;
@@ -47,33 +49,39 @@ namespace WpfSample
             
             var link = new Link
             {
-                Description = "Payment for",
-                Amount = doubleAmount.ToLongAmount(),
-                Currency = Currency.Php
+                Data = new LinkData()
+                {
+                    Attributes = new LinkAttributes()
+                    {
+                        Description = "Payment for",
+                        Amount = doubleAmount.ToLongAmount(),
+                        Currency = Currency.Php
+                    }
+                }
             };
 
             var linkResult = await client.Links.CreateLinkAsync(link);
-            var paymentWindow = new PaymentWindow(linkResult.CheckoutUrl);
+            var paymentWindow = new PaymentWindow(linkResult.Data.Attributes.CheckoutUrl);
 
             paymentWindow.Show();
 
             while (true)
             {
-                var paymentStatus = await client.Links.RetrieveLinkAsync(linkResult.Id);
+                var paymentStatus = await client.Links.RetrieveLinkAsync(linkResult.Data.Id);
                 
-                if (!paymentStatus.Payments.Any())
+                if (!paymentStatus.Data.Attributes.Payments.Any())
                 {
                     continue;
                 }
                 
-                var payment = paymentStatus.Payments.FirstOrDefault();
+                var payment = paymentStatus.Data.Attributes.Payments.FirstOrDefault();
 
-                if (payment is null || payment.Status != PaymentStatus.Pending)
+                if (payment is null || payment.Data.Attributes.Status != PaymentStatus.Pending)
                 {
                     continue;
                 }
 
-                StatusBlock.Text = $"Paid by {payment.Billing?.Name} on {payment.PaidAt} using {payment.Source?.Type}";
+                StatusBlock.Text = $"Paid by {payment.Data.Attributes.Billing?.Name} on {payment.Data.Attributes.PaidAt} using {payment.Data.Attributes.Source?.Type}";
                 
                 paymentWindow.Close();
                 
@@ -104,60 +112,76 @@ namespace WpfSample
             
             Checkout checkout = new Checkout()
             {
-                Description = "Test Checkout",
-                ReferenceNumber = "9282321A",
-                LineItems =
-                [
-                    new LineItem
-                    {
-                        Name = "Give You Up",
-                        Images = new []
-                        {
-                            "https://i.insider.com/602ee9ced3ad27001837f2ac?width=750&format=jpeg"
-                        },
-                        Quantity = 1,
-                        Currency = Currency.Php,
-                        Amount = doubleAmount.ToLongAmount()
-                    }
-                ],
-                PaymentMethodTypes = new[]
+                Data = new CheckoutData()
                 {
-                    PaymentMethod.GCash,
-                    PaymentMethod.Card,
-                    PaymentMethod.Paymaya,
-                    PaymentMethod.BillEase,
-                    PaymentMethod.Dob,
-                    PaymentMethod.GrabPay,
-                    PaymentMethod.DobUbp
+                    Attributes = new CheckoutAttributes()
+                    {
+                        Description = "Test Checkout",
+                        ReferenceNumber = "9282321A",
+                        LineItems =
+                        [
+                            new LineItem
+                            {
+                                Name = "Give You Up",
+                                Images = new []
+                                {
+                                    "https://i.insider.com/602ee9ced3ad27001837f2ac?width=750&format=jpeg"
+                                },
+                                Quantity = 1,
+                                Currency = Currency.Php,
+                                Amount = doubleAmount.ToLongAmount()
+                            }
+                        ],
+                        PaymentMethodTypes = new[]
+                        {
+                            PaymentMethod.GCash,
+                            PaymentMethod.Card,
+                            PaymentMethod.Paymaya,
+                            PaymentMethod.BillEase,
+                            PaymentMethod.Dob,
+                            PaymentMethod.GrabPay,
+                            PaymentMethod.DobUbp
+                        }
+                    }
                 }
             };
             
             Checkout checkoutResult = await client.Checkouts.CreateCheckoutAsync(checkout);
-            var paymentWindow = new PaymentWindow(checkoutResult.CheckoutUrl);
+            var paymentWindow = new PaymentWindow(checkoutResult.Data.Attributes.CheckoutUrl);
 
             paymentWindow.Show();
 
             while (true)
             {
-                var paymentStatus = await client.Checkouts.RetrieveCheckoutAsync(checkoutResult.Id);
-                
-                if (paymentStatus.Payments is null || !paymentStatus.Payments.Any())
+                try
                 {
-                    continue;
-                }
-                
-                var payment = paymentStatus.Payments.FirstOrDefault();
+                    var paymentStatus = await client.Checkouts.RetrieveCheckoutAsync(checkoutResult.Data.Id);
 
-                if (payment is null || payment.Status != PaymentStatus.Pending)
+                    if (paymentStatus.Data.Attributes.Payments is null || !paymentStatus.Data.Attributes.Payments.Any())
+                    {
+                        await Task.Delay(500);
+                        continue;
+                    }
+
+                    var payment = paymentStatus.Data.Attributes.Payments.FirstOrDefault();
+
+                    if (payment is null || payment.Attributes.Status == PaymentStatus.Failed)
+                    {
+                        await Task.Delay(500);
+                        continue;
+                    }
+
+                    StatusBlock.Text =
+                        $"Paid by {payment.Attributes.Billing?.Name} on {payment.Attributes.PaidAt} using {payment.Attributes.Source?.Type}";
+
+                    paymentWindow.Close();
+
+                    break;
+                }
+                catch (Exception exception)
                 {
-                    continue;
+                    await Task.Delay(500);
                 }
-
-                StatusBlock.Text = $"Paid by {payment.Billing?.Name} on {payment.PaidAt} using {payment.Source?.Type}";
-                
-                paymentWindow.Close();
-                
-                break;
             }
 
         }

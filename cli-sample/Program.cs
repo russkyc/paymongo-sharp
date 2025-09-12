@@ -83,49 +83,55 @@ public class Program
         // Create a link object for request
         var checkout = new Checkout()
         {
-            ReferenceNumber = "00928237",
-            Description = "Party Set Products",
-            Billing = new Billing
+            Data = new CheckoutData()
             {
-                Name = name,
-                Email = email,
-                Phone = phone,
-                Address = new Address
+                Attributes = new CheckoutAttributes()
                 {
-                    Line1 = street,
-                    City = city,
-                    State = state,
-                    PostalCode = postalode,
-                    Country = country
+                    ReferenceNumber = "00928237",
+                    Description = "Party Set Products",
+                    Billing = new Billing
+                    {
+                        Name = name,
+                        Email = email,
+                        Phone = phone,
+                        Address = new Address
+                        {
+                            Line1 = street,
+                            City = city,
+                            State = state,
+                            PostalCode = postalode,
+                            Country = country
+                        }
+                    },
+                    LineItems = products,
+                    PaymentMethodTypes = new[]
+                    {
+                        PaymentMethod.GCash,
+                        PaymentMethod.Card,
+                        PaymentMethod.Paymaya
+                    }
                 }
-            },
-            LineItems = products,
-            PaymentMethodTypes = new[]
-            {
-                PaymentMethod.GCash,
-                PaymentMethod.Card,
-                PaymentMethod.Paymaya
             }
         };
 
         // We create a link request
         var requestResult = await client.Checkouts.CreateCheckoutAsync(checkout);
 
-        Console.WriteLine($"\n\nPay here: {requestResult.CheckoutUrl}");
+        Console.WriteLine($"\n\nPay here: {requestResult.Data.Attributes.CheckoutUrl}");
         Console.WriteLine("Waiting for payment..");
 
         // We wait for the payment to succeed
         while (true)
         {
-            var getLink = await client.Checkouts.RetrieveCheckoutAsync(requestResult.Id);
+            var getLink = await client.Checkouts.RetrieveCheckoutAsync(requestResult.Data.Id);
 
-            if (getLink.Payments.Any())
+            if (getLink.Data.Attributes.Payments.Any())
             {
-                var payment = getLink.Payments.First();
+                var payment = getLink.Data.Attributes.Payments.First();
 
-                var platform = payment.Source.Type;
-                var paymentDate = payment.PaidAt;
-                var fee = (payment.Fee / 100).ToString("C", CultureInfo.InstalledUICulture);
+                var platform = payment.Attributes.Source.Type;
+                var paymentDate = payment.Attributes.PaidAt;
+                var fee = (payment.Attributes.Fee / 100).ToString("C", CultureInfo.InstalledUICulture);
 
                 // We print successful payment
                 Console.WriteLine($"\n\nSuccessfully paid on {paymentDate} using {platform} with fee: {fee}");

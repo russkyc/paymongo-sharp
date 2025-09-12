@@ -1,6 +1,6 @@
 ﻿// MIT License
 // 
-// Copyright (c) 2023 Russell Camo (@russkyc)
+// Copyright (c) 2025 Russell Camo (@russkyc)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -26,16 +26,11 @@ using System.Text.Json.Serialization;
 using Paymongo.Sharp.Converters;
 using Paymongo.Sharp.Core.Entities;
 using Paymongo.Sharp.Core.Enums;
-using Paymongo.Sharp.Features.Sources.Entities;
 
-namespace Paymongo.Sharp.Features.Payments.Entities
+namespace Paymongo.Sharp.Features.Payments.Contracts
 {
-    public class Payment
+    public class PaymentAttributes
     {
-        [JsonPropertyName("id")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public string Id { get; set; } = null!;
-        
         [JsonPropertyName("payment_intent_id")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string PaymentIntentId { get; set; } = null!;

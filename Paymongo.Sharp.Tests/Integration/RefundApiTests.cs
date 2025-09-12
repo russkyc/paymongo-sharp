@@ -20,8 +20,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using Paymongo.Sharp.Features.Payments.Contracts;
 using Paymongo.Sharp.Features.Refunds.Entities;
-using Paymongo.Sharp.Features.Payments.Entities;
 
 namespace Paymongo.Sharp.Tests.Integration;
 
@@ -42,12 +42,18 @@ public class RefundApiTests
         // Arrange: create a payment first (minimal required fields)
         var payment = new Payment
         {
-            Amount = 10000,
-            Currency = Currency.Php,
-            Source = new PaymentSource
+            Data = new PaymentData()
             {
-                Id = "src_test_12345678", // Replace with a valid source id for real test
-                Type = "soutce"
+                Attributes = new PaymentAttributes()
+                {
+                    Amount = 10000,
+                    Currency = Currency.Php,
+                    Source = new PaymentSource
+                    {
+                        Id = "src_test_12345678", // Replace with a valid source id for real test
+                        Type = "source"
+                    }
+                }
             }
         };
         var paymentResult = await _client.Payments.CreatePaymentAsync(payment);
@@ -56,7 +62,7 @@ public class RefundApiTests
         var refund = new Refund
         {
             Amount = 10000,
-            PaymentId = paymentResult.Id,
+            PaymentId = paymentResult.Data.Id,
             Currency = Currency.Php,
             Notes = "Test refund"
         };
@@ -66,7 +72,7 @@ public class RefundApiTests
         refundResult.Should().NotBeNull();
         refundResult.Id.Should().NotBeNullOrEmpty();
         refundResult.Amount.Should().Be(refund.Amount);
-        refundResult.PaymentId.Should().Be(paymentResult.Id);
+        refundResult.PaymentId.Should().Be(paymentResult.Data.Id);
         refundResult.Currency.Should().Be(refund.Currency);
     }
 
@@ -76,19 +82,25 @@ public class RefundApiTests
         // Arrange: create a payment and refund first
         var payment = new Payment
         {
-            Amount = 10000,
-            Currency = Currency.Php,
-            Source = new PaymentSource
+            Data = new PaymentData()
             {
-                Id = "src_test_12345678", // Replace with a valid source id for real test
-                Type = "source"
+                Attributes = new PaymentAttributes()
+                {
+                    Amount = 10000,
+                    Currency = Currency.Php,
+                    Source = new PaymentSource
+                    {
+                        Id = "src_test_12345678", // Replace with a valid source id for real test
+                        Type = "source"
+                    }
+                }
             }
         };
         var paymentResult = await _client.Payments.CreatePaymentAsync(payment);
         var refund = new Refund
         {
             Amount = 10000,
-            PaymentId = paymentResult.Id,
+            PaymentId = paymentResult.Data.Id,
             Currency = Currency.Php
         };
         var refundResult = await _client.Refunds.CreateRefundAsync(refund);
@@ -108,29 +120,35 @@ public class RefundApiTests
         // Arrange: create a payment and refund first
         var payment = new Payment
         {
-            Amount = 10000,
-            Currency = Currency.Php,
-            Source = new PaymentSource
+            Data = new PaymentData()
             {
-                Id = "src_test_12345678", // Replace with a valid source id for real test
-                Type = "source"
+                Attributes = new PaymentAttributes()
+                {
+                    Amount = 10000,
+                    Currency = Currency.Php,
+                    Source = new PaymentSource
+                    {
+                        Id = "src_test_12345678", // Replace with a valid source id for real test
+                        Type = "source"
+                    }
+                }
             }
         };
         var paymentResult = await _client.Payments.CreatePaymentAsync(payment);
         var refund = new Refund
         {
             Amount = 10000,
-            PaymentId = paymentResult.Id,
+            PaymentId = paymentResult.Data.Id,
             Currency = Currency.Php
         };
         await _client.Refunds.CreateRefundAsync(refund);
 
         // Act
-        var refunds = await _client.Refunds.ListAllRefundsAsync(paymentId: paymentResult.Id, limit: 10);
+        var refunds = await _client.Refunds.ListAllRefundsAsync(paymentId: paymentResult.Data.Id, limit: 10);
 
         // Assert
         refunds.Should().NotBeNull();
-        refunds.Should().Contain(r => r.PaymentId == paymentResult.Id);
+        refunds.Should().Contain(r => r.PaymentId == paymentResult.Data.Id);
     }
 }
 

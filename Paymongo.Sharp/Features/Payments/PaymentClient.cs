@@ -24,7 +24,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Paymongo.Sharp.Features.Payments.Entities;
+using Paymongo.Sharp.Features.Payments.Contracts;
 using Paymongo.Sharp.Helpers;
 using Paymongo.Sharp.Utilities;
 
@@ -42,8 +42,7 @@ namespace Paymongo.Sharp.Features.Payments
 
         public async Task<Payment> CreatePaymentAsync(Payment payment)
         {
-            var data = payment.ToSchema();
-            return await _client.SendRequestAsync<Payment>(HttpMethod.Post, Resource, data, content => content.ToPayment());
+            return await _client.SendRequestAsync<Payment>(HttpMethod.Post, Resource, payment, content => content.ToPayment());
         }
 
         public async Task<Payment> RetrievePaymentAsync(string id)
