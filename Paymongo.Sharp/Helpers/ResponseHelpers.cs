@@ -25,9 +25,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 using Paymongo.Sharp.Core.Contracts;
+using Paymongo.Sharp.Features.CardInstallments.Contracts;
 using Paymongo.Sharp.Features.Checkouts.Contracts;
 using Paymongo.Sharp.Features.Customers.Entities;
-using Paymongo.Sharp.Features.Installments.Entities;
 using Paymongo.Sharp.Features.Links.Contracts;
 using Paymongo.Sharp.Features.PaymentIntents.Entities;
 using Paymongo.Sharp.Features.PaymentMethods.Entities;
@@ -261,17 +261,17 @@ namespace Paymongo.Sharp.Helpers
             return paymentIntent;
         }
 
-        internal static IEnumerable<InstallmentPlan> ToInstallmentPlans(this string? response)
+        internal static IEnumerable<Plan> ToInstallmentPlans(this string? response)
         {
             if (response is null)
             {
-                return Enumerable.Empty<InstallmentPlan>();
+                return Enumerable.Empty<Plan>();
             }
             
-            var schema = JsonSerializer.Deserialize<Schema<IList<InstallmentPlan>>>(response);
-            var installmentPlans = schema.Data;
+            var schema = JsonSerializer.Deserialize<PaginatedSchema<Plan>>(response);
+            var installmentPlans = schema.Data.ToArray();
 
-            return !installmentPlans.Any() ? Enumerable.Empty<InstallmentPlan>() : installmentPlans;
+            return !installmentPlans.Any() ? Enumerable.Empty<Plan>() : installmentPlans;
         }
         
         internal static IEnumerable<Payment> ToPayments(this string data)

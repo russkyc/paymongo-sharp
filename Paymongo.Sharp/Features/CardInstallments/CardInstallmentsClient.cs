@@ -20,14 +20,28 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using System.Text.Json.Serialization;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Threading.Tasks;
+using Paymongo.Sharp.Features.CardInstallments.Contracts;
+using Paymongo.Sharp.Helpers;
 
-namespace Paymongo.Sharp.Features.CardInstallments.Entities
+namespace Paymongo.Sharp.Features.CardInstallments
 {
-    public class Card
+    public class CardInstallmentsClient
     {
-        [JsonPropertyName("installments")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public Installments Installments { get; set; } = null!;
+        private const string Resource = "/card_installment_plans";
+        private readonly HttpClient _client;
+
+        public CardInstallmentsClient(HttpClient client)
+        {
+            _client = client;
+        }
+        
+        public async Task<IEnumerable<Plan>> ListInstallmentPlansAsync(int amount)
+        {
+            return await _client.SendRequestAsync<IEnumerable<Plan>>(HttpMethod.Get, $"{Resource}?amount={amount}", responseDeserializer: content => content.ToInstallmentPlans());
+        }
+
     }
 }

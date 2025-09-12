@@ -21,9 +21,9 @@
 // SOFTWARE.
 
 using System.Net.Http;
+using Paymongo.Sharp.Features.CardInstallments;
 using Paymongo.Sharp.Features.Checkouts;
 using Paymongo.Sharp.Features.Customers;
-using Paymongo.Sharp.Features.Installments;
 using Paymongo.Sharp.Features.Links;
 using Paymongo.Sharp.Features.PaymentIntents;
 using Paymongo.Sharp.Features.PaymentMethods;

@@ -22,14 +22,12 @@
 
 using System.Text.Json.Serialization;
 
-namespace Paymongo.Sharp.Features.CardInstallments.Entities
+namespace Paymongo.Sharp.Features.CardInstallments.Contracts
 {
-    public class Plan
+    public class Card
     {
-        [JsonPropertyName("issuer_id")]
+        [JsonPropertyName("installments")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string IssuerId { get; set; } = null!;
-        [JsonPropertyName("tenure")]
-        public int Tenure { get; set; }
+        public Installments Installments { get; set; } = null!;
     }
 }

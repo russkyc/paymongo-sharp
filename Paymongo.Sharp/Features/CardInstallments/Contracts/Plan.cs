@@ -22,12 +22,19 @@
 
 using System.Text.Json.Serialization;
 
-namespace Paymongo.Sharp.Features.Installments.Entities
+namespace Paymongo.Sharp.Features.CardInstallments.Contracts
 {
-    public class InstallmentPlan
+    public class Plan
     {
+        [JsonPropertyName("issuer_id")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string IssuerId { get; set; } = null!;
+        
+        [JsonPropertyName("tenure")]
+        public int Tenure { get; set; }
+
         [JsonPropertyName("auth_amount")]
-        public long AuthAmount { get; set; }
+        public int AuthAmount { get; set; }
 
         [JsonPropertyName("bank_interest_rate")]
         public decimal BankInterestRate { get; set; }
@@ -47,14 +54,11 @@ namespace Paymongo.Sharp.Features.Installments.Entities
         [JsonPropertyName("issuer_cashback_value")]
         public int IssuerCashbackValue { get; set; }
 
-        [JsonPropertyName("issuer_id")]
-        public string IssuerId { get; set; } = null!;
-
         [JsonPropertyName("issuer_name")]
         public string IssuerName { get; set; } = null!;
 
         [JsonPropertyName("loan_amount")]
-        public long LoanAmount { get; set; }
+        public int LoanAmount { get; set; }
 
         [JsonPropertyName("monthly_installment")]
         public int MonthlyInstallment { get; set; }
@@ -83,9 +87,6 @@ namespace Paymongo.Sharp.Features.Installments.Entities
         [JsonPropertyName("subvention_type")]
         public string SubventionType { get; set; } = null!;
 
-        [JsonPropertyName("tenure")]
-        public int Tenure { get; set; }
-
         [JsonPropertyName("terms_and_conditions")]
         public string TermsAndConditions { get; set; } = null!;
 
@@ -93,4 +94,3 @@ namespace Paymongo.Sharp.Features.Installments.Entities
         public string? TermsAndConditionsVersion { get; set; }
     }
 }
-

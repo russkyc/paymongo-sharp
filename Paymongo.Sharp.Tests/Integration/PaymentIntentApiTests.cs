@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Paymongo.Sharp.Features.CardInstallments.Entities;
+using Paymongo.Sharp.Features.CardInstallments.Contracts;
 using Paymongo.Sharp.Features.PaymentIntents.Entities;
 
 namespace Paymongo.Sharp.Tests.Integration;

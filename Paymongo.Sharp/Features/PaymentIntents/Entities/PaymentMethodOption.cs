@@ -22,7 +22,7 @@
 
 using System.Text.Json.Serialization;
 using Paymongo.Sharp.Core.Enums;
-using Paymongo.Sharp.Features.CardInstallments.Entities;
+using Paymongo.Sharp.Features.CardInstallments.Contracts;
 
 namespace Paymongo.Sharp.Features.PaymentIntents.Entities
 {

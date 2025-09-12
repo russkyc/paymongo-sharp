@@ -31,7 +31,6 @@ namespace Paymongo.Sharp.Core.Contracts
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public bool HasMore { get; set; }
         
-        
         [JsonPropertyName("data")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public IEnumerable<TDataContract> Data { get; set; } = default!;
