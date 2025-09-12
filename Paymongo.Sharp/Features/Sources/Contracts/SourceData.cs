@@ -1,6 +1,6 @@
 ﻿// MIT License
 // 
-// Copyright (c) 2023 Russell Camo (@russkyc)
+// Copyright (c) 2025 Russell Camo (@russkyc)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,33 +20,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using System.Net.Http;
-using System.Threading.Tasks;
-using Paymongo.Sharp.Features.Sources.Entities;
-using Paymongo.Sharp.Helpers;
-using Paymongo.Sharp.Utilities;
+using Paymongo.Sharp.Core.Contracts;
 
-namespace Paymongo.Sharp.Features.Sources
+namespace Paymongo.Sharp.Features.Sources.Entities
 {
-    public class SourceClient
+    public class SourceData : Data<SourceAttributes>
     {
-        private const string Resource = "/sources";
-        private readonly HttpClient _client;
-
-        public SourceClient(HttpClient client)
-        {
-            _client = client;
-        }
-
-        public async Task<Source> CreateSourceAsync(Source source)
-        {
-            return await _client.SendRequestAsync<Source>(HttpMethod.Post, Resource, source, content => content.ToSource());
-        }
-
-        public async Task<Source> RetrieveSourceAsync(string id)
-        {
-            return await _client.SendRequestAsync<Source>(HttpMethod.Get, $"{Resource}/{id}", responseDeserializer: content => content.ToSource());
-        }
-
+        
     }
 }

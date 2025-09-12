@@ -192,18 +192,13 @@ namespace Paymongo.Sharp.Helpers
         
         internal static Source ToSource(this string? response)
         {
-            var schema = JsonSerializer.Deserialize<Schema<Data<Source>>>(response);
+            var schema = JsonSerializer.Deserialize<Source>(response);
             
-            var source = schema.Data.Attributes;
-            
-            // Payment doesn't have an id field so we get it from the parent
-            source.Id = schema.Data.Id;
-                    
             // Unix timestamp doesn't account for daylight savings, so we adjust it here
-            source.CreatedAt = source.CreatedAt.ToLocalDateTime();
-            source.UpdatedAt = source.UpdatedAt.ToLocalDateTime();
+            schema.Data.Attributes.CreatedAt = schema.Data.Attributes.CreatedAt.ToLocalDateTime();
+            schema.Data.Attributes.UpdatedAt = schema.Data.Attributes.UpdatedAt.ToLocalDateTime();
             
-            return source;
+            return schema;
         }
         
         internal static Webhook ToWebHook(this string? response)

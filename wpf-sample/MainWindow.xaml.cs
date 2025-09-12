@@ -209,48 +209,54 @@ namespace WpfSample
             // Arrange
             Source source = new Source
             {
-                Amount = doubleAmount.ToLongAmount(),
-                Description = "New Gcash Payment",
-                Billing = new Billing
+                Data = new SourceData()
                 {
-                    Name = "TestName",
-                    Email = "test@paymongo.com",
-                    Phone = "9063364572",
-                    Address = new Address
+                    Attributes = new SourceAttributes()
                     {
-                        Line1 = "TestAddress1",
-                        Line2 = "TestAddress2",
-                        PostalCode = "4506",
-                        State = "TestState",
-                        City = "TestCity",
-                        Country = "PH"
+                        Amount = doubleAmount.ToLongAmount(),
+                        Description = "New Gcash Payment",
+                        Billing = new Billing
+                        {
+                            Name = "TestName",
+                            Email = "test@paymongo.com",
+                            Phone = "9063364572",
+                            Address = new Address
+                            {
+                                Line1 = "TestAddress1",
+                                Line2 = "TestAddress2",
+                                PostalCode = "4506",
+                                State = "TestState",
+                                City = "TestCity",
+                                Country = "PH"
+                            }
+                        },
+                        Redirect = new Redirect
+                        {
+                            Success = "http://127.0.0.1",
+                            Failed = "http://127.0.0.1"
+                        },
+                        Type = SourceType.GCash,
+                        Currency = Currency.Php
                     }
-                },
-                Redirect = new Redirect
-                {
-                    Success = "http://127.0.0.1",
-                    Failed = "http://127.0.0.1"
-                },
-                Type = SourceType.GCash,
-                Currency = Currency.Php
+                }
             };
 
             // Act
             var sourceResult = await client.Sources.CreateSourceAsync(source);
-            var paymentWindow = new PaymentWindow(sourceResult.Redirect.CheckoutUrl);
+            var paymentWindow = new PaymentWindow(sourceResult.Data.Attributes.Redirect.CheckoutUrl);
 
             paymentWindow.Show();
 
             while (true)
             {
-                var paymentStatus = await client.Sources.RetrieveSourceAsync(sourceResult.Id);
+                var paymentStatus = await client.Sources.RetrieveSourceAsync(sourceResult.Data.Id);
                 
-                if (paymentStatus.Status != SourceStatus.Chargeable)
+                if (paymentStatus.Data.Attributes.Status != SourceStatus.Chargeable)
                 {
                     continue;
                 }
 
-                StatusBlock.Text = $"Chargeable on GCash by {paymentStatus.Billing.Name} on {paymentStatus.UpdatedAt}";
+                StatusBlock.Text = $"Chargeable on GCash by {paymentStatus.Data.Attributes.Billing.Name} on {paymentStatus.Data.Attributes.UpdatedAt}";
                 
                 paymentWindow.Close();
                 
@@ -282,48 +288,54 @@ namespace WpfSample
             // Arrange
             Source source = new Source
             {
-                Amount = doubleAmount.ToLongAmount(),
-                Description = "New GrabPay Payment",
-                Billing = new Billing
+                Data = new SourceData()
                 {
-                    Name = "TestName",
-                    Email = "test@paymongo.com",
-                    Phone = "9063364572",
-                    Address = new Address
+                    Attributes = new SourceAttributes()
                     {
-                        Line1 = "TestAddress1",
-                        Line2 = "TestAddress2",
-                        PostalCode = "4506",
-                        State = "TestState",
-                        City = "TestCity",
-                        Country = "PH"
+                        Amount = doubleAmount.ToLongAmount(),
+                        Description = "New GrabPay Payment",
+                        Billing = new Billing
+                        {
+                            Name = "TestName",
+                            Email = "test@paymongo.com",
+                            Phone = "9063364572",
+                            Address = new Address
+                            {
+                                Line1 = "TestAddress1",
+                                Line2 = "TestAddress2",
+                                PostalCode = "4506",
+                                State = "TestState",
+                                City = "TestCity",
+                                Country = "PH"
+                            }
+                        },
+                        Redirect = new Redirect
+                        {
+                            Success = "http://127.0.0.1",
+                            Failed = "http://127.0.0.1"
+                        },
+                        Type = SourceType.GrabPay,
+                        Currency = Currency.Php
                     }
-                },
-                Redirect = new Redirect
-                {
-                    Success = "http://127.0.0.1",
-                    Failed = "http://127.0.0.1"
-                },
-                Type = SourceType.GrabPay,
-                Currency = Currency.Php
+                }
             };
 
             // Act
             var sourceResult = await client.Sources.CreateSourceAsync(source);
-            var paymentWindow = new PaymentWindow(sourceResult.Redirect.CheckoutUrl);
+            var paymentWindow = new PaymentWindow(sourceResult.Data.Attributes.Redirect.CheckoutUrl);
 
             paymentWindow.Show();
 
             while (true)
             {
-                var paymentStatus = await client.Sources.RetrieveSourceAsync(sourceResult.Id);
+                var paymentStatus = await client.Sources.RetrieveSourceAsync(sourceResult.Data.Id);
                 
-                if (paymentStatus.Status != SourceStatus.Chargeable)
+                if (paymentStatus.Data.Attributes.Status != SourceStatus.Chargeable)
                 {
                     continue;
                 }
 
-                StatusBlock.Text = $"Chargeable on GrabPay by {paymentStatus.Billing.Name} on {paymentStatus.UpdatedAt}";
+                StatusBlock.Text = $"Chargeable on GrabPay by {paymentStatus.Data.Attributes.Billing.Name} on {paymentStatus.Data.Attributes.UpdatedAt}";
                 
                 paymentWindow.Close();
                 

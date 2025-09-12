@@ -46,15 +46,21 @@ public class PaymentApiTests
         // A payment requires a source, so we need to create a source first
         Source source = new Source
         {
-            Amount = 10000,
-            Description = $"New GCash Source",
-            Redirect = new Redirect
+            Data = new SourceData()
             {
-                Success = "http://127.0.0.1",
-                Failed = "http://127.0.0.1"
-            },
-            Type = SourceType.GCash,
-            Currency = Currency.Php
+                Attributes = new SourceAttributes()
+                {
+                    Amount = 10000,
+                    Description = $"New GCash Source",
+                    Redirect = new Redirect
+                    {
+                        Success = "http://127.0.0.1",
+                        Failed = "http://127.0.0.1"
+                    },
+                    Type = SourceType.GCash,
+                    Currency = Currency.Php
+                }
+            }
         };
 
         // Act
@@ -74,7 +80,7 @@ public class PaymentApiTests
                     Billing = new Billing(),
                     Source = new PaymentSource()
                     {
-                        Id = sourceResult.Id,
+                        Id = sourceResult.Data.Id,
                         Type = "source"
                     }
                 }

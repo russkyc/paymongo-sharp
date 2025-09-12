@@ -20,33 +20,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using System.Net.Http;
-using System.Threading.Tasks;
-using Paymongo.Sharp.Features.Sources.Entities;
-using Paymongo.Sharp.Helpers;
-using Paymongo.Sharp.Utilities;
+using Paymongo.Sharp.Core.Contracts;
 
-namespace Paymongo.Sharp.Features.Sources
+namespace Paymongo.Sharp.Features.Sources.Entities
 {
-    public class SourceClient
+    public class Source : Schema<SourceData>
     {
-        private const string Resource = "/sources";
-        private readonly HttpClient _client;
-
-        public SourceClient(HttpClient client)
-        {
-            _client = client;
-        }
-
-        public async Task<Source> CreateSourceAsync(Source source)
-        {
-            return await _client.SendRequestAsync<Source>(HttpMethod.Post, Resource, source, content => content.ToSource());
-        }
-
-        public async Task<Source> RetrieveSourceAsync(string id)
-        {
-            return await _client.SendRequestAsync<Source>(HttpMethod.Get, $"{Resource}/{id}", responseDeserializer: content => content.ToSource());
-        }
-
+        
     }
 }
