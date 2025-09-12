@@ -27,7 +27,7 @@ using System.Text.Json;
 using Paymongo.Sharp.Core.Contracts;
 using Paymongo.Sharp.Features.CardInstallments.Contracts;
 using Paymongo.Sharp.Features.Checkouts.Contracts;
-using Paymongo.Sharp.Features.Customers.Entities;
+using Paymongo.Sharp.Features.Customers.Contracts;
 using Paymongo.Sharp.Features.Links.Contracts;
 using Paymongo.Sharp.Features.PaymentIntents.Entities;
 using Paymongo.Sharp.Features.PaymentMethods.Entities;
@@ -47,10 +47,8 @@ namespace Paymongo.Sharp.Helpers
     {
         internal static Boolean ToCustomerResultBool(this string? response)
         {
-            var schema = JsonSerializer.Deserialize<Schema<Data<Customer>>>(response);
-
+            var schema = JsonSerializer.Deserialize<Customer>(response);
             var result = schema.Data.Attributes.Deleted ?? false;
-            
             return result;
         }
         
@@ -103,17 +101,13 @@ namespace Paymongo.Sharp.Helpers
 
         internal static Customer ToCustomer(this string? response)
         {
-            var schema = JsonSerializer.Deserialize<Schema<Data<Customer>>>(response);
-            var customer = schema.Data.Attributes;
+            var schema = JsonSerializer.Deserialize<Customer>(response);
             
-            // Checkout doesn't have an id field, so we take that from the parent
-            customer.Id = schema.Data.Id;
-        
             // Unix timestamp doesn't account for daylight savings, so we adjust it here
-            customer.CreatedAt = customer.CreatedAt.ToLocalDateTime();
-            customer.UpdatedAt = customer.UpdatedAt.ToLocalDateTime();
+            schema.Data.Attributes.CreatedAt = schema.Data.Attributes.CreatedAt.ToLocalDateTime();
+            schema.Data.Attributes.UpdatedAt = schema.Data.Attributes.UpdatedAt.ToLocalDateTime();
             
-            return customer;
+            return schema;
         }
 
         internal static Payment ToPayment(this string? response)
@@ -296,28 +290,23 @@ namespace Paymongo.Sharp.Helpers
             });
         }
         
-        internal static IEnumerable<Customer> ToCustomers(this string? data)
+        internal static IEnumerable<CustomerData> ToCustomers(this string? data)
         {
-            var schema = JsonSerializer.Deserialize<Schema<IList<Data<Customer>>>>(data);
-            var customers = schema.Data;
+            var schema = JsonSerializer.Deserialize<PaginatedSchema<CustomerData>>(data);
+            var customers = schema.Data.ToArray();
 
             if (!customers.Any())
             {
-                return Enumerable.Empty<Customer>();
+                return Enumerable.Empty<CustomerData>();
             }
             
-            return customers.Select(requestData =>
+            return customers.Select(customerData =>
             {
-                var customer = requestData.Attributes;
-                
-                // Customer doesn't have an id field so we get it from the parent
-                customer.Id = requestData.Id;
-                
                 // Unix timestamp doesn't account for daylight savings, so we adjust it here
-                customer.CreatedAt = customer.CreatedAt.ToLocalDateTime();
-                customer.UpdatedAt = customer.UpdatedAt.ToLocalDateTime();
+                customerData.Attributes.CreatedAt = customerData.Attributes.CreatedAt.ToLocalDateTime();
+                customerData.Attributes.UpdatedAt = customerData.Attributes.UpdatedAt.ToLocalDateTime();
                 
-                return customer;
+                return customerData;
             });
         }
     }

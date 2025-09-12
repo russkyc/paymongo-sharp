@@ -24,9 +24,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Paymongo.Sharp.Features.Customers.Entities;
+using Paymongo.Sharp.Features.Customers.Contracts;
 using Paymongo.Sharp.Helpers;
-using Paymongo.Sharp.Utilities;
 
 namespace Paymongo.Sharp.Features.Customers
 {
@@ -42,20 +41,18 @@ namespace Paymongo.Sharp.Features.Customers
 
         public async Task<Customer> CreateCustomerAsync(Customer customer)
         {
-            var data = customer.ToSchema();
-            return await _client.SendRequestAsync<Customer>(HttpMethod.Post, Resource, data, content => content.ToCustomer());
+            return await _client.SendRequestAsync<Customer>(HttpMethod.Post, Resource, customer, content => content.ToCustomer());
         }
 
         public async Task<Customer> EditCustomerAsync(Customer customer)
         {
-            var data = customer.ToSchema();
-            return await _client.SendRequestAsync<Customer>(HttpMethod.Put, $"{Resource}/{customer.Id}", data, content => content.ToCustomer());
+            return await _client.SendRequestAsync<Customer>(HttpMethod.Put, $"{Resource}/{customer.Data.Id}", customer, content => content.ToCustomer());
         }
 
-        public async Task<Customer?> RetrieveCustomerAsync(string email, string phoneNumber)
+        public async Task<IEnumerable<CustomerData>> RetrieveCustomerAsync(string email, string phoneNumber)
         {
             var url = $"{Resource}?email={email}&phone={phoneNumber}";
-            return (await _client.SendRequestAsync<IEnumerable<Customer>>(HttpMethod.Get, url, responseDeserializer: content => content.ToCustomers())).FirstOrDefault();
+            return await _client.SendRequestAsync<IEnumerable<CustomerData>>(HttpMethod.Get, url, responseDeserializer: content => content.ToCustomers());
         }
 
         public async Task<bool> DeleteCustomerAsync(string id)

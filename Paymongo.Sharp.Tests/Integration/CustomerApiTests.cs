@@ -20,6 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using Paymongo.Sharp.Features.Customers.Contracts;
 using Paymongo.Sharp.Tests.Utils;
 
 namespace Paymongo.Sharp.Tests.Integration;
@@ -42,21 +43,27 @@ public class CustomerApiTests
     async Task CreateAndDeleteCustomer()
     {
         // Arrange
-        var customer = DataFakers.GenerateCustomer();
+        var customer = new Customer()
+        {
+            Data = new CustomerData()
+            {
+                Attributes = DataFakers.GenerateCustomerAttributes()
+            }
+        };
         
         // Act
         var customerResult = await _client.Customers.CreateCustomerAsync(customer);
         
         // Assert
         customerResult.Should().NotBeNull();
-        customerResult.Id.Should().NotBeNullOrEmpty();
-        customerResult.FirstName.Should().BeEquivalentTo(customer.FirstName);
-        customerResult.LastName.Should().BeEquivalentTo(customer.LastName);
-        customerResult.Email.Should().BeEquivalentTo(customer.Email);
-        customerResult.Phone.Should().BeEquivalentTo(customer.Phone);
-        customerResult.DefaultDevice.Should().Be(customer.DefaultDevice);
+        customerResult.Data.Id.Should().NotBeNullOrEmpty();
+        customerResult.Data.Attributes.FirstName.Should().BeEquivalentTo(customer.Data.Attributes.FirstName);
+        customerResult.Data.Attributes.LastName.Should().BeEquivalentTo(customer.Data.Attributes.LastName);
+        customerResult.Data.Attributes.Email.Should().BeEquivalentTo(customer.Data.Attributes.Email);
+        customerResult.Data.Attributes.Phone.Should().BeEquivalentTo(customer.Data.Attributes.Phone);
+        customerResult.Data.Attributes.DefaultDevice.Should().Be(customer.Data.Attributes.DefaultDevice);
 
-        bool deleteCustomerResult = await _client.Customers.DeleteCustomerAsync(customerResult.Id);
+        bool deleteCustomerResult = await _client.Customers.DeleteCustomerAsync(customerResult.Data.Id);
 
         deleteCustomerResult.Should().BeTrue();
 
@@ -66,18 +73,25 @@ public class CustomerApiTests
     async Task CreateAndRetrieveCustomer()
     {
         // Arrange
-        var customer = DataFakers.GenerateCustomer();
+        var customer = new Customer()
+        {
+            Data = new CustomerData()
+            {
+                Attributes = DataFakers.GenerateCustomerAttributes()
+            }
+        };
         
         // Act
         var customerResult = await _client.Customers.CreateCustomerAsync(customer);
-        var getCustomersResult = await _client.Customers.RetrieveCustomerAsync(customer.Email, customer.Phone);
-        
+        var getCustomersResult = await _client.Customers.RetrieveCustomerAsync(customer.Data.Attributes.Email, customer.Data.Attributes.Phone);
+        var getCustomersResultList = getCustomersResult.ToArray();
+        var getCustomer = getCustomersResultList.First();
         // Assert
-        getCustomersResult.Should().NotBeNull();
-        getCustomersResult.Should().BeEquivalentTo(customerResult);
+        getCustomersResultList.Should().NotBeNull();
+        getCustomersResultList.First().Should().BeEquivalentTo(customerResult.Data);
         
         // Cleanup
-        var deleteCustomerResult = await _client.Customers.DeleteCustomerAsync(customerResult.Id);
+        var deleteCustomerResult = await _client.Customers.DeleteCustomerAsync(getCustomer.Id);
         deleteCustomerResult.Should().BeTrue();
     }
     
@@ -85,21 +99,27 @@ public class CustomerApiTests
     async Task CreateAndEditCustomer()
     {
         // Arrange
-        var customer = DataFakers.GenerateCustomer();
+        var customer = new Customer()
+        {
+            Data = new CustomerData()
+            {
+                Attributes = DataFakers.GenerateCustomerAttributes()
+            }
+        };
         
         // Act
         var customerResult = await _client.Customers.CreateCustomerAsync(customer);
         
-        customerResult.FirstName = "New First Name";
+        customerResult.Data.Attributes.FirstName = "New First Name";
         
         var editCustomerResult = await _client.Customers.EditCustomerAsync(customerResult);
         
         // Assert
         editCustomerResult.Should().NotBeNull();
-        editCustomerResult.FirstName.Should().BeEquivalentTo(customerResult.FirstName);
+        editCustomerResult.Data.Attributes.FirstName.Should().BeEquivalentTo(customerResult.Data.Attributes.FirstName);
         
         // Cleanup
-        var deleteCustomerResult = await _client.Customers.DeleteCustomerAsync(customerResult.Id);
+        var deleteCustomerResult = await _client.Customers.DeleteCustomerAsync(customerResult.Data.Id);
         deleteCustomerResult.Should().BeTrue();
     }
 }

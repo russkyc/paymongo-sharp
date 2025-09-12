@@ -26,7 +26,7 @@ using Paymongo.Sharp.Core.Enums;
 
 #pragma warning disable CS8618
 
-namespace Paymongo.Sharp.Features.Customers.Entities
+namespace Paymongo.Sharp.Features.Customers.Contracts
 {
     public class CustomerPaymentMethod
     {

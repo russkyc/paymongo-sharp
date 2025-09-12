@@ -1,6 +1,6 @@
 ﻿// MIT License
 // 
-// Copyright (c) 2023 Russell Camo (@russkyc)
+// Copyright (c) 2025 Russell Camo (@russkyc)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -28,14 +28,10 @@ using Paymongo.Sharp.Core.Enums;
 
 #pragma warning disable CS8618
 
-namespace Paymongo.Sharp.Features.Customers.Entities
+namespace Paymongo.Sharp.Features.Customers.Contracts
 {
-    public class Customer
+    public class CustomerAttributes
     {
-        [JsonPropertyName("id")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public string Id { get; set; }
-        
         [JsonPropertyName("organization_id")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string OrganizationId { get; set; }
@@ -83,6 +79,5 @@ namespace Paymongo.Sharp.Features.Customers.Entities
         [JsonPropertyName("deleted")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public bool? Deleted { get; set; }
-        
     }
 }

@@ -21,8 +21,7 @@
 // SOFTWARE.
 
 using Bogus;
-using Bogus.Extensions.Extras;
-using Paymongo.Sharp.Features.Customers.Entities;
+using Paymongo.Sharp.Features.Customers.Contracts;
 using Paymongo.Sharp.Features.PaymentMethods.Entities;
 using Address = Paymongo.Sharp.Core.Entities.Address;
 
@@ -33,9 +32,9 @@ internal static class DataFakers
     // Bogus/Faker currently does not support "en_PH" locale, so we use "en_US" for English.
     private const string Locale = "en_US";
     
-    internal static Customer GenerateCustomer()
+    internal static CustomerAttributes GenerateCustomerAttributes()
     {
-        return new Faker<Customer>(Locale)
+        return new Faker<CustomerAttributes>(Locale)
             .RuleFor(c => c.FirstName, f => f.Name.FirstName())
             .RuleFor(c => c.LastName, f => f.Name.LastName())
             .RuleFor(c => c.Email, f => f.Internet.Email())
