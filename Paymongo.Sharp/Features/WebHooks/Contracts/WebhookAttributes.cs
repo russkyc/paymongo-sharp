@@ -1,6 +1,6 @@
 ﻿// MIT License
 // 
-// Copyright (c) $CURRENT_YEAR$ Russell Camo (@russkyc)
+// Copyright (c) 2025 Russell Camo (@russkyc)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,42 +24,32 @@ using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 using Paymongo.Sharp.Converters;
-using Paymongo.Sharp.Core.Entities;
 using Paymongo.Sharp.Core.Enums;
 
-namespace Paymongo.Sharp.Features.PaymentMethods.Entities
+namespace Paymongo.Sharp.Features.WebHooks.Contracts
 {
-    public class PaymentMethod
+    public class WebhookAttributes
     {
-        [JsonPropertyName("id")]
+        [JsonPropertyName("secret_key")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public string Id { get; set; } = null!;
+        public string? SecretKey { get; set; } = null!;
         
-        [JsonPropertyName("billing")]
+        [JsonPropertyName("url")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public Billing Billing { get; set; } = null!;
+        public string Url { get; set; } = null!;
         
-        [JsonPropertyName("details")]
+        [JsonPropertyName("status")]
+        [JsonConverter(typeof(JsonStringEnumConverter))]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public Details? Details { get; set; }
+        public WebhookStatus? Status { get; set; }
         
-        [JsonPropertyName("payment_method_option")]
+        [JsonPropertyName("events")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public PaymentMethodOption? PaymentMethodOption { get; set; }
+        public IEnumerable<string> Events { get; set; } = null!;
         
         [JsonPropertyName("livemode")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public bool LiveMode { get; set; }
-        
-        [JsonPropertyName("type")]
-        public PaymentMethodType Type { get; set; }
-        
-        [JsonPropertyName("cvc")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public string? Cvc { get; set; }
-
-        [JsonPropertyName("metadata")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public Dictionary<string,string>? Metadata { get; set; }
         
         [JsonPropertyName("created_at")]
         [JsonConverter(typeof(UnixDateTimeConverter))]

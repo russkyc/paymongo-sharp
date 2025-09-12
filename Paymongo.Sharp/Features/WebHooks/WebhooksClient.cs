@@ -23,7 +23,7 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Paymongo.Sharp.Features.WebHooks.Entities;
+using Paymongo.Sharp.Features.WebHooks.Contracts;
 using Paymongo.Sharp.Helpers;
 using Paymongo.Sharp.Utilities;
 
@@ -41,8 +41,7 @@ namespace Paymongo.Sharp.Features.WebHooks
 
         public async Task<Webhook> CreateWebhookAsync(Webhook webhook)
         {
-            var data = webhook.ToSchema();
-            return await _client.SendRequestAsync<Webhook>(HttpMethod.Post, Resource, data, content => content.ToWebHook());
+            return await _client.SendRequestAsync<Webhook>(HttpMethod.Post, Resource, webhook, content => content.ToWebHook());
         }
         
         public async Task<Webhook> RetrieveWebhookAsync(string id)
@@ -50,15 +49,14 @@ namespace Paymongo.Sharp.Features.WebHooks
             return await _client.SendRequestAsync<Webhook>(HttpMethod.Get, $"{Resource}/{id}", responseDeserializer: content => content.ToWebHook());
         }
 
-        public async Task<IEnumerable<Webhook>> ListWebhooksAsync()
+        public async Task<IEnumerable<WebhookData>> ListWebhooksAsync()
         {
-            return await _client.SendRequestAsync<IEnumerable<Webhook>>(HttpMethod.Get, Resource, responseDeserializer: content => content.ToWebHookList());
+            return await _client.SendRequestAsync<IEnumerable<WebhookData>>(HttpMethod.Get, Resource, responseDeserializer: content => content.ToWebHookList());
         }
         
         public async Task<Webhook> UpdateWebhookAsync(Webhook webhook)
         {
-            var data = webhook.ToSchema();
-            return await _client.SendRequestAsync<Webhook>(HttpMethod.Put, $"{Resource}/{webhook.Id}", data, content => content.ToWebHook());
+            return await _client.SendRequestAsync<Webhook>(HttpMethod.Put, $"{Resource}/{webhook.Data.Id}", webhook, content => content.ToWebHook());
         }
         
         public async Task<Webhook> EnableWebhookAsync(string id)

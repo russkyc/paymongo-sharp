@@ -24,35 +24,38 @@ using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 using Paymongo.Sharp.Converters;
+using Paymongo.Sharp.Core.Entities;
 using Paymongo.Sharp.Core.Enums;
 
-namespace Paymongo.Sharp.Features.WebHooks.Entities
+namespace Paymongo.Sharp.Features.PaymentMethods.Entities
 {
-    public class Webhook
+    public class PaymentMethodAttributes
     {
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string Id { get; set; } = null!;
-
-        [JsonPropertyName("secret_key")]
+        [JsonPropertyName("billing")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public string? SecretKey { get; set; } = null!;
+        public Billing Billing { get; set; } = null!;
         
-        [JsonPropertyName("url")]
+        [JsonPropertyName("details")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public string Url { get; set; } = null!;
+        public Details? Details { get; set; }
         
-        [JsonPropertyName("status")]
-        [JsonConverter(typeof(JsonStringEnumConverter))]
+        [JsonPropertyName("payment_method_option")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public WebhookStatus? Status { get; set; }
-        
-        [JsonPropertyName("events")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public IEnumerable<string> Events { get; set; } = null!;
+        public PaymentMethodOption? PaymentMethodOption { get; set; }
         
         [JsonPropertyName("livemode")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public bool LiveMode { get; set; }
+        
+        [JsonPropertyName("type")]
+        public PaymentMethodType Type { get; set; }
+        
+        [JsonPropertyName("cvc")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public string? Cvc { get; set; }
+
+        [JsonPropertyName("metadata")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public Dictionary<string,string>? Metadata { get; set; }
         
         [JsonPropertyName("created_at")]
         [JsonConverter(typeof(UnixDateTimeConverter))]

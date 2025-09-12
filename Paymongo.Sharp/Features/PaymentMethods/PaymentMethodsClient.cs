@@ -42,15 +42,14 @@ namespace Paymongo.Sharp.Features.PaymentMethods
 
         public async Task<PaymentMethod> CreatePaymentMethodAsync(PaymentMethod paymentMethod)
         {
-            var data = paymentMethod.ToSchema();
-            return await _client.SendRequestAsync<PaymentMethod>(HttpMethod.Post, Resource, data, content => content.ToPaymentMethod());
+            return await _client.SendRequestAsync<PaymentMethod>(HttpMethod.Post, Resource, paymentMethod, content => content.ToPaymentMethod());
         }
 
         public async Task<PaymentMethod> UpdatePaymentMethodAsync(PaymentMethod paymentMethod)
         {
-            paymentMethod.Details = null;
-            var data = paymentMethod.ToSchema();
-            return await _client.SendRequestAsync<PaymentMethod>(HttpMethod.Put, $"{Resource}/{paymentMethod.Id}", data, content => content.ToPaymentMethod());
+            // Details cannot be updated
+            paymentMethod.Data.Attributes.Details = null;
+            return await _client.SendRequestAsync<PaymentMethod>(HttpMethod.Put, $"{Resource}/{paymentMethod.Data.Id}", paymentMethod, content => content.ToPaymentMethod());
         }
 
         public async Task<PaymentMethod> RetrievePaymentMethodAsync(string id)
