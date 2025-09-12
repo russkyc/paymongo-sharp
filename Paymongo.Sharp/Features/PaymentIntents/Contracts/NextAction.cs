@@ -21,7 +21,6 @@
 // SOFTWARE.
 
 using System.Text.Json.Serialization;
-using Paymongo.Sharp.Features.Sources.Entities;
 
 namespace Paymongo.Sharp.Features.PaymentIntents.Contracts
 {

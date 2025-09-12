@@ -26,7 +26,7 @@ using Paymongo.Sharp.Converters;
 using Paymongo.Sharp.Core.Entities;
 using Paymongo.Sharp.Core.Enums;
 
-namespace Paymongo.Sharp.Features.Sources.Entities
+namespace Paymongo.Sharp.Features.Sources.Contracts
 {
     public class SourceAttributes
     {

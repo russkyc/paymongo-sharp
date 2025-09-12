@@ -23,7 +23,7 @@
 using System.Text.Json.Serialization;
 using Paymongo.Sharp.Core.Enums;
 
-namespace Paymongo.Sharp.Features.QrPh.Entities
+namespace Paymongo.Sharp.Features.QrPh.Contracts
 {
     public class QrPhCodeAttributes
     {

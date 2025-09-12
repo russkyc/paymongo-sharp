@@ -22,7 +22,7 @@
 
 using Bogus;
 using Paymongo.Sharp.Features.Customers.Contracts;
-using Paymongo.Sharp.Features.PaymentMethods.Entities;
+using Paymongo.Sharp.Features.PaymentMethods.Contracts;
 using Address = Paymongo.Sharp.Core.Entities.Address;
 
 namespace Paymongo.Sharp.Tests.Utils;

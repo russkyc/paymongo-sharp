@@ -22,10 +22,10 @@
 
 using Paymongo.Sharp.Features.CardInstallments.Contracts;
 using Paymongo.Sharp.Features.PaymentIntents.Contracts;
-using Paymongo.Sharp.Features.PaymentMethods.Entities;
+using Paymongo.Sharp.Features.PaymentMethods.Contracts;
 using Paymongo.Sharp.Tests.Utils;
 using PaymentMethodOption = Paymongo.Sharp.Features.PaymentIntents.Contracts.PaymentMethodOption;
-using PaymentMethodType = Paymongo.Sharp.Features.PaymentMethods.Entities.PaymentMethod;
+using PaymentMethodType = Paymongo.Sharp.Features.PaymentMethods.Contracts.PaymentMethod;
 
 namespace Paymongo.Sharp.Tests.Integration;
 

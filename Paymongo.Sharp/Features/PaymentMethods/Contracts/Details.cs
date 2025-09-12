@@ -22,7 +22,7 @@
 
 using System.Text.Json.Serialization;
 
-namespace Paymongo.Sharp.Features.PaymentMethods.Entities
+namespace Paymongo.Sharp.Features.PaymentMethods.Contracts
 {
     public class Details
     {

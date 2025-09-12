@@ -22,8 +22,7 @@
 
 using System.Net.Http;
 using System.Threading.Tasks;
-using Paymongo.Sharp.Features.QrPh.Entities;
-using Paymongo.Sharp.Features.Sources.Entities;
+using Paymongo.Sharp.Features.QrPh.Contracts;
 using Paymongo.Sharp.Helpers;
 using Paymongo.Sharp.Utilities;
 

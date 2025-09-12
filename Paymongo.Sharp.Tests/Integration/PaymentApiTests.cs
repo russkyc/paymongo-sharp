@@ -21,7 +21,7 @@
 // SOFTWARE.
 
 using Paymongo.Sharp.Features.Payments.Contracts;
-using Paymongo.Sharp.Features.Sources.Entities;
+using Paymongo.Sharp.Features.Sources.Contracts;
 
 namespace Paymongo.Sharp.Tests.Integration;
 

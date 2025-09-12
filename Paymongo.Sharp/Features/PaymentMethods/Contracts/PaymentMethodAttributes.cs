@@ -27,7 +27,7 @@ using Paymongo.Sharp.Converters;
 using Paymongo.Sharp.Core.Entities;
 using Paymongo.Sharp.Core.Enums;
 
-namespace Paymongo.Sharp.Features.PaymentMethods.Entities
+namespace Paymongo.Sharp.Features.PaymentMethods.Contracts
 {
     public class PaymentMethodAttributes
     {

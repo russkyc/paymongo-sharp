@@ -22,7 +22,7 @@
 
 using Paymongo.Sharp.Core.Contracts;
 
-namespace Paymongo.Sharp.Features.QrPh.Entities
+namespace Paymongo.Sharp.Features.QrPh.Contracts
 {
     public class QrPhCodeData : Data<QrPhCodeAttributes>
     {

@@ -9,7 +9,7 @@ using Paymongo.Sharp.Core.Entities;
 using Paymongo.Sharp.Core.Enums;
 using Paymongo.Sharp.Features.Checkouts.Contracts;
 using Paymongo.Sharp.Features.Links.Contracts;
-using Paymongo.Sharp.Features.Sources.Entities;
+using Paymongo.Sharp.Features.Sources.Contracts;
 using Paymongo.Sharp.Utilities;
 
 #pragma warning disable CS8604

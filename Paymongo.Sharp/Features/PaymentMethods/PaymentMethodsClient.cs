@@ -23,7 +23,7 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Paymongo.Sharp.Features.PaymentMethods.Entities;
+using Paymongo.Sharp.Features.PaymentMethods.Contracts;
 using Paymongo.Sharp.Helpers;
 using Paymongo.Sharp.Utilities;
 

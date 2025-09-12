@@ -22,7 +22,7 @@
 
 using System.Text.Json.Serialization;
 
-namespace Paymongo.Sharp.Features.Sources.Entities
+namespace Paymongo.Sharp.Features.Sources.Contracts
 {
     public class Redirect
     {

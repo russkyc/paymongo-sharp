@@ -22,7 +22,7 @@
 
 using Paymongo.Sharp.Core.Contracts;
 
-namespace Paymongo.Sharp.Features.Sources.Entities
+namespace Paymongo.Sharp.Features.Sources.Contracts
 {
     public class Source : Schema<SourceData>
     {

@@ -20,11 +20,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using System.Text.Json.Serialization;
 using Paymongo.Sharp.Core.Contracts;
-using Paymongo.Sharp.Core.Enums;
 
-namespace Paymongo.Sharp.Features.QrPh.Entities
+namespace Paymongo.Sharp.Features.QrPh.Contracts
 {
     public class QrPhCode : Schema<QrPhCodeData>
     {

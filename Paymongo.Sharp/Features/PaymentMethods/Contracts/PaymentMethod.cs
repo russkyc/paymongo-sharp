@@ -20,15 +20,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using System;
-using System.Collections.Generic;
-using System.Text.Json.Serialization;
-using Paymongo.Sharp.Converters;
 using Paymongo.Sharp.Core.Contracts;
-using Paymongo.Sharp.Core.Entities;
-using Paymongo.Sharp.Core.Enums;
 
-namespace Paymongo.Sharp.Features.PaymentMethods.Entities
+namespace Paymongo.Sharp.Features.PaymentMethods.Contracts
 {
     public class PaymentMethod : Schema<PaymentMethodData>
     {

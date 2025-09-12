@@ -22,7 +22,7 @@
 
 using Paymongo.Sharp.Core.Contracts;
 
-namespace Paymongo.Sharp.Features.PaymentMethods.Entities
+namespace Paymongo.Sharp.Features.PaymentMethods.Contracts
 {
     public class PaymentMethodData : Data<PaymentMethodAttributes>
     {

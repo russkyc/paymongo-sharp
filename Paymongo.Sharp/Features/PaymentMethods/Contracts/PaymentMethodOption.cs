@@ -22,7 +22,7 @@
 
 using Paymongo.Sharp.Features.CardInstallments.Contracts;
 
-namespace Paymongo.Sharp.Features.PaymentMethods.Entities
+namespace Paymongo.Sharp.Features.PaymentMethods.Contracts
 {
     public class PaymentMethodOption
     {

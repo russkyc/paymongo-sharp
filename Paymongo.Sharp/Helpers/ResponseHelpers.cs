@@ -30,10 +30,10 @@ using Paymongo.Sharp.Features.Checkouts.Contracts;
 using Paymongo.Sharp.Features.Customers.Contracts;
 using Paymongo.Sharp.Features.Links.Contracts;
 using Paymongo.Sharp.Features.PaymentIntents.Contracts;
-using Paymongo.Sharp.Features.PaymentMethods.Entities;
+using Paymongo.Sharp.Features.PaymentMethods.Contracts;
 using Paymongo.Sharp.Features.Payments.Contracts;
 using Paymongo.Sharp.Features.Refunds.Contracts;
-using Paymongo.Sharp.Features.Sources.Entities;
+using Paymongo.Sharp.Features.Sources.Contracts;
 using Paymongo.Sharp.Features.WebHooks.Contracts;
 
 
