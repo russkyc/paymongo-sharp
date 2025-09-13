@@ -1,0 +1,183 @@
+﻿@page "/"
+@using LumexUI
+@using LumexUI.Common
+@using LumexUI.Shared.Icons
+@using Paymongo.Sharp.Core.Enums
+@using Paymongo.Sharp.Features.Links.Contracts
+@using Paymongo.Sharp.Features.Payments.Contracts
+@using Paymongo.Sharp.Utilities
+
+<PageTitle>Home - Paymongo Sharp Wasm Sample</PageTitle>
+
+<div class="flex flex-col gap-3 p-3">
+    <div class="flex w-full">
+        <h1 class="text-lg font-bold my-auto flex-grow-1">Paymongo.Sharp Wasm Sample</h1>
+        <LumexButton IconOnly="@true" Variant="@(_isConfigurationExpanded ? Variant.Solid : Variant.Light)" OnClick="@ToggleConfiguration">
+            <Settings2Icon />
+        </LumexButton>
+    </div>
+    <LumexCollapse As="div" Expanded="@_isConfigurationExpanded">
+        <LumexCard>
+            <LumexCardBody Class="flex flex-col gap-6">
+                <h3 class="text-lg font-medium my-auto flex-grow-1">Configure Api Keys</h3>
+                <div class="flex flex-col gap-3">
+                    <LumexTextbox Required="@true"
+                                  @bind-Value="@_publicKey"
+                                  Type="@InputType.Text"
+                                  Label="Public Key"
+                                  LabelPlacement="LabelPlacement.Outside"
+                                  Description="Your Public Key from https://dashboard.paymongo.com/developers/api-keys"
+                                  Placeholder="pk_test_123ABC"/>
+                    <LumexTextbox Required="@true"
+                                  @bind-Value="@_secretKey"
+                                  Type="@InputType.Text"
+                                  Label="Secret Key"
+                                  LabelPlacement="LabelPlacement.Outside"
+                                  Description="Your Secret Key from https://dashboard.paymongo.com/developers/api-keys" 
+                                  Placeholder="sk_test_123ABC"/>
+                </div>
+                <div class="flex gap-3">
+                    <LumexButton Class="font-medium" OnClick="@SaveConfiguration" Color="@ThemeColor.Primary">Save</LumexButton>
+                    <LumexButton OnClick="@CloseConfiguration" Variant="@Variant.Light">Cancel</LumexButton>
+                </div>
+            </LumexCardBody>
+        </LumexCard>
+    </LumexCollapse>
+    <LumexCard>
+        <LumexCardBody Class="flex flex-col gap-6">
+            <div class="flex flex-col">
+                <h3 class="text-lg font-medium my-auto flex-grow-1">Links Api Payment Test</h3>
+                <p class="opacity-70 text-sm">Try a test payment using the links api. Please ensure that the secret key is configured</p>
+            </div>
+            <div class="flex flex-col gap-3">
+                <LumexNumbox TValue="decimal" Required="@true"
+                             Disabled="@_isProcessing"
+                             @bind-Value="@_amount"
+                             StartContent="@_currency"
+                             Type="@InputType.Text"
+                             Label="Payment Amount"
+                             LabelPlacement="LabelPlacement.Outside"
+                             Description="Any amount from 100.00 to 100,000.00"
+                             Placeholder="pk_test_123ABC"/>
+            </div>
+            @if (_linksAlert is not null)
+            {
+                @_linksAlert
+            }
+            <div class="flex gap-3">
+                <LumexButton Disabled="@_isProcessing" OnClick="@PayWithLink" Color="@ThemeColor.Primary" Class="flex gap-1">
+                    @if (_isProcessing)
+                    {
+                        <LumexSpinner Variant="@SpinnerVariant.Ring" Color="@ThemeColor.Default" Size="@Size.Small" />
+                        <span class="font-medium">Waiting for Payment</span>
+                    }
+                    else
+                    {
+                        <span class="font-medium">Pay now</span>
+                    }
+                </LumexButton>
+            </div>
+        </LumexCardBody>
+    </LumexCard>
+</div>
+
+@inject IJSRuntime JsRuntime
+
+@code {
+
+    private readonly RenderFragment _currency = @<p>₱</p>;
+    
+    private RenderFragment? _linksAlert;
+    
+    private bool _isConfigurationExpanded;
+    private string? _publicKey;
+    private string? _secretKey;
+
+    private decimal _amount = 599;
+
+    private Payment? _payment;
+    private bool _isProcessing;
+    private bool _transactionComplete;
+    
+    async Task PayWithLink()
+    {
+        if (string.IsNullOrEmpty(_secretKey))
+        {
+            _linksAlert = @<LumexAlert Closeable="true" OnClose="@ClearAlerts" Color="ThemeColor.Danger" Title="Secret Key missing. Please configure the Secret Key in the settings panel."/>;
+            return;
+        }
+        _linksAlert = null;
+        var amount = _amount.ToLongAmount();
+        var paymongoClient = new PaymongoClient(_secretKey);
+        _isProcessing = true;
+        var link = new Link
+        {
+            Data = new LinkData()
+            {
+                Attributes = new LinkAttributes()
+                {
+                    Description = "New Link",
+                    Amount = amount,
+                    Currency = Currency.Php
+                }
+            }
+        };
+
+        var linkResult = await paymongoClient.Links.CreateLinkAsync(link);
+        await JsRuntime.InvokeVoidAsync("open", linkResult.Data.Attributes.CheckoutUrl, "_blank");
+
+        while (true)
+        {
+            try
+            {
+                var getLinkResult = await paymongoClient.Links.RetrieveLinkAsync(linkResult.Data.Id);
+                if (getLinkResult.Data.Attributes.Status is not LinkStatus.Paid)
+                {
+                    await Task.Delay(500);
+                    continue;
+                }
+
+                _payment = getLinkResult.Data.Attributes.Payments.First(payment => payment.Data.Attributes.Status is PaymentStatus.Paid);
+                break;
+            }
+            catch (Exception)
+            {
+                await Task.Delay(500);
+            }
+        }
+
+        _transactionComplete = true;
+        _isProcessing = false;
+        _linksAlert = @<LumexAlert Closeable="true" OnClose="@ClearPaymentInfo" Color="ThemeColor.Success" Title="@($"Paid in full on {_payment.Data.Attributes.UpdatedAt} using {_payment.Data.Attributes.Source?.Type}")"/>;
+    }
+    
+    void SaveConfiguration()
+    {
+        // Save Configuration Logic Here
+        _isConfigurationExpanded = false;
+    }
+
+    void CloseConfiguration()
+    {
+        _isConfigurationExpanded = false;
+    }
+    
+    void ToggleConfiguration()
+    {
+        _isConfigurationExpanded = !_isConfigurationExpanded;
+        Console.WriteLine(_isConfigurationExpanded);
+    }
+
+    private void ClearAlerts()
+    {
+        _linksAlert = null;
+    }
+
+    private void ClearPaymentInfo()
+    {
+        _transactionComplete = false;
+        _payment = null;
+        _linksAlert = null;
+    }
+
+}
