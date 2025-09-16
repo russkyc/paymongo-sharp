@@ -20,22 +20,27 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using System;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 
-namespace Paymongo.Sharp.Converters
+namespace Paymongo.Sharp.Tests.Unit;
+
+public class UnixDateTimeConverterTests
 {
-    public class UnixDateTimeConverter : JsonConverter<DateTime>
+    [Theory]
+    [InlineData(1757980800, 2025, 09, 16, 8, 0, 0)]
+    [InlineData(0, 1970, 1, 1, 8, 0, 0)]
+    Task ConvertUnixTimestampToDateTime(long unixTimestamp, int year, int month, int day, int hour, int minute, int second)
     {
-        public override DateTime Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-        {
-            return DateTimeOffset.FromUnixTimeSeconds(reader.GetInt64()).DateTime.ToLocalTime();
-        }
+        // Arrange
+        var converter = new Converters.UnixDateTimeConverter();
+        var reader = new Utf8JsonReader(System.Text.Encoding.UTF8.GetBytes(unixTimestamp.ToString()));
 
-        public override void Write(Utf8JsonWriter writer, DateTime value, JsonSerializerOptions options)
-        {
-            writer.WriteNumberValue(((DateTimeOffset)value).ToUnixTimeSeconds());
-        }
+        // Act
+        reader.Read(); // Move to the number token
+        var result = converter.Read(ref reader, typeof(DateTime), new JsonSerializerOptions());
+
+        // Assert
+        result.Should().Be(new DateTime(year, month, day, hour, minute, second, DateTimeKind.Local));
+        return Task.CompletedTask;
     }
 }
