@@ -21,7 +21,6 @@
 // SOFTWARE.
 
 using System;
-using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
@@ -38,36 +37,42 @@ namespace Paymongo.Sharp.Helpers
             HttpMethod method, 
             string requestUri, 
             object? content = null,
-            Func<string?,TResponseType>? responseDeserializer = null)
+            Func<string?,TResponseType>? responseDeserializer = null,
+            string? idempotencyKey = null)
         {
             using var request = new HttpRequestMessage(method, requestUri);
 
+            if (!string.IsNullOrWhiteSpace(idempotencyKey) && method == HttpMethod.Post)
+            {
+                request.Headers.Add("Idempotency-Key", idempotencyKey);
+            }
+            
             if (content != null)
             {
                 request.Content = new StringContent(
-                    JsonSerializer.Serialize(content), 
-                    Encoding.Default, 
+                    JsonSerializer.Serialize(content),
+                    Encoding.Default,
                     "application/json");
             }
 
             using var response = await client.SendAsync(request);
-            
+
             if (!response.IsSuccessStatusCode)
             {
                 var errorContent = await response.Content.ReadAsStreamAsync();
-                var error = await JsonSerializer.DeserializeAsync<ErrorResponse>(errorContent)!;
+                var error = await JsonSerializer.DeserializeAsync<ErrorResponse>(errorContent);
                 throw new ApiException(error);
             }
 
             var responseContent = await response.Content.ReadAsStringAsync();
-            
+
             if (responseDeserializer != null)
             {
-                return responseDeserializer(responseContent) 
+                return responseDeserializer(responseContent)
                        ?? throw new InvalidOperationException("Failed to deserialize response.");
             }
-            
-            return JsonSerializer.Deserialize<TResponseType>(responseContent) 
+
+            return JsonSerializer.Deserialize<TResponseType>(responseContent)
                    ?? throw new InvalidOperationException("Failed to deserialize response.");
         }
     }

@@ -40,9 +40,9 @@ namespace Paymongo.Sharp.Features.Payments
             _client = client;
         }
 
-        public async Task<Payment> CreatePaymentAsync(Payment payment)
+        public async Task<Payment> CreatePaymentAsync(Payment payment, string? idempotencyKey = null)
         {
-            return await _client.SendRequestAsync<Payment>(HttpMethod.Post, Resource, payment, content => content.ToPayment());
+            return await _client.SendRequestAsync<Payment>(HttpMethod.Post, Resource, payment, content => content.ToPayment(), idempotencyKey);
         }
 
         public async Task<Payment> RetrievePaymentAsync(string id)

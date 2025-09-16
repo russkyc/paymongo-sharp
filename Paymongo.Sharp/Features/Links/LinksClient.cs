@@ -37,9 +37,9 @@ namespace Paymongo.Sharp.Features.Links
             _client = client;
         }
 
-        public async Task<Link> CreateLinkAsync(Link link)
+        public async Task<Link> CreateLinkAsync(Link link, string? idempotencyKey = null)
         {
-            return await _client.SendRequestAsync<Link>(HttpMethod.Post, Resource, link, content => content.ToLink());
+            return await _client.SendRequestAsync<Link>(HttpMethod.Post, Resource, link, content => content.ToLink(), idempotencyKey);
         }
 
         public async Task<Link> RetrieveLinkAsync(string id)

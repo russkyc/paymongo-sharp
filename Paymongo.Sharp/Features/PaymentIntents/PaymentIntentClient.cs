@@ -38,9 +38,9 @@ namespace Paymongo.Sharp.Features.PaymentIntents
             _client = client;
         }
 
-        public async Task<PaymentIntent> CreatePaymentIntentAsync(PaymentIntent paymentIntent)
+        public async Task<PaymentIntent> CreatePaymentIntentAsync(PaymentIntent paymentIntent, string? idempotencyKey = null)
         {
-            return await _client.SendRequestAsync<PaymentIntent>(HttpMethod.Post, Resource, paymentIntent, content => content.ToPaymentIntent());
+            return await _client.SendRequestAsync<PaymentIntent>(HttpMethod.Post, Resource, paymentIntent, content => content.ToPaymentIntent(), idempotencyKey);
         }
 
         public async Task<PaymentIntent> RetrievePaymentIntentAsync(string id)

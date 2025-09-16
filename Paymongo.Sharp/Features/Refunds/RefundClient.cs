@@ -40,9 +40,9 @@ namespace Paymongo.Sharp.Features.Refunds
             _client = client;
         }
 
-        public async Task<Refund> CreateRefundAsync(Refund refund)
+        public async Task<Refund> CreateRefundAsync(Refund refund, string? idempotencyKey = null)
         {
-            return await _client.SendRequestAsync<Refund>(HttpMethod.Post, Resource, refund, content => content.ToRefund());
+            return await _client.SendRequestAsync<Refund>(HttpMethod.Post, Resource, refund, content => content.ToRefund(), idempotencyKey);
         }
 
         public async Task<Refund> RetrieveRefundAsync(string id)

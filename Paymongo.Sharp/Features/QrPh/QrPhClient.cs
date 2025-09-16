@@ -38,9 +38,9 @@ namespace Paymongo.Sharp.Features.QrPh
             _client = client;
         }
 
-        public async Task<QrPhCode> CreateStaticQrPhCodeAsync(QrPhCode qrPhCode)
+        public async Task<QrPhCode> CreateStaticQrPhCodeAsync(QrPhCode qrPhCode, string? idempotencyKey = null)
         {
-            return await _client.SendRequestAsync<QrPhCode>(HttpMethod.Post, $"{Resource}/generate", qrPhCode);
+            return await _client.SendRequestAsync<QrPhCode>(HttpMethod.Post, $"{Resource}/generate", qrPhCode, idempotencyKey: idempotencyKey);
         }
 
     }

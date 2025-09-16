@@ -39,9 +39,9 @@ namespace Paymongo.Sharp.Features.Customers
             _client = client;
         }
 
-        public async Task<Customer> CreateCustomerAsync(Customer customer)
+        public async Task<Customer> CreateCustomerAsync(Customer customer, string? idempotencyKey = null)
         {
-            return await _client.SendRequestAsync<Customer>(HttpMethod.Post, Resource, customer, content => content.ToCustomer());
+            return await _client.SendRequestAsync<Customer>(HttpMethod.Post, Resource, customer, content => content.ToCustomer(), idempotencyKey);
         }
 
         public async Task<Customer> EditCustomerAsync(Customer customer)

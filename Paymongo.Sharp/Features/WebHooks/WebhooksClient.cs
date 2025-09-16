@@ -39,9 +39,9 @@ namespace Paymongo.Sharp.Features.WebHooks
             _client = client;
         }
 
-        public async Task<Webhook> CreateWebhookAsync(Webhook webhook)
+        public async Task<Webhook> CreateWebhookAsync(Webhook webhook, string? idempotencyKey = null)
         {
-            return await _client.SendRequestAsync<Webhook>(HttpMethod.Post, Resource, webhook, content => content.ToWebHook());
+            return await _client.SendRequestAsync<Webhook>(HttpMethod.Post, Resource, webhook, content => content.ToWebHook(), idempotencyKey);
         }
         
         public async Task<Webhook> RetrieveWebhookAsync(string id)

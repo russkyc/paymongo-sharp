@@ -38,9 +38,9 @@ namespace Paymongo.Sharp.Features.Checkouts
             _client = client;
         }
 
-        public async Task<Checkout> CreateCheckoutAsync(Checkout checkout)
+        public async Task<Checkout> CreateCheckoutAsync(Checkout checkout, string? idempotencyKey = null)
         {
-            return await _client.SendRequestAsync<Checkout>(HttpMethod.Post, Resource, checkout, content => content.ToCheckout());
+            return await _client.SendRequestAsync<Checkout>(HttpMethod.Post, Resource, checkout, content => content.ToCheckout(), idempotencyKey);
         }
 
         public async Task<Checkout> RetrieveCheckoutAsync(string id)

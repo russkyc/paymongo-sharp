@@ -38,9 +38,9 @@ namespace Paymongo.Sharp.Features.Sources
             _client = client;
         }
 
-        public async Task<Source> CreateSourceAsync(Source source)
+        public async Task<Source> CreateSourceAsync(Source source, string? idempotencyKey = null)
         {
-            return await _client.SendRequestAsync<Source>(HttpMethod.Post, Resource, source, content => content.ToSource());
+            return await _client.SendRequestAsync<Source>(HttpMethod.Post, Resource, source, content => content.ToSource(), idempotencyKey);
         }
 
         public async Task<Source> RetrieveSourceAsync(string id)
