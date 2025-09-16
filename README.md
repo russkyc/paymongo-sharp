@@ -14,10 +14,11 @@
 
 <p style="text-align: justify">
 
-[Paymongo](https://www.paymongo.com) is a powerful payment platform that provides a full suite of financial tools for businesses and more. With the Paymongo.Sharp, you can integrate payment processing into your .NET applications, allowing you to securely accept payments, manage transactions, and more.
-
-This client wrapper is designed to make it easy for .NET developers to interact with the Paymongo API. It provides a simple, intuitive interface that abstracts the API, allowing you to access a typed client and focus on building your Paymongo-integrated application faster.
+[Paymongo](https://www.paymongo.com) is a powerful payment platform that provides a full suite of financial tools for businesses and more. With Paymongo.Sharp, you can integrate payment processing into your .NET applications, allowing you to securely accept payments, manage transactions, and more.
 </p>
+
+> [!IMPORTANT]  
+> This client is not an official library by Paymongo. It is an independent open-source community project made to help .NET developers integrate Paymongo into their applications.
 
 ## :arrow_down: Installation
 
