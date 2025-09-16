@@ -1,0 +1,126 @@
+﻿@using LumexUI
+@using LumexUI.Common
+@using Paymongo.Sharp.BlazorWasm.Sample.Models
+@using Paymongo.Sharp.Core.Enums
+@using Paymongo.Sharp.Features.Links.Contracts
+@using Paymongo.Sharp.Features.Payments.Contracts
+@using Paymongo.Sharp.Utilities
+
+<LumexCard>
+    <LumexCardBody Class="flex flex-col gap-6">
+        <div class="flex flex-col">
+            <h3 class="text-lg font-medium my-auto flex-grow-1">Links Api Payment Test</h3>
+            <p class="opacity-70 text-sm">Try a test payment using the links api. Complete the transaction in the new tab</p>
+        </div>
+        <div class="flex flex-col gap-3">
+            <LumexNumbox TValue="decimal" Required="@true"
+                         Disabled="@_isProcessing"
+                         @bind-Value="@_amount"
+                         StartContent="@_currency"
+                         Type="@InputType.Text"
+                         Label="Payment Amount"
+                         LabelPlacement="LabelPlacement.Outside"
+                         Description="Any amount from 100.00 to 100,000.00"
+                         Placeholder="pk_test_123ABC"/>
+        </div>
+        @if (_alert is not null)
+        {
+            @_alert
+        }
+        <div class="flex gap-3">
+            <LumexButton Disabled="@_isProcessing" OnClick="@Pay" Color="@ThemeColor.Primary" Class="flex gap-1">
+                @if (_isProcessing)
+                {
+                    <LumexSpinner Variant="@SpinnerVariant.Ring" Color="@ThemeColor.Default" Size="@Size.Small" />
+                    <span class="font-medium">Waiting for Payment</span>
+                }
+                else
+                {
+                    <span class="font-medium">Pay now</span>
+                }
+            </LumexButton>
+        </div>
+    </LumexCardBody>
+</LumexCard>
+
+@inject IJSRuntime JsRuntime
+
+@code {
+    
+    private readonly RenderFragment _currency = @<p>₱</p>;
+    private RenderFragment? _alert;
+    
+    private decimal _amount = 599;
+
+    private Payment? _payment;
+    private bool _isProcessing;
+    
+    [CascadingParameter]
+    public PaymongoConfig Config { get; set; }
+    
+    async Task Pay()
+    {
+        if (string.IsNullOrEmpty(Config.SecretKey))
+        {
+            _alert = @<LumexAlert Closeable="true" OnClose="@ClearAlerts" Color="ThemeColor.Danger" Title="Secret Key missing. Please configure the Secret Key in the settings panel."/>;
+            return;
+        }
+        
+        _alert = null;
+        _isProcessing = true;
+        
+        var amount = _amount.ToLongAmount();
+        var paymongoClient = new PaymongoClient(Config.SecretKey);
+        
+        var link = new Link
+        {
+            Data = new LinkData()
+            {
+                Attributes = new LinkAttributes()
+                {
+                    Description = "New Link",
+                    Amount = amount,
+                    Currency = Currency.Php
+                }
+            }
+        };
+
+        var linkResult = await paymongoClient.Links.CreateLinkAsync(link);
+        await JsRuntime.InvokeVoidAsync("open", linkResult.Data.Attributes.CheckoutUrl, "_blank");
+
+        while (true)
+        {
+            try
+            {
+                var getLinkResult = await paymongoClient.Links.RetrieveLinkAsync(linkResult.Data.Id);
+                if (getLinkResult.Data.Attributes.Status is not LinkStatus.Paid)
+                {
+                    await Task.Delay(500);
+                    continue;
+                }
+
+                _payment = getLinkResult.Data.Attributes.Payments.First(payment => payment.Data.Attributes.Status is PaymentStatus.Paid);
+                break;
+            }
+            catch (Exception)
+            {
+                await Task.Delay(500);
+            }
+        }
+
+        _isProcessing = false;
+        _alert = @<LumexAlert Closeable="true" OnClose="@ClearPaymentInfo" Color="ThemeColor.Success" Title="@($"Paid in full on {_payment.Data.Attributes.UpdatedAt} using {_payment.Data.Attributes.Source?.Type}")"/>;
+    }
+    
+    private void ClearAlerts()
+    {
+        _alert = null;
+    }
+
+    private void ClearPaymentInfo()
+    {
+        _payment = null;
+        _alert = null;
+    }
+
+}

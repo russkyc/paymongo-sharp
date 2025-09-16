@@ -5,6 +5,9 @@
 
 .theme-green {
     --lumex-primary: var(--color-green-600);
+    --lumex-primary-500: var(--color-green-600);
+    --lumex-primary-600: var(--color-green-700);
+    --lumex-primary-700: var(--color-green-800);
     --lumex-primary-foreground: var(--color-white);
     --lumex-focus: var(--color-green-600);
 }

@@ -85,7 +85,6 @@
     --breakpoint-lg: 64rem;
     --breakpoint-xl: 80rem;
     --breakpoint-2xl: 96rem;
-    --container-xs: 20rem;
     --text-sm: 0.875rem;
     --text-sm--line-height: calc(1.25 / 0.875);
     --text-lg: 1.125rem;
@@ -667,6 +666,9 @@
   .h-px {
     height: 1px;
   }
+  .h-screen {
+    height: 100vh;
+  }
   .min-h-3 {
     min-height: calc(var(--spacing) * 3);
   }
@@ -750,6 +752,9 @@
   }
   .w-px {
     width: 1px;
+  }
+  .w-screen {
+    width: 100vw;
   }
   .max-w-fit {
     max-width: fit-content;
@@ -1731,9 +1736,6 @@
   }
   .opacity-25 {
     opacity: 25%;
-  }
-  .opacity-50 {
-    opacity: 50%;
   }
   .opacity-70 {
     opacity: 70%;
@@ -4754,6 +4756,31 @@
       }
     }
   }
+  .max-lg\:hidden {
+    @media (width < 64rem) {
+      display: none;
+    }
+  }
+  .max-md\:hidden {
+    @media (width < 48rem) {
+      display: none;
+    }
+  }
+  .max-sm\:hidden {
+    @media (width < 40rem) {
+      display: none;
+    }
+  }
+  .sm\:hidden {
+    @media (width >= 40rem) {
+      display: none;
+    }
+  }
+  .lg\:hidden {
+    @media (width >= 64rem) {
+      display: none;
+    }
+  }
   .dark\:border-danger-50 {
     &:where(.dark, .dark *) {
       border-color: var(--lumex-danger-50);
@@ -5430,6 +5457,9 @@
 }
 .theme-green {
   --lumex-primary: var(--color-green-600);
+  --lumex-primary-500: var(--color-green-600);
+  --lumex-primary-600: var(--color-green-700);
+  --lumex-primary-700: var(--color-green-800);
   --lumex-primary-foreground: var(--color-white);
   --lumex-focus: var(--color-green-600);
 }
