@@ -157,8 +157,14 @@ public class PaymentIntentApiTests
 
         PaymentIntentAttachment paymentIntentAttachment = new PaymentIntentAttachment
         {
-            PaymentMethod = paymentMethodResult.Data.Id,
-            ReturnUrl = "https://google.com"
+            Data = new PaymentIntentAttachmentData()
+            {
+                Attributes = new PaymentIntentAttachmentAttributes()
+                {
+                    PaymentMethod = paymentMethodResult.Data.Id,
+                    ReturnUrl = "https://google.com"
+                }
+            }
         };
         
         // Act

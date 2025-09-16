@@ -160,19 +160,23 @@ Checkout checkout = new Checkout() {
 **v2.X.X - Current**
 ```csharp
 Checkout checkout = new Checkout() {
-    Description = "Test Checkout",
-    LineItems = new [] {
-        new LineItem {
-            Name = "item_name",
-            Quantity = 1,
-            Currency = Currency.Php,
-            Amount = 3500
+    Data = new CheckoutData() {
+        Attributes = new CheckoutAttributes() {
+            Description = "Test Checkout",
+            LineItems = new [] {
+                new LineItem {
+                    Name = "item_name",
+                    Quantity = 1,
+                    Currency = Currency.Php,
+                    Amount = 3500
+                }
+            },
+            PaymentMethodTypes = new [] {
+                PaymentMethodType.GCash,
+                PaymentMethodType.Card,
+                PaymentMethodType.Paymaya
+            }
         }
-    },
-    PaymentMethodTypes = new [] {
-        PaymentMethod.GCash,
-        PaymentMethod.Card,
-        PaymentMethod.Paymaya
     }
 };
 ```
@@ -194,19 +198,23 @@ check the refernces for basic usage below.
 // We create a new Checkout object
 // This one includes the minimal required values
 Checkout checkout = new Checkout() {
-    Description = "Test Checkout",
-    LineItems = new [] {
-        new LineItem {
-            Name = "item_name",
-            Quantity = 1,
-            Currency = Currency.Php,
-            Amount = 3500
+    Data = new CheckoutData() {
+        Attributes = new CheckoutAttributes() {
+            Description = "Test Checkout",
+            LineItems = new [] {
+                new LineItem {
+                    Name = "item_name",
+                    Quantity = 1,
+                    Currency = Currency.Php,
+                    Amount = 3500
+                }
+            },
+            PaymentMethodTypes = new [] {
+                PaymentMethodType.GCash,
+                PaymentMethodType.Card,
+                PaymentMethodType.Paymaya
+            }
         }
-    },
-    PaymentMethodTypes = new [] {
-        PaymentMethod.GCash,
-        PaymentMethod.Card,
-        PaymentMethod.Paymaya
     }
 };
 

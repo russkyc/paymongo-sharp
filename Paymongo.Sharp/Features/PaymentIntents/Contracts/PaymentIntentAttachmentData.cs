@@ -22,19 +22,10 @@
 
 using Paymongo.Sharp.Core.Contracts;
 
-namespace Paymongo.Sharp.Utilities
+namespace Paymongo.Sharp.Features.PaymentIntents.Contracts
 {
-    internal static class SchemaHelpers
+    public class PaymentIntentAttachmentData : Data<PaymentIntentAttachmentAttributes>
     {
-        internal static Schema<Data<TDataContract>> ToSchema<TDataContract>(this TDataContract data)
-        {
-            return new Schema<Data<TDataContract>>
-            {
-                Data = new Data<TDataContract>()
-                {
-                    Attributes = data
-                }
-            };
-        }
+        
     }
 }

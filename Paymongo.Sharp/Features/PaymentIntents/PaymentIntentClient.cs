@@ -50,8 +50,7 @@ namespace Paymongo.Sharp.Features.PaymentIntents
 
         public async Task<PaymentIntent> AttachToPaymentIntentAsync(string id, PaymentIntentAttachment paymentIntentAttachment)
         {
-            var data = paymentIntentAttachment.ToSchema();
-            return await _client.SendRequestAsync<PaymentIntent>(HttpMethod.Post, $"{Resource}/{id}/attach", data, content => content.ToPaymentIntent());
+            return await _client.SendRequestAsync<PaymentIntent>(HttpMethod.Post, $"{Resource}/{id}/attach", paymentIntentAttachment, content => content.ToPaymentIntent());
         }
     }
 }

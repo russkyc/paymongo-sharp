@@ -20,12 +20,21 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Paymongo.Sharp.Core.Contracts;
+using System.Text.Json.Serialization;
 
 namespace Paymongo.Sharp.Features.PaymentIntents.Contracts
 {
-    public class PaymentIntentAttachment : Schema<PaymentIntentAttachmentData>
+    public class PaymentIntentAttachmentAttributes
     {
+        [JsonPropertyName("payment_method")]
+        public string PaymentMethod { get; set; } = null!;
         
+        [JsonPropertyName("client_key")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public string ClientKey { get; set; } = null!;
+        
+        [JsonPropertyName("return_url")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public string? ReturnUrl { get; set; }
     }
 }
