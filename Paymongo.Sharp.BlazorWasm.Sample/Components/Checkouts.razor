@@ -20,7 +20,7 @@
                 {
                     foreach (var product in _products)
                     {
-                        <LumexListboxItem Value="@product">
+                        <LumexListboxItem Disabled="@_isProcessing" Value="@product">
                             <div class="flex">
                                 <p>@product.Name</p>
                                 <span class="flex flex-grow-1"></span>
@@ -189,7 +189,7 @@
 
         _isProcessing = false;
         _alert = @<LumexAlert Closeable="true" OnClose="@ClearPaymentInfo" Color="ThemeColor.Success"
-                              Title="@($"Paid in full on {_payment.Attributes.UpdatedAt} using {_payment.Attributes.Source?.Type}")"/>;
+                              Title="@($"Paid in full on {_payment.Attributes.UpdatedAt} using {_payment.Attributes.Source?.Type} with payment id: {_payment.Id}")"/>;
     }
 
     private void ClearAlerts()

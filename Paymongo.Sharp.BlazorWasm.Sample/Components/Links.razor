@@ -109,7 +109,7 @@
         }
 
         _isProcessing = false;
-        _alert = @<LumexAlert Closeable="true" OnClose="@ClearPaymentInfo" Color="ThemeColor.Success" Title="@($"Paid in full on {_payment.Data.Attributes.UpdatedAt} using {_payment.Data.Attributes.Source?.Type}")"/>;
+        _alert = @<LumexAlert Closeable="true" OnClose="@ClearPaymentInfo" Color="ThemeColor.Success" Title="@($"Paid in full on {_payment.Data.Attributes.UpdatedAt} using {_payment.Data.Attributes.Source?.Type} with payment id: {_payment.Data.Id}")"/>;
     }
     
     private void ClearAlerts()
