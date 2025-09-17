@@ -6,6 +6,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <BlazorWebAssemblyLoadAllGlobalizationData>true</BlazorWebAssemblyLoadAllGlobalizationData>
         <GHPages>true</GHPages>
+        <EnableWindowsTargeting>true</EnableWindowsTargeting>
     </PropertyGroup>
 
     <ItemGroup>
