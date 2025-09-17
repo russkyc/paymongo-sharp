@@ -22,11 +22,17 @@ namespace Paymongo.Sharp.Wpf.Sample
         public MainWindow()
         {
             InitializeComponent();
-            Env.TraversePath().Load();
         }
 
         private async void OnPayLink(object sender, RoutedEventArgs e)
         {
+            var secretKey = ApiKeyTextbox.Text;
+
+            if (string.IsNullOrWhiteSpace(secretKey))
+            {
+                return;
+            }
+            
             var isDouble = decimal.TryParse(AmountTextBox.Text, out decimal doubleAmount);
 
             if (!isDouble)
@@ -42,7 +48,6 @@ namespace Paymongo.Sharp.Wpf.Sample
             AmountTextBox.Text = string.Empty;
             StatusBlock.Text = string.Empty;
             
-            var secretKey = Env.GetString("SECRET_KEY");
             var client = new PaymongoClient(secretKey);
             
             var link = new Link

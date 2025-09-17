@@ -13,7 +13,12 @@
     mc:Ignorable="d">
     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
         <moderncontrols:ModernTextBox
+            Name="ApiKeyTextbox"
+            Width="220"
+            Placeholder="Secret Key (sk_ABC123)" />
+        <moderncontrols:ModernTextBox
             Name="AmountTextBox"
+            Margin="0,12,0,0"
             Width="220"
             Placeholder="Amount (up to 2 decimal places)" />
         <StackPanel Width="220">
