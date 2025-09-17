@@ -1,24 +1,22 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
 using System.Globalization;
-using DotNetEnv;
-using Paymongo.Sharp;
-using Paymongo.Sharp.Core.Entities;
 using Paymongo.Sharp.Core.Enums;
 using Paymongo.Sharp.Features.Checkouts.Contracts;
+using Paymongo.Sharp.Utilities;
 
-namespace cli_sample;
+namespace Paymongo.Sharp.Console.Sample;
 
 #pragma warning disable CS8601
 #pragma warning disable CS8602
 #pragma warning disable CS8604
 
-public class Program
+public static class Program
 {
     public static async Task Main(string[] args)
     {
-        Env.TraversePath().Load();
-        var secretKey = Env.GetString("SECRET_KEY");
+        System.Console.Write("ApiKey (Secret Key): ");
+        var secretKey = System.Console.ReadLine().Trim();
 
         // Initializing client
         var client = new PaymongoClient(secretKey);
@@ -48,38 +46,12 @@ public class Program
             }
         };
 
-        Console.WriteLine("Your cart:");
+        System.Console.WriteLine("Your cart:");
         foreach (var lineItem in products)
         {
-            Console.WriteLine($"({lineItem.Quantity}){lineItem.Name} - {lineItem.Amount/100:C}");
+            System.Console.WriteLine($"({lineItem.Quantity}){lineItem.Name} - {lineItem.Amount/100:C}");
         }
 
-        Console.WriteLine("\n\nEnter your details for Checkout");
-        
-        Console.Write("Name: ");
-        var name = Console.ReadLine();
-
-        Console.Write("Email: ");
-        var email = Console.ReadLine();
-
-        Console.Write("Phone: ");
-        var phone = Console.ReadLine();
-        
-        Console.Write("Street: ");
-        var street = Console.ReadLine();
-        
-        Console.Write("City: ");
-        var city = Console.ReadLine();
-        
-        Console.Write("State: ");
-        var state = Console.ReadLine();
-        
-        Console.Write("Postal Code: ");
-        var postalode = Console.ReadLine();
-        
-        Console.Write("Country: ");
-        var country = Console.ReadLine();
-        
         // Create a link object for request
         var checkout = new Checkout()
         {
@@ -89,20 +61,6 @@ public class Program
                 {
                     ReferenceNumber = "00928237",
                     Description = "Party Set Products",
-                    Billing = new Billing
-                    {
-                        Name = name,
-                        Email = email,
-                        Phone = phone,
-                        Address = new Address
-                        {
-                            Line1 = street,
-                            City = city,
-                            State = state,
-                            PostalCode = postalode,
-                            Country = country
-                        }
-                    },
                     LineItems = products,
                     PaymentMethodTypes = new[]
                     {
@@ -117,8 +75,8 @@ public class Program
         // We create a link request
         var requestResult = await client.Checkouts.CreateCheckoutAsync(checkout);
 
-        Console.WriteLine($"\n\nPay here: {requestResult.Data.Attributes.CheckoutUrl}");
-        Console.WriteLine("Waiting for payment..");
+        System.Console.WriteLine($"\n\nPay here: {requestResult.Data.Attributes.CheckoutUrl}");
+        System.Console.WriteLine("Waiting for transaction to complete..");
 
         // We wait for the payment to succeed
         while (true)
@@ -131,14 +89,14 @@ public class Program
 
                 var platform = payment.Attributes.Source.Type;
                 var paymentDate = payment.Attributes.PaidAt;
-                var fee = (payment.Attributes.Fee / 100).ToString("C", CultureInfo.InstalledUICulture);
+                var fee = payment.Attributes.Fee.ToDecimalAmount().ToString("C", CultureInfo.InstalledUICulture);
 
                 // We print successful payment
-                Console.WriteLine($"\n\nSuccessfully paid on {paymentDate} using {platform} with fee: {fee}");
+                System.Console.WriteLine($"\n\nSuccessfully paid on {paymentDate} using {platform} with fee: {fee}");
                 break;
             }
 
-            await Task.Delay(TimeSpan.FromSeconds(1));
+            await Task.Delay(TimeSpan.FromMilliseconds(500));
         }
     }
 }
