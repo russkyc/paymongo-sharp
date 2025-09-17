@@ -9,7 +9,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="DotNetEnv" Version="3.0.0" />
       <PackageReference Include="microsoft.web.webview2" Version="1.0.2592.51" />
       <PackageReference Include="Russkyc.ModernControls.WPF" Version="2.2.3" />
     </ItemGroup>

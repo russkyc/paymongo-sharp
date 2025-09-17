@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
-using DotNetEnv;
 using Paymongo.Sharp.Core.Entities;
 using Paymongo.Sharp.Core.Enums;
 using Paymongo.Sharp.Features.Checkouts.Contracts;
@@ -95,6 +94,13 @@ namespace Paymongo.Sharp.Wpf.Sample
         
         private async void OnPayCheckout(object sender, RoutedEventArgs e)
         {
+            var secretKey = ApiKeyTextbox.Text;
+
+            if (string.IsNullOrWhiteSpace(secretKey))
+            {
+                return;
+            }
+
             var isDouble = decimal.TryParse(AmountTextBox.Text, out decimal doubleAmount);
 
             if (!isDouble)
@@ -110,7 +116,6 @@ namespace Paymongo.Sharp.Wpf.Sample
             AmountTextBox.Text = string.Empty;
             StatusBlock.Text = string.Empty;
             
-            var secretKey = Env.GetString("SECRET_KEY");
             var client = new PaymongoClient(secretKey);
             
             Checkout checkout = new Checkout()
@@ -189,8 +194,15 @@ namespace Paymongo.Sharp.Wpf.Sample
 
         }
         
-        private async void OnPayGcash(object sender, RoutedEventArgs e)
+        private async void OnPayGCash(object sender, RoutedEventArgs e)
         {
+            var secretKey = ApiKeyTextbox.Text;
+
+            if (string.IsNullOrWhiteSpace(secretKey))
+            {
+                return;
+            }
+
             var isDouble = decimal.TryParse(AmountTextBox.Text, out decimal doubleAmount);
 
             if (!isDouble)
@@ -206,7 +218,6 @@ namespace Paymongo.Sharp.Wpf.Sample
             AmountTextBox.Text = string.Empty;
             StatusBlock.Text = string.Empty;
             
-            var secretKey = Env.GetString("SECRET_KEY");
             var client = new PaymongoClient(secretKey);
             
             // Arrange
@@ -270,6 +281,13 @@ namespace Paymongo.Sharp.Wpf.Sample
         
         private async void OnPayGrabPay(object sender, RoutedEventArgs e)
         {
+            var secretKey = ApiKeyTextbox.Text;
+
+            if (string.IsNullOrWhiteSpace(secretKey))
+            {
+                return;
+            }
+
             var isDouble = decimal.TryParse(AmountTextBox.Text, out decimal doubleAmount);
 
             if (!isDouble)
@@ -285,7 +303,6 @@ namespace Paymongo.Sharp.Wpf.Sample
             AmountTextBox.Text = string.Empty;
             StatusBlock.Text = string.Empty;
             
-            var secretKey = Env.GetString("SECRET_KEY");
             var client = new PaymongoClient(secretKey);
             
             // Arrange

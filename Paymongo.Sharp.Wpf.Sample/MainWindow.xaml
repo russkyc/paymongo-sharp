@@ -38,7 +38,7 @@
                 Margin="0,12,0,0"
                 Padding="12,7"
                 VerticalAlignment="Center"
-                Click="OnPayGcash"
+                Click="OnPayGCash"
                 Content="Pay (GCash)" />
             <moderncontrols:ModernButton
                 Margin="0,12,0,0"
