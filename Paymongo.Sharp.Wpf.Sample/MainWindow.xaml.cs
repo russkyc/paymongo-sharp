@@ -1,10 +1,8 @@
-﻿
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using DotNetEnv;
-using Paymongo.Sharp;
 using Paymongo.Sharp.Core.Entities;
 using Paymongo.Sharp.Core.Enums;
 using Paymongo.Sharp.Features.Checkouts.Contracts;
@@ -14,7 +12,7 @@ using Paymongo.Sharp.Utilities;
 
 #pragma warning disable CS8604
 
-namespace WpfSample
+namespace Paymongo.Sharp.Wpf.Sample
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

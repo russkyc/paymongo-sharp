@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace WpfSample
+namespace Paymongo.Sharp.Wpf.Sample
 {
     /// <summary>
     /// Interaction logic for App.xaml

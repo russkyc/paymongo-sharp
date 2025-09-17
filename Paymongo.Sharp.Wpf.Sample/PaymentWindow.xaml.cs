@@ -22,7 +22,7 @@
 
 using System;
 
-namespace WpfSample;
+namespace Paymongo.Sharp.Wpf.Sample;
 
 public partial class PaymentWindow
 {

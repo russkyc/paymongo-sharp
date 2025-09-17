@@ -3,7 +3,6 @@
     <PropertyGroup>
         <OutputType>WinExe</OutputType>
         <TargetFramework>net8.0-windows</TargetFramework>
-        <RootNamespace>WpfSample</RootNamespace>
         <Nullable>enable</Nullable>
         <UseWPF>true</UseWPF>
         <LangVersion>12</LangVersion>

@@ -12,7 +12,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{74B0
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Paymongo.Sharp.Console.Sample", "Paymongo.Sharp.Console.Sample\Paymongo.Sharp.Console.Sample.csproj", "{C75E3B97-C201-4F0A-BACD-683A1F94AD41}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wpf-sample", "wpf-sample\wpf-sample.csproj", "{C69CAAE7-9B78-4872-A709-AB6320E05604}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Paymongo.Sharp.Wpf.Sample", "Paymongo.Sharp.Wpf.Sample\Paymongo.Sharp.Wpf.Sample.csproj", "{C69CAAE7-9B78-4872-A709-AB6320E05604}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Paymongo.Sharp.BlazorWasm.Sample", "Paymongo.Sharp.BlazorWasm.Sample\Paymongo.Sharp.BlazorWasm.Sample.csproj", "{591C970F-4905-4626-B34B-4BC6E3248660}"
 EndProject
