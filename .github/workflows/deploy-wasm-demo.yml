@@ -26,7 +26,7 @@ jobs:
         run: dotnet restore Paymongo.Sharp.BlazorWasm.Sample/Paymongo.Sharp.BlazorWasm.Sample.csproj
 
       - name: Publish .NET Core Project
-        run: dotnet publish Paymongo.Sharp.BlazorWasm.Sample/Paymongo.Sharp.BlazorWasm.Sample.csproj -c Release -o Release
+        run: dotnet publish Paymongo.Sharp.BlazorWasm.Sample/Paymongo.Sharp.BlazorWasm.Sample.csproj -c Release -o release
 
       - name: Commit wwwroot to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@3.7.1
