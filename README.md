@@ -253,18 +253,19 @@ For full Checkout API reference, please see: [Checkout Session Resource](https:/
 
 ```csharp
 // Create a new PaymentIntent object with minimal required values
-PaymentIntent paymentIntent = new PaymentIntent
-{
-    Amount = 10000,
-    Currency = Currency.Php,
-    PaymentMethodAllowed =
-    [
-        PaymentMethod.Card,
-        PaymentMethod.Paymaya
-    ],
-    PaymentMethodOptions = new PaymentMethodOption()
-    {
-        Card = new Card()
+PaymentIntent paymentIntent = new PaymentIntent {
+    Data = new PaymentIntentData {
+        Attributes = new PaymentIntentAttributes {
+            Amount = 10000,
+            Currency = Currency.Php,
+            PaymentMethodAllowed = new[] {
+                PaymentMethodType.Card,
+                PaymentMethodType.Paymaya
+            },
+            PaymentMethodOptions = new PaymentMethodOptions {
+                Card = new CardOptions()
+            }
+        }
     }
 };
 
@@ -287,10 +288,13 @@ PaymentIntent getPaymentIntent = await client.PaymentIntents.RetrievePaymentInte
 // Attach a payment method to an existing PaymentIntent
 const string paymentIntentId = "pi_WENqK7d5L3XN9YQzEt39B3oF";
 
-PaymentIntentAttachment paymentIntentAttachment = new PaymentIntentAttachment
-{
-    PaymentMethod = PaymentMethod.Card,
-    ReturnUrl = "https://google.com"
+PaymentIntentAttachment paymentIntentAttachment = new PaymentIntentAttachment {
+    Data = new PaymentIntentAttachmentData {
+        Attributes = new PaymentIntentAttachmentAttributes {
+            PaymentMethod = "pm_card_visa",
+            ReturnUrl = "https://google.com"
+        }
+    }
 };
 
 PaymentIntent paymentIntentResult = await client.PaymentIntents.AttachToPaymentIntentAsync(paymentIntentId, paymentIntentAttachment);
@@ -310,18 +314,22 @@ For full Payment API reference, please see: [The Payment Intent Object](https://
 ```csharp
 // We create a new PaymentMethod object
 PaymentMethod paymentMethod = new PaymentMethod {
-    Type = PaymentMethodType.GCash,
-    Billing = new Billing {
-        Name = "Test Name",
-        Email = "test@paymongo.com",
-        Phone = "+639123456789",
-        Address = new Address {
-            Line1 = "Test Address 1",
-            Line2 = "Test Address 2",
-            PostalCode = "1234",
-            State = "Test State",
-            City = "Test City",
-            Country = "PH"
+    Data = new PaymentMethodData {
+        Attributes = new PaymentMethodAttributes {
+            Type = PaymentMethodType.GCash,
+            Billing = new Billing {
+                Name = "Test Name",
+                Email = "test@paymongo.com",
+                Phone = "+639123456789",
+                Address = new Address {
+                    Line1 = "Test Address 1",
+                    Line2 = "Test Address 2",
+                    PostalCode = "1234",
+                    State = "Test State",
+                    City = "Test City",
+                    Country = "PH"
+                }
+            }
         }
     }
 };
@@ -345,7 +353,7 @@ PaymentMethod paymentMethodResult = await client.PaymentMethods.RetrievePaymentM
 PaymentMethod paymentMethodResult = await client.PaymentMethods.RetrievePaymentMethodAsync("pm_12345678");
 
 // Update properties as needed
-paymentMethodResult.Cvc = "424";
+paymentMethodResult.Data.Attributes.Cvc = "424";
 
 // Update the payment method on the server
 PaymentMethod updatedPaymentMethodResult = await client.PaymentMethods.UpdatePaymentMethodAsync(paymentMethodResult);
@@ -399,9 +407,13 @@ For full Payments API reference, please see: [Payment Resource](https://develope
 // We create a new Link object
 // This one includes the minimal required values
 Link link = new Link {
-    Description = "New Link",
-    Amount = 100000,
-    Currency = Currency.Php
+    Data = new LinkData {
+        Attributes = new LinkAttributes {
+            Description = "New Link",
+            Amount = 100000,
+            Currency = Currency.Php
+        }
+    }
 };
 
 // We use the PaymongoClient from earlier
@@ -461,8 +473,12 @@ For full Links API reference, please see: [Links Resource](https://developers.pa
 ```csharp
 // Create a new Webhook object with required values
 Webhook webhook = new Webhook {
-    Url = "https://www.example.com/webhook",
-    Events = new[] { "source.chargeable", "payment.paid" }
+    Data = new WebhookData {
+        Attributes = new WebhookAttributes {
+            Url = "https://www.example.com/webhook",
+            Events = new[] { "source.chargeable", "payment.paid" }
+        }
+    }
 };
 
 // Use the PaymongoClient to create the webhook
@@ -488,7 +504,7 @@ IEnumerable<Webhook> webhooks = await client.Webhooks.ListWebhooksAsync();
 ```csharp
 // Update an existing webhook's URL
 Webhook webhook = await client.Webhooks.RetrieveWebhookAsync("wh_12345678");
-webhook.Url = "https://www.example.com/updated";
+webhook.Data.Attributes.Url = "https://www.example.com/updated";
 Webhook updated = await client.Webhooks.UpdateWebhookAsync(webhook);
 ```
 
@@ -519,10 +535,14 @@ For full Webhook API reference, please see: [Webhook Resource](https://developer
 ```csharp
 // Create a new Refund object with the minimal required values
 Refund refund = new Refund {
-    Amount = 10000,
-    PaymentId = "payment_id_12345678",
-    Currency = Currency.Php,
-    Notes = "Test refund"
+    Data = new RefundData {
+        Attributes = new RefundAttributes {
+            Amount = 10000,
+            PaymentId = "payment_id_12345678",
+            Currency = Currency.Php,
+            Notes = "Test refund"
+        }
+    }
 };
 
 // Use the PaymongoClient from earlier
@@ -561,12 +581,16 @@ For full Refunds API reference, please see: [Refund Resource](https://developers
 ```csharp
 // We create a new Customer object
 // This one includes the minimal required values
-Customer customer = new Customer() {
-    FirstName = "First Name",
-    LastName = "Last Name",
-    Email = "testcustomermail@mail.com",
-    Phone = "+639234735258",
-    DefaultDevice = Device.Email
+Customer customer = new Customer {
+    Data = new CustomerData {
+        Attributes = new CustomerAttributes {
+            FirstName = "First Name",
+            LastName = "Last Name",
+            Email = "testcustomermail@mail.com",
+            Phone = "+639234735258",
+            DefaultDevice = Device.Email
+        }
+    }
 };
 
 // We use the PaymongoClient from earlier
@@ -591,8 +615,8 @@ Customer customerResult = await client.Customers.RetrieveCustomerAsync("customer
 Customer customerResult = await client.Customers.RetrieveCustomerAsync("customer@mail.com", "+639876543210");
 
 // Lets edit some of the customer information
-customerResult.FirstName = "New First Name";
-customerResult.LastName = "New Last Name";
+customerResult.Data.Attributes.FirstName = "New First Name";
+customerResult.Data.Attributes.LastName = "New Last Name";
 
 // After this update executes, this returns the Customer object with the updated information
 var editCustomerResult = await client.Customers.EditCustomerAsync(customerResult);
@@ -621,26 +645,30 @@ For full Customers API reference, please see: [Customer Resource](https://develo
 // We create a new Source object
 // This one includes the minimal required values
 Source source = new Source {
-    Amount = 100000,
-    Billing = new Billing {
-        Name = "TestName",
-        Email = "test@paymongo.com",
-        Phone = "9734534443",
-        Address = new Address {
-            Line1 = "TestAddress1",
-            Line2 = "TestAddress2",
-            PostalCode = "4506",
-            State = "TestState",
-            City = "TestCity",
-            Country = "PH"
+    Data = new SourceData {
+        Attributes = new SourceAttributes {
+            Amount = 100000,
+            Billing = new Billing {
+                Name = "TestName",
+                Email = "test@paymongo.com",
+                Phone = "9734534443",
+                Address = new Address {
+                    Line1 = "TestAddress1",
+                    Line2 = "TestAddress2",
+                    PostalCode = "4506",
+                    State = "TestState",
+                    City = "TestCity",
+                    Country = "PH"
+                }
+            },
+            Redirect = new Redirect {
+                Success = "http://127.0.0.1",
+                Failed = "http://127.0.0.1"
+            },
+            Type = SourceType.GCash,
+            Currency = Currency.Php
         }
-    },
-    Redirect = new Redirect {
-        Success = "http://127.0.0.1",
-        Failed = "http://127.0.0.1"
-    },
-    Type = SourceType.GCash,
-    Currency = Currency.Php
+    }
 };
 
 // We use the PaymongoClient from earlier
@@ -684,9 +712,13 @@ For full Installments API reference, please see: [List Installment Plans](https:
 ```csharp
 // We create a new QrPhCode object
 // This one includes the minimal required values
-QrPhCode qrPh = new QrPhCode() {
-  MobileNumber = "+639123456789",
-  Kind = QrCodeKind.Instore
+QrPhCode qrPh = new QrPhCode {
+    Data = new QrPhCodeData {
+        Attributes = new QrPhCodeAttributes {
+            MobileNumber = "+639123456789",
+            Kind = QrCodeKind.Instore
+        }
+    }
 };
 
 // We use the PaymongoClient from earlier
