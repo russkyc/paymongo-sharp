@@ -221,6 +221,9 @@ Checkout checkout = new Checkout() {
 // We use the PaymongoClient from earlier
 // This returns the Checkout object with the new server info for checkout url, id, and others
 Checkout checkoutResult = await client.Checkouts.CreateCheckoutAsync(checkout);
+
+// Optionally, you can provide an idempotency key to safely retry the request without creating duplicates
+Checkout checkoutResultWithIdempotency = await client.Checkouts.CreateCheckoutAsync(checkout, "<idempotency-key>");
 ```
 
 **Retrieve a Checkout Session**
@@ -271,6 +274,9 @@ PaymentIntent paymentIntent = new PaymentIntent {
 
 // Use the PaymongoClient to create the payment intent
 PaymentIntent paymentIntentResult = await client.PaymentIntents.CreatePaymentIntentAsync(paymentIntent);
+
+// Optionally, you can provide an idempotency key to safely retry the request without creating duplicates
+PaymentIntent paymentIntentResultWithIdempotency = await client.PaymentIntents.CreatePaymentIntentAsync(paymentIntent, "<idempotency-key>");
 ```
 
 **Retrieve a Payment Intent**
@@ -336,6 +342,9 @@ PaymentMethod paymentMethod = new PaymentMethod {
 
 // Use the PaymongoClient from earlier
 PaymentMethod paymentMethodResult = await client.PaymentMethods.CreatePaymentMethodAsync(paymentMethod);
+
+// Optionally, you can provide an idempotency key to safely retry the request without creating duplicates
+PaymentMethod paymentMethodResultWithIdempotency = await client.PaymentMethods.CreatePaymentMethodAsync(paymentMethod, "<idempotency-key>");
 ```
 
 **Retrieve a Payment Method**
@@ -391,6 +400,28 @@ IEnumerable<Payment> paymentsResult = await client.Payments.ListAllPaymentsAsync
 Payment paymentResult = await client.Payments.RetrievePaymentAsync("12345678");
 ```
 
+**Create a Payment**
+
+```csharp
+// We create a new Payment object
+Payment payment = new Payment() {
+    Data = new PaymentData() {
+        Attributes = new PaymentAttributes() {
+            Amount = 10000,
+            Currency = Currency.Php,
+            PaymentMethod = "pm_card_visa",
+            Description = "Test Payment"
+        }
+    }
+};
+
+// Use the PaymongoClient from earlier
+Payment paymentResult = await client.Payments.CreatePaymentAsync(payment);
+
+// Optionally, you can provide an idempotency key to safely retry the request without creating duplicates
+Payment paymentResultWithIdempotency = await client.Payments.CreatePaymentAsync(payment, "<idempotency-key>");
+```
+
 For full Payments API reference, please see: [Payment Resource](https://developers.paymongo.com/reference/payment-source)
 
 ### Links
@@ -419,6 +450,9 @@ Link link = new Link {
 // We use the PaymongoClient from earlier
 // This returns the Link object with the new server info for checkout url, id, and others
 Link linkResult = await client.Links.CreateLinkAsync(link);
+
+// Optionally, you can provide an idempotency key to safely retry the request without creating duplicates
+Link linkResultWithIdempotency = await client.Links.CreateLinkAsync(link, "<idempotency-key>");
 ```
 
 **Retrieve a Link**
@@ -483,6 +517,9 @@ Webhook webhook = new Webhook {
 
 // Use the PaymongoClient to create the webhook
 Webhook created = await client.Webhooks.CreateWebhookAsync(webhook);
+
+// Optionally, you can provide an idempotency key to safely retry the request without creating duplicates
+Webhook createdWithIdempotency = await client.Webhooks.CreateWebhookAsync(webhook, "<idempotency-key>");
 ```
 
 **Retrieve a Webhook**
@@ -548,6 +585,9 @@ Refund refund = new Refund {
 // Use the PaymongoClient from earlier
 // This returns the Refund object with server info
 Refund refundResult = await client.Refunds.CreateRefundAsync(refund);
+
+// Optionally, you can provide an idempotency key to safely retry the request without creating duplicates
+Refund refundResultWithIdempotency = await client.Refunds.CreateRefundAsync(refund, "<idempotency-key>");
 ```
 
 **Retrieve a Refund**
@@ -596,6 +636,9 @@ Customer customer = new Customer {
 // We use the PaymongoClient from earlier
 // This returns a Customer object from the server with an Id as confirmation
 Customer customerResult = await client.Customers.CreateCustomerAsync(customer);
+
+// Optionally, you can provide an idempotency key to safely retry the request without creating duplicates
+Customer customerResultWithIdempotency = await client.Customers.CreateCustomerAsync(customer, "<idempotency-key>");
 ```
 
 **Retrieve a Customer**
@@ -675,6 +718,9 @@ Source source = new Source {
 // This returns a Source object from the server
 // containing the redirect object(with checkout url) and other info
 Source sourceResult = await client.Sources.CreateSourceAsync(source);
+
+// Optionally, you can provide an idempotency key to safely retry the request without creating duplicates
+Source sourceResultWithIdempotency = await client.Sources.CreateSourceAsync(source, "<idempotency-key>");
 ```
 
 **Retrieve a Source**
@@ -725,6 +771,9 @@ QrPhCode qrPh = new QrPhCode {
 // This returns a Source object from the server
 // containing the redirect object(with checkout url) and other info
 QrPhCode qrPhResult = await client.QrPh.CreateStaticQrPhCodeAsync(qrPh);
+
+// Optionally, you can provide an idempotency key to safely retry the request without creating duplicates
+QrPhCode qrPhResultWithIdempotency = await client.QrPh.CreateStaticQrPhCodeAsync(qrPh, "<idempotency-key>");
 ```
 
 For full QR PH API reference, please see: [Create a Static QR PH Code](https://developers.paymongo.com/reference/create-a-static-qr-ph-code)
