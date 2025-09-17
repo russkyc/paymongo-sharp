@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Paymongo.Sharp.Features.WebHooks.Entities;
+using Paymongo.Sharp.Features.WebHooks.Contracts;
 
 namespace Paymongo.Sharp.Tests.Integration;
 
@@ -45,8 +45,14 @@ public class WebhookApiTests
         // Arrange
         var webhook = new Webhook
         {
-            Url = TestWebhookUrl,
-            Events = TestEvents
+            Data = new WebhookData()
+            {
+                Attributes = new WebhookAttributes()
+                {
+                    Url = TestWebhookUrl,
+                    Events = TestEvents
+                }
+            }
         };
 
         // Act
@@ -54,11 +60,11 @@ public class WebhookApiTests
 
         // Assert
         Assert.NotNull(created);
-        Assert.Equal(TestWebhookUrl, created.Url);
-        Assert.NotNull(created.Id);
+        Assert.Equal(TestWebhookUrl, created.Data.Attributes.Url);
+        Assert.NotNull(created.Data.Id);
 
         // Cleanup
-        await _client.Webhooks.DisableWebhookAsync(created.Id);
+        await _client.Webhooks.DisableWebhookAsync(created.Data.Id);
     }
 
     [Fact]
@@ -67,21 +73,27 @@ public class WebhookApiTests
         // Arrange
         var webhook = new Webhook
         {
-            Url = TestWebhookUrl,
-            Events = TestEvents
+            Data = new WebhookData()
+            {
+                Attributes = new WebhookAttributes()
+                {
+                    Url = TestWebhookUrl,
+                    Events = TestEvents
+                }
+            }
         };
         var created = await _client.Webhooks.CreateWebhookAsync(webhook);
 
         // Act
-        var retrieved = await _client.Webhooks.RetrieveWebhookAsync(created.Id);
+        var retrieved = await _client.Webhooks.RetrieveWebhookAsync(created.Data.Id);
 
         // Assert
         Assert.NotNull(retrieved);
-        Assert.Equal(created.Id, retrieved.Id);
-        Assert.Equal(TestWebhookUrl, retrieved.Url);
+        Assert.Equal(created.Data.Id, retrieved.Data.Id);
+        Assert.Equal(TestWebhookUrl, retrieved.Data.Attributes.Url);
 
         // Cleanup
-        await _client.Webhooks.DisableWebhookAsync(created.Id);
+        await _client.Webhooks.DisableWebhookAsync(created.Data.Id);
     }
     
     [Fact]
@@ -89,7 +101,7 @@ public class WebhookApiTests
     {
         // Act
         var webhooks = await _client.Webhooks.ListWebhooksAsync();
-        var collection = webhooks as Webhook[] ?? webhooks.ToArray();
+        var collection = webhooks as WebhookData[] ?? webhooks.ToArray();
         
         // Assert
         Assert.NotNull(webhooks);
@@ -102,22 +114,28 @@ public class WebhookApiTests
         // Arrange
         var webhook = new Webhook
         {
-            Url = TestWebhookUrl,
-            Events = TestEvents
+            Data = new WebhookData()
+            {
+                Attributes = new WebhookAttributes()
+                {
+                    Url = TestWebhookUrl,
+                    Events = TestEvents
+                }
+            }
         };
         var created = await _client.Webhooks.CreateWebhookAsync(webhook);
         var updatedUrl = TestWebhookUrl + "/updated";
-        created.Url = updatedUrl;
+        created.Data.Attributes.Url = updatedUrl;
 
         // Act
         var updated = await _client.Webhooks.UpdateWebhookAsync(created);
 
         // Assert
         Assert.NotNull(updated);
-        Assert.Equal(updatedUrl, updated.Url);
+        Assert.Equal(updatedUrl, updated.Data.Attributes.Url);
 
         // Cleanup
-        await _client.Webhooks.DisableWebhookAsync(created.Id);
+        await _client.Webhooks.DisableWebhookAsync(created.Data.Id);
     }
 
     [Fact]
@@ -126,20 +144,26 @@ public class WebhookApiTests
         // Arrange
         var webhook = new Webhook
         {
-            Url = TestWebhookUrl,
-            Events = TestEvents
+            Data = new WebhookData()
+            {
+                Attributes = new WebhookAttributes()
+                {
+                    Url = TestWebhookUrl,
+                    Events = TestEvents
+                }
+            }
         };
         var created = await _client.Webhooks.CreateWebhookAsync(webhook);
 
         // Act
-        var enabled = await _client.Webhooks.EnableWebhookAsync(created.Id);
+        var enabled = await _client.Webhooks.EnableWebhookAsync(created.Data.Id);
 
         // Assert
         Assert.NotNull(enabled);
-        Assert.Equal(WebhookStatus.Enabled, enabled.Status);
+        Assert.Equal(WebhookStatus.Enabled, enabled.Data.Attributes.Status);
 
         // Cleanup
-        await _client.Webhooks.DisableWebhookAsync(created.Id);
+        await _client.Webhooks.DisableWebhookAsync(created.Data.Id);
     }
 
     [Fact]
@@ -148,16 +172,22 @@ public class WebhookApiTests
         // Arrange
         var webhook = new Webhook
         {
-            Url = TestWebhookUrl,
-            Events = TestEvents
+            Data = new WebhookData()
+            {
+                Attributes = new WebhookAttributes()
+                {
+                    Url = TestWebhookUrl,
+                    Events = TestEvents
+                }
+            }
         };
         var created = await _client.Webhooks.CreateWebhookAsync(webhook);
 
         // Act
-        var disabled = await _client.Webhooks.DisableWebhookAsync(created.Id);
+        var disabled = await _client.Webhooks.DisableWebhookAsync(created.Data.Id);
 
         // Assert
         Assert.NotNull(disabled);
-        Assert.Equal(WebhookStatus.Disabled, disabled.Status);
+        Assert.Equal(WebhookStatus.Disabled, disabled.Data.Attributes.Status);
     }
 }

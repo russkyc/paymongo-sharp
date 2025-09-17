@@ -20,8 +20,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Paymongo.Sharp.Features.Payments.Entities;
-using Paymongo.Sharp.Features.Sources.Entities;
+using Paymongo.Sharp.Features.Payments.Contracts;
+using Paymongo.Sharp.Features.Sources.Contracts;
 
 namespace Paymongo.Sharp.Tests.Integration;
 
@@ -46,15 +46,21 @@ public class PaymentApiTests
         // A payment requires a source, so we need to create a source first
         Source source = new Source
         {
-            Amount = 10000,
-            Description = $"New GCash Source",
-            Redirect = new Redirect
+            Data = new SourceData()
             {
-                Success = "http://127.0.0.1",
-                Failed = "http://127.0.0.1"
-            },
-            Type = SourceType.GCash,
-            Currency = Currency.Php
+                Attributes = new SourceAttributes()
+                {
+                    Amount = 10000,
+                    Description = $"New GCash Source",
+                    Redirect = new Redirect
+                    {
+                        Success = "http://127.0.0.1",
+                        Failed = "http://127.0.0.1"
+                    },
+                    Type = SourceType.GCash,
+                    Currency = Currency.Php
+                }
+            }
         };
 
         // Act
@@ -62,16 +68,22 @@ public class PaymentApiTests
         
         Payment payment = new Payment
         {
-            Description = "New Payment",
-            Amount = 10000,
-            Fee = 200,
-            NetAmount = 9800,
-            Currency = Currency.Php,
-            Billing = new Billing(),
-            Source = new PaymentSource()
+            Data = new PaymentData()
             {
-                Id = sourceResult.Id,
-                Type = "source"
+                Attributes = new PaymentAttributes()
+                {
+                    Description = "New Payment",
+                    Amount = 10000,
+                    Fee = 200,
+                    NetAmount = 9800,
+                    Currency = Currency.Php,
+                    Billing = new Billing(),
+                    Source = new PaymentSource()
+                    {
+                        Id = sourceResult.Data.Id,
+                        Type = "source"
+                    }
+                }
             }
         };
 

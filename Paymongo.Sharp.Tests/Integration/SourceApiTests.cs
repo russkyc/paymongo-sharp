@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Paymongo.Sharp.Features.Sources.Entities;
+using Paymongo.Sharp.Features.Sources.Contracts;
 
 namespace Paymongo.Sharp.Tests.Integration;
 
@@ -32,9 +32,9 @@ public class SourceApiTests
     {
         Env.TraversePath().Load();
         
-        var publicKey = Env.GetString("PUBLIC_KEY");
+        var secretKey = Env.GetString("SECRET_KEY");
         
-        _client = new PaymongoClient(publicKey);
+        _client = new PaymongoClient(secretKey);
     }
 
     [Theory]
@@ -45,15 +45,21 @@ public class SourceApiTests
         // Arrange
         Source source = new Source
         {
-            Amount = 10000,
-            Description = $"New {type} Payment",
-            Redirect = new Redirect
+            Data = new SourceData()
             {
-                Success = "http://127.0.0.1",
-                Failed = "http://127.0.0.1"
-            },
-            Type = type,
-            Currency = Currency.Php
+                Attributes = new SourceAttributes()
+                {
+                    Amount = 10000,
+                    Description = $"New {type} Payment",
+                    Redirect = new Redirect
+                    {
+                        Success = "http://127.0.0.1",
+                        Failed = "http://127.0.0.1"
+                    },
+                    Type = type,
+                    Currency = Currency.Php
+                }
+            }
         };
 
         // Act
@@ -61,13 +67,13 @@ public class SourceApiTests
 
         // Assert
         sourceResult.Should().NotBeNull();
-        sourceResult.Id.Should().NotBeNullOrEmpty();
-        sourceResult.Description.Should().BeEquivalentTo(source.Description);
-        sourceResult.Amount.Should().Be(source.Amount);
-        sourceResult.Billing.Should().BeEquivalentTo(source.Billing);
-        sourceResult.Redirect!.Success.Should().BeEquivalentTo(source.Redirect.Success);
-        sourceResult.Redirect!.Failed.Should().BeEquivalentTo(source.Redirect.Failed);
-        sourceResult.Redirect!.CheckoutUrl.Should().NotBeNullOrEmpty();
+        sourceResult.Data.Id.Should().NotBeNullOrEmpty();
+        sourceResult.Data.Attributes.Description.Should().BeEquivalentTo(source.Data.Attributes.Description);
+        sourceResult.Data.Attributes.Amount.Should().Be(source.Data.Attributes.Amount);
+        sourceResult.Data.Attributes.Billing.Should().BeEquivalentTo(source.Data.Attributes.Billing);
+        sourceResult.Data.Attributes.Redirect!.Success.Should().BeEquivalentTo(source.Data.Attributes.Redirect.Success);
+        sourceResult.Data.Attributes.Redirect!.Failed.Should().BeEquivalentTo(source.Data.Attributes.Redirect.Failed);
+        sourceResult.Data.Attributes.Redirect!.CheckoutUrl.Should().NotBeNullOrEmpty();
     }
 
     [Theory]
@@ -78,20 +84,26 @@ public class SourceApiTests
         // Arrange
         Source source = new Source
         {
-            Amount = 10000,
-            Description = $"New {type} Payment",
-            Redirect = new Redirect
+            Data = new SourceData()
             {
-                Success = "http://127.0.0.1",
-                Failed = "http://127.0.0.1"
-            },
-            Type = type,
-            Currency = Currency.Php
+                Attributes = new SourceAttributes()
+                {
+                    Amount = 10000,
+                    Description = $"New {type} Payment",
+                    Redirect = new Redirect
+                    {
+                        Success = "http://127.0.0.1",
+                        Failed = "http://127.0.0.1"
+                    },
+                    Type = type,
+                    Currency = Currency.Php
+                }
+            }
         };
 
         // Act
         var sourceResult = await _client.Sources.CreateSourceAsync(source);
-        var getSourceResult = await _client.Sources.RetrieveSourceAsync(sourceResult.Id);
+        var getSourceResult = await _client.Sources.RetrieveSourceAsync(sourceResult.Data.Id);
         
         // Assert
         getSourceResult.Should().NotBeNull();

@@ -22,7 +22,7 @@
 
 using System.Net.Http;
 using System.Threading.Tasks;
-using Paymongo.Sharp.Features.PaymentIntents.Entities;
+using Paymongo.Sharp.Features.PaymentIntents.Contracts;
 using Paymongo.Sharp.Helpers;
 using Paymongo.Sharp.Utilities;
 
@@ -38,10 +38,9 @@ namespace Paymongo.Sharp.Features.PaymentIntents
             _client = client;
         }
 
-        public async Task<PaymentIntent> CreatePaymentIntentAsync(PaymentIntent paymentIntent)
+        public async Task<PaymentIntent> CreatePaymentIntentAsync(PaymentIntent paymentIntent, string? idempotencyKey = null)
         {
-            var data = paymentIntent.ToSchema();
-            return await _client.SendRequestAsync<PaymentIntent>(HttpMethod.Post, Resource, data, content => content.ToPaymentIntent());
+            return await _client.SendRequestAsync<PaymentIntent>(HttpMethod.Post, Resource, paymentIntent, content => content.ToPaymentIntent(), idempotencyKey);
         }
 
         public async Task<PaymentIntent> RetrievePaymentIntentAsync(string id)
@@ -51,8 +50,7 @@ namespace Paymongo.Sharp.Features.PaymentIntents
 
         public async Task<PaymentIntent> AttachToPaymentIntentAsync(string id, PaymentIntentAttachment paymentIntentAttachment)
         {
-            var data = paymentIntentAttachment.ToSchema();
-            return await _client.SendRequestAsync<PaymentIntent>(HttpMethod.Post, $"{Resource}/{id}/attach", data, content => content.ToPaymentIntent());
+            return await _client.SendRequestAsync<PaymentIntent>(HttpMethod.Post, $"{Resource}/{id}/attach", paymentIntentAttachment, content => content.ToPaymentIntent());
         }
     }
 }

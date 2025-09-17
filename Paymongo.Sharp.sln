@@ -1,0 +1,53 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{EE3947E4-E399-475E-8603-B2697DD7D6B5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{EEB8BC90-9351-4C81-B93D-C13275D8E518}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Paymongo.Sharp.Tests", "Paymongo.Sharp.Tests\Paymongo.Sharp.Tests.csproj", "{08180986-AB30-4B6F-9904-C67215D237DE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Paymongo.Sharp", "Paymongo.Sharp\Paymongo.Sharp.csproj", "{FE168FAD-2DBB-46D8-BEEB-FD9D8AE2E6DF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{74B06197-914C-4DF9-B9FC-35B049749763}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Paymongo.Sharp.Console.Sample", "Paymongo.Sharp.Console.Sample\Paymongo.Sharp.Console.Sample.csproj", "{C75E3B97-C201-4F0A-BACD-683A1F94AD41}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Paymongo.Sharp.Wpf.Sample", "Paymongo.Sharp.Wpf.Sample\Paymongo.Sharp.Wpf.Sample.csproj", "{C69CAAE7-9B78-4872-A709-AB6320E05604}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Paymongo.Sharp.BlazorWasm.Sample", "Paymongo.Sharp.BlazorWasm.Sample\Paymongo.Sharp.BlazorWasm.Sample.csproj", "{591C970F-4905-4626-B34B-4BC6E3248660}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{08180986-AB30-4B6F-9904-C67215D237DE} = {EEB8BC90-9351-4C81-B93D-C13275D8E518}
+		{FE168FAD-2DBB-46D8-BEEB-FD9D8AE2E6DF} = {EE3947E4-E399-475E-8603-B2697DD7D6B5}
+		{C75E3B97-C201-4F0A-BACD-683A1F94AD41} = {74B06197-914C-4DF9-B9FC-35B049749763}
+		{C69CAAE7-9B78-4872-A709-AB6320E05604} = {74B06197-914C-4DF9-B9FC-35B049749763}
+		{591C970F-4905-4626-B34B-4BC6E3248660} = {74B06197-914C-4DF9-B9FC-35B049749763}
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{08180986-AB30-4B6F-9904-C67215D237DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08180986-AB30-4B6F-9904-C67215D237DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08180986-AB30-4B6F-9904-C67215D237DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08180986-AB30-4B6F-9904-C67215D237DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE168FAD-2DBB-46D8-BEEB-FD9D8AE2E6DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE168FAD-2DBB-46D8-BEEB-FD9D8AE2E6DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE168FAD-2DBB-46D8-BEEB-FD9D8AE2E6DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE168FAD-2DBB-46D8-BEEB-FD9D8AE2E6DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C75E3B97-C201-4F0A-BACD-683A1F94AD41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C75E3B97-C201-4F0A-BACD-683A1F94AD41}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C75E3B97-C201-4F0A-BACD-683A1F94AD41}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C75E3B97-C201-4F0A-BACD-683A1F94AD41}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C69CAAE7-9B78-4872-A709-AB6320E05604}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C69CAAE7-9B78-4872-A709-AB6320E05604}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C69CAAE7-9B78-4872-A709-AB6320E05604}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C69CAAE7-9B78-4872-A709-AB6320E05604}.Release|Any CPU.Build.0 = Release|Any CPU
+		{591C970F-4905-4626-B34B-4BC6E3248660}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{591C970F-4905-4626-B34B-4BC6E3248660}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{591C970F-4905-4626-B34B-4BC6E3248660}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{591C970F-4905-4626-B34B-4BC6E3248660}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

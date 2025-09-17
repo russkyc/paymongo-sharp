@@ -1,0 +1,148 @@
+﻿@using LumexUI
+@using LumexUI.Common
+@using Paymongo.Sharp.BlazorWasm.Sample.Models
+@using Paymongo.Sharp.Core.Enums
+@using Paymongo.Sharp.Features.Refunds.Contracts
+@using Paymongo.Sharp.Utilities
+
+<LumexCard>
+    <LumexCardBody Class="flex flex-col gap-6">
+        <div class="flex flex-col">
+            <h3 class="text-lg font-medium my-auto flex-grow-1">Issue a Refund Test</h3>
+            <p class="opacity-70 text-sm">Issue a test refund using the Refunds Api</p>
+        </div>
+        <div class="flex flex-col gap-3">
+            <LumexTextbox Required="@true"
+                          Disabled="@_isProcessing"
+                          @bind-Value="@_paymentId"
+                          Type="@InputType.Text"
+                          Placeholder="pay_ABC123"
+                          Label="Payment Id"
+                          LabelPlacement="LabelPlacement.Outside"
+                          Description="The Payment Id to refund"/>
+            <LumexNumbox TValue="decimal" Required="@true"
+                         Disabled="@_isProcessing"
+                         @bind-Value="@_amount"
+                         StartContent="@_currency"
+                         Type="@InputType.Text"
+                         Label="Refund Amount"
+                         LabelPlacement="LabelPlacement.Outside"
+                         Description="Any amount up to the full payment"/>
+            <LumexSelect TValue="RefundReason" Label="Reason"
+                         @bind-Value="@_reason"
+                         Required="true"
+                         Disabled="@_isProcessing"
+                         LabelPlacement="LabelPlacement.Outside"
+                         Placeholder="Select a Reason">
+                <LumexSelectItem @key="@RefundReason.Duplicate" Value="@RefundReason.Duplicate">
+                    Duplicate
+                </LumexSelectItem>
+                <LumexSelectItem @key="@RefundReason.Fraudulent" Value="@RefundReason.Fraudulent">
+                    Fraudulent
+                </LumexSelectItem>
+                <LumexSelectItem @key="@RefundReason.RequestedByCustomer" Value="@RefundReason.RequestedByCustomer">
+                    Requested by Customer
+                </LumexSelectItem>
+                <LumexSelectItem @key="@RefundReason.Others" Value="@RefundReason.Others">
+                    Others
+                </LumexSelectItem>
+            </LumexSelect>
+        </div>
+        @if (_alert is not null)
+        {
+            @_alert
+        }
+        <div class="flex gap-3">
+            <LumexButton Disabled="@_isProcessing" OnClick="@Refund" Color="@ThemeColor.Primary" Class="flex gap-1">
+                @if (_isProcessing)
+                {
+                    <LumexSpinner Variant="@SpinnerVariant.Ring" Color="@ThemeColor.Default" Size="@Size.Small"/>
+                    <span class="font-medium">Processing</span>
+                }
+                else
+                {
+                    <span class="font-medium">Request Refund</span>
+                }
+            </LumexButton>
+        </div>
+    </LumexCardBody>
+</LumexCard>
+
+@code {
+
+    private readonly RenderFragment _currency = @<p>₱</p>;
+    private RenderFragment? _alert;
+
+    private string? _paymentId;
+    private decimal _amount = 599;
+    private RefundReason _reason = RefundReason.RequestedByCustomer;
+
+    private bool _isProcessing;
+
+    [CascadingParameter] public PaymongoConfig Config { get; set; }
+
+    async Task Refund()
+    {
+        if (string.IsNullOrWhiteSpace(Config.SecretKey))
+        {
+            _alert = @<LumexAlert Closeable="true" OnClose="@ClearAlerts" Color="ThemeColor.Danger"
+                                  Title="Secret Key missing. Please configure the Secret Key in the settings panel."/>;
+            return;
+        }
+
+        if (string.IsNullOrWhiteSpace(_paymentId))
+        {
+            _alert = @<LumexAlert Closeable="true" OnClose="@ClearAlerts" Color="ThemeColor.Danger"
+                                  Title="Payment Id Missing. Please enter the payment Id to refund."/>;
+            return;
+        }
+        
+        _alert = null;
+        _isProcessing = true;
+
+        var amount = _amount.ToLongAmount();
+        var paymongoClient = new PaymongoClient(Config.SecretKey);
+
+        var refund = new Refund()
+        {
+            Data = new RefundData()
+            {
+                Attributes = new RefundAttributes()
+                {
+                    PaymentId = _paymentId,
+                    Reason = _reason,
+                    Amount = amount,
+                    Currency = Currency.Php
+                }
+            }
+        };
+
+        try
+        {
+            var refundResult = await paymongoClient.Refunds.CreateRefundAsync(refund);
+            _isProcessing = false;
+            _paymentId = null;
+            _amount = 599;
+            _reason = RefundReason.RequestedByCustomer;
+
+            _alert = @<LumexAlert Closeable="true" OnClose="@ClearPaymentInfo" Color="ThemeColor.Success"
+                                  Title="@($"Refund of {refundResult.Data.Attributes.Amount.ToDecimalAmount():C} successful for payment id: {refundResult.Data.Attributes.PaymentId}")"/>;
+        }
+        catch (Exception)
+        {
+            _alert = @<LumexAlert Closeable="true" OnClose="@ClearAlerts" Color="ThemeColor.Danger"
+                                  Title="Refund cannot be processed."/>;
+        }
+    }
+
+    private void ClearAlerts()
+    {
+        _alert = null;
+    }
+
+    private void ClearPaymentInfo()
+    {
+        _alert = null;
+    }
+
+}

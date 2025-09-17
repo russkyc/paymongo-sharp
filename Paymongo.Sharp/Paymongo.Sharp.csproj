@@ -12,26 +12,20 @@
         <PackageIcon>icon.png</PackageIcon>
         <RepositoryUrl>https://github.com/russkyc/paymongo-sharp</RepositoryUrl>
         <PackageTags>paymongo paymongo-sharp pay payments</PackageTags>
-        <Version>1.0.0</Version>
+        <Version>2.0.0</Version>
         <Description>Unofficial C# Client for Paymongo</Description>
         <Copyright>russkyc 2023</Copyright>
-        <PackageReleaseNotes>v1.0.0 Stable: Api Parity Update
+        <PackageReleaseNotes>v2.0.0 Stable: Bug fixes, idempotency, and api consistency
 
 BREAKING CHANGES (Consistency):
+- Object schemas/contracts now follow the object resource format in the paymongo API
 
-- Amount Values are now whole number values (like the official API), which means Amounts like 100.00 should be defined as 100000 similar to the api docs. But There is a new extension method added to automatically do this by using `.ToLongAmount()` to Convert to whole numbers, and `.ToDecimalAmount()` to convert back to decimal values accordingly.
+OTHER FEATURES:
+- Add support for idempotency on create actions
 
-NEW FEATURES (API Parity):
-
-Added support for the following features:
-- Payment Intents
-- Webhooks
-- Card Installments
-- QR PH
-
-OTHER CHANGES (Package Rework):
-
-- Remove dependency to Newtonsoft.Json and RestSharp, the package now uses Microsoft's System.Text.Json and HttpClient.</PackageReleaseNotes>
+BUG FIXES:
+- Fix payment information missing on some resources
+- Fix datetime localization on object resources</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     </PropertyGroup>
 

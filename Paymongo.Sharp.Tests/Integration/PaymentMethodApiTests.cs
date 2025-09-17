@@ -20,8 +20,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using Paymongo.Sharp.Features.PaymentMethods.Contracts;
 using Paymongo.Sharp.Tests.Utils;
-using PaymentMethod = Paymongo.Sharp.Features.PaymentMethods.Entities.PaymentMethod;
+using PaymentMethod = Paymongo.Sharp.Features.PaymentMethods.Contracts.PaymentMethod;
 
 namespace Paymongo.Sharp.Tests.Integration;
 
@@ -44,19 +45,24 @@ public class PaymentMethodApiTests
         // Arrange
         var paymentMethod = new PaymentMethod
         {
-            Type = PaymentMethodType.GCash,
-            Billing = DataFakers.GenerateBilling()
+            Data = new PaymentMethodData()
+            {
+                Attributes = new PaymentMethodAttributes()
+                {
+                    Type = PaymentMethodType.GCash,
+                    Billing = DataFakers.GenerateBilling()
+                }
+            }
         };
 
         // Act
         var paymentMethodResult = await _client.PaymentMethods.CreatePaymentMethodAsync(paymentMethod);
-        var getPaymentMethodResult = await _client.PaymentMethods.RetrievePaymentMethodAsync(paymentMethodResult.Id);
+        var getPaymentMethodResult = await _client.PaymentMethods.RetrievePaymentMethodAsync(paymentMethodResult.Data.Id);
         
         // Assert
-        Assert.NotEmpty(paymentMethodResult.Id);
-        Assert.NotEmpty(getPaymentMethodResult.Id);
-        Assert.Equal(paymentMethod.Type,paymentMethodResult.Type);
-        Assert.Equal(paymentMethodResult.Type,getPaymentMethodResult.Type);
+        Assert.NotEmpty(paymentMethodResult.Data.Id);
+        Assert.NotEmpty(getPaymentMethodResult.Data.Id);
+        Assert.Equal(paymentMethod.Data.Attributes.Type,getPaymentMethodResult.Data.Attributes.Type);
     }
     
     [Fact]
@@ -65,9 +71,15 @@ public class PaymentMethodApiTests
         // Arrange
         var paymentMethod = new PaymentMethod
         {
-            Type = PaymentMethodType.Card,
-            Billing = DataFakers.GenerateBilling(),
-            Details = DataFakers.GenerateDetails()
+            Data = new PaymentMethodData()
+            {
+                Attributes = new PaymentMethodAttributes()
+                {
+                    Type = PaymentMethodType.Card,
+                    Billing = DataFakers.GenerateBilling(),
+                    Details = DataFakers.GenerateDetails()
+                }
+            }
         };
 
         // Act
@@ -75,17 +87,17 @@ public class PaymentMethodApiTests
 
         // Assert
         Assert.NotNull(paymentMethodResult);
-        Assert.NotEmpty(paymentMethodResult.Id);
-        Assert.Equal(paymentMethod.Type, paymentMethodResult.Type);
+        Assert.NotEmpty(paymentMethodResult.Data.Id);
+        Assert.Equal(paymentMethod.Data.Attributes.Type, paymentMethodResult.Data.Attributes.Type);
         
-        paymentMethodResult.Type = PaymentMethodType.Card;
-        paymentMethodResult.Cvc = "424";
+        paymentMethodResult.Data.Attributes.Type = PaymentMethodType.Card;
+        paymentMethodResult.Data.Attributes.Cvc = "424";
 
         var updatedPaymentMethodResult = await _client.PaymentMethods.UpdatePaymentMethodAsync(paymentMethodResult);
         
         // Assert
-        Assert.Equal(paymentMethodResult.Id,updatedPaymentMethodResult.Id);
-        Assert.Equal(paymentMethodResult.Type, updatedPaymentMethodResult.Type);
+        Assert.Equal(paymentMethodResult.Data.Id,updatedPaymentMethodResult.Data.Id);
+        Assert.Equal(paymentMethodResult.Data.Attributes.Type, updatedPaymentMethodResult.Data.Attributes.Type);
         
     }
 

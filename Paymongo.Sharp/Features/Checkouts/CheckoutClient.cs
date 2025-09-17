@@ -22,7 +22,7 @@
 
 using System.Net.Http;
 using System.Threading.Tasks;
-using Paymongo.Sharp.Features.Checkouts.Entities;
+using Paymongo.Sharp.Features.Checkouts.Contracts;
 using Paymongo.Sharp.Helpers;
 using Paymongo.Sharp.Utilities;
 
@@ -38,10 +38,9 @@ namespace Paymongo.Sharp.Features.Checkouts
             _client = client;
         }
 
-        public async Task<Checkout> CreateCheckoutAsync(Checkout checkout)
+        public async Task<Checkout> CreateCheckoutAsync(Checkout checkout, string? idempotencyKey = null)
         {
-            var data = checkout.ToSchema();
-            return await _client.SendRequestAsync<Checkout>(HttpMethod.Post, Resource, data, content => content.ToCheckout());
+            return await _client.SendRequestAsync<Checkout>(HttpMethod.Post, Resource, checkout, content => content.ToCheckout(), idempotencyKey);
         }
 
         public async Task<Checkout> RetrieveCheckoutAsync(string id)

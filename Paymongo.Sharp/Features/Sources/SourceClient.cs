@@ -22,7 +22,7 @@
 
 using System.Net.Http;
 using System.Threading.Tasks;
-using Paymongo.Sharp.Features.Sources.Entities;
+using Paymongo.Sharp.Features.Sources.Contracts;
 using Paymongo.Sharp.Helpers;
 using Paymongo.Sharp.Utilities;
 
@@ -38,10 +38,9 @@ namespace Paymongo.Sharp.Features.Sources
             _client = client;
         }
 
-        public async Task<Source> CreateSourceAsync(Source source)
+        public async Task<Source> CreateSourceAsync(Source source, string? idempotencyKey = null)
         {
-            var data = source.ToSchema();
-            return await _client.SendRequestAsync<Source>(HttpMethod.Post, Resource, data, content => content.ToSource());
+            return await _client.SendRequestAsync<Source>(HttpMethod.Post, Resource, source, content => content.ToSource(), idempotencyKey);
         }
 
         public async Task<Source> RetrieveSourceAsync(string id)

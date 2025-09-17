@@ -27,14 +27,22 @@ namespace Paymongo.Sharp.Core.Enums
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum PaymentMethodType
     {
-        [JsonStringEnumMemberName("brankas")]
-        Brankas,
         [JsonStringEnumMemberName("billease")]
-        Billease,
+        BillEase,
         [JsonStringEnumMemberName("card")]
         Card,
+        [JsonStringEnumMemberName("brankas")]
+        Brankas,
+        [JsonStringEnumMemberName("brankas_bdo")]
+        BrankasBdo,
+        [JsonStringEnumMemberName("brankas_landbank")]
+        BrankasLandbank,
+        [JsonStringEnumMemberName("brankas_metrobank")]
+        BrankasMetrobank,
         [JsonStringEnumMemberName("dob")]
         Dob,
+        [JsonStringEnumMemberName("dob_ubp")]
+        DobUbp,
         [JsonStringEnumMemberName("gcash")]
         GCash,
         [JsonStringEnumMemberName("grab_pay")]

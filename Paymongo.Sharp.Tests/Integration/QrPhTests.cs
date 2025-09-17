@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Paymongo.Sharp.Features.QrPh.Entities;
+using Paymongo.Sharp.Features.QrPh.Contracts;
 
 namespace Paymongo.Sharp.Tests.Integration;
 
@@ -43,8 +43,14 @@ public class QrPhTests
         // Arrange
         var qrCode = new QrPhCode()
         {
-            MobileNumber = "+639123456789",
-            Kind = QrCodeKind.Instore
+            Data = new QrPhCodeData()
+            {
+                Attributes = new QrPhCodeAttributes()
+                {
+                    MobileNumber = "+639123456789",
+                    Kind = QrCodeKind.Instore
+                }
+            }
         };
 
         // Act

@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Paymongo.Sharp.Features.Installments.Entities;
+using Paymongo.Sharp.Features.CardInstallments.Contracts;
 
 namespace Paymongo.Sharp.Tests.Integration;
 
@@ -48,7 +48,7 @@ public class CardInstallmentsApiTests
         var result = await _client.CardInstallments.ListInstallmentPlansAsync(amount);
 
         // Assert
-        var installmentPlans = result as InstallmentPlan[] ?? result.ToArray();
+        var installmentPlans = result as Plan[] ?? result.ToArray();
         
         installmentPlans.Should().NotBeNull();
         installmentPlans.Should().NotBeEmpty();

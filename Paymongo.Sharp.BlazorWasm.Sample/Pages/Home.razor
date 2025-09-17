@@ -1,0 +1,92 @@
+﻿@page "/"
+@using LumexUI
+@using LumexUI.Common
+@using LumexUI.Shared.Icons
+@using Paymongo.Sharp.BlazorWasm.Sample.Components
+@using Paymongo.Sharp.BlazorWasm.Sample.Models
+
+<PageTitle>Home - Paymongo Wasm Sample</PageTitle>
+
+<CascadingValue Value="@Config">
+    <div class="flex flex-col gap-3 p-3">
+        <div class="flex w-full gap-2">
+            <LumexAvatar Src="/icon.png" Class="flex-shrink-0" />
+            <h1 class="text-lg font-bold my-auto max-sm:hidden">Paymongo.Sharp - Blazor Wasm Sample</h1>
+            <h1 class="text-lg font-semibold my-auto sm:hidden">Paymongo.Sharp</h1>
+            <div class="flex-grow-1"></div>
+            <LumexButton IconOnly="@true" Variant="@(_isConfigurationExpanded ? Variant.Solid : Variant.Light)"
+                         OnClick="@ToggleConfiguration">
+                <Settings2Icon/>
+            </LumexButton>
+        </div>
+        <LumexCollapse As="div" Expanded="@_isConfigurationExpanded">
+            <LumexCard>
+                <LumexCardBody Class="flex flex-col gap-6">
+                    <div class="flex flex-col">
+                        <h3 class="text-lg font-medium my-auto flex-grow-1">Configure Api Keys</h3>
+                        <p class="opacity-70 text-sm">Your api keys from the <a class="font-medium text-primary-600 hover:underline" target="_blank" href="https://dashboard.paymongo.com/developers/api-keys">paymongo dashboard</a>, these are not saved locally and need to be re-configured after a page refresh</p>
+                    </div>
+                    <div class="flex flex-col gap-3">
+                        <LumexTextbox Required="@true"
+                                      @bind-Value="@Config.PublicKey"
+                                      Type="@InputType.Text"
+                                      Label="Public Key"
+                                      LabelPlacement="LabelPlacement.Outside"
+                                      Placeholder="pk_test_123ABC"/>
+                        <LumexTextbox Required="@true"
+                                      @bind-Value="@Config.SecretKey"
+                                      Type="@InputType.Text"
+                                      Label="Secret Key"
+                                      LabelPlacement="LabelPlacement.Outside"
+                                      Placeholder="sk_test_123ABC"/>
+                    </div>
+                    <div class="flex gap-3">
+                        <LumexButton Class="font-medium" OnClick="@SaveConfiguration" Color="@ThemeColor.Primary">Save
+                        </LumexButton>
+                        <LumexButton OnClick="@CloseConfiguration" Variant="@Variant.Light">Cancel</LumexButton>
+                    </div>
+                </LumexCardBody>
+            </LumexCard>
+        </LumexCollapse>
+        <div class="flex flex-col">
+            <LumexTabs Color="@ThemeColor.Primary">
+                <LumexTab Title="Links">
+                    <Links/>
+                </LumexTab>
+                <LumexTab Title="Checkout">
+                    <Checkouts/>
+                </LumexTab>
+                <LumexTab Title="Sources">
+                    <Sources/>
+                </LumexTab>
+                <LumexTab Title="Refunds">
+                    <Refunds/>
+                </LumexTab>
+            </LumexTabs>
+        </div>
+    </div>
+</CascadingValue>
+
+@code {
+
+    private bool _isConfigurationExpanded;
+
+    public PaymongoConfig Config = new();
+
+    void SaveConfiguration()
+    {
+        _isConfigurationExpanded = false;
+    }
+
+    void CloseConfiguration()
+    {
+        _isConfigurationExpanded = false;
+    }
+
+    void ToggleConfiguration()
+    {
+        _isConfigurationExpanded = !_isConfigurationExpanded;
+        Console.WriteLine(_isConfigurationExpanded);
+    }
+
+}

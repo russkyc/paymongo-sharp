@@ -20,8 +20,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Paymongo.Sharp.Features.Refunds.Entities;
-using Paymongo.Sharp.Features.Payments.Entities;
+using Paymongo.Sharp.Features.Payments.Contracts;
+using Paymongo.Sharp.Features.Refunds.Contracts;
 
 namespace Paymongo.Sharp.Tests.Integration;
 
@@ -42,12 +42,18 @@ public class RefundApiTests
         // Arrange: create a payment first (minimal required fields)
         var payment = new Payment
         {
-            Amount = 10000,
-            Currency = Currency.Php,
-            Source = new PaymentSource
+            Data = new PaymentData()
             {
-                Id = "src_test_12345678", // Replace with a valid source id for real test
-                Type = "soutce"
+                Attributes = new PaymentAttributes()
+                {
+                    Amount = 10000,
+                    Currency = Currency.Php,
+                    Source = new PaymentSource
+                    {
+                        Id = "src_test_12345678", // Replace with a valid source id for real test
+                        Type = "source"
+                    }
+                }
             }
         };
         var paymentResult = await _client.Payments.CreatePaymentAsync(payment);
@@ -55,19 +61,25 @@ public class RefundApiTests
         // Act: create a refund for the payment
         var refund = new Refund
         {
-            Amount = 10000,
-            PaymentId = paymentResult.Id,
-            Currency = Currency.Php,
-            Notes = "Test refund"
+            Data = new RefundData()
+            {
+                Attributes = new RefundAttributes()
+                {
+                    Amount = 10000,
+                    PaymentId = paymentResult.Data.Id,
+                    Currency = Currency.Php,
+                    Notes = "Test refund"
+                }
+            }
         };
         var refundResult = await _client.Refunds.CreateRefundAsync(refund);
 
         // Assert
         refundResult.Should().NotBeNull();
-        refundResult.Id.Should().NotBeNullOrEmpty();
-        refundResult.Amount.Should().Be(refund.Amount);
-        refundResult.PaymentId.Should().Be(paymentResult.Id);
-        refundResult.Currency.Should().Be(refund.Currency);
+        refundResult.Data.Id.Should().NotBeNullOrEmpty();
+        refundResult.Data.Attributes.Amount.Should().Be(refund.Data.Attributes.Amount);
+        refundResult.Data.Attributes.PaymentId.Should().Be(paymentResult.Data.Id);
+        refundResult.Data.Attributes.Currency.Should().Be(refund.Data.Attributes.Currency);
     }
 
     [Fact]
@@ -76,30 +88,42 @@ public class RefundApiTests
         // Arrange: create a payment and refund first
         var payment = new Payment
         {
-            Amount = 10000,
-            Currency = Currency.Php,
-            Source = new PaymentSource
+            Data = new PaymentData()
             {
-                Id = "src_test_12345678", // Replace with a valid source id for real test
-                Type = "source"
+                Attributes = new PaymentAttributes()
+                {
+                    Amount = 10000,
+                    Currency = Currency.Php,
+                    Source = new PaymentSource
+                    {
+                        Id = "src_test_12345678", // Replace with a valid source id for real test
+                        Type = "source"
+                    }
+                }
             }
         };
         var paymentResult = await _client.Payments.CreatePaymentAsync(payment);
         var refund = new Refund
         {
-            Amount = 10000,
-            PaymentId = paymentResult.Id,
-            Currency = Currency.Php
+            Data = new RefundData()
+            {
+                Attributes = new RefundAttributes()
+                {
+                    Amount = 10000,
+                    PaymentId = paymentResult.Data.Id,
+                    Currency = Currency.Php
+                }
+            }
         };
         var refundResult = await _client.Refunds.CreateRefundAsync(refund);
 
         // Act
-        var getRefundResult = await _client.Refunds.RetrieveRefundAsync(refundResult.Id);
+        var getRefundResult = await _client.Refunds.RetrieveRefundAsync(refundResult.Data.Id);
 
         // Assert
         getRefundResult.Should().NotBeNull();
-        getRefundResult.Id.Should().Be(refundResult.Id);
-        getRefundResult.Amount.Should().Be(refund.Amount);
+        getRefundResult.Data.Id.Should().Be(refundResult.Data.Id);
+        getRefundResult.Data.Attributes.Amount.Should().Be(refund.Data.Attributes.Amount);
     }
 
     [Fact]
@@ -108,29 +132,41 @@ public class RefundApiTests
         // Arrange: create a payment and refund first
         var payment = new Payment
         {
-            Amount = 10000,
-            Currency = Currency.Php,
-            Source = new PaymentSource
+            Data = new PaymentData()
             {
-                Id = "src_test_12345678", // Replace with a valid source id for real test
-                Type = "source"
+                Attributes = new PaymentAttributes()
+                {
+                    Amount = 10000,
+                    Currency = Currency.Php,
+                    Source = new PaymentSource
+                    {
+                        Id = "src_test_12345678", // Replace with a valid source id for real test
+                        Type = "source"
+                    }
+                }
             }
         };
         var paymentResult = await _client.Payments.CreatePaymentAsync(payment);
         var refund = new Refund
         {
-            Amount = 10000,
-            PaymentId = paymentResult.Id,
-            Currency = Currency.Php
+            Data = new RefundData()
+            {
+                Attributes = new RefundAttributes()
+                {
+                    Amount = 10000,
+                    PaymentId = paymentResult.Data.Id,
+                    Currency = Currency.Php
+                }
+            }
         };
         await _client.Refunds.CreateRefundAsync(refund);
 
         // Act
-        var refunds = await _client.Refunds.ListAllRefundsAsync(paymentId: paymentResult.Id, limit: 10);
+        var refunds = await _client.Refunds.ListAllRefundsAsync(paymentId: paymentResult.Data.Id, limit: 10);
 
         // Assert
         refunds.Should().NotBeNull();
-        refunds.Should().Contain(r => r.PaymentId == paymentResult.Id);
+        refunds.Should().Contain(refundData => refundData.Attributes.PaymentId == paymentResult.Data.Id);
     }
 }
 

@@ -14,10 +14,11 @@
 
 <p style="text-align: justify">
 
-[Paymongo](https://www.paymongo.com) is a powerful payment platform that provides a full suite of financial tools for businesses and more. With the Paymongo.Sharp, you can integrate payment processing into your .NET applications, allowing you to securely accept payments, manage transactions, and more.
-
-This client wrapper is designed to make it easy for .NET developers to interact with the Paymongo API. It provides a simple, intuitive interface that abstracts the API, allowing you to access a typed client and focus on building your Paymongo-integrated application faster.
+[Paymongo](https://www.paymongo.com) is a powerful payment platform that provides a full suite of financial tools for businesses and more. With Paymongo.Sharp, you can integrate payment processing into your .NET applications, allowing you to securely accept payments, manage transactions, and more.
 </p>
+
+> [!IMPORTANT]  
+> This client is not an official library by Paymongo. It is an independent open-source community project made to help .NET developers integrate Paymongo into their applications.
 
 ## :arrow_down: Installation
 
@@ -63,14 +64,12 @@ This nuget package is not limited to these samples, it also supports the all .NE
 This client is in active development and features are slowly being implemented but not all of them are supported as of now.
 You can track the support for all of Paymongo's official API actions below:
 
-### Feature Support Table (Paymongo.Sharp Version: 1.0.0+)
-
 <table>
   <thead>
     <tr>
       <th></th>
       <th>API Resource</th>
-      <th style="text-align:center;">Implementation Status</th>
+      <th style="text-align:center;">Status</th>
     </tr>
   </thead>
   <tbody>
@@ -127,64 +126,60 @@ You can track the support for all of Paymongo's official API actions below:
     </tr>
     <!-- Partial Support -->
     <tr>
-      <td>⚠️</td>
+      <td>✅</td>
       <td>Customers</td>
-      <td style="text-align:center;"><b style="color:#ffffff;">Partial</b></td>
-    </tr>
-    <!-- In Development / Unavailable -->
-    <tr>
-      <td>⛔</td>
-      <td>Child Merchant</td>
-      <td style="text-align:center;"><b style="color:gray;">Unavailable, Planned</b></td>
-    </tr>
-    <tr>
-      <td>⛔</td>
-      <td>File Record</td>
-      <td style="text-align:center;"><b style="color:gray;">Unavailable, Planned</b></td>
-    </tr>
-    <tr>
-      <td>⛔</td>
-      <td>Platforms</td>
-      <td style="text-align:center;"><b style="color:gray;">Unavailable, Planned</b></td>
-    </tr>
-    <tr>
-      <td>⛔</td>
-      <td>Related Consumer</td>
-      <td style="text-align:center;"><b style="color:gray;">Unavailable, Planned</b></td>
-    </tr>
-    <tr>
-      <td>⛔</td>
-      <td>Requirements</td>
-      <td style="text-align:center;"><b style="color:gray;">Unavailable, Planned</b></td>
-    </tr>
-    <tr>
-      <td>⛔</td>
-      <td>Subscriptions</td>
-      <td style="text-align:center;"><b style="color:gray;">Unavailable, Planned</b></td>
-    </tr>
-    <tr>
-      <td>⛔</td>
-      <td>Treasury</td>
-      <td style="text-align:center;"><b style="color:gray;">Unavailable, Planned</b></td>
+      <td style="text-align:center;"><b style="color:#e5f393;">Full</b></td>
     </tr>
   </tbody>
 </table>
 
----
+## :collision: Breaking Changes (V2.0.0+)
 
-## :collision: Breaking Changes (V1.0.0+)
+Starting from this version, all resource object schemas have been changed to match the official Paymongo API documentation.
 
-- All amount related properties should now be single number values, eg; 100.00 should be represented as 10000, to help with this
-there is a new extension method `ToLongAmount()` that can be used to convert decimal values to the correct amount format.
-
+**v1.X.X - Old**
 ```csharp
-
-decimal amount = 100.00m;
-// Convert to long amount (single number value in with centavos)
-long longAmount = amount.ToLongAmount(); // 10000
-
+Checkout checkout = new Checkout() {
+    Description = "Test Checkout",
+    LineItems = new [] {
+        new LineItem {
+            Name = "item_name",
+            Quantity = 1,
+            Currency = Currency.Php,
+            Amount = 3500
+        }
+    },
+    PaymentMethodTypes = new [] {
+        PaymentMethod.GCash,
+        PaymentMethod.Card,
+        PaymentMethod.Paymaya
+    }
+};
 ```
----
+
+**v2.X.X - Current**
+```csharp
+Checkout checkout = new Checkout() {
+    Data = new CheckoutData() {
+        Attributes = new CheckoutAttributes() {
+            Description = "Test Checkout",
+            LineItems = new [] {
+                new LineItem {
+                    Name = "item_name",
+                    Quantity = 1,
+                    Currency = Currency.Php,
+                    Amount = 3500
+                }
+            },
+            PaymentMethodTypes = new [] {
+                PaymentMethodType.GCash,
+                PaymentMethodType.Card,
+                PaymentMethodType.Paymaya
+            }
+        }
+    }
+};
+```
 
 ## :notebook: Basic Client API Reference
 
@@ -203,25 +198,32 @@ check the refernces for basic usage below.
 // We create a new Checkout object
 // This one includes the minimal required values
 Checkout checkout = new Checkout() {
-    Description = "Test Checkout",
-    LineItems = new [] {
-        new LineItem {
-            Name = "item_name",
-            Quantity = 1,
-            Currency = Currency.Php,
-            Amount = 3500
+    Data = new CheckoutData() {
+        Attributes = new CheckoutAttributes() {
+            Description = "Test Checkout",
+            LineItems = new [] {
+                new LineItem {
+                    Name = "item_name",
+                    Quantity = 1,
+                    Currency = Currency.Php,
+                    Amount = 3500
+                }
+            },
+            PaymentMethodTypes = new [] {
+                PaymentMethodType.GCash,
+                PaymentMethodType.Card,
+                PaymentMethodType.Paymaya
+            }
         }
-    },
-    PaymentMethodTypes = new [] {
-        PaymentMethod.GCash,
-        PaymentMethod.Card,
-        PaymentMethod.Paymaya
     }
 };
 
 // We use the PaymongoClient from earlier
 // This returns the Checkout object with the new server info for checkout url, id, and others
 Checkout checkoutResult = await client.Checkouts.CreateCheckoutAsync(checkout);
+
+// Optionally, you can provide an idempotency key to safely retry the request without creating duplicates
+Checkout checkoutResultWithIdempotency = await client.Checkouts.CreateCheckoutAsync(checkout, "<idempotency-key>");
 ```
 
 **Retrieve a Checkout Session**
@@ -244,8 +246,6 @@ Checkout checkoutResult = await client.Checkouts.ExpireCheckoutAsync("12345678")
 
 For full Checkout API reference, please see: [Checkout Session Resource](https://developers.paymongo.com/reference/checkout-session-resource)
 
----
-
 ### Payment Intent
 
 - [x] Create Payment Intent
@@ -256,23 +256,27 @@ For full Checkout API reference, please see: [Checkout Session Resource](https:/
 
 ```csharp
 // Create a new PaymentIntent object with minimal required values
-PaymentIntent paymentIntent = new PaymentIntent
-{
-    Amount = 10000,
-    Currency = Currency.Php,
-    PaymentMethodAllowed =
-    [
-        PaymentMethod.Card,
-        PaymentMethod.Paymaya
-    ],
-    PaymentMethodOptions = new PaymentMethodOption()
-    {
-        Card = new Card()
+PaymentIntent paymentIntent = new PaymentIntent {
+    Data = new PaymentIntentData {
+        Attributes = new PaymentIntentAttributes {
+            Amount = 10000,
+            Currency = Currency.Php,
+            PaymentMethodAllowed = new[] {
+                PaymentMethodType.Card,
+                PaymentMethodType.Paymaya
+            },
+            PaymentMethodOptions = new PaymentMethodOptions {
+                Card = new CardOptions()
+            }
+        }
     }
 };
 
 // Use the PaymongoClient to create the payment intent
 PaymentIntent paymentIntentResult = await client.PaymentIntents.CreatePaymentIntentAsync(paymentIntent);
+
+// Optionally, you can provide an idempotency key to safely retry the request without creating duplicates
+PaymentIntent paymentIntentResultWithIdempotency = await client.PaymentIntents.CreatePaymentIntentAsync(paymentIntent, "<idempotency-key>");
 ```
 
 **Retrieve a Payment Intent**
@@ -290,18 +294,19 @@ PaymentIntent getPaymentIntent = await client.PaymentIntents.RetrievePaymentInte
 // Attach a payment method to an existing PaymentIntent
 const string paymentIntentId = "pi_WENqK7d5L3XN9YQzEt39B3oF";
 
-PaymentIntentAttachment paymentIntentAttachment = new PaymentIntentAttachment
-{
-    PaymentMethod = PaymentMethod.Card,
-    ReturnUrl = "https://google.com"
+PaymentIntentAttachment paymentIntentAttachment = new PaymentIntentAttachment {
+    Data = new PaymentIntentAttachmentData {
+        Attributes = new PaymentIntentAttachmentAttributes {
+            PaymentMethod = "pm_card_visa",
+            ReturnUrl = "https://google.com"
+        }
+    }
 };
 
 PaymentIntent paymentIntentResult = await client.PaymentIntents.AttachToPaymentIntentAsync(paymentIntentId, paymentIntentAttachment);
 ```
 
 For full Payment API reference, please see: [The Payment Intent Object](https://developers.paymongo.com/reference/the-payment-intent-object), [(Pre-Authorization) Capture](https://developers.paymongo.com/reference/capture-a-payment), [(Pre-Authorization) Cancel](https://developers.paymongo.com/reference/cancel-a-payment)
-
----
 
 ### Payment Method
 
@@ -315,24 +320,31 @@ For full Payment API reference, please see: [The Payment Intent Object](https://
 ```csharp
 // We create a new PaymentMethod object
 PaymentMethod paymentMethod = new PaymentMethod {
-    Type = PaymentMethodType.GCash,
-    Billing = new Billing {
-        Name = "Test Name",
-        Email = "test@paymongo.com",
-        Phone = "+639123456789",
-        Address = new Address {
-            Line1 = "Test Address 1",
-            Line2 = "Test Address 2",
-            PostalCode = "1234",
-            State = "Test State",
-            City = "Test City",
-            Country = "PH"
+    Data = new PaymentMethodData {
+        Attributes = new PaymentMethodAttributes {
+            Type = PaymentMethodType.GCash,
+            Billing = new Billing {
+                Name = "Test Name",
+                Email = "test@paymongo.com",
+                Phone = "+639123456789",
+                Address = new Address {
+                    Line1 = "Test Address 1",
+                    Line2 = "Test Address 2",
+                    PostalCode = "1234",
+                    State = "Test State",
+                    City = "Test City",
+                    Country = "PH"
+                }
+            }
         }
     }
 };
 
 // Use the PaymongoClient from earlier
 PaymentMethod paymentMethodResult = await client.PaymentMethods.CreatePaymentMethodAsync(paymentMethod);
+
+// Optionally, you can provide an idempotency key to safely retry the request without creating duplicates
+PaymentMethod paymentMethodResultWithIdempotency = await client.PaymentMethods.CreatePaymentMethodAsync(paymentMethod, "<idempotency-key>");
 ```
 
 **Retrieve a Payment Method**
@@ -350,7 +362,7 @@ PaymentMethod paymentMethodResult = await client.PaymentMethods.RetrievePaymentM
 PaymentMethod paymentMethodResult = await client.PaymentMethods.RetrievePaymentMethodAsync("pm_12345678");
 
 // Update properties as needed
-paymentMethodResult.Cvc = "424";
+paymentMethodResult.Data.Attributes.Cvc = "424";
 
 // Update the payment method on the server
 PaymentMethod updatedPaymentMethodResult = await client.PaymentMethods.UpdatePaymentMethodAsync(paymentMethodResult);
@@ -364,8 +376,6 @@ IEnumerable<PaymentMethod> paymentMethods = await client.PaymentMethods.Retrieve
 ```
 
 For full Payment Method API reference, please see: [The Payment Method Object](https://developers.paymongo.com/reference/the-payment-method-object)
-
----
 
 ### Payments
 
@@ -390,26 +400,35 @@ IEnumerable<Payment> paymentsResult = await client.Payments.ListAllPaymentsAsync
 Payment paymentResult = await client.Payments.RetrievePaymentAsync("12345678");
 ```
 
+**Create a Payment**
+
+```csharp
+// We create a new Payment object
+Payment payment = new Payment() {
+    Data = new PaymentData() {
+        Attributes = new PaymentAttributes() {
+            Amount = 10000,
+            Currency = Currency.Php,
+            PaymentMethod = "pm_card_visa",
+            Description = "Test Payment"
+        }
+    }
+};
+
+// Use the PaymongoClient from earlier
+Payment paymentResult = await client.Payments.CreatePaymentAsync(payment);
+
+// Optionally, you can provide an idempotency key to safely retry the request without creating duplicates
+Payment paymentResultWithIdempotency = await client.Payments.CreatePaymentAsync(payment, "<idempotency-key>");
+```
+
 For full Payments API reference, please see: [Payment Resource](https://developers.paymongo.com/reference/payment-source)
-
----
-
-### Subscriptions (Plans)
-
-- [ ] Create Plan
-- [ ] Retrieve a Plan
-- [ ] Update a Plan
-- [ ] Retrieve Lis of Plans
-
-For full Subscriptions(Plans) API reference, please see: [Plan Resource](https://developers.paymongo.com/reference/plan-resource)
-
----
 
 ### Links
 
 - [x] Create a Link
 - [x] Retrieve a Link
-- [x] Get Link by Reference Number
+- [x] ~~Get Link by Reference Number~~ (Deprecated)
 - [x] Archive a Link
 - [x] Unarchive a Link
 
@@ -419,14 +438,21 @@ For full Subscriptions(Plans) API reference, please see: [Plan Resource](https:/
 // We create a new Link object
 // This one includes the minimal required values
 Link link = new Link {
-    Description = "New Link",
-    Amount = 100000,
-    Currency = Currency.Php
+    Data = new LinkData {
+        Attributes = new LinkAttributes {
+            Description = "New Link",
+            Amount = 100000,
+            Currency = Currency.Php
+        }
+    }
 };
 
 // We use the PaymongoClient from earlier
 // This returns the Link object with the new server info for checkout url, id, and others
 Link linkResult = await client.Links.CreateLinkAsync(link);
+
+// Optionally, you can provide an idempotency key to safely retry the request without creating duplicates
+Link linkResultWithIdempotency = await client.Links.CreateLinkAsync(link, "<idempotency-key>");
 ```
 
 **Retrieve a Link**
@@ -438,7 +464,7 @@ Link linkResult = await client.Links.CreateLinkAsync(link);
 Link linkResult = await client.Links.RetrieveLinkAsync("12345678");
 ```
 
-**Get Link by Reference Number**
+**~~Get Link by Reference Number~~ (Deprecated)**
 
 ```csharp
 // We use the PaymongoClient from earlier
@@ -467,8 +493,6 @@ Link linkResult = await client.Links.UnarchiveLinkAsync("12345678");
 
 For full Links API reference, please see: [Links Resource](https://developers.paymongo.com/reference/links-resource)
 
----
-
 ### Webhooks
 
 - [x] Create a Webhook
@@ -483,12 +507,19 @@ For full Links API reference, please see: [Links Resource](https://developers.pa
 ```csharp
 // Create a new Webhook object with required values
 Webhook webhook = new Webhook {
-    Url = "https://www.example.com/webhook",
-    Events = new[] { "source.chargeable", "payment.paid" }
+    Data = new WebhookData {
+        Attributes = new WebhookAttributes {
+            Url = "https://www.example.com/webhook",
+            Events = new[] { "source.chargeable", "payment.paid" }
+        }
+    }
 };
 
 // Use the PaymongoClient to create the webhook
 Webhook created = await client.Webhooks.CreateWebhookAsync(webhook);
+
+// Optionally, you can provide an idempotency key to safely retry the request without creating duplicates
+Webhook createdWithIdempotency = await client.Webhooks.CreateWebhookAsync(webhook, "<idempotency-key>");
 ```
 
 **Retrieve a Webhook**
@@ -510,7 +541,7 @@ IEnumerable<Webhook> webhooks = await client.Webhooks.ListWebhooksAsync();
 ```csharp
 // Update an existing webhook's URL
 Webhook webhook = await client.Webhooks.RetrieveWebhookAsync("wh_12345678");
-webhook.Url = "https://www.example.com/updated";
+webhook.Data.Attributes.Url = "https://www.example.com/updated";
 Webhook updated = await client.Webhooks.UpdateWebhookAsync(webhook);
 ```
 
@@ -530,8 +561,6 @@ Webhook disabled = await client.Webhooks.DisableWebhookAsync("wh_12345678");
 
 For full Webhook API reference, please see: [Webhook Resource](https://developers.paymongo.com/reference/webhook-resource)
 
----
-
 ### Refunds
 
 - [x] Create a Refund
@@ -543,15 +572,22 @@ For full Webhook API reference, please see: [Webhook Resource](https://developer
 ```csharp
 // Create a new Refund object with the minimal required values
 Refund refund = new Refund {
-    Amount = 10000,
-    PaymentId = "payment_id_12345678",
-    Currency = Currency.Php,
-    Notes = "Test refund"
+    Data = new RefundData {
+        Attributes = new RefundAttributes {
+            Amount = 10000,
+            PaymentId = "payment_id_12345678",
+            Currency = Currency.Php,
+            Notes = "Test refund"
+        }
+    }
 };
 
 // Use the PaymongoClient from earlier
 // This returns the Refund object with server info
 Refund refundResult = await client.Refunds.CreateRefundAsync(refund);
+
+// Optionally, you can provide an idempotency key to safely retry the request without creating duplicates
+Refund refundResultWithIdempotency = await client.Refunds.CreateRefundAsync(refund, "<idempotency-key>");
 ```
 
 **Retrieve a Refund**
@@ -573,33 +609,36 @@ IEnumerable<Refund> refunds = await client.Refunds.ListAllRefundsAsync(paymentId
 
 For full Refunds API reference, please see: [Refund Resource](https://developers.paymongo.com/reference/refund-resource)
 
----
-
 ### Customers
 
 - [x] Create a Customer
 - [x] Retrieve a Customer
 - [x] Edit a Customer
 - [x] Delete a Customer
-- [ ] Retrieve the Payment Methods of a Customer
-- [ ] Delete a Payment Method of a Customer
 
 **Create a Customer**
 
 ```csharp
 // We create a new Customer object
 // This one includes the minimal required values
-Customer customer = new Customer() {
-    FirstName = "First Name",
-    LastName = "Last Name",
-    Email = "testcustomermail@mail.com",
-    Phone = "+639234735258",
-    DefaultDevice = Device.Email
+Customer customer = new Customer {
+    Data = new CustomerData {
+        Attributes = new CustomerAttributes {
+            FirstName = "First Name",
+            LastName = "Last Name",
+            Email = "testcustomermail@mail.com",
+            Phone = "+639234735258",
+            DefaultDevice = Device.Email
+        }
+    }
 };
 
 // We use the PaymongoClient from earlier
 // This returns a Customer object from the server with an Id as confirmation
 Customer customerResult = await client.Customers.CreateCustomerAsync(customer);
+
+// Optionally, you can provide an idempotency key to safely retry the request without creating duplicates
+Customer customerResultWithIdempotency = await client.Customers.CreateCustomerAsync(customer, "<idempotency-key>");
 ```
 
 **Retrieve a Customer**
@@ -619,8 +658,8 @@ Customer customerResult = await client.Customers.RetrieveCustomerAsync("customer
 Customer customerResult = await client.Customers.RetrieveCustomerAsync("customer@mail.com", "+639876543210");
 
 // Lets edit some of the customer information
-customerResult.FirstName = "New First Name";
-customerResult.LastName = "New Last Name";
+customerResult.Data.Attributes.FirstName = "New First Name";
+customerResult.Data.Attributes.LastName = "New Last Name";
 
 // After this update executes, this returns the Customer object with the updated information
 var editCustomerResult = await client.Customers.EditCustomerAsync(customerResult);
@@ -638,9 +677,7 @@ bool deletedCustomerResult = await client.Customers.DeleteCustomerAsync("1234567
 
 For full Customers API reference, please see: [Customer Resource](https://developers.paymongo.com/reference/customer-resource)
 
----
-
-### Sources (Gcash and GrabPay Checkout)
+### Sources (GCash and GrabPay Checkout) (No longer [supported](https://developers.paymongo.com/reference/the-sources-object))
 
 - [x] Create a Source
 - [x] Retrieve a Source
@@ -651,32 +688,39 @@ For full Customers API reference, please see: [Customer Resource](https://develo
 // We create a new Source object
 // This one includes the minimal required values
 Source source = new Source {
-    Amount = 100000,
-    Billing = new Billing {
-        Name = "TestName",
-        Email = "test@paymongo.com",
-        Phone = "9734534443",
-        Address = new Address {
-            Line1 = "TestAddress1",
-            Line2 = "TestAddress2",
-            PostalCode = "4506",
-            State = "TestState",
-            City = "TestCity",
-            Country = "PH"
+    Data = new SourceData {
+        Attributes = new SourceAttributes {
+            Amount = 100000,
+            Billing = new Billing {
+                Name = "TestName",
+                Email = "test@paymongo.com",
+                Phone = "9734534443",
+                Address = new Address {
+                    Line1 = "TestAddress1",
+                    Line2 = "TestAddress2",
+                    PostalCode = "4506",
+                    State = "TestState",
+                    City = "TestCity",
+                    Country = "PH"
+                }
+            },
+            Redirect = new Redirect {
+                Success = "http://127.0.0.1",
+                Failed = "http://127.0.0.1"
+            },
+            Type = SourceType.GCash,
+            Currency = Currency.Php
         }
-    },
-    Redirect = new Redirect {
-        Success = "http://127.0.0.1",
-        Failed = "http://127.0.0.1"
-    },
-    Type = SourceType.GCash,
-    Currency = Currency.Php
+    }
 };
 
 // We use the PaymongoClient from earlier
 // This returns a Source object from the server
 // containing the redirect object(with checkout url) and other info
 Source sourceResult = await client.Sources.CreateSourceAsync(source);
+
+// Optionally, you can provide an idempotency key to safely retry the request without creating duplicates
+Source sourceResultWithIdempotency = await client.Sources.CreateSourceAsync(source, "<idempotency-key>");
 ```
 
 **Retrieve a Source**
@@ -689,8 +733,6 @@ Link sourceResult = await client.Sources.RetrieveSourceAsync("12345678");
 ```
 
 For full Sources API reference, please see: [The Sources Object](https://developers.paymongo.com/reference/the-sources-object)
-
----
 
 ### Installments
 
@@ -707,8 +749,6 @@ IEnumerable<InstallmentPlan> plans = await client.CardInstallments.ListInstallme
 
 For full Installments API reference, please see: [List Installment Plans](https://developers.paymongo.com/reference/list-installment-plans)
 
----
-
 ### QR PH
 
 - [x] Create a Static QR PH Code
@@ -718,106 +758,25 @@ For full Installments API reference, please see: [List Installment Plans](https:
 ```csharp
 // We create a new QrPhCode object
 // This one includes the minimal required values
-QrPhCode qrPh = new QrPhCode() {
-  MobileNumber = "+639123456789",
-  Kind = QrCodeKind.Instore
+QrPhCode qrPh = new QrPhCode {
+    Data = new QrPhCodeData {
+        Attributes = new QrPhCodeAttributes {
+            MobileNumber = "+639123456789",
+            Kind = QrCodeKind.Instore
+        }
+    }
 };
 
 // We use the PaymongoClient from earlier
 // This returns a Source object from the server
 // containing the redirect object(with checkout url) and other info
 QrPhCode qrPhResult = await client.QrPh.CreateStaticQrPhCodeAsync(qrPh);
+
+// Optionally, you can provide an idempotency key to safely retry the request without creating duplicates
+QrPhCode qrPhResultWithIdempotency = await client.QrPh.CreateStaticQrPhCodeAsync(qrPh, "<idempotency-key>");
 ```
 
 For full QR PH API reference, please see: [Create a Static QR PH Code](https://developers.paymongo.com/reference/create-a-static-qr-ph-code)
-
----
-
-### Treasury
-
-Treasury has a couple of sub sections
-
-##### Wallet
-
-- [ ] Retrieve Wallet by ID
-- [ ] Retrieve Wallet Accounts
-
-For full Transaction History API reference, please see: [Wallet Account Resource](https://developers.paymongo.com/reference/account-resource)
-
-##### Send Money
-
-- [ ] Create a Wallet Transaction
-- [ ] Retrieve List of all Receiving Institutions
-
-For full Send Money API reference, please see: [Wallet Transaction Resource](https://developers.paymongo.com/reference/wallet-transaction-resource)
-
-##### Disbursemenet
-
-- [ ] Create a Batch Transaction
-
-For full Transaction History API reference, please see: [Batch Transaction Resource](https://developers.paymongo.com/reference/batch-transaction-resource)
-
-##### Transaction History
-
-- [ ] Retrieve a Wallet Transaction By ID
-- [ ] Retrieve List of Wallet Transactions
-- [ ] Retrieve List of Batches
-- [ ] Retrieve Batch Object
-
-For full Transaction History API reference, please see: [Retrieve a Wallet Transaction By ID](https://developers.paymongo.com/reference/retrieve-a-wallet-transaction)
-
----
-
-## Future Plans
-
-### Fluent Builder
-Something that I have in mind that might be easier to work with,
-for context let's compare the current api usage and the future
-fluent builder implementation for the Checkouts client.
-
-##### 1. Current
-
-```csharp
-var client = new PaymongoClient(apiKey: "<api_key>");
-
-Checkout checkout = new Checkout() {
-    Description = "Test Checkout",
-    LineItems = new [] {
-        new LineItem {
-            Name = "Item Name",
-            Quantity = 1,
-            Currency = Currency.Php,
-            Amount = 3500
-        }
-    },
-    PaymentMethodTypes = new [] {
-        PaymentMethod.GCash,
-        PaymentMethod.Card,
-        PaymentMethod.Paymaya
-    }
-};
-
-Checkout checkoutResult = await client.Checkouts.CreateCheckoutAsync(checkout);
-```
-
-##### 2. Future Fluent Builder
-
-```csharp
-var client = new PaymongoClient(apiKey: "<api_key>");
-
-Checkout checkoutResult = await CheckoutBuilder
-                                    .WithDescription("Test Checkout")
-                                    .WithLineItem(
-                                        LineItemBuilder.WithName("Item Name")
-                                            .WithQuantity(1)
-                                            .WithAmount(3500)
-                                            .WithCurrency(Currency.Php)
-                                    )
-                                    .WithPaymentMethod(PaymentMethod.Gcash)
-                                    .WithPaymentMethod(PaymentMethod.Card)
-                                    .WithPaymentMethod(PaymentMethod.Paymaya)
-                                    .CreateCheckoutAsync();
-```
 
 ### Other Plans
 
@@ -825,8 +784,6 @@ What do you think should be implemented in future versions of the client? Let yo
 and open an [issue](https://github.com/russkyc/paymongo-sharp/issues) with a [feature-request] tag and it might make it into future updates.
 Or, if you tried something that works and is awesome try opening a [pull request](https://github.com/russkyc/paymongo-sharp/pulls) and if all
 is good, your contribution can be implemented into the project!
-
----
 
 ## :heart: Donate
 

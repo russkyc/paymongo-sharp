@@ -24,7 +24,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Paymongo.Sharp.Features.Refunds.Entities;
+using Paymongo.Sharp.Features.Refunds.Contracts;
 using Paymongo.Sharp.Helpers;
 using Paymongo.Sharp.Utilities;
 
@@ -40,10 +40,9 @@ namespace Paymongo.Sharp.Features.Refunds
             _client = client;
         }
 
-        public async Task<Refund> CreateRefundAsync(Refund refund)
+        public async Task<Refund> CreateRefundAsync(Refund refund, string? idempotencyKey = null)
         {
-            var data = refund.ToSchema();
-            return await _client.SendRequestAsync<Refund>(HttpMethod.Post, Resource, data, content => content.ToRefund());
+            return await _client.SendRequestAsync<Refund>(HttpMethod.Post, Resource, refund, content => content.ToRefund(), idempotencyKey);
         }
 
         public async Task<Refund> RetrieveRefundAsync(string id)
@@ -51,7 +50,7 @@ namespace Paymongo.Sharp.Features.Refunds
             return await _client.SendRequestAsync<Refund>(HttpMethod.Get, $"{Resource}/{id}", responseDeserializer: content => content.ToRefund());
         }
 
-        public async Task<IEnumerable<Refund>> ListAllRefundsAsync(string? paymentId = null, int limit = int.MaxValue, string? before = null, string? after = null)
+        public async Task<IEnumerable<RefundData>> ListAllRefundsAsync(string? paymentId = null, int limit = int.MaxValue, string? before = null, string? after = null)
         {
             var parameters = new List<string>();
             if (paymentId != null)
@@ -63,7 +62,7 @@ namespace Paymongo.Sharp.Features.Refunds
             if (after != null)
                 parameters.Add($"after={after}");
             var url = parameters.Any() ? $"{Resource}?{string.Join("&", parameters)}" : Resource;
-            return await _client.SendRequestAsync<IEnumerable<Refund>>(HttpMethod.Get, url, responseDeserializer: content => content?.ToRefunds() ?? Enumerable.Empty<Refund>());
+            return await _client.SendRequestAsync<IEnumerable<RefundData>>(HttpMethod.Get, url, responseDeserializer: content => content?.ToRefunds() ?? Enumerable.Empty<RefundData>());
         }
     }
 }

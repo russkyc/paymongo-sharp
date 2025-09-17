@@ -1,0 +1,206 @@
+﻿@using LumexUI
+@using LumexUI.Common
+@using Paymongo.Sharp.BlazorWasm.Sample.Models
+@using Paymongo.Sharp.Core.Enums
+@using Paymongo.Sharp.Features.Checkouts.Contracts
+@using Paymongo.Sharp.Features.Payments.Contracts
+@using Paymongo.Sharp.Utilities
+
+<LumexCard>
+    <LumexCardBody Class="flex flex-col gap-6">
+        <div class="flex flex-col">
+            <h3 class="text-lg font-medium my-auto flex-grow-1">Checkouts Api Payment Test</h3>
+            <p class="opacity-70 text-sm">Try a test payment using the checkouts api. Complete the transaction in the
+                new tab</p>
+        </div>
+        <div class="flex flex-col gap-3">
+            <h4 class="text-md font-medium my-auto flex-grow-1">Item Cart (Select Items)</h4>
+            <LumexListbox @bind-Values="@_selectedProducts">
+                @if (_products is not null)
+                {
+                    foreach (var product in _products)
+                    {
+                        <LumexListboxItem Disabled="@_isProcessing" Value="@product">
+                            <div class="flex">
+                                <p>@product.Name</p>
+                                <span class="flex flex-grow-1"></span>
+                                <p class="font-bold">@(product.Amount.ToDecimalAmount().ToString("C"))</p>
+                            </div>
+                        </LumexListboxItem>
+                    }
+                }
+            </LumexListbox>
+        </div>
+        <div class="flex flex-col gap-3">
+            <LumexNumbox TValue="decimal" Required="@true"
+                         Disabled="@_isProcessing"
+                         Value="@TotalAmount"
+                         ReadOnly="true"
+                         Label="Cart Total"
+                         StartContent="@_currency"
+                         Type="@InputType.Text"
+                         Placeholder="pk_test_123ABC"/>
+        </div>
+        @if (_alert is not null)
+        {
+            @_alert
+        }
+        <div class="flex gap-3">
+            <LumexButton Disabled="@_isProcessing" OnClick="@Pay" Color="@ThemeColor.Primary"
+                         Class="flex gap-1">
+                @if (_isProcessing)
+                {
+                    <LumexSpinner Variant="@SpinnerVariant.Ring" Color="@ThemeColor.Default" Size="@Size.Small"/>
+                    <span class="font-medium">Waiting for Payment</span>
+                }
+                else
+                {
+                    <span class="font-medium">Pay now</span>
+                }
+            </LumexButton>
+        </div>
+    </LumexCardBody>
+</LumexCard>
+
+@inject IJSRuntime JsRuntime
+
+@code {
+
+    private readonly RenderFragment _currency = @<p>₱</p>;
+    private RenderFragment? _alert;
+
+    private PaymentData? _payment;
+    private bool _isProcessing;
+    private ICollection<LineItem> _selectedProducts = [];
+
+    private ICollection<LineItem>? _products;
+    private decimal TotalAmount => _selectedProducts.Sum(p => p.Amount.ToDecimalAmount());
+
+    [CascadingParameter] public PaymongoConfig Config { get; set; }
+
+    protected override void OnInitialized()
+    {
+        _products = new List<LineItem>()
+        {
+            new LineItem()
+            {
+                Name = "Test Product 1",
+                Quantity = 1,
+                Currency = Currency.Php,
+                Amount = 20000
+            },
+            new LineItem()
+            {
+                Name = "Test Product 2",
+                Quantity = 1,
+                Currency = Currency.Php,
+                Amount = 35000
+            },
+            new LineItem()
+            {
+                Name = "Test Product 3",
+                Quantity = 1,
+                Currency = Currency.Php,
+                Amount = 15000
+            },
+            new LineItem()
+            {
+                Name = "Test Product 4",
+                Quantity = 1,
+                Currency = Currency.Php,
+                Amount = 5000
+            },
+            new LineItem()
+            {
+                Name = "Test Product 5",
+                Quantity = 1,
+                Currency = Currency.Php,
+                Amount = 10000
+            }
+        };
+    }
+
+    async Task Pay()
+    {
+        if (string.IsNullOrEmpty(Config.SecretKey))
+        {
+            _alert = @<LumexAlert Closeable="true" OnClose="@ClearAlerts" Color="ThemeColor.Danger"
+                                  Title="Secret Key missing. Please configure the Secret Key in the settings panel."/>;
+            return;
+        }
+
+        if (_selectedProducts.Count == 0)
+        {
+            _alert = @<LumexAlert Closeable="true" OnClose="@ClearAlerts" Color="ThemeColor.Danger"
+                                  Title="Please select at least one product to proceed."/>;
+            return;
+        }
+
+        _alert = null;
+        _isProcessing = true;
+
+        var paymongoClient = new PaymongoClient(Config.SecretKey);
+
+        var checkout = new Checkout
+        {
+            Data = new CheckoutData()
+            {
+                Attributes = new CheckoutAttributes()
+                {
+                    Description = "Test Checkout",
+                    LineItems = _selectedProducts,
+                    PaymentMethodTypes = new[]
+                    {
+                        PaymentMethodType.GCash,
+                        PaymentMethodType.Card,
+                        PaymentMethodType.Paymaya,
+                        PaymentMethodType.BillEase,
+                        PaymentMethodType.Dob,
+                        PaymentMethodType.GrabPay,
+                        PaymentMethodType.DobUbp
+                    },
+                    SuccessUrl = "https://www.paymongo.com",
+                }
+            }
+        };
+
+        var checkoutResult = await paymongoClient.Checkouts.CreateCheckoutAsync(checkout);
+        await JsRuntime.InvokeVoidAsync("open", checkoutResult.Data.Attributes.CheckoutUrl, "_blank");
+
+        while (true)
+        {
+            try
+            {
+                var getCheckoutResult = await paymongoClient.Checkouts.RetrieveCheckoutAsync(checkoutResult.Data.Id);
+                if (getCheckoutResult.Data.Attributes.Payments is null)
+                {
+                    await Task.Delay(500);
+                    continue;
+                }
+
+                _payment = getCheckoutResult.Data.Attributes.Payments.First(payment => payment.Attributes.Status is PaymentStatus.Paid);
+                break;
+            }
+            catch (Exception)
+            {
+                await Task.Delay(500);
+            }
+        }
+
+        _isProcessing = false;
+        _alert = @<LumexAlert Closeable="true" OnClose="@ClearPaymentInfo" Color="ThemeColor.Success"
+                              Title="@($"Paid in full on {_payment.Attributes.UpdatedAt} using {_payment.Attributes.Source?.Type} with payment id: {_payment.Id}")"/>;
+    }
+
+    private void ClearAlerts()
+    {
+        _alert = null;
+    }
+
+    private void ClearPaymentInfo()
+    {
+        _payment = null;
+        _alert = null;
+    }
+
+}

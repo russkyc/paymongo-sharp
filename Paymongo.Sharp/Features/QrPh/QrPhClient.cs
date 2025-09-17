@@ -22,8 +22,7 @@
 
 using System.Net.Http;
 using System.Threading.Tasks;
-using Paymongo.Sharp.Features.QrPh.Entities;
-using Paymongo.Sharp.Features.Sources.Entities;
+using Paymongo.Sharp.Features.QrPh.Contracts;
 using Paymongo.Sharp.Helpers;
 using Paymongo.Sharp.Utilities;
 
@@ -39,10 +38,9 @@ namespace Paymongo.Sharp.Features.QrPh
             _client = client;
         }
 
-        public async Task<QrPhCode> CreateStaticQrPhCodeAsync(QrPhCode qrPhCode)
+        public async Task<QrPhCode> CreateStaticQrPhCodeAsync(QrPhCode qrPhCode, string? idempotencyKey = null)
         {
-            var data = qrPhCode.ToSchema();
-            return await _client.SendRequestAsync<QrPhCode>(HttpMethod.Post, $"{Resource}/generate", data);
+            return await _client.SendRequestAsync<QrPhCode>(HttpMethod.Post, $"{Resource}/generate", qrPhCode, idempotencyKey: idempotencyKey);
         }
 
     }
