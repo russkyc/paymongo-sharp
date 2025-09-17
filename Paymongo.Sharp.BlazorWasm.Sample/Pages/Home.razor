@@ -10,7 +10,7 @@
 <CascadingValue Value="@Config">
     <div class="flex flex-col gap-3 p-3">
         <div class="flex w-full gap-2">
-            <LumexAvatar Src="/icon.png" Class="flex-shrink-0" />
+            <LumexAvatar Src="/paymongo-sharp/icon.png" Class="flex-shrink-0" />
             <h1 class="text-lg font-bold my-auto max-sm:hidden">Paymongo.Sharp - Blazor Wasm Sample</h1>
             <h1 class="text-lg font-semibold my-auto sm:hidden">Paymongo.Sharp</h1>
             <div class="flex-grow-1"></div>
@@ -26,6 +26,7 @@
                         <h3 class="text-lg font-medium my-auto flex-grow-1">Configure Api Keys</h3>
                         <p class="opacity-70 text-sm">Your api keys from the <a class="font-medium text-primary-600 hover:underline" target="_blank" href="https://dashboard.paymongo.com/developers/api-keys">paymongo dashboard</a>, these are not saved locally and need to be re-configured after a page refresh</p>
                     </div>
+                    <LumexAlert Title="@($"Please only use the test keys when testing to avoid any unintended changes to live data")" Color="@ThemeColor.Danger" />
                     <div class="flex flex-col gap-3">
                         <LumexTextbox Required="@true"
                                       @bind-Value="@Config.PublicKey"
