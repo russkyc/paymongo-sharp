@@ -23,14 +23,14 @@ jobs:
           dotnet-version: 8.0.200
 
       - name: Restore packages
-        run: dotnet restore /Paymongo.Sharp.BlazorWasm.Sample/Paymongo.Sharp.BlazorWasm.Sample.csproj
+        run: dotnet restore Paymongo.Sharp.BlazorWasm.Sample/Paymongo.Sharp.BlazorWasm.Sample.csproj
 
       - name: Publish .NET Core Project
-        run: dotnet publish /Paymongo.Sharp.BlazorWasm.Sample/Paymongo.Sharp.BlazorWasm.Sample.csproj -c Release
+        run: dotnet publish Paymongo.Sharp.BlazorWasm.Sample/Paymongo.Sharp.BlazorWasm.Sample.csproj -c Release -o Release
 
       - name: Commit wwwroot to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@3.7.1
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: gh-pages
-          FOLDER: /Paymongo.Sharp.BlazorWasm.Sample/release/wwwroot
+          FOLDER: Paymongo.Sharp.BlazorWasm.Sample/release/wwwroot
