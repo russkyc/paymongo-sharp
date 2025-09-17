@@ -33,4 +33,4 @@ jobs:
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: gh-pages
-          FOLDER: Paymongo.Sharp.BlazorWasm.Sample/release/wwwroot
+          FOLDER: release/wwwroot
