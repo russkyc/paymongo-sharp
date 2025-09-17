@@ -28,6 +28,8 @@ using Paymongo.Sharp.Core.Entities;
 using Paymongo.Sharp.Core.Enums;
 using Paymongo.Sharp.Features.Payments.Contracts;
 
+#pragma warning disable CS8618
+
 namespace Paymongo.Sharp.Features.Checkouts.Contracts
 {
     public class CheckoutAttributes
